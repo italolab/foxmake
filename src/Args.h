@@ -28,6 +28,7 @@ class Args {
         vector<string> getCommands();
         vector<Arg> getArgs();
         string getCommand( int i );
+        bool existsCommand( string command );
         Arg getArg( int i );
         int getCommandsLength();
         int getArgsLength();

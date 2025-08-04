@@ -41,9 +41,11 @@
 		<Unit filename="src/Properties.h" />
 		<Unit filename="src/TaskExec.cpp" />
 		<Unit filename="src/TaskExec.h" />
-		<Unit filename="src/io_error.cpp" />
-		<Unit filename="src/io_error.h" />
+		<Unit filename="src/appexcept.cpp" />
+		<Unit filename="src/appexcept.h" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/shell.cpp" />
+		<Unit filename="src/shell.h" />
 		<Unit filename="src/util.cpp" />
 		<Unit filename="src/util.h" />
 		<Extensions />

@@ -10,6 +10,13 @@ void Args::setError( string err ) {
     this->errorFound = true;
 }
 
+bool Args::existsCommand( string command ) {
+    for( string cmd : commands )
+        if ( cmd == command )
+            return true;
+    return false;
+}
+
 void Args::addCommand( string command ) {
     commands.push_back( command );
 }

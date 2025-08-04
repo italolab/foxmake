@@ -6,9 +6,11 @@ void Properties::load( string file ) {
     add( "defines", "-DBUILDING_DLL" );
     add( "compiler", "g++" );
     add( "compilerParams", "-Wall -g" );
+    add( "exeFileName", "taskexec.exe" );
     add( "otherCompileParams", "" );
     add( "srcDir", "src/" );
-    add( "debugDir", "bin/Debug/" );
+    add( "binDebugDir", "bin/Debug/" );
+    add( "objDebugDir", "obj/Debug/" );
 }
 
 void Properties::add( string name, string value ) {

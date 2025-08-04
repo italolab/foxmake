@@ -44,10 +44,10 @@
 	<string>
 	<vector>
 
-1754266121 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\args.cpp
+1754330926 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\args.cpp
 	"Args.h"
 
-1754266130 c:\users\italo\workspace-cpp\dlls\taskexec\src\args.h
+1754330849 c:\users\italo\workspace-cpp\dlls\taskexec\src\args.h
 	<string>
 	<vector>
 
@@ -61,25 +61,28 @@
 1754267007 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\main.cpp
 	"TaskExec.h"
 
-1754311007 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
+1754330665 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
 	"Args.h"
 	"ArgsInter.h"
 	"Properties.h"
-
-1754311287 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.cpp
-	"TaskExec.h"
 	"util.h"
+
+1754331585 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.cpp
+	"TaskExec.h"
+	"appexcept.h"
+	"shell.h"
 	<iostream>
 	<vector>
 	<sstream>
+	<stdexcept>
 
-1754307915 c:\users\italo\workspace-cpp\dlls\taskexec\src\util.h
+1754331341 c:\users\italo\workspace-cpp\dlls\taskexec\src\util.h
 	<string>
 	<vector>
 
-1754308892 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util.cpp
+1754331550 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util.cpp
 	"util.h"
-	"io_error.h"
+	"appexcept.h"
 	<iostream>
 	<fstream>
 	<filesystem>
@@ -104,6 +107,23 @@
 	<vector>
 	<string>
 
-1754311156 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\properties.cpp
+1754331170 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\properties.cpp
 	"Properties.h"
+
+1754313233 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\appexcept.cpp
+	"appexcept.h"
+
+1754313248 c:\users\italo\workspace-cpp\dlls\taskexec\src\appexcept.h
+	<stdexcept>
+	<string>
+
+1754327632 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\shell.cpp
+	<windows.h>
+	<iostream>
+	"shell.h"
+
+1754327581 c:\users\italo\workspace-cpp\dlls\taskexec\src\shell.h
+	<string>
+	<sstream>
+	<vector>
 

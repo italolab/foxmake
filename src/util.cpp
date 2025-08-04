@@ -1,6 +1,6 @@
 
 #include "util.h"
-#include "io_error.h"
+#include "appexcept.h"
 
 #include <iostream>
 #include <fstream>
@@ -51,7 +51,7 @@ string relativePath( string path ) {
     }
 }
 
-bool recursiveProcSrcFiles( string basedir, vector<CPPFile>& cppFiles ) {
+bool recursiveProcSrcFiles( string basedir, vector<CPPFile*>& cppFiles ) {
     string prefBaseDir = makePreferred( basedir );
     try {
         for( const auto& entry : filesystem::recursive_directory_iterator( prefBaseDir ) ) {
@@ -59,6 +59,7 @@ bool recursiveProcSrcFiles( string basedir, vector<CPPFile>& cppFiles ) {
             if ( !filesystem::is_directory( path ) && endsWith( path, ".cpp" ) ) {
                 vector<string> dependencies;
 
+                /*
                 bool ok = fileDependencies( path, dependencies );
                 if ( !ok )
                     return false;
@@ -70,10 +71,11 @@ bool recursiveProcSrcFiles( string basedir, vector<CPPFile>& cppFiles ) {
                     if ( !ok )
                         return false;
                 }
+                */
 
-                CPPFile file;
-                file.fileName = path;
-                file.dependencies = dependencies;
+                CPPFile* file = new CPPFile;
+                file->fileName = path;
+                file->dependencies = dependencies;
                 cppFiles.push_back( file );
             }
         }
@@ -110,8 +112,12 @@ bool fileDependencies( string file, vector<string>& dependencies ) {
 
             if ( j != string::npos && j != string::npos ) {
                 string hfile = line.substr( i+1, j-i-1 );
-                if ( hfile != headerfile )
-                    dependencies.push_back( directoryPath( file ) + hfile );
+                if ( hfile != headerfile ) {
+                    string cppfile = directoryPath( file ) + hfile;
+                    cppfile.replace( cppfile.length()-1, 1, "cpp" );
+                    if ( filesystem::exists( cppfile ))
+                        dependencies.push_back( cppfile );
+                }
             }
         }
     }
@@ -131,3 +137,18 @@ bool endsWith( string str, string suffix ) {
     }
     return false;
 }
+
+CPPFile* getCPPFileByFileName( vector<CPPFile*>& cppFiles, string fileName ) {
+    for( CPPFile* file : cppFiles )
+        if ( file->fileName == fileName )
+            return file;
+    return nullptr;
+}
+
+bool existsInVector( vector<string>& vet, string value ) {
+    for( string v : vet )
+        if ( v == value )
+            return true;
+    return false;
+}
+

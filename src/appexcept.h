@@ -13,4 +13,11 @@ class io_error : public runtime_error {
 
 };
 
+class app_error : public runtime_error {
+
+    public:
+        app_error( string msg );
+
+};
+
 #endif
