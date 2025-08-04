@@ -1,0 +1,109 @@
+# depslib dependency file v1.0
+1754267007 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\main.cpp
+	"TaskExec.h"
+
+1754260426 c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskmgr.h
+	"Args.h"
+	"ArgsInter.h"
+
+1754266130 c:\users\italo\workspace-cpp\dlls\taskmgr\src\args.h
+	<string>
+	<vector>
+
+1754260359 c:\users\italo\workspace-cpp\dlls\taskmgr\src\argsinter.h
+	<string>
+	"Args.h"
+
+1754260555 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskmgr.cpp
+	"TaskMGR.h"
+	<iostream>
+
+1754266121 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\args.cpp
+	"Args.h"
+
+1754267284 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\argsinter.cpp
+	"ArgsInter.h"
+
+1754269963 c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskexec.h
+	"Args.h"
+	"ArgsInter.h"
+
+1754271668 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskexec.cpp
+	"TaskExec.h"
+	"util.h"
+	<iostream>
+	<vector>
+
+1754271638 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\util.cpp
+	"util.h"
+	<filesystem>
+	<dirent.h>
+	<limits>
+
+1754271296 c:\users\italo\workspace-cpp\dlls\taskmgr\src\util.h
+	<string>
+	<vector>
+
+1754266121 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\args.cpp
+	"Args.h"
+
+1754266130 c:\users\italo\workspace-cpp\dlls\taskexec\src\args.h
+	<string>
+	<vector>
+
+1754267284 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\argsinter.cpp
+	"ArgsInter.h"
+
+1754308965 c:\users\italo\workspace-cpp\dlls\taskexec\src\argsinter.h
+	<string>
+	"Args.h"
+
+1754267007 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\main.cpp
+	"TaskExec.h"
+
+1754311007 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
+	"Args.h"
+	"ArgsInter.h"
+	"Properties.h"
+
+1754311287 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.cpp
+	"TaskExec.h"
+	"util.h"
+	<iostream>
+	<vector>
+	<sstream>
+
+1754307915 c:\users\italo\workspace-cpp\dlls\taskexec\src\util.h
+	<string>
+	<vector>
+
+1754308892 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util.cpp
+	"util.h"
+	"io_error.h"
+	<iostream>
+	<fstream>
+	<filesystem>
+	<dirent.h>
+	<limits>
+
+1754306209 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\read_error.cpp
+	"read_error.h"
+
+1754306200 c:\users\italo\workspace-cpp\dlls\taskexec\src\read_error.h
+	<stdexcept>
+	<string>
+
+1754306737 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\io_error.cpp
+	"io_error.h"
+
+1754306722 c:\users\italo\workspace-cpp\dlls\taskexec\src\io_error.h
+	<stdexcept>
+	<string>
+
+1754311112 c:\users\italo\workspace-cpp\dlls\taskexec\src\properties.h
+	<vector>
+	<string>
+
+1754311156 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\properties.cpp
+	"Properties.h"
+
