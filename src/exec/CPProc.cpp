@@ -5,6 +5,6 @@
 
 using namespace std;
 
-void CPProc::proc( CMD* cmd, Config* config ) {
-    cout << "XXXXXXXXX" << endl;
+void CPProc::proc( CMD* cmd, MainInter* config ) {
+
 }

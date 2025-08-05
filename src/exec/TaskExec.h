@@ -3,7 +3,7 @@
 
 #include "Proc.h"
 #include "../shell/CMD.h"
-#include "../config/Config.h"
+#include "../inter/MainInter.h"
 
 #include <map>
 #include <string>
@@ -13,17 +13,17 @@ using namespace std;
 class TaskExec {
 
     private:
-        map<string, string> validCMDs;
+        map<string, Proc*> procsMap;
 
-        void procCMDs( Config* config );
+        void procCMDs( MainInter* inter );
 
-        void clean( CMD* cmd, Config* config );
-        void compileAndLink( CMD* cmd, Config* config, bool isCompile, bool isLink );
-        void copyFiles( CMD* cmd, Config* config );
+        void clean( CMD* cmd, MainInter* inter );
+        void compileAndLink( CMD* cmd, MainInter* inter, bool isCompile, bool isLink );
+        void copyFiles( CMD* cmd, MainInter* inter );
 
         void appCopyFileOrDirectoryToBuild( string path, string buildDir );
         void appDeleteFileOrDirectory( string path );
-        vector<string> validCMDsKeys();
+        vector<string> validCMDs();
 
 
     public:

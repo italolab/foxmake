@@ -1,6 +1,7 @@
 #ifndef PROPERTIES_H
 #define PROPERTIES_H
 
+#include "Inter.h"
 #include "../shell/CMD.h"
 
 #include <vector>
@@ -13,14 +14,14 @@ typedef struct TProperty {
     string value;
 } Property;
 
-class Config {
+class MainInter : public Inter {
 
     private:
         vector<Property> properties;
         vector<CMD*> cmds;
 
     public:
-        void load( string file, vector<string> validStrCMDs );
+        void interpreta( string file, vector<string> validStrCMDs );
 
         string getPropertyValue( string name );
         CMD* getCMD( string name );

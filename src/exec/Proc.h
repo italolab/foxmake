@@ -2,12 +2,12 @@
 #define PROC_H
 
 #include "../shell/CMD.h"
-#include "../config/Config.h"
+#include "../inter/MainInter.h"
 
 class Proc {
 
     public:
-        virtual void proc( CMD* cmd, Config* config ) = 0;
+        virtual void proc( CMD* cmd, MainInter* config ) = 0;
 
 };
 

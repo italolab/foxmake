@@ -1,11 +1,10 @@
 
-#include "Config.h"
-#include "../util/interutil.h"
+#include "MainInter.h"
 
 #include <fstream>
 #include <sstream>
 
-void Config::load( string file, vector<string> validStrCMDs ) {
+void MainInter::interpreta( string file, vector<string> validStrCMDs ) {
     Property p;
     p.name = "config.file";
     p.value = file;
@@ -16,6 +15,7 @@ void Config::load( string file, vector<string> validStrCMDs ) {
         throw inter_error( "Erro na abertura do arquivo de configuracao: " + file );
 
     string line;
+    int lineNumber = 1;
     while( getline( in, line ) ) {
         if ( line.length() == 0 )
             continue;
@@ -28,9 +28,9 @@ void Config::load( string file, vector<string> validStrCMDs ) {
         if ( i != string::npos ) {
             string cmd = line.substr( 0, i );
             int len = validStrCMDs.size();
-            for( int k = 0; !isCmd && k < len; i++ ) {
-                if ( cmd == validStrCMDs[ i ] ) {
-                    line = interutil::replaceVars( line, cmd );
+            for( int k = 0; !isCmd && k < len; k++ ) {
+                if ( cmd == validStrCMDs[ k ] ) {
+                    line = replaceVars( line, lineNumber );
                     isCmd = true;
                 }
             }
@@ -50,45 +50,46 @@ void Config::load( string file, vector<string> validStrCMDs ) {
             string name = line.substr( 0, i );
             string value = line.substr( i+1, line.length()-i );
 
-            value = interutil::replaceVars( value, name );
+            value = replaceVars( value, lineNumber );
 
             Property p;
             p.name = name;
             p.value = value;
             properties.push_back( p );
         }
+        lineNumber++;
     }
 
     in.close();
 }
 
-int Config::getPropertiesLength() {
+int MainInter::getPropertiesLength() {
     return properties.size();
 }
 
-Property Config::getPropertyByIndex( int i ) {
+Property MainInter::getPropertyByIndex( int i ) {
     return properties[ i ];
 }
 
-string Config::getPropertyValue( string name ) {
+string MainInter::getPropertyValue( string name ) {
     for( Property p : properties )
         if ( p.name == name )
             return p.value;
     return "";
 }
 
-vector<Property> Config::getProperties()  {
+vector<Property> MainInter::getProperties()  {
     return properties;
 }
 
-int Config::getCMDLength() {
+int MainInter::getCMDLength() {
     return cmds.size();
 }
 
-CMD* Config::getCMDByIndex( int i ) {
+CMD* MainInter::getCMDByIndex( int i ) {
     return cmds[ i ];
 }
 
-vector<CMD*> Config::getCMDs() {
+vector<CMD*> MainInter::getCMDs() {
     return cmds;
 }

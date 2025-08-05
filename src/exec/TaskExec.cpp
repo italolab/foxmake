@@ -16,7 +16,7 @@ using namespace std;
 const string configFileName = "config.txt";
 
 TaskExec::TaskExec() {
-    validCMDs[ "cp" ] = new CPProc();
+    procsMap[ "cp" ] = new CPProc();
 }
 
 void TaskExec::proc( int argc, char* argv[] ) {
@@ -24,10 +24,10 @@ void TaskExec::proc( int argc, char* argv[] ) {
     try {
         cmd->interpreta( argc, argv );
 
-        vector<string> cmdKeys = validCMDsKeys();
+        vector<string> cmdKeys = validCMDs();
 
-        Config* config = new Config();
-        config->load( configFileName, cmdKeys );
+        MainInter* inter = new MainInter();
+        inter->interpreta( configFileName, cmdKeys );
 
         if ( cmd->getArgsLength() > 0 ) {
             bool isClean = cmd->existsArg( "clean" );
@@ -44,15 +44,15 @@ void TaskExec::proc( int argc, char* argv[] ) {
             }
 
             if ( isClean )
-                clean( cmd, config );
+                clean( cmd, inter );
 
             if ( isCompile || isLink )
-                compileAndLink( cmd, config, isCompile, isLink );
+                compileAndLink( cmd, inter, isCompile, isLink );
 
             if ( isCopy )
-                copyFiles( cmd, config );
+                copyFiles( cmd, inter );
 
-            procCMDs( config );
+            procCMDs( inter );
         } else {
             cout << "Nenhum comando informado." << endl;
         }
@@ -61,19 +61,19 @@ void TaskExec::proc( int argc, char* argv[] ) {
     }
 }
 
-void TaskExec::procCMDs( Config* config ) {
-    int tam = config->getCMDLength();
+void TaskExec::procCMDs( MainInter* inter ) {
+    int tam = inter->getCMDLength();
 
     if ( tam > 0 )
-        cout << "EXECUTANDO COMANDOS" << endl;
+        cout << "\nEXECUTANDO COMANDOS" << endl;
 
     for( int i = 0; i < tam; i++ ) {
-        CMD* cmd = config->getCMDByIndex( i );
-        if ( validCMDs.find( cmd->getName() ) == validCMDs.end() )
+        CMD* cmd = inter->getCMDByIndex( i );
+        if ( procsMap.find( cmd->getName() ) == procsMap.end() )
             throw runtime_error( "Comando nao encontrado: \"" + cmd->getName() + "\"" );
 
-        Proc proc = validCMDs[ cmd->getName() ];
-        proc->proc( cmd, config );
+        Proc* proc = procsMap[ cmd->getName() ];
+        proc->proc( cmd, inter );
         cout << "Executado: " << cmd->getCMDStr() << endl;
     }
 
@@ -81,20 +81,20 @@ void TaskExec::procCMDs( Config* config ) {
         cout << "Comandos executados com sucesso." << endl;
 }
 
-void TaskExec::clean( CMD* texec, Config* config ) {
+void TaskExec::clean( CMD* texec, MainInter* inter ) {
     cout << "\nEXECUTANDO LIMPESA..." << endl;
 
-    string isDll = config->getPropertyValue( "is.dll" );
-    string buildDir = config->getPropertyValue( "build.dir" );
-    string binDebugDir = config->getPropertyValue( "bin.debug.dir" );
-    string objDebugDir = config->getPropertyValue( "obj.debug.dir" );
-    string buildFiles = config->getPropertyValue( "build.files" );
+    string isDll = inter->getPropertyValue( "is.dll" );
+    string buildDir = inter->getPropertyValue( "build.dir" );
+    string binDebugDir = inter->getPropertyValue( "bin.debug.dir" );
+    string objDebugDir = inter->getPropertyValue( "obj.debug.dir" );
+    string buildFiles = inter->getPropertyValue( "build.files" );
 
     string fname;
     if ( isDll == "true" ) {
-        fname = config->getPropertyValue( "dll.file.name" );
+        fname = inter->getPropertyValue( "dll.file.name" );
     } else {
-        fname = config->getPropertyValue( "exe.file.name" );
+        fname = inter->getPropertyValue( "exe.file.name" );
     }
     string file = concatPaths( binDebugDir, fname );
     appDeleteFileOrDirectory( file );
@@ -113,23 +113,23 @@ void TaskExec::clean( CMD* texec, Config* config ) {
     cout << "Limpesa efetuada com sucesso!" << endl;
 }
 
-void TaskExec::copyFiles( CMD* texec, Config* config ) {
+void TaskExec::copyFiles( CMD* texec, MainInter* inter ) {
     cout << "\nCOPIANDO ARQUIVOS DE BUILD..." << endl;
 
-    string isDll = config->getPropertyValue( "is.dll" );
-    string buildDir = config->getPropertyValue( "build.dir" );
-    string binDebugDir = config->getPropertyValue( "bin.debug.dir" );
-    string buildFiles = config->getPropertyValue( "build.files" );
+    string isDll = inter->getPropertyValue( "is.dll" );
+    string buildDir = inter->getPropertyValue( "build.dir" );
+    string binDebugDir = inter->getPropertyValue( "bin.debug.dir" );
+    string buildFiles = inter->getPropertyValue( "build.files" );
 
     if ( buildDir != "" )
         createDirectories( buildDir );
 
     if ( isDll == "true" ) {
-        string dllFileName = config->getPropertyValue( "dll.file.name" );
+        string dllFileName = inter->getPropertyValue( "dll.file.name" );
         string fname = concatPaths( binDebugDir, dllFileName );
         appCopyFileOrDirectoryToBuild( fname, buildDir );
     } else {
-        string exeFileName = config->getPropertyValue( "exe.file.name" );
+        string exeFileName = inter->getPropertyValue( "exe.file.name" );
         string fname = concatPaths( binDebugDir, exeFileName );
         appCopyFileOrDirectoryToBuild( fname, buildDir );
     }
@@ -143,29 +143,29 @@ void TaskExec::copyFiles( CMD* texec, Config* config ) {
     cout << "Arquivos de build copiados com sucesso!" << endl;
 }
 
-void TaskExec::compileAndLink( CMD* texec, Config* config, bool isCompile, bool isLink ) {
+void TaskExec::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, bool isLink ) {
     cout << "\nCOMPILANDO E/OU LINKANDO..." << endl;
 
-    string isDll = config->getPropertyValue( "is.dll" );
+    string isDll = inter->getPropertyValue( "is.dll" );
 
-    string srcDir = config->getPropertyValue( "src.dir" );
-    string binDebugDir = config->getPropertyValue( "bin.debug.dir" );
-    string objDebugDir = config->getPropertyValue( "obj.debug.dir" );
+    string srcDir = inter->getPropertyValue( "src.dir" );
+    string binDebugDir = inter->getPropertyValue( "bin.debug.dir" );
+    string objDebugDir = inter->getPropertyValue( "obj.debug.dir" );
 
-    string includeDirs = config->getPropertyValue( "include.dirs" );
-    string libDirs = config->getPropertyValue( "lib.dirs" );
-    string dllDirs = config->getPropertyValue( "dll.dirs" );
+    string includeDirs = inter->getPropertyValue( "include.dirs" );
+    string libDirs = inter->getPropertyValue( "lib.dirs" );
+    string dllDirs = inter->getPropertyValue( "dll.dirs" );
 
-    string outputDefFile = config->getPropertyValue( "output.def.file" );
-    string outImplibFile = config->getPropertyValue( "out.implib.file" );
+    string outputDefFile = inter->getPropertyValue( "output.def.file" );
+    string outImplibFile = inter->getPropertyValue( "out.implib.file" );
 
-    string defines = config->getPropertyValue( "defines" );
-    string compiler = config->getPropertyValue( "compiler" );
-    string exeFileName = config->getPropertyValue( "exe.file.name" );
-    string dllFileName = config->getPropertyValue( "dll.file.name" );
+    string defines = inter->getPropertyValue( "defines" );
+    string compiler = inter->getPropertyValue( "compiler" );
+    string exeFileName = inter->getPropertyValue( "exe.file.name" );
+    string dllFileName = inter->getPropertyValue( "dll.file.name" );
 
-    string compilerParams = config->getPropertyValue( "compiler.params" );
-    string linkerParams = config->getPropertyValue( "linker.params" );
+    string compilerParams = inter->getPropertyValue( "compiler.params" );
+    string linkerParams = inter->getPropertyValue( "linker.params" );
 
     createDirectories( binDebugDir );
     createDirectories( objDebugDir );
@@ -285,9 +285,9 @@ void TaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir ) {
     }
 }
 
-vector<string> TaskExec::validCMDsKeys() {
+vector<string> TaskExec::validCMDs() {
     vector<string> keys;
-    for( const auto& pair : validCMDs )
+    for( const auto& pair : procsMap )
         keys.push_back( pair.first );
     return keys;
 }

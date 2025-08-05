@@ -7,7 +7,7 @@
 class CPProc : public Proc {
 
     public:
-        void proc( CMD* cmd, Config* config );
+        void proc( CMD* cmd, MainInter* inter );
 
 };
 
