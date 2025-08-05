@@ -34,6 +34,8 @@ string makePreferred( string path );
 string concatPaths( string p1, string p2 );
 bool isDirectory( string path );
 
+bool fileExists( string path );
+
 bool recursiveProcSrcFiles( string basedir, vector<CPPFile*>& cppFiles );
 CPPFile* getCPPFileByFileName( vector<CPPFile*>& cppFiles, string fileName );
 

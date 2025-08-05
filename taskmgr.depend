@@ -58,8 +58,8 @@
 	<string>
 	"Args.h"
 
-1754267007 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\main.cpp
-	"TaskExec.h"
+1754408948 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\main.cpp
+	"exec/TaskExec.h"
 
 1754388631 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
 	"args/Args.h"
@@ -140,11 +140,11 @@
 	<vector>
 	<string>
 
-1754394462 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.h
+1754430492 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.h
 	<string>
 	<vector>
 
-1754399077 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
+1754416311 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
 	<string>
 	<stdexcept>
 	<vector>
@@ -176,7 +176,7 @@
 	"utilexcept.h"
 	<sstream>
 
-1754401090 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
+1754416344 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
 	"ioutil.h"
 	"util.h"
 	"utilexcept.h"
@@ -185,10 +185,66 @@
 	<filesystem>
 	<limits>
 
-1754394733 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.cpp
+1754413399 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.cpp
 	"utilexcept.h"
 
-1754394744 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.h
+1754413410 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.h
 	<string>
 	<stdexcept>
+
+1754422078 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\taskexec.cpp
+	"TaskExec.h"
+	"CPProc.h"
+	"../shell/shell.h"
+	"../util/util.h"
+	"../util/ioutil.h"
+	"../util/utilexcept.h"
+	<iostream>
+	<vector>
+	<sstream>
+	<stdexcept>
+
+1754430751 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\taskexec.h
+	"Proc.h"
+	"../shell/CMD.h"
+	"../config/Config.h"
+	<map>
+	<string>
+
+1754422117 c:\users\italo\workspace-cpp\dlls\taskexec\src\shell\cmd.h
+	<string>
+	<vector>
+
+1754430662 c:\users\italo\workspace-cpp\dlls\taskexec\src\config\config.h
+	"../shell/CMD.h"
+	<vector>
+	<string>
+
+1754414322 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpexec.cpp
+	"CPExec.h"
+
+1754413149 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpexec.h
+	"../shell/CMD.h"
+
+1754415733 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\config\config.cpp
+	"Config.h"
+	<fstream>
+	<sstream>
+
+1754422131 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\shell\cmd.cpp
+	"CMD.h"
+	<sstream>
+	<cstring>
+
+1754422234 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.cpp
+	"CPProc.h"
+	<iostream>
+
+1754420860 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.h
+	"Proc.h"
+	"../shell/CMD.h"
+
+1754420883 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\proc.h
+	"../shell/CMD.h"
+	"../config/Config.h"
 

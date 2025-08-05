@@ -22,3 +22,6 @@ dll.dirs=
 compiler=g++
 compiler.params=-Wall -g
 linker.params=
+
+cp src/**/*.h $(include.dirs)
+cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)

@@ -33,24 +33,24 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="src/TaskExec.cpp" />
-		<Unit filename="src/TaskExec.h" />
-		<Unit filename="src/args/Args.cpp" />
-		<Unit filename="src/args/Args.h" />
-		<Unit filename="src/args/ArgsInter.cpp" />
-		<Unit filename="src/args/ArgsInter.h" />
+		<Unit filename="src/config/Config.cpp" />
+		<Unit filename="src/config/Config.h" />
+		<Unit filename="src/exec/CPExec.cpp" />
+		<Unit filename="src/exec/CPExec.h" />
+		<Unit filename="src/exec/Exec.h" />
+		<Unit filename="src/exec/TaskExec.cpp" />
+		<Unit filename="src/exec/TaskExec.h" />
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/shell/CMD.cpp" />
+		<Unit filename="src/shell/CMD.h" />
 		<Unit filename="src/shell/shell.cpp" />
 		<Unit filename="src/shell/shell.h" />
-		<Unit filename="src/util/Properties.cpp" />
-		<Unit filename="src/util/Properties.h" />
 		<Unit filename="src/util/ioutil.cpp" />
 		<Unit filename="src/util/ioutil.h" />
 		<Unit filename="src/util/util.cpp" />
 		<Unit filename="src/util/util.h" />
 		<Unit filename="src/util/utilexcept.cpp" />
 		<Unit filename="src/util/utilexcept.h" />
-		<Unit filename="taskexec.properties" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

@@ -140,6 +140,10 @@ void recursiveCopyDir( string srcDir, string destDir, bool isOverwriteExisting )
     }
 }
 
+bool fileExists( string path ) {
+    return filesystem::exists( path );
+}
+
 string directoryPath( string path ) {
     size_t i = path.find_last_of( filesystem::path::preferred_separator );
     if ( i == string::npos )

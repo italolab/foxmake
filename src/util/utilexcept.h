@@ -13,13 +13,6 @@ class io_error : public runtime_error {
 
 };
 
-class prop_error : public io_error {
-
-    public:
-        prop_error( string msg );
-
-};
-
 class not_end_double_quote_error : public runtime_error {
 
     public:
