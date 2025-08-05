@@ -3,6 +3,7 @@
 #include "utilexcept.h"
 
 #include <fstream>
+#include <sstream>
 
 void Properties::load( string file ) {
     add( "config.file", file );
@@ -26,6 +27,44 @@ void Properties::load( string file ) {
 
         string name = line.substr( 0, i );
         string value = line.substr( i+1, line.length()-i );
+
+        i = value.find( '$' );
+        size_t j = value.find( '(' );
+
+        if ( i != string::npos && j == i+1 ) {
+            stringstream ss;
+
+            int len = value.length();
+            for( int k = 0; k < len; k++ ) {
+                if ( value[ k ] == '$' ) {
+                    if ( k+1 < len ) {
+                        if ( value[ k+1 ] == '(' ) {
+                            j = value.find( ')', k+2 );
+                            if ( j != string::npos ) {
+                                string name2 = value.substr( k+2, j-(k+2) );
+                                string value2 = getProperty( name2 );
+                                if ( value2 != "" ) {
+                                    ss << value2;
+                                    k = j;
+                                } else {
+                                    throw prop_error( "Lendo propriedade: " + name + ";\nPropriedade nao encontrada: $(" + name2 + ")" );
+                                }
+                            } else {
+                                ss << value[ k ];
+                            }
+                        } else {
+                            ss << value[ k ];
+                        }
+                    } else {
+                        ss << value[ k ];
+                    }
+                } else {
+                    ss << value[ k ];
+                }
+
+            }
+            value = ss.str();
+        }
 
         add( name, value );
     }

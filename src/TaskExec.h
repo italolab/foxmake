@@ -11,6 +11,9 @@ class TaskExec {
         void compileAndLink( Args* args, Properties* props, bool isCompile, bool isLink );
         void copyFiles( Args* args, Properties* props );
 
+        void appCopyFileOrDirectoryToBuild( string path, string buildDir );
+        void appDeleteFileOrDirectory( string path );
+
     public:
         void proc( int argc, char* argv[] );
 

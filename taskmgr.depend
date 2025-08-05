@@ -61,16 +61,17 @@
 1754267007 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\main.cpp
 	"TaskExec.h"
 
-1754351567 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
+1754388631 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
 	"args/Args.h"
 	"util/Properties.h"
 
-1754356905 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.cpp
+1754400844 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.cpp
 	"TaskExec.h"
 	"shell/shell.h"
 	"args/ArgsInter.h"
 	"util/util.h"
 	"util/ioutil.h"
+	"util/utilexcept.h"
 	<iostream>
 	<vector>
 	<sstream>
@@ -139,10 +140,11 @@
 	<vector>
 	<string>
 
-1754348254 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.h
+1754394462 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.h
 	<string>
+	<vector>
 
-1754355367 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
+1754399077 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
 	<string>
 	<stdexcept>
 	<vector>
@@ -163,26 +165,30 @@
 	<sstream>
 	<vector>
 
-1754351343 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\properties.cpp
+1754395365 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\properties.cpp
 	"Properties.h"
 	"utilexcept.h"
 	<fstream>
+	<sstream>
 
-1754348116 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.cpp
+1754395541 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.cpp
 	"util.h"
+	"utilexcept.h"
+	<sstream>
 
-1754357649 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
+1754401090 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
 	"ioutil.h"
 	"util.h"
+	"utilexcept.h"
 	<iostream>
 	<fstream>
 	<filesystem>
 	<limits>
 
-1754350072 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.cpp
+1754394733 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.cpp
 	"utilexcept.h"
 
-1754350019 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.h
+1754394744 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.h
 	<string>
 	<stdexcept>
 
