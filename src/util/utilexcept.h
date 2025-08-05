@@ -1,8 +1,8 @@
-#ifndef IO_ERROR_H
-#define IO_ERROR_H
+#ifndef UTIL_EXCEPT_H
+#define UTIL_EXCEPT_H
 
-#include <stdexcept>
 #include <string>
+#include <stdexcept>
 
 using namespace std;
 
@@ -13,10 +13,10 @@ class io_error : public runtime_error {
 
 };
 
-class app_error : public runtime_error {
+class prop_error : public io_error {
 
     public:
-        app_error( string msg );
+        prop_error( string msg );
 
 };
 
