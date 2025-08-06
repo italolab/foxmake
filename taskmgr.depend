@@ -144,7 +144,7 @@
 	<string>
 	<vector>
 
-1754416311 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
+1754443548 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
 	<string>
 	<stdexcept>
 	<vector>
@@ -176,7 +176,7 @@
 	"utilexcept.h"
 	<sstream>
 
-1754416344 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
+1754444054 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
 	"ioutil.h"
 	"util.h"
 	"utilexcept.h"
@@ -192,7 +192,7 @@
 	<string>
 	<stdexcept>
 
-1754433773 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\taskexec.cpp
+1754438892 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\taskexec.cpp
 	"TaskExec.h"
 	"CPProc.h"
 	"../shell/shell.h"
@@ -236,17 +236,22 @@
 	<sstream>
 	<cstring>
 
-1754433025 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.cpp
+1754444149 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.cpp
 	"CPProc.h"
+	"../util/ioutil.h"
+	"../util/utilexcept.h"
+	<sstream>
 	<iostream>
 
-1754433071 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.h
+1754437621 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.h
 	"Proc.h"
 	"../shell/CMD.h"
 
-1754433044 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\proc.h
+1754437606 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\proc.h
 	"../shell/CMD.h"
 	"../inter/MainInter.h"
+	<string>
+	<stdexcept>
 
 1754433165 c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\maininter.h
 	"Inter.h"
@@ -262,9 +267,11 @@
 	"Inter.h"
 	<sstream>
 
-1754433869 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\maininter.cpp
+1754434074 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\maininter.cpp
 	"MainInter.h"
 	<fstream>
 	<sstream>
-	<iostream>
+
+1754437580 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\proc.cpp
+	"Proc.h"
 
