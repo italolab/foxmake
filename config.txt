@@ -1,6 +1,6 @@
 is.dll=false
 
-exe.file.name=taskexec.exe
+exe.file.name=cexec.exe
 #dll.file.name=
 
 src.dir=src

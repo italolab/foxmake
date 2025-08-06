@@ -2,7 +2,7 @@
 #define PROPERTIES_H
 
 #include "Inter.h"
-#include "../shell/CMD.h"
+#include "../cmd/CMD.h"
 
 #include <vector>
 #include <string>

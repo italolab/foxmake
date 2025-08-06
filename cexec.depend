@@ -1,0 +1,523 @@
+# depslib dependency file v1.0
+1754267007 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\main.cpp
+	"TaskExec.h"
+
+1754260426 c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskmgr.h
+	"Args.h"
+	"ArgsInter.h"
+
+1754266130 c:\users\italo\workspace-cpp\dlls\taskmgr\src\args.h
+	<string>
+	<vector>
+
+1754260359 c:\users\italo\workspace-cpp\dlls\taskmgr\src\argsinter.h
+	<string>
+	"Args.h"
+
+1754260555 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskmgr.cpp
+	"TaskMGR.h"
+	<iostream>
+
+1754266121 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\args.cpp
+	"Args.h"
+
+1754267284 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\argsinter.cpp
+	"ArgsInter.h"
+
+1754269963 c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskexec.h
+	"Args.h"
+	"ArgsInter.h"
+
+1754271668 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\taskexec.cpp
+	"TaskExec.h"
+	"util.h"
+	<iostream>
+	<vector>
+
+1754271638 source:c:\users\italo\workspace-cpp\dlls\taskmgr\src\util.cpp
+	"util.h"
+	<filesystem>
+	<dirent.h>
+	<limits>
+
+1754271296 c:\users\italo\workspace-cpp\dlls\taskmgr\src\util.h
+	<string>
+	<vector>
+
+1754330926 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\args.cpp
+	"Args.h"
+
+1754330849 c:\users\italo\workspace-cpp\dlls\taskexec\src\args.h
+	<string>
+	<vector>
+
+1754267284 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\argsinter.cpp
+	"ArgsInter.h"
+
+1754308965 c:\users\italo\workspace-cpp\dlls\taskexec\src\argsinter.h
+	<string>
+	"Args.h"
+
+1754504943 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\main.cpp
+	"proc/ProcExec.h"
+
+1754388631 c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.h
+	"args/Args.h"
+	"util/Properties.h"
+
+1754400844 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\taskexec.cpp
+	"TaskExec.h"
+	"shell/shell.h"
+	"args/ArgsInter.h"
+	"util/util.h"
+	"util/ioutil.h"
+	"util/utilexcept.h"
+	<iostream>
+	<vector>
+	<sstream>
+	<stdexcept>
+
+1754332683 c:\users\italo\workspace-cpp\dlls\taskexec\src\util.h
+	<string>
+	<vector>
+
+1754333473 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util.cpp
+	"util.h"
+	"appexcept.h"
+	<iostream>
+	<fstream>
+	<filesystem>
+	<dirent.h>
+	<limits>
+
+1754306209 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\read_error.cpp
+	"read_error.h"
+
+1754306200 c:\users\italo\workspace-cpp\dlls\taskexec\src\read_error.h
+	<stdexcept>
+	<string>
+
+1754306737 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\io_error.cpp
+	"io_error.h"
+
+1754306722 c:\users\italo\workspace-cpp\dlls\taskexec\src\io_error.h
+	<stdexcept>
+	<string>
+
+1754311112 c:\users\italo\workspace-cpp\dlls\taskexec\src\properties.h
+	<vector>
+	<string>
+
+1754340117 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\properties.cpp
+	"Properties.h"
+
+1754313233 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\appexcept.cpp
+	"appexcept.h"
+
+1754313248 c:\users\italo\workspace-cpp\dlls\taskexec\src\appexcept.h
+	<stdexcept>
+	<string>
+
+1754327632 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\shell.cpp
+	<windows.h>
+	<iostream>
+	"shell.h"
+
+1754327581 c:\users\italo\workspace-cpp\dlls\taskexec\src\shell.h
+	<string>
+	<sstream>
+	<vector>
+
+1754330849 c:\users\italo\workspace-cpp\dlls\taskexec\src\args\args.h
+	<string>
+	<vector>
+
+1754308965 c:\users\italo\workspace-cpp\dlls\taskexec\src\args\argsinter.h
+	<string>
+	"Args.h"
+
+1754350610 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\properties.h
+	<vector>
+	<string>
+
+1754430492 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.h
+	<string>
+	<vector>
+
+1754443548 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.h
+	<string>
+	<stdexcept>
+	<vector>
+
+1754330926 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\args\args.cpp
+	"Args.h"
+
+1754267284 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\args\argsinter.cpp
+	"ArgsInter.h"
+
+1754327632 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\shell\shell.cpp
+	<windows.h>
+	<iostream>
+	"shell.h"
+
+1754327581 c:\users\italo\workspace-cpp\dlls\taskexec\src\shell\shell.h
+	<string>
+	<sstream>
+	<vector>
+
+1754395365 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\properties.cpp
+	"Properties.h"
+	"utilexcept.h"
+	<fstream>
+	<sstream>
+
+1754395541 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\util.cpp
+	"util.h"
+	"utilexcept.h"
+	<sstream>
+
+1754444642 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\ioutil.cpp
+	"ioutil.h"
+	"util.h"
+	"utilexcept.h"
+	<iostream>
+	<fstream>
+	<filesystem>
+	<limits>
+
+1754413399 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.cpp
+	"utilexcept.h"
+
+1754413410 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\utilexcept.h
+	<string>
+	<stdexcept>
+
+1754438892 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\taskexec.cpp
+	"TaskExec.h"
+	"CPProc.h"
+	"../shell/shell.h"
+	"../util/util.h"
+	"../util/ioutil.h"
+	"../util/utilexcept.h"
+	<iostream>
+	<vector>
+	<sstream>
+	<stdexcept>
+
+1754433513 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\taskexec.h
+	"Proc.h"
+	"../shell/CMD.h"
+	"../inter/MainInter.h"
+	<map>
+	<string>
+
+1754422117 c:\users\italo\workspace-cpp\dlls\taskexec\src\shell\cmd.h
+	<string>
+	<vector>
+
+1754430662 c:\users\italo\workspace-cpp\dlls\taskexec\src\config\config.h
+	"../shell/CMD.h"
+	<vector>
+	<string>
+
+1754414322 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpexec.cpp
+	"CPExec.h"
+
+1754413149 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpexec.h
+	"../shell/CMD.h"
+
+1754415733 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\config\config.cpp
+	"Config.h"
+	<fstream>
+	<sstream>
+
+1754422131 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\shell\cmd.cpp
+	"CMD.h"
+	<sstream>
+	<cstring>
+
+1754444149 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.cpp
+	"CPProc.h"
+	"../util/ioutil.h"
+	"../util/utilexcept.h"
+	<sstream>
+	<iostream>
+
+1754437621 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\cpproc.h
+	"Proc.h"
+	"../shell/CMD.h"
+
+1754503456 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\proc.h
+	"ProcManager.h"
+	"../shell/CMD.h"
+	"../inter/MainInter.h"
+	<string>
+	<stdexcept>
+
+1754509916 c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\maininter.h
+	"Inter.h"
+	"../cmd/CMD.h"
+	<vector>
+	<string>
+
+1754433178 c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\inter.h
+	<string>
+	<stdexcept>
+
+1754434008 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\inter.cpp
+	"Inter.h"
+	<sstream>
+
+1754434074 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\inter\maininter.cpp
+	"MainInter.h"
+	<fstream>
+	<sstream>
+
+1754502996 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\proc.cpp
+	"Proc.h"
+
+1754501948 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\procmanager.h
+	"Proc.h"
+	"MainProc.h"
+	"../inter/MainInter.h"
+	<map>
+	<vector>
+	<string>
+
+1754503430 c:\users\italo\workspace-cpp\dlls\taskexec\src\exec\mainproc.h
+	"Proc.h"
+	"ProcManager.h"
+	"../shell/CMD.h"
+	"../inter/MainInter.h"
+	<string>
+
+1754507408 c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\procexec.h
+	"ProcManager.h"
+	"Proc.h"
+	"MainProc.h"
+	"../inter/MainInter.h"
+	<map>
+	<vector>
+	<string>
+
+1754508154 c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\procmanager.h
+	"../inter/MainInter.h"
+	<map>
+	<vector>
+	<string>
+	<iostream>
+
+1754509877 c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\proc.h
+	"../cmd/CMD.h"
+	<string>
+	<stdexcept>
+
+1754509923 c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\mainproc.h
+	"Proc.h"
+	"ProcManager.h"
+	"../cmd/CMD.h"
+	"../inter/MainInter.h"
+	<string>
+
+1754509833 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\cpproc.cpp
+	"CPProc.h"
+	"../io/io.h"
+	<sstream>
+	<iostream>
+
+1754509956 c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\cpproc.h
+	"Proc.h"
+	"ProcManager.h"
+	"../cmd/CMD.h"
+
+1754502996 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\proc.cpp
+	"Proc.h"
+
+1754508098 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\procexec.cpp
+	"ProcExec.h"
+	"CPProc.h"
+
+1754510022 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\proc\mainproc.cpp
+	"MainProc.h"
+	"../inter/MainInter.h"
+	"../shell/shell.h"
+	"../util/strutil.h"
+	"../io/io.h"
+	"../io/cppio.h"
+	<iostream>
+	<sstream>
+	<vector>
+	<stdexcept>
+
+1754422131 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\cmd\cmd.cpp
+	"CMD.h"
+	<sstream>
+	<cstring>
+
+1754422117 c:\users\italo\workspace-cpp\dlls\taskexec\src\cmd\cmd.h
+	<string>
+	<vector>
+
+1754509908 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\util\strutil.cpp
+	"strutil.h"
+	<sstream>
+
+1754509385 c:\users\italo\workspace-cpp\dlls\taskexec\src\util\strutil.h
+	<string>
+	<vector>
+	<stdexcept>
+
+1754508775 c:\users\italo\workspace-cpp\dlls\taskexec\src\io\io.h
+	<string>
+	<stdexcept>
+	<vector>
+
+1754509970 c:\users\italo\workspace-cpp\dlls\taskexec\src\io\cppio.h
+	<string>
+	<vector>
+
+1754510042 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\io\cppio.cpp
+	"cppio.h"
+	"io.h"
+	"../util/strutil.h"
+	<filesystem>
+
+1754510083 source:c:\users\italo\workspace-cpp\dlls\taskexec\src\io\io.cpp
+	"io.h"
+	"../util/strutil.h"
+	<iostream>
+	<fstream>
+	<filesystem>
+	<limits>
+
+1754422131 source:c:\users\italo\workspace-cpp\dlls\cexec\src\cmd\cmd.cpp
+	"CMD.h"
+	<sstream>
+	<cstring>
+
+1754422117 c:\users\italo\workspace-cpp\dlls\cexec\src\cmd\cmd.h
+	<string>
+	<vector>
+
+1754434008 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
+	"Inter.h"
+	<sstream>
+
+1754433178 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
+	<string>
+	<stdexcept>
+
+1754434074 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.cpp
+	"MainInter.h"
+	<fstream>
+	<sstream>
+
+1754509916 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.h
+	"Inter.h"
+	"../cmd/CMD.h"
+	<vector>
+	<string>
+
+1754510042 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\cppio.cpp
+	"cppio.h"
+	"io.h"
+	"../util/strutil.h"
+	<filesystem>
+
+1754509970 c:\users\italo\workspace-cpp\dlls\cexec\src\io\cppio.h
+	<string>
+	<vector>
+
+1754508775 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
+	<string>
+	<stdexcept>
+	<vector>
+
+1754509385 c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.h
+	<string>
+	<vector>
+	<stdexcept>
+
+1754510083 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
+	"io.h"
+	"../util/strutil.h"
+	<iostream>
+	<fstream>
+	<filesystem>
+	<limits>
+
+1754504943 source:c:\users\italo\workspace-cpp\dlls\cexec\src\main.cpp
+	"proc/ProcExec.h"
+
+1754507408 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.h
+	"ProcManager.h"
+	"Proc.h"
+	"MainProc.h"
+	"../inter/MainInter.h"
+	<map>
+	<vector>
+	<string>
+
+1754508154 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procmanager.h
+	"../inter/MainInter.h"
+	<map>
+	<vector>
+	<string>
+	<iostream>
+
+1754509877 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.h
+	"../cmd/CMD.h"
+	<string>
+	<stdexcept>
+
+1754509923 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.h
+	"Proc.h"
+	"ProcManager.h"
+	"../cmd/CMD.h"
+	"../inter/MainInter.h"
+	<string>
+
+1754509833 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
+	"CPProc.h"
+	"../io/io.h"
+	<sstream>
+	<iostream>
+
+1754509956 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.h
+	"Proc.h"
+	"ProcManager.h"
+	"../cmd/CMD.h"
+
+1754510022 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
+	"MainProc.h"
+	"../inter/MainInter.h"
+	"../shell/shell.h"
+	"../util/strutil.h"
+	"../io/io.h"
+	"../io/cppio.h"
+	<iostream>
+	<sstream>
+	<vector>
+	<stdexcept>
+
+1754327581 c:\users\italo\workspace-cpp\dlls\cexec\src\shell\shell.h
+	<string>
+	<sstream>
+	<vector>
+
+1754502996 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.cpp
+	"Proc.h"
+
+1754508098 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+	"ProcExec.h"
+	"CPProc.h"
+
+1754327632 source:c:\users\italo\workspace-cpp\dlls\cexec\src\shell\shell.cpp
+	<windows.h>
+	<iostream>
+	"shell.h"
+
+1754509908 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
+	"strutil.h"
+	<sstream>
+

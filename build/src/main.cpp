@@ -1,7 +1,7 @@
-#include "exec/TaskExec.h"
+#include "proc/ProcExec.h"
 
 int main( int argc, char* argv[] ) {
-    TaskExec* exec = new TaskExec();
-    exec->proc( argc, argv );
+    ProcExec* exec = new ProcExec();
+    exec->exec( argc, argv );
     return 0;
 }
