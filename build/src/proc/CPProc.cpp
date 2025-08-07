@@ -1,6 +1,7 @@
 
 #include "CPProc.h"
 #include "../io/io.h"
+#include "../io/filter/FileFilter.h"
 #include "../util/strutil.h"
 
 #include <sstream>
@@ -25,12 +26,33 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
 
     if ( io::isJokerCopyInPath( src ) ) {
         try {
+            string srcDir = io::removeRecursiveJoker( src );
+            srcDir = io::dirPath( srcDir );
+
+            FileFilter* filter;
+            string ext = io::extension( src );
+            if ( ext != "" && src.find( "*." + ext ) != string::npos ) {
+                ext = "." + ext;
+                filter = io::by_ext_file_filter( ext );
+            } else {
+                filter = io::all_file_filter();
+            }
+
             if ( src.find( "**" ) != string::npos ) {
                 if ( strutil::endsWith( src, "*" ) )
                     throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nNao e possivel fazer copia com coringa no final e copia recursiva." );
-                io::recursiveCopyFiles( src, dest, true );
+
+                string replacePath = io::baseDirPath( src );
+                replacePath = io::addSeparatorToDirIfNeed( replacePath );
+
+                io::recursiveCopyFiles( srcDir, dest, replacePath, filter, true );
             } else {
-                io::copyFiles( src, dest, true );
+                if ( strutil::endsWith( src, "*" ) ) {
+                    string replacePath = io::dirPath( src );
+                    io::recursiveCopyFiles( srcDir, dest, replacePath, filter, true );
+                } else {
+                    io::copyFiles( src, dest, filter, true );
+                }
             }
         } catch ( const io_error& e ) {
             cout << e.what() << endl;

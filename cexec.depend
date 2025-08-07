@@ -428,7 +428,10 @@
 	<string>
 	<vector>
 
-1754576533 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
+1754602795 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
+	"filter/FileFilter.h"
+	"filter/ByExtFileFilter.h"
+	"filter/AllFileFilter.h"
 	<string>
 	<stdexcept>
 	<vector>
@@ -438,7 +441,7 @@
 	<vector>
 	<stdexcept>
 
-1754579326 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
+1754604294 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
 	"io.h"
 	"../util/strutil.h"
 	<iostream>
@@ -477,9 +480,10 @@
 	"../inter/MainInter.h"
 	<string>
 
-1754577683 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
+1754604531 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
 	"CPProc.h"
 	"../io/io.h"
+	"../io/filter/FileFilter.h"
 	"../util/strutil.h"
 	<sstream>
 	<iostream>
@@ -521,4 +525,22 @@
 1754578898 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
 	"strutil.h"
 	<sstream>
+
+1754600197 c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\byextfilefilter.h
+	"FileFilter.h"
+	<string>
+
+1754600049 c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\filefilter.h
+	<string>
+
+1754600272 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\byextfilefilter.cpp
+	"ByExtFileFilter.h"
+	"../../util/strutil.h"
+
+1754600994 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\allfilefilter.cpp
+	"AllFileFilter.h"
+
+1754600987 c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\allfilefilter.h
+	"FileFilter.h"
+	<string>
 

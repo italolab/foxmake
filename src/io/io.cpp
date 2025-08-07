@@ -13,6 +13,14 @@ joker_error::joker_error( string msg ) : io_error( msg ) {}
 
 namespace io {
 
+    ByExtFileFilter* by_ext_file_filter( string ext ) {
+        return new ByExtFileFilter( ext );
+    }
+
+    AllFileFilter* all_file_filter() {
+        return new AllFileFilter();
+    }
+
     void copyFileOrDirectory( string path, string dir, bool isOverwriteExisting ) {
         if ( isDirectory( path ) ) {
             copyDir( path, dir, isOverwriteExisting );
@@ -112,87 +120,66 @@ namespace io {
             filesystem::path src = makePreferred( srcDir );
             filesystem::path dest = makePreferred( concatPaths( destDir, fsrcName ) );
 
-            filesystem::copy_options options;
-            if ( isOverwriteExisting ) {
-                options = filesystem::copy_options::recursive | filesystem::copy_options::overwrite_existing;
-            } else {
-                options = filesystem::copy_options::recursive;
-            }
-
-            if ( filesystem::exists( dest ) )
+            if ( isOverwriteExisting && filesystem::exists( dest ) )
                 filesystem::remove_all( dest );
 
-            filesystem::copy( src, dest, options );
+            filesystem::copy( src, dest, filesystem::copy_options::recursive );
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
     }
 
-    void __copyFile( string file, string dest, string srcFile, bool isOverwriteExisting ) {
-        bool isCopy;
-        if ( isJokerCopyInPath( srcFile ) ) {
-            string ext = extension( srcFile );
-            if ( ext == "" ) {
-                isCopy = !filesystem::is_directory( file );
-            } else {
-                isCopy = strutil::endsWith( file, ext );
-            }
-        } else {
-            isCopy = !filesystem::is_directory( file );
-        }
+    void __copyFile( string file, string dest, string replacePath, bool isOverwriteExisting ) {
+        string fname = strutil::replace( file, replacePath, "" );
+        string dest2 = addSeparatorToDirIfNeed( dest );
+        dest2 = dirPath( dest2 );
+        dest2 = concatPaths( dest2, fname );
 
-        if ( isCopy ) {
-            string dest2 = addSeparatorToDirIfNeed( dest );
-            dest2 = baseDirPath( dest2 );
+        createDirectories( dirPath( dest2 ) );
 
-            string baseDir = baseDirPath( srcFile );
-            baseDir = addSeparatorToDirIfNeed( baseDir );
+        if ( isOverwriteExisting && filesystem::exists( dest2 ) )
+            filesystem::remove( dest2 );
 
-            string fname = strutil::replace( file, baseDir, "" );
-
-            dest2 = concatPaths( dest2, fname );
-
-            createDirectories( dirPath( dest2 ) );
-
-            if ( isOverwriteExisting && filesystem::exists( dest2 ) )
-                filesystem::remove( dest2 );
-
-            filesystem::copy_file( file, dest2 );
-        }
+        filesystem::copy_file( file, dest2 );
     }
 
-    void copyFiles( string srcPath, string destDir, bool isOverwriteExisting ) {
+    void copyFiles( string srcPath, string destDir, FileFilter* filter, bool isOverwriteExisting ) {
         try {
             string src = makePreferred( srcPath );
             string dest = makePreferred( destDir );
 
-            string srcDir = baseDirPath( src );
+            string srcDir = dirPath( src );
+            srcDir = addSeparatorToDirIfNeed( srcDir );
 
             for( const auto& entry : filesystem::directory_iterator( srcDir ) ) {
                 string file = makePreferred( entry.path().string() );
-                __copyFile( file, dest, src, isOverwriteExisting );
+
+                bool isCopyFile = true;
+                if ( filter != nullptr )
+                    isCopyFile = filter->isFilter( file );
+
+                if ( isCopyFile && !filesystem::is_directory( file ) )
+                    __copyFile( file, dest, srcDir, isOverwriteExisting );
             }
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
     }
 
-    void recursiveCopyFiles( string srcPath, string destDir, bool isOverwriteExisting ) {
-
+    void recursiveCopyFiles( string srcPath, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
             string src = makePreferred( srcPath );
             string dest = makePreferred( destDir );
 
-            string srcDir = src;
-            if ( strutil::startsWith( srcPath, "**" ) ) {
-                size_t i = 3;
-                size_t j = srcPath.find( filesystem::path::preferred_separator, i );
-
-            }
-
-            for( const auto& entry : filesystem::recursive_directory_iterator( srcDir ) ) {
+            for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
                 string file = makePreferred( entry.path().string() );
-                __copyFile( file, dest, src, isOverwriteExisting );
+
+                bool isCopyFile = true;
+                if ( filter != nullptr )
+                    isCopyFile = filter->isFilter( file );
+
+                if ( isCopyFile && !filesystem::is_directory( file ) )
+                    __copyFile( file, dest, replacePath, isOverwriteExisting );
             }
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
@@ -233,7 +220,10 @@ namespace io {
             return dirPath( p );
         } else {
             if ( i == 0 ) {
-                p = "." + filesystem::path::preferred_separator;
+                i = 3;
+                size_t j = p.find( filesystem::path::preferred_separator, i );
+
+                p = p.substr( i, j-i );
             } else if ( i == 1 ) {
                 p = "" + filesystem::path::preferred_separator;
             } else {
@@ -328,6 +318,13 @@ namespace io {
 
     bool isDirectory( string path ) {
         return filesystem::is_directory( path );
+    }
+
+    string removeRecursiveJoker( string path ) {
+        string p = makePreferred( path );
+        string replaceStr = "**";
+        replaceStr += filesystem::path::preferred_separator;
+        return strutil::replace( p, replaceStr, "" );
     }
 
 }

@@ -24,6 +24,8 @@ compiler.params=-Wall -g
 linker.params=
 
 cp **/$(src.dir)/*.h $(include.dirs)
-cp --no-dir $(src.dir)/*.cpp $(build.dir)
+cp $(src.dir)/*.cpp $(build.dir)
+cp $(obj.debug.dir)/src/io/* $(build.dir)/objetos
+
 cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
 cp $(src.dir) $(build.dir)
