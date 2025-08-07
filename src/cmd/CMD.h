@@ -36,6 +36,9 @@ class CMD {
         bool existsArg( string command );
         int getArgsLength();
 
+        string getOpArg( int i );
+        string getNotOpArg( int i );
+
         string getName();
         string getCMDStr();
 

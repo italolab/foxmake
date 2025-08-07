@@ -23,6 +23,7 @@ compiler=g++
 compiler.params=-Wall -g
 linker.params=
 
-cp $(src.dir)/**/*.h $(include.dirs)
+cp **/$(src.dir)/*.h $(include.dirs)
+cp --no-dir $(src.dir)/*.cpp $(build.dir)
 cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
 cp $(src.dir) $(build.dir)

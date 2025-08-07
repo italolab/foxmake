@@ -163,7 +163,7 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
     if ( ok ) {
         for( CPPFile* cppFile : cppFiles ) {
             string absFile = io::concatPaths( objDebugDir, cppFile->objFileName );
-            string dir = io::directoryPath( absFile );
+            string dir = io::dirPath( absFile );
             io::createDirectories( dir );
         }
 

@@ -8,9 +8,8 @@
 #include <filesystem>
 #include <limits>
 
-io_error::io_error( string msg ) : runtime_error( msg ) {
-
-}
+io_error::io_error( string msg ) : runtime_error( msg ) {}
+joker_error::joker_error( string msg ) : io_error( msg ) {}
 
 namespace io {
 
@@ -30,7 +29,7 @@ namespace io {
         }
     }
 
-    int deleteFilesByExt( string dir, string ext ) {
+    int recursiveDeleteFilesByExt( string dir, string ext ) {
         int removedCount = 0;
         try {
             string path = makePreferred( dir );
@@ -55,7 +54,7 @@ namespace io {
         }
     }
 
-    int deleteFiles( string dir ) {
+    int recursiveDeleteFiles( string dir ) {
         int removedCount = 0;
         try {
             string dirpath = makePreferred( dir );
@@ -129,25 +128,65 @@ namespace io {
         }
     }
 
-    void copyFilesByExt( string srcDir, string ext, string destDir, bool isOverwriteExisting ) {
+    void __copyFile( string file, string dest, string srcFile, bool isOverwriteExisting ) {
+        bool isCopy;
+        if ( isJokerCopyInPath( srcFile ) ) {
+            string ext = extension( srcFile );
+            if ( ext == "" ) {
+                isCopy = !filesystem::is_directory( file );
+            } else {
+                isCopy = strutil::endsWith( file, ext );
+            }
+        } else {
+            isCopy = !filesystem::is_directory( file );
+        }
+
+        if ( isCopy ) {
+            string dest2 = addSeparatorToDirIfNeed( dest );
+            dest2 = baseDirPath( dest2 );
+
+            string baseDir = baseDirPath( srcFile );
+            baseDir = addSeparatorToDirIfNeed( baseDir );
+
+            string fname = strutil::replace( file, baseDir, "" );
+
+            dest2 = concatPaths( dest2, fname );
+
+            createDirectories( dirPath( dest2 ) );
+
+            if ( isOverwriteExisting && filesystem::exists( dest2 ) )
+                filesystem::remove( dest2 );
+
+            filesystem::copy_file( file, dest2 );
+        }
+    }
+
+    void copyFiles( string srcPath, string destDir, bool isOverwriteExisting ) {
         try {
-            string src = makePreferred( srcDir );
+            string src = makePreferred( srcPath );
             string dest = makePreferred( destDir );
 
-            for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
+            string srcDir = baseDirPath( src );
+
+            for( const auto& entry : filesystem::directory_iterator( srcDir ) ) {
                 string file = makePreferred( entry.path().string() );
+                __copyFile( file, dest, src, isOverwriteExisting );
+            }
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+    }
 
-                if ( strutil::endsWith( file, ext ) ) {
-                    string dest2 = addSeparatorToDirIfNeed( dest );
-                    dest2 = concatPaths( dest2, file );
+    void recursiveCopyFiles( string srcPath, string destDir, bool isOverwriteExisting ) {
+        try {
+            string src = makePreferred( srcPath );
+            string dest = makePreferred( destDir );
 
-                    if ( isOverwriteExisting )
-                        if ( filesystem::exists( dest2 ) )
-                            filesystem::remove( dest2 );
+            string srcDir = baseDirPath( src );
 
-                    createDirectories( directoryPath( dest2 ) );
-                    filesystem::copy_file( file, dest2 );
-                }
+            for( const auto& entry : filesystem::recursive_directory_iterator( srcDir ) ) {
+                string file = makePreferred( entry.path().string() );
+                __copyFile( file, dest, src, isOverwriteExisting );
             }
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
@@ -172,30 +211,37 @@ namespace io {
         return filesystem::exists( path );
     }
 
-    string directoryPath( string path ) {
-        bool recursive;
-        return directoryPath( path, recursive );
-    }
-
-    string directoryPath( string path, bool& recursive ) {
+    string dirPath( string path ) {
         string p = makePreferred( path );
+
         size_t i = p.find_last_of( filesystem::path::preferred_separator );
         if ( i == string::npos )
             return p;
-        string dir = p.substr( 0, i+1 );
+        return p.substr( 0, i+1 );
+    }
 
-        recursive = false;
-        if ( i > 3 ) {
-            if ( dir[ i-1 ] == '*' && dir[ i-2 ] == '*' && dir[ i-3 ] == filesystem::path::preferred_separator ) {
-                dir = dir.substr( 0, i-3 );
-                recursive = true;
+    string baseDirPath( string path ) {
+        string p = makePreferred( path );
+        size_t i = p.find( "**" );
+        if ( i == string::npos ) {
+            return dirPath( p );
+        } else {
+            if ( i == 0 ) {
+                i = 3;
+                size_t j = p.find( filesystem::path::preferred_separator, i );
+                p = p.substr( i, j-i );
+            } else if ( i == 1 ) {
+                p = "" + filesystem::path::preferred_separator;
+            } else {
+                p = p.substr( 0, i );
             }
+            return p;
         }
-        return dir;
     }
 
     string fileOrDirName( string path ) {
         string p = makePreferred( path );
+
         size_t i = p.find_last_of( filesystem::path::preferred_separator );
         if ( i == string::npos )
             return p;
@@ -206,6 +252,18 @@ namespace io {
             return p.substr( k, j-i-1 );
         }
         return p.substr( i+1, p.length()-i );
+    }
+
+    string baseFileOrDirName( string path ) {
+        string p = makePreferred( path );
+
+        size_t i = p.find( "**" );
+        if ( i == string::npos ) {
+            return fileOrDirName( path );
+        } else {
+            i += 3;
+            return p.substr( i, p.length()-i+1 );
+        }
     }
 
     char fileSeparator() {
@@ -247,6 +305,21 @@ namespace io {
         } else {
             return makePreferred( path );
         }
+    }
+
+    bool isJokerCopyInPath( string path ) {
+        string file = fileOrDirName( path );
+        if ( file.length() > 0 )
+            if ( file[ 0 ] == '*' )
+                return true;
+        return false;
+    }
+
+    string extension( string path ) {
+        size_t i = path.find( '.' );
+        if ( i == string::npos )
+            return "";
+        return path.substr( i+1, path.length()-i );
     }
 
     bool isDirectory( string path ) {

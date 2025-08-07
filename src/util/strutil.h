@@ -18,8 +18,10 @@ namespace strutil {
 
     vector<string> splitWithDoubleQuotes( string str );
 
+    bool startsWith( string str, string prefix );
     bool endsWith( string str, string suffix );
     string trim( string str );
+    string replace( string str, string subStr, string newSubStr );
 
 }
 

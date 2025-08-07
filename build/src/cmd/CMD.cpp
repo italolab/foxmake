@@ -82,6 +82,34 @@ void CMD::interpreta( int argc, char* argv[] ) {
     }
 }
 
+string CMD::getOpArg( int i ) {
+    int k = 0;
+    for( string a : args ) {
+        if ( a.length() > 0 ) {
+            if ( a[ 0 ] == '-' ) {
+                if ( i == k )
+                    return a;
+                k++;
+            }
+        }
+    }
+    return "";
+}
+
+string CMD::getNotOpArg( int i ) {
+    int k = 0;
+    for( string a : args ) {
+        if ( a.length() > 0 ) {
+            if ( a[ 0 ] != '-' ) {
+                if ( i == k )
+                    return a;
+                k++;
+            }
+        }
+    }
+    return "";
+}
+
 bool CMD::existsArg( string arg ) {
     for( string a : args )
         if ( a == arg )

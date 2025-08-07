@@ -1,6 +1,7 @@
 
 #include "CPProc.h"
 #include "../io/io.h"
+#include "../util/strutil.h"
 
 #include <sstream>
 #include <iostream>
@@ -17,32 +18,20 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
         ss << "Numero de argumentos esperado igual a 2, encontrado " << alen << endl;
         throw proc_error( ss.str() );
     }
-    string src = cmd->getArg( 0 );
-    string dest = cmd->getArg( 1 );
-
-    bool srcRecursive;
-    string srcDir = io::directoryPath( src, srcRecursive );
-    string srcFile = io::fileOrDirName( src );
-
-    string ext;
-    bool copyByExt = false;
-
-    if ( srcFile.length() > 2 ) {
-        if ( srcFile[ 0 ] == '*' ) {
-            if ( srcFile[ 1 ] == '.' ) {
-                ext = srcFile.substr( 2, srcFile.length()-2 );
-                copyByExt = true;
-            } else {
-                throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nDeve haver um ponto após o coringa final do primeiro argumento." );
-            }
-        }
-    }
+    string src = cmd->getNotOpArg( 0 );
+    string dest = cmd->getNotOpArg( 1 );
 
     io::createDirectories( dest );
 
-    if ( copyByExt ) {
+    if ( io::isJokerCopyInPath( src ) ) {
         try {
-            io::copyFilesByExt( srcDir, ext, dest, true );
+            if ( src.find( "**" ) != string::npos ) {
+                if ( strutil::endsWith( src, "*" ) )
+                    throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nNao e possivel fazer copia com coringa no final e copia recursiva." );
+                io::recursiveCopyFiles( src, dest, true );
+            } else {
+                io::copyFiles( src, dest, true );
+            }
         } catch ( const io_error& e ) {
             cout << e.what() << endl;
             throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nHouve erro na copia recursiva dos arquivos." );
@@ -51,6 +40,7 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
         try {
             io::copyFileOrDirectory( src, dest, true );
         } catch ( const io_error& e ) {
+            cout << e.what() << endl;
             throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nHouve erro na copia dos arquivos." );
         }
     }

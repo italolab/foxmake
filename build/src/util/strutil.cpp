@@ -52,6 +52,19 @@ namespace strutil {
         return false;
     }
 
+    bool startsWith( string str, string prefix ) {
+        int prefixLen = prefix.length();
+        int strLen = str.length();
+        if ( prefixLen <= strLen ) {
+            for( int i = 0; i < prefixLen; i++ )
+                if ( prefix[ i ] != str[ i ] )
+                    return false;
+            return true;
+        }
+        return false;
+    }
+
+
     string trim( string str ) {
         stringstream ss;
         int len = str.length();
@@ -59,6 +72,16 @@ namespace strutil {
             if ( str[ i ] != ' ' && str[ i ] != '\t' && str[ i ] != '\r' && str[ i ] != '\n' )
                 ss << str[ i ];
         return ss.str();
+    }
+
+    string replace( string str, string subStr, string newSubStr ) {
+        string newStr = str;
+        size_t i = str.find( subStr );
+        if ( i != string::npos ) {
+            int subStrLen = subStr.length();
+            newStr.replace( i, i+subStrLen, newSubStr );
+        }
+        return newStr;
     }
 
 }

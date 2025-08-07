@@ -390,12 +390,12 @@
 	<filesystem>
 	<limits>
 
-1754422131 source:c:\users\italo\workspace-cpp\dlls\cexec\src\cmd\cmd.cpp
+1754567862 source:c:\users\italo\workspace-cpp\dlls\cexec\src\cmd\cmd.cpp
 	"CMD.h"
 	<sstream>
 	<cstring>
 
-1754422117 c:\users\italo\workspace-cpp\dlls\cexec\src\cmd\cmd.h
+1754567545 c:\users\italo\workspace-cpp\dlls\cexec\src\cmd\cmd.h
 	<string>
 	<vector>
 
@@ -428,17 +428,17 @@
 	<string>
 	<vector>
 
-1754508775 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
+1754576533 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
 	<string>
 	<stdexcept>
 	<vector>
 
-1754509385 c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.h
+1754578726 c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.h
 	<string>
 	<vector>
 	<stdexcept>
 
-1754510083 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
+1754579326 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
 	"io.h"
 	"../util/strutil.h"
 	<iostream>
@@ -477,9 +477,10 @@
 	"../inter/MainInter.h"
 	<string>
 
-1754509833 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
+1754577683 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
 	"CPProc.h"
 	"../io/io.h"
+	"../util/strutil.h"
 	<sstream>
 	<iostream>
 
@@ -488,7 +489,7 @@
 	"ProcManager.h"
 	"../cmd/CMD.h"
 
-1754510022 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
+1754571761 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
 	"MainProc.h"
 	"../inter/MainInter.h"
 	"../shell/shell.h"
@@ -517,7 +518,7 @@
 	<iostream>
 	"shell.h"
 
-1754509908 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
+1754578898 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
 	"strutil.h"
 	<sstream>
 
