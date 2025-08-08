@@ -26,6 +26,8 @@ class MainInter : public Inter {
         string getPropertyValue( string name );
         CMD* getCMD( string name );
 
+        bool existsProperty( string name );
+
         int getPropertiesLength();
         Property getPropertyByIndex( int i );
         vector<Property> getProperties();

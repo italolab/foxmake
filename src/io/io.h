@@ -33,7 +33,7 @@ namespace io {
     void copyFile( string srcFile, string destDir, bool isOverwriteExisting );
     void copyDir( string srcDir, string destDir, bool isOverwriteExisting );
     void copyFiles( string srcDir, string destDir, FileFilter* filter, bool isOverwriteExisting );
-    void recursiveCopyFiles( string srcPath, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
+    void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     void deleteFileOrDirectory( string path );
     bool deleteFile( string path );
     int deleteDirectory( string path );

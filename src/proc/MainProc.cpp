@@ -72,8 +72,8 @@ void MainProc::clean( CMD* texec, MainInter* inter ) {
 
     string isDll = inter->getPropertyValue( "is.dll" );
     string buildDir = inter->getPropertyValue( "build.dir" );
-    string binDebugDir = inter->getPropertyValue( "bin.debug.dir" );
-    string objDebugDir = inter->getPropertyValue( "obj.debug.dir" );
+    string binDir = inter->getPropertyValue( "bin.dir" );
+    string objDir = inter->getPropertyValue( "obj.dir" );
     string buildFiles = inter->getPropertyValue( "build.files" );
 
     string fname;
@@ -82,10 +82,13 @@ void MainProc::clean( CMD* texec, MainInter* inter ) {
     } else {
         fname = inter->getPropertyValue( "exe.file.name" );
     }
-    string file = io::concatPaths( binDebugDir, fname );
-    appDeleteFileOrDirectory( file );
 
-    cout << "Deletado: " << file << endl;
+    if ( fname != "" ) {
+        string file = io::concatPaths( binDir, fname );
+        appDeleteFileOrDirectory( file );
+
+        cout << "Deletado: " << file << endl;
+    }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
@@ -104,7 +107,7 @@ void MainProc::copyFiles( CMD* texec, MainInter* inter ) {
 
     string isDll = inter->getPropertyValue( "is.dll" );
     string buildDir = inter->getPropertyValue( "build.dir" );
-    string binDebugDir = inter->getPropertyValue( "bin.debug.dir" );
+    string binDir = inter->getPropertyValue( "bin.dir" );
     string buildFiles = inter->getPropertyValue( "build.files" );
 
     if ( buildDir != "" )
@@ -112,11 +115,11 @@ void MainProc::copyFiles( CMD* texec, MainInter* inter ) {
 
     if ( isDll == "true" ) {
         string dllFileName = inter->getPropertyValue( "dll.file.name" );
-        string fname = io::concatPaths( binDebugDir, dllFileName );
+        string fname = io::concatPaths( binDir, dllFileName );
         appCopyFileOrDirectoryToBuild( fname, buildDir );
     } else {
         string exeFileName = inter->getPropertyValue( "exe.file.name" );
-        string fname = io::concatPaths( binDebugDir, exeFileName );
+        string fname = io::concatPaths( binDir, exeFileName );
         appCopyFileOrDirectoryToBuild( fname, buildDir );
     }
 
@@ -135,8 +138,8 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
     string isDll = inter->getPropertyValue( "is.dll" );
 
     string srcDir = inter->getPropertyValue( "src.dir" );
-    string binDebugDir = inter->getPropertyValue( "bin.debug.dir" );
-    string objDebugDir = inter->getPropertyValue( "obj.debug.dir" );
+    string binDir = inter->getPropertyValue( "bin.dir" );
+    string objDir = inter->getPropertyValue( "obj.dir" );
 
     string includeDirs = inter->getPropertyValue( "include.dirs" );
     string libDirs = inter->getPropertyValue( "lib.dirs" );
@@ -153,8 +156,8 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
     string compilerParams = inter->getPropertyValue( "compiler.params" );
     string linkerParams = inter->getPropertyValue( "linker.params" );
 
-    io::createDirectories( binDebugDir );
-    io::createDirectories( objDebugDir );
+    io::createDirectories( binDir );
+    io::createDirectories( objDir );
 
     bool isdll = isDll == "true";
 
@@ -162,7 +165,7 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
     bool ok = cppio::recursiveProcSrcFiles( srcDir, cppFiles );
     if ( ok ) {
         for( CPPFile* cppFile : cppFiles ) {
-            string absFile = io::concatPaths( objDebugDir, cppFile->objFileName );
+            string absFile = io::concatPaths( objDir, cppFile->objFileName );
             string dir = io::dirPath( absFile );
             io::createDirectories( dir );
         }
@@ -191,7 +194,7 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
                     ss << incdirParams.str();
                 }
 
-                ss << " -o " << io::concatPaths( objDebugDir, cppFile->objFileName );
+                ss << " -o " << io::concatPaths( objDir, cppFile->objFileName );
                 ss << " -c " << cppFile->fileName;
 
                 shell->pushCommand( ss.str() );
@@ -200,6 +203,9 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
         }
 
         if ( ok && isLink ) {
+            if ( exeFileName == "" )
+                throw runtime_error( "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
+
             stringstream ss;
             ss << compiler;
             if ( isdll )
@@ -210,7 +216,7 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
                 ss << " -Wl,--out-implib=" << outImplibFile;
 
             if ( !isdll )
-                ss << " -o " << io::concatPaths( binDebugDir, exeFileName );
+                ss << " -o " << io::concatPaths( binDir, exeFileName );
 
             if ( isdll ) {
                 vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
@@ -230,10 +236,12 @@ void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, boo
             }
 
             for( CPPFile* cppFile : cppFiles )
-                ss << " " << io::concatPaths( objDebugDir, cppFile->objFileName );
+                ss << " " << io::concatPaths( objDir, cppFile->objFileName );
 
             if ( isdll )
-                ss << " -o " << io::concatPaths( binDebugDir, dllFileName );
+                ss << " -o " << io::concatPaths( binDir, dllFileName );
+
+            ss << " " << linkerParams;
 
             Shell* shell = new Shell( true );
             shell->pushCommand( ss.str() );
@@ -254,7 +262,7 @@ void MainProc::appDeleteFileOrDirectory( string path ) {
     try {
         io::deleteFileOrDirectory( path );
     } catch ( const io_error& e ) {
-        throw runtime_error( "Não foi possível deletar o arquivo ou pasta: " + path );
+        throw runtime_error( "Nao foi possivel deletar o arquivo ou pasta: " + path );
     }
 }
 

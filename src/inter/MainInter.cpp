@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 void MainInter::interpreta( string file, vector<string> validStrCMDs ) {
     Property p;
@@ -76,6 +77,13 @@ string MainInter::getPropertyValue( string name ) {
         if ( p.name == name )
             return p.value;
     return "";
+}
+
+bool MainInter::existsProperty( string name ) {
+    for( Property p : properties )
+        if ( p.name == name )
+            return true;
+    return false;
 }
 
 vector<Property> MainInter::getProperties()  {

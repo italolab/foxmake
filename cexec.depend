@@ -399,20 +399,22 @@
 	<string>
 	<vector>
 
-1754434008 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
+1754654910 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
 	"Inter.h"
 	<sstream>
+	<iostream>
 
-1754433178 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
+1754654804 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
 	<string>
 	<stdexcept>
 
-1754434074 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.cpp
+1754654888 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.cpp
 	"MainInter.h"
 	<fstream>
 	<sstream>
+	<iostream>
 
-1754509916 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.h
+1754654853 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.h
 	"Inter.h"
 	"../cmd/CMD.h"
 	<vector>
@@ -428,7 +430,7 @@
 	<string>
 	<vector>
 
-1754611465 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
+1754655757 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
 	"filter/FileFilter.h"
 	"filter/ByExtFileFilter.h"
 	"filter/AllFileFilter.h"
@@ -441,7 +443,7 @@
 	<vector>
 	<stdexcept>
 
-1754612731 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
+1754655875 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
 	"io.h"
 	"../util/strutil.h"
 	<iostream>
@@ -480,7 +482,7 @@
 	"../inter/MainInter.h"
 	<string>
 
-1754612488 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
+1754655930 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
 	"CPProc.h"
 	"../io/io.h"
 	"../io/filter/FileFilter.h"
@@ -493,7 +495,7 @@
 	"ProcManager.h"
 	"../cmd/CMD.h"
 
-1754571761 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
+1754656238 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
 	"MainProc.h"
 	"../inter/MainInter.h"
 	"../shell/shell.h"
@@ -513,7 +515,7 @@
 1754502996 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.cpp
 	"Proc.h"
 
-1754508098 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+1754652915 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
 	"ProcExec.h"
 	"CPProc.h"
 
@@ -522,9 +524,10 @@
 	<iostream>
 	"shell.h"
 
-1754578898 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
+1754612862 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
 	"strutil.h"
 	<sstream>
+	<iostream>
 
 1754600197 c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\byextfilefilter.h
 	"FileFilter.h"

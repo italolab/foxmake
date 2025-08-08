@@ -131,15 +131,14 @@ namespace io {
         filesystem::copy_file( file, dest2 );
     }
 
-    void copyFiles( string srcPath, string destDir, FileFilter* filter, bool isOverwriteExisting ) {
+    void copyFiles( string srcDir, string destDir, FileFilter* filter, bool isOverwriteExisting ) {
         try {
-            string src = makePreferred( srcPath );
+            string src = makePreferred( srcDir );
             string dest = makePreferred( destDir );
 
-            string srcDir = dirPath( src );
-            srcDir = addSeparatorToDirIfNeed( srcDir );
+            src = addSeparatorToDirIfNeed( src );
 
-            for( const auto& entry : filesystem::directory_iterator( srcDir ) ) {
+            for( const auto& entry : filesystem::directory_iterator( src ) ) {
                 string file = makePreferred( entry.path().string() );
 
                 bool isCopyFile = true;
@@ -147,16 +146,16 @@ namespace io {
                     isCopyFile = filter->isFilter( file );
 
                 if ( isCopyFile && !filesystem::is_directory( file ) )
-                    __copyFile( file, dest, srcDir, isOverwriteExisting );
+                    __copyFile( file, dest, src, isOverwriteExisting );
             }
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
     }
 
-    void recursiveCopyFiles( string srcPath, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
+    void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
-            string src = makePreferred( srcPath );
+            string src = makePreferred( srcDir );
             string dest = makePreferred( destDir );
 
             for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
@@ -216,7 +215,8 @@ namespace io {
             if ( i == 0 ) {
                 p = "";
             } else if ( i == 1 ) {
-                p = "" + filesystem::path::preferred_separator;
+                p = "";
+                p += filesystem::path::preferred_separator;
             } else {
                 p = p.substr( 0, i );
             }

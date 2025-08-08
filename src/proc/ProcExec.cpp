@@ -2,7 +2,7 @@
 #include "ProcExec.h"
 #include "CPProc.h"
 
-const string configFileName = "config.txt";
+const string configFileName = "exe.txt";
 
 ProcExec::ProcExec() {
     mainInter = new MainInter();

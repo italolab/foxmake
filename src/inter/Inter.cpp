@@ -2,6 +2,7 @@
 #include "Inter.h"
 
 #include <sstream>
+#include <iostream>
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
@@ -12,16 +13,32 @@ string Inter::replaceVars( string line, int lineNumber ) {
     if ( i != string::npos && j == i+1 ) {
         stringstream ss;
 
+        int parentesisCount = 0;
+
         int len = line.length();
         for( int k = 0; k < len; k++ ) {
             if ( line[ k ] == '$' ) {
                 if ( k+1 < len ) {
                     if ( line[ k+1 ] == '(' ) {
-                        j = line.find( ')', k+2 );
-                        if ( j != string::npos ) {
+                        parentesisCount++;
+                        int j = k+2;
+
+                        while( parentesisCount > 0 && j < len ) {
+                            if ( line[ j ] == '(' ) {
+                                parentesisCount++;
+                            } else if ( line[ j ] == ')' ) {
+                                parentesisCount--;
+                            }
+
+                            if ( parentesisCount > 0 )
+                                j++;
+                        }
+                        if ( parentesisCount == 0 ) {
                             string name = line.substr( k+2, j-(k+2) );
-                            string value = getPropertyValue( name );
-                            if ( value != "" ) {
+                            name = replaceVars( name, lineNumber );
+
+                            if ( existsProperty( name ) ) {
+                                string value = getPropertyValue( name );
                                 ss << value;
                                 k = j;
                             } else {

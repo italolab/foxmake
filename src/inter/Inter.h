@@ -18,6 +18,7 @@ class Inter {
     public:
         string replaceVars( string line, int lineNumber );
 
+        virtual bool existsProperty( string name ) = 0;
         virtual string getPropertyValue( string name ) = 0;
 
 };

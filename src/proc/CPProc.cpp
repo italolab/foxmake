@@ -51,7 +51,7 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
                     string replacePath = io::dirPath( src );
                     io::recursiveCopyFiles( srcDir, dest, replacePath, filter, true );
                 } else {
-                    io::copyFiles( src, dest, filter, true );
+                    io::copyFiles( srcDir, dest, filter, true );
                 }
             }
         } catch ( const io_error& e ) {
