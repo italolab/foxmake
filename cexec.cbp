@@ -17,10 +17,11 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/taskmgr" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/cexec" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="build" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -33,15 +34,33 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="config.txt" />
-		<Unit filename="src/cmd/CMD.cpp" />
-		<Unit filename="src/cmd/CMD.h" />
-		<Unit filename="src/inter/Inter.cpp" />
-		<Unit filename="src/inter/Inter.h" />
-		<Unit filename="src/inter/MainInter.cpp" />
-		<Unit filename="src/inter/MainInter.h" />
+		<Unit filename="dll.txt" />
+		<Unit filename="exe.txt" />
+		<Unit filename="src/inter/WithPropInter.h" />
+		<Unit filename="src/inter/block/BlockInter.cpp" />
+		<Unit filename="src/inter/block/BlockInter.h" />
+		<Unit filename="src/inter/block/MainInter.cpp" />
+		<Unit filename="src/inter/block/MainInter.h" />
+		<Unit filename="src/inter/block/MainInterDriver.h" />
+		<Unit filename="src/inter/block/it/BlockIterator.h" />
+		<Unit filename="src/inter/block/it/FileIterator.cpp" />
+		<Unit filename="src/inter/block/it/FileIterator.h" />
+		<Unit filename="src/inter/block/it/StringIterator.cpp" />
+		<Unit filename="src/inter/block/it/StringIterator.h" />
+		<Unit filename="src/inter/inter.cpp" />
+		<Unit filename="src/inter/inter.h" />
+		<Unit filename="src/inter/interexcept.cpp" />
+		<Unit filename="src/inter/interexcept.h" />
+		<Unit filename="src/inter/line/CMDInter.cpp" />
+		<Unit filename="src/inter/line/CMDInter.h" />
+		<Unit filename="src/inter/line/LineInter.h" />
 		<Unit filename="src/io/cppio.cpp" />
 		<Unit filename="src/io/cppio.h" />
+		<Unit filename="src/io/filter/AllFileFilter.cpp" />
+		<Unit filename="src/io/filter/AllFileFilter.h" />
+		<Unit filename="src/io/filter/ByExtFileFilter.cpp" />
+		<Unit filename="src/io/filter/ByExtFileFilter.h" />
+		<Unit filename="src/io/filter/FileFilter.h" />
 		<Unit filename="src/io/io.cpp" />
 		<Unit filename="src/io/io.h" />
 		<Unit filename="src/main.cpp" />

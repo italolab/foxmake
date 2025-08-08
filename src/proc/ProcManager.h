@@ -1,7 +1,7 @@
 #ifndef PROC_MANAGER_H
 #define PROC_MANAGER_H
 
-#include "../inter/MainInter.h"
+#include "../inter/block/MainInter.h"
 
 #include <map>
 #include <vector>

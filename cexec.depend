@@ -399,14 +399,13 @@
 	<string>
 	<vector>
 
-1754654910 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
-	"Inter.h"
+1754685250 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
+	"inter.h"
+	"interexcept.h"
 	<sstream>
-	<iostream>
 
-1754654804 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
-	<string>
-	<stdexcept>
+1754680976 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
+	"WithPropInter.h"
 
 1754654888 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.cpp
 	"MainInter.h"
@@ -438,7 +437,7 @@
 	<stdexcept>
 	<vector>
 
-1754578726 c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.h
+1754656605 c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.h
 	<string>
 	<vector>
 	<stdexcept>
@@ -454,35 +453,35 @@
 1754504943 source:c:\users\italo\workspace-cpp\dlls\cexec\src\main.cpp
 	"proc/ProcExec.h"
 
-1754507408 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.h
+1754684048 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.h
 	"ProcManager.h"
 	"Proc.h"
 	"MainProc.h"
-	"../inter/MainInter.h"
+	"../inter/block/MainInter.h"
+	"../inter/block/MainInterDriver.h"
 	<map>
 	<vector>
 	<string>
 
-1754508154 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procmanager.h
-	"../inter/MainInter.h"
+1754684028 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procmanager.h
+	"../inter/block/MainInter.h"
 	<map>
 	<vector>
 	<string>
 	<iostream>
 
-1754509877 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.h
-	"../cmd/CMD.h"
+1754683540 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.h
+	"../inter/line/CMDInter.h"
 	<string>
 	<stdexcept>
 
-1754509923 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.h
+1754684038 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.h
 	"Proc.h"
 	"ProcManager.h"
-	"../cmd/CMD.h"
-	"../inter/MainInter.h"
+	"../inter/block/MainInter.h"
 	<string>
 
-1754655930 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
+1754683995 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
 	"CPProc.h"
 	"../io/io.h"
 	"../io/filter/FileFilter.h"
@@ -490,14 +489,13 @@
 	<sstream>
 	<iostream>
 
-1754509956 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.h
+1754683910 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.h
 	"Proc.h"
 	"ProcManager.h"
-	"../cmd/CMD.h"
 
-1754656238 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
+1754685550 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
 	"MainProc.h"
-	"../inter/MainInter.h"
+	"../inter/block/MainInter.h"
 	"../shell/shell.h"
 	"../util/strutil.h"
 	"../io/io.h"
@@ -515,16 +513,17 @@
 1754502996 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.cpp
 	"Proc.h"
 
-1754652915 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+1754686055 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
 	"ProcExec.h"
 	"CPProc.h"
+	"../inter/block/it/FileIterator.h"
 
 1754327632 source:c:\users\italo\workspace-cpp\dlls\cexec\src\shell\shell.cpp
 	<windows.h>
 	<iostream>
 	"shell.h"
 
-1754612862 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
+1754656609 source:c:\users\italo\workspace-cpp\dlls\cexec\src\util\strutil.cpp
 	"strutil.h"
 	<sstream>
 	<iostream>
@@ -536,7 +535,7 @@
 1754600049 c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\filefilter.h
 	<string>
 
-1754600272 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\byextfilefilter.cpp
+1754656599 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\byextfilefilter.cpp
 	"ByExtFileFilter.h"
 	"../../util/strutil.h"
 
@@ -546,4 +545,77 @@
 1754600987 c:\users\italo\workspace-cpp\dlls\cexec\src\io\filter\allfilefilter.h
 	"FileFilter.h"
 	<string>
+
+1754685775 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\line\cmdinter.h
+	"LineInter.h"
+	<string>
+	<vector>
+	<map>
+
+1754684643 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\maininterdriver.h
+	<string>
+	<vector>
+
+1754675602 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\blockinter.cpp
+	"BlockInter.h"
+
+1754686460 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\blockinter.h
+	"it/BlockIterator.h"
+	<string>
+	<vector>
+	<map>
+
+1754686187 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\it\blockiterator.h
+	<string>
+
+1754685704 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\line\cmdinter.cpp
+	"CMDInter.h"
+	"../interexcept.h"
+	<sstream>
+	<cstring>
+
+1754686537 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\maininter.h
+	"BlockInter.h"
+	"MainInterDriver.h"
+	"../WithPropInter.h"
+	"../line/CMDInter.h"
+	<string>
+	<vector>
+	<map>
+
+1754684073 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\withpropinter.h
+	<string>
+
+1754681034 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\interexcept.cpp
+	"interexcept.h"
+
+1754684304 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\interexcept.h
+	<string>
+	<stdexcept>
+
+1754684578 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\it\fileiterator.cpp
+	"FileIterator.h"
+
+1754684497 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\it\fileiterator.h
+	"BlockIterator.h"
+	<fstream>
+
+1754684590 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\it\stringiterator.cpp
+	"StringIterator.h"
+
+1754684431 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\it\stringiterator.h
+	"BlockIterator.h"
+	<sstream>
+
+1754674129 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\line\lineinter.h
+	<string>
+
+1754686032 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\block\maininter.cpp
+	"MainInter.h"
+	"it/StringIterator.h"
+	"../inter.h"
+	"../interexcept.h"
+	<fstream>
+	<sstream>
+	<iostream>
 

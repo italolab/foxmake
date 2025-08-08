@@ -3,14 +3,13 @@
 
 #include "Proc.h"
 #include "ProcManager.h"
-#include "../cmd/CMD.h"
 
 class CPProc : public Proc {
 
     public:
         CPProc( string cmdName );
 
-        void processa( CMD* cmd, ProcManager* mgr );
+        void processa( CMDInter* inter, ProcManager* mgr );
 
 };
 

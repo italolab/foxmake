@@ -1,6 +1,6 @@
 
 #include "MainProc.h"
-#include "../inter/MainInter.h"
+#include "../inter/block/MainInter.h"
 #include "../shell/shell.h"
 #include "../util/strutil.h"
 #include "../io/io.h"
@@ -13,15 +13,15 @@
 
 MainProc::MainProc( string cmdName ) : Proc( cmdName ) {}
 
-void MainProc::processa( CMD* cmd, ProcManager* mgr ) {
+void MainProc::processa( CMDInter* inter, ProcManager* mgr ) {
     MainInter* mainInter = mgr->getMainInter();
 
-    if ( cmd->getArgsLength() > 0 ) {
-        bool isClean = cmd->existsArg( "clean" );
-        bool isCompile = cmd->existsArg( "compile" );
-        bool isLink = cmd->existsArg( "link" );
-        bool isBuild = cmd->existsArg( "build" );
-        bool isCopy = cmd->existsArg( "copy" );
+    if ( inter->getArgsLength() > 0 ) {
+        bool isClean = inter->existsArg( "clean" );
+        bool isCompile = inter->existsArg( "compile" );
+        bool isLink = inter->existsArg( "link" );
+        bool isBuild = inter->existsArg( "build" );
+        bool isCopy = inter->existsArg( "copy" );
 
         if ( isBuild ) {
             isClean = true;
@@ -31,13 +31,13 @@ void MainProc::processa( CMD* cmd, ProcManager* mgr ) {
         }
 
         if ( isClean )
-            clean( cmd, mainInter );
+            clean( inter, mainInter );
 
         if ( isCompile || isLink )
-            compileAndLink( cmd, mainInter, isCompile, isLink );
+            compileAndLink( inter, mainInter, isCompile, isLink );
 
         if ( isCopy )
-            copyFiles( cmd, mainInter );
+            copyFiles( inter, mainInter );
 
         procCMDs( mgr );
     } else {
@@ -46,14 +46,14 @@ void MainProc::processa( CMD* cmd, ProcManager* mgr ) {
 }
 
 void MainProc::procCMDs( ProcManager* mgr ) {
-    MainInter* inter = mgr->getMainInter();
-    int tam = inter->getCMDLength();
+    MainInter* mainInter = mgr->getMainInter();
+    int tam = mainInter->getCMDsLength();
 
     if ( tam > 0 )
         cout << "\nEXECUTANDO COMANDOS" << endl;
 
     for( int i = 0; i < tam; i++ ) {
-        CMD* cmd = inter->getCMDByIndex( i );
+        CMDInter* cmd = mainInter->getCMDByIndex( i );
 
         Proc* proc = mgr->getProc( cmdName, cmd->getName() );
         if ( proc == nullptr )
@@ -67,20 +67,20 @@ void MainProc::procCMDs( ProcManager* mgr ) {
         cout << "Comandos executados com sucesso." << endl;
 }
 
-void MainProc::clean( CMD* texec, MainInter* inter ) {
+void MainProc::clean( CMDInter* inter, MainInter* mainInter ) {
     cout << "\nEXECUTANDO LIMPESA..." << endl;
 
-    string isDll = inter->getPropertyValue( "is.dll" );
-    string buildDir = inter->getPropertyValue( "build.dir" );
-    string binDir = inter->getPropertyValue( "bin.dir" );
-    string objDir = inter->getPropertyValue( "obj.dir" );
-    string buildFiles = inter->getPropertyValue( "build.files" );
+    string isDll = mainInter->getPropertyValue( "is.dll" );
+    string buildDir = mainInter->getPropertyValue( "build.dir" );
+    string binDir = mainInter->getPropertyValue( "bin.dir" );
+    string objDir = mainInter->getPropertyValue( "obj.dir" );
+    string buildFiles = mainInter->getPropertyValue( "build.files" );
 
     string fname;
     if ( isDll == "true" ) {
-        fname = inter->getPropertyValue( "dll.file.name" );
+        fname = mainInter->getPropertyValue( "dll.file.name" );
     } else {
-        fname = inter->getPropertyValue( "exe.file.name" );
+        fname = mainInter->getPropertyValue( "exe.file.name" );
     }
 
     if ( fname != "" ) {
@@ -102,23 +102,23 @@ void MainProc::clean( CMD* texec, MainInter* inter ) {
     cout << "Limpesa efetuada com sucesso!" << endl;
 }
 
-void MainProc::copyFiles( CMD* texec, MainInter* inter ) {
+void MainProc::copyFiles( CMDInter* inter, MainInter* mainInter ) {
     cout << "\nCOPIANDO ARQUIVOS DE BUILD..." << endl;
 
-    string isDll = inter->getPropertyValue( "is.dll" );
-    string buildDir = inter->getPropertyValue( "build.dir" );
-    string binDir = inter->getPropertyValue( "bin.dir" );
-    string buildFiles = inter->getPropertyValue( "build.files" );
+    string isDll = mainInter->getPropertyValue( "is.dll" );
+    string buildDir = mainInter->getPropertyValue( "build.dir" );
+    string binDir = mainInter->getPropertyValue( "bin.dir" );
+    string buildFiles = mainInter->getPropertyValue( "build.files" );
 
     if ( buildDir != "" )
         io::createDirectories( buildDir );
 
     if ( isDll == "true" ) {
-        string dllFileName = inter->getPropertyValue( "dll.file.name" );
+        string dllFileName = mainInter->getPropertyValue( "dll.file.name" );
         string fname = io::concatPaths( binDir, dllFileName );
         appCopyFileOrDirectoryToBuild( fname, buildDir );
     } else {
-        string exeFileName = inter->getPropertyValue( "exe.file.name" );
+        string exeFileName = mainInter->getPropertyValue( "exe.file.name" );
         string fname = io::concatPaths( binDir, exeFileName );
         appCopyFileOrDirectoryToBuild( fname, buildDir );
     }
@@ -132,29 +132,29 @@ void MainProc::copyFiles( CMD* texec, MainInter* inter ) {
     cout << "Arquivos de build copiados com sucesso!" << endl;
 }
 
-void MainProc::compileAndLink( CMD* texec, MainInter* inter, bool isCompile, bool isLink ) {
+void MainProc::compileAndLink( CMDInter* inter, MainInter* mainInter, bool isCompile, bool isLink ) {
     cout << "\nCOMPILANDO E/OU LINKANDO..." << endl;
 
-    string isDll = inter->getPropertyValue( "is.dll" );
+    string isDll = mainInter->getPropertyValue( "is.dll" );
 
-    string srcDir = inter->getPropertyValue( "src.dir" );
-    string binDir = inter->getPropertyValue( "bin.dir" );
-    string objDir = inter->getPropertyValue( "obj.dir" );
+    string srcDir = mainInter->getPropertyValue( "src.dir" );
+    string binDir = mainInter->getPropertyValue( "bin.dir" );
+    string objDir = mainInter->getPropertyValue( "obj.dir" );
 
-    string includeDirs = inter->getPropertyValue( "include.dirs" );
-    string libDirs = inter->getPropertyValue( "lib.dirs" );
-    string dllDirs = inter->getPropertyValue( "dll.dirs" );
+    string includeDirs = mainInter->getPropertyValue( "include.dirs" );
+    string libDirs = mainInter->getPropertyValue( "lib.dirs" );
+    string dllDirs = mainInter->getPropertyValue( "dll.dirs" );
 
-    string outputDefFile = inter->getPropertyValue( "output.def.file" );
-    string outImplibFile = inter->getPropertyValue( "out.implib.file" );
+    string outputDefFile = mainInter->getPropertyValue( "output.def.file" );
+    string outImplibFile = mainInter->getPropertyValue( "out.implib.file" );
 
-    string defines = inter->getPropertyValue( "defines" );
-    string compiler = inter->getPropertyValue( "compiler" );
-    string exeFileName = inter->getPropertyValue( "exe.file.name" );
-    string dllFileName = inter->getPropertyValue( "dll.file.name" );
+    string defines = mainInter->getPropertyValue( "defines" );
+    string compiler = mainInter->getPropertyValue( "compiler" );
+    string exeFileName = mainInter->getPropertyValue( "exe.file.name" );
+    string dllFileName = mainInter->getPropertyValue( "dll.file.name" );
 
-    string compilerParams = inter->getPropertyValue( "compiler.params" );
-    string linkerParams = inter->getPropertyValue( "linker.params" );
+    string compilerParams = mainInter->getPropertyValue( "compiler.params" );
+    string linkerParams = mainInter->getPropertyValue( "linker.params" );
 
     io::createDirectories( binDir );
     io::createDirectories( objDir );

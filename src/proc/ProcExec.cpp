@@ -1,11 +1,12 @@
 
 #include "ProcExec.h"
 #include "CPProc.h"
+#include "../inter/block/it/FileIterator.h"
 
 const string configFileName = "exe.txt";
 
 ProcExec::ProcExec() {
-    mainInter = new MainInter();
+    mainInter = new MainInter( this );
 
     mainProc = new MainProc( "main" );
 
@@ -13,15 +14,19 @@ ProcExec::ProcExec() {
     (*mainSubProcsMap)[ "cp" ] = new CPProc( "cp" );
 
     procsMapMap[ "main" ] = mainSubProcsMap;
+
+    this->mainCMDName = "main";
 }
 
 void ProcExec::exec( int argc, char* argv[] ) {
-    CMD* cmd = new CMD();
     try {
-        cmd->interpreta( argc, argv );
+        CMDInter* cmd = new CMDInter();
+        cmd->interpreta( argc, argv, 0 );
 
-        vector<string> cmdKeys = validSubCMDs( "main" );
-        mainInter->interpreta( configFileName, cmdKeys );
+
+        FileIterator* it = new FileIterator( configFileName );
+        mainInter->addVar( "main_config_file", configFileName );
+        mainInter->interpreta( it );
 
         mainProc->processa( cmd, this );
     } catch ( const exception& e ) {
@@ -48,6 +53,10 @@ map<string, Proc*>* ProcExec::getProcsMap( string cmdName ) {
     if ( pmap == nullptr )
         throw runtime_error( "Nome de cmd (Proc) invalido: \"" + cmdName + "\"" );
     return pmap;
+}
+
+vector<string> ProcExec::validMainCMDNames() {
+    return validSubCMDs( mainCMDName );
 }
 
 MainProc* ProcExec::getMainProc() {

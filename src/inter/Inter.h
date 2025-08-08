@@ -1,26 +1,12 @@
-#ifndef INTER_H
-#define INTER_H
+#ifndef INTER_UTIL_H
+#define INTER_UTIL_H
 
-#include <string>
-#include <stdexcept>
+#include "WithPropInter.h"
 
-using namespace std;
+namespace inter {
 
-class inter_error : public runtime_error {
+    string replaceVars( string line, int lineNumber, WithPropInter* inter );
 
-    public:
-        inter_error( string msg );
-
-};
-
-class Inter {
-
-    public:
-        string replaceVars( string line, int lineNumber );
-
-        virtual bool existsProperty( string name ) = 0;
-        virtual string getPropertyValue( string name ) = 0;
-
-};
+}
 
 #endif
