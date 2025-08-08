@@ -37,14 +37,14 @@ namespace io {
     void deleteFileOrDirectory( string path );
     bool deleteFile( string path );
     int deleteDirectory( string path );
-    int recursiveDeleteFiles( string dir );
-    int recursiveDeleteFilesByExt( string dir, string ext );
+    int recursiveDeleteFiles( string dir, FileFilter* filter );
 
     string currentPath();
     string absolutePath( string path );
     string relativePath( string path );
-    string baseDirPath( string path );
-    string baseFileOrDirName( string path );
+    string recursiveDirPath( string path );
+    string recursiveFileOrDirName( string path );
+    string recursiveDirPathToReplace( string path );
     string dirPath( string path );
     string fileOrDirName( string path );
     string addSeparatorToDirIfNeed( string dir );

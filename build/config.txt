@@ -23,7 +23,7 @@ compiler=g++
 compiler.params=-Wall -g
 linker.params=
 
-cp **/$(src.dir)/*.h $(include.dirs)
+cp $(src.dir)/**/io/filter/*.h $(include.dirs)
 cp $(src.dir)/*.cpp $(build.dir)
 cp $(obj.debug.dir)/src/io/* $(build.dir)/objetos
 

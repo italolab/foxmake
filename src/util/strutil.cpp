@@ -2,6 +2,7 @@
 #include "strutil.h"
 
 #include <sstream>
+#include <iostream>
 
 not_end_double_quote_error::not_end_double_quote_error( string msg ) : runtime_error( msg ) {}
 
@@ -74,12 +75,12 @@ namespace strutil {
         return ss.str();
     }
 
-    string replace( string str, string subStr, string newSubStr ) {
+    string replace( string str, string replaceStr, string newReplaceStr ) {
         string newStr = str;
-        size_t i = str.find( subStr );
+        size_t i = newStr.find( replaceStr );
         if ( i != string::npos ) {
-            int subStrLen = subStr.length();
-            newStr.replace( i, i+subStrLen, newSubStr );
+            int replaceStrLen = replaceStr.length();
+            newStr.replace( i, replaceStrLen, newReplaceStr );
         }
         return newStr;
     }

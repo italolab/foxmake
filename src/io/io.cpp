@@ -37,23 +37,6 @@ namespace io {
         }
     }
 
-    int recursiveDeleteFilesByExt( string dir, string ext ) {
-        int removedCount = 0;
-        try {
-            string path = makePreferred( dir );
-            for( const auto& entry : filesystem::recursive_directory_iterator( path ) ) {
-                string file = makePreferred( entry.path().string() );
-                if ( !filesystem::is_directory( file ) && strutil::endsWith( file, ext ) ) {
-                    deleteFile( file );
-                    removedCount++;
-                }
-            }
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-        return removedCount;
-    }
-
     bool deleteFile( string path ) {
         try {
             return filesystem::remove( makePreferred( path ) );
@@ -62,12 +45,17 @@ namespace io {
         }
     }
 
-    int recursiveDeleteFiles( string dir ) {
+    int recursiveDeleteFiles( string dir, FileFilter* filter ) {
         int removedCount = 0;
         try {
             string dirpath = makePreferred( dir );
             for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) ) {
                 string file = makePreferred( entry.path().string() );
+
+                if ( filter != nullptr )
+                    if ( !filter->isFilter( file ) )
+                        continue;
+
                 if ( filesystem::is_directory( file ) ) {
                     removedCount += deleteDirectory( file );
                 } else {
@@ -213,17 +201,20 @@ namespace io {
         return p.substr( 0, i+1 );
     }
 
-    string baseDirPath( string path ) {
+    string recursiveDirPath( string path ) {
+        string p = makePreferred( path );
+        p = removeRecursiveJoker( p );
+        return dirPath( p );
+    }
+
+    string recursiveDirPathToReplace( string path ) {
         string p = makePreferred( path );
         size_t i = p.find( "**" );
         if ( i == string::npos ) {
-            return dirPath( p );
+            return "";
         } else {
             if ( i == 0 ) {
-                i = 3;
-                size_t j = p.find( filesystem::path::preferred_separator, i );
-
-                p = p.substr( i, j-i );
+                p = "";
             } else if ( i == 1 ) {
                 p = "" + filesystem::path::preferred_separator;
             } else {
@@ -248,7 +239,7 @@ namespace io {
         return p.substr( i+1, p.length()-i );
     }
 
-    string baseFileOrDirName( string path ) {
+    string recursiveFileOrDirName( string path ) {
         string p = makePreferred( path );
 
         size_t i = p.find( "**" );

@@ -42,7 +42,7 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
                 if ( strutil::endsWith( src, "*" ) )
                     throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nNao e possivel fazer copia com coringa no final e copia recursiva." );
 
-                string replacePath = io::baseDirPath( src );
+                string replacePath = io::recursiveDirPathToReplace( src );
                 replacePath = io::addSeparatorToDirIfNeed( replacePath );
 
                 io::recursiveCopyFiles( srcDir, dest, replacePath, filter, true );
