@@ -9,7 +9,7 @@ CMDInter::CMDInter() {
     this->lineNumber = 0;
 }
 
-void CMDInter::interpreta( string command, int lineNumber ) {
+InterResult* CMDInter::interpreta( string command, int lineNumber ) {
     this->lineNumber = lineNumber;
 
     string token;
@@ -26,10 +26,10 @@ void CMDInter::interpreta( string command, int lineNumber ) {
     while( getline( iss2, token, ' ' ) )
         argv[ i++ ] = strdup( token.c_str() );
 
-    interpreta( argc, argv, lineNumber );
+    return interpreta( argc, argv, lineNumber );
 }
 
-void CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
+InterResult* CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
     if ( argc > 0 ) {
         this->name = argv[ 0 ];
 
@@ -42,6 +42,7 @@ void CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
         this->cmdstr = ss.str();
     }
 
+    int numberOfLines = 0;
     for( int i = 1; i < argc; i++ ) {
         string param( argv[ i ] );
 
@@ -72,7 +73,7 @@ void CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
                         if ( stop ) {
                             value = value.substr( 1, len-2 );
                         } else {
-                            throw inter_error( "Valor com aspas duplas sem fechar." );
+                            return new InterResult( numberOfLines, "Valor com aspas duplas sem fechar." );
                         }
                     }
                 }
@@ -84,6 +85,10 @@ void CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
             args.push_back( paramStr );
         }
     }
+
+    numberOfLines++;
+
+    return new InterResult( numberOfLines );
 }
 
 string CMDInter::getOpArg( int i ) {

@@ -1,7 +1,7 @@
 #ifndef CMD_INTER_H
 #define CMD_INTER_H
 
-#include "LineInter.h"
+#include "StringInter.h"
 
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class CMDInter : public LineInter {
+class CMDInter : public StringInter {
 
     private:
         string name;
@@ -24,8 +24,8 @@ class CMDInter : public LineInter {
     public:
         CMDInter();
 
-        void interpreta( string cmdstr, int lineNumber );
-        void interpreta( int argc, char* argv[], int lineNumber );
+        InterResult* interpreta( string cmdstr, int lineNumber );
+        InterResult* interpreta( int argc, char* argv[], int lineNumber );
 
         vector<string> propertyNames();
         string getPropertyValue( string name );
