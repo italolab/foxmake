@@ -1,14 +1,12 @@
 
 #include "MainInter.h"
 #include "it/StringIterator.h"
-#include "../inter.h"
-#include "../interexcept.h"
 
 #include <fstream>
 #include <sstream>
 #include <iostream>
 
-MainInter::MainInter( MainInterDriver* drv ) {
+MainInter::MainInter( MainInterDriver* drv ) : BlockInter( nullptr ){
     this->drv = drv;
 }
 
@@ -35,16 +33,15 @@ InterResult* MainInter::interpreta( BlockIterator* blockIt, int lineNumber ) {
         if ( i != string::npos ) {
             string cmd = line.substr( 0, i );
             int len = validCMDs.size();
-            for( int k = 0; !isCmd && k < len; k++ ) {
-                if ( cmd == validCMDs[ k ] ) {
-                    line = inter::replaceVars( line, lineNumber, this );
+            for( int k = 0; !isCmd && k < len; k++ )
+                if ( cmd == validCMDs[ k ] )
                     isCmd = true;
-                }
-            }
         }
 
         if ( isCmd ) {
-            CMDInter* cmd = new CMDInter();
+            line = Inter::replaceProps( line, lineNumber, this );
+
+            CMDInter* cmd = new CMDInter( this );
             InterResult* result = cmd->interpreta( line, lineNumber + numberOfLines );
             numberOfLines += result->getNumberOfLines();
             if ( result->isOk() ) {
@@ -63,7 +60,7 @@ InterResult* MainInter::interpreta( BlockIterator* blockIt, int lineNumber ) {
             string name = line.substr( 0, i );
             string value = line.substr( i+1, line.length()-i );
 
-            value = inter::replaceVars( value, lineNumber, this );
+            value = Inter::replaceProps( value, lineNumber, this );
 
             propertiesMap[ name ] = value;
         }

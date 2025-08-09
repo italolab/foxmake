@@ -1,15 +1,14 @@
 
 #include "CMDInter.h"
-#include "../interexcept.h"
 
 #include <sstream>
 #include <cstring>
 
-CMDInter::CMDInter() {
+CMDInter::CMDInter( BlockInter* blockInter ) : StringInter( blockInter ) {
     this->lineNumber = 0;
 }
 
-InterResult* CMDInter::interpreta( string command, int lineNumber ) {
+StringInterResult* CMDInter::interpreta( string command, int lineNumber ) {
     this->lineNumber = lineNumber;
 
     string token;
@@ -29,7 +28,7 @@ InterResult* CMDInter::interpreta( string command, int lineNumber ) {
     return interpreta( argc, argv, lineNumber );
 }
 
-InterResult* CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
+StringInterResult* CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
     if ( argc > 0 ) {
         this->name = argv[ 0 ];
 
@@ -42,7 +41,7 @@ InterResult* CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
         this->cmdstr = ss.str();
     }
 
-    int numberOfLines = 0;
+    int numberOfColumns = 0;
     for( int i = 1; i < argc; i++ ) {
         string param( argv[ i ] );
 
@@ -73,7 +72,7 @@ InterResult* CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
                         if ( stop ) {
                             value = value.substr( 1, len-2 );
                         } else {
-                            return new InterResult( numberOfLines, "Valor com aspas duplas sem fechar." );
+                            return new StringInterResult( "Valor com aspas duplas sem fechar." );
                         }
                     }
                 }
@@ -86,9 +85,7 @@ InterResult* CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
         }
     }
 
-    numberOfLines++;
-
-    return new InterResult( numberOfLines );
+    return new StringInterResult( numberOfColumns );
 }
 
 string CMDInter::getOpArg( int i ) {

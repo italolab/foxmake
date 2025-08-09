@@ -2,6 +2,7 @@
 #define BLOCK_INTER_H
 
 #include "it/BlockIterator.h"
+#include "../Inter.h"
 #include "../InterResult.h"
 
 #include <string>
@@ -10,12 +11,14 @@
 
 using namespace std;
 
-class BlockInter {
+class BlockInter : public Inter {
 
     private:
         map<string, string> varsMap;
 
     public:
+        BlockInter( BlockInter* blockInter );
+
         virtual InterResult* interpreta( BlockIterator* blockIt, int lineNumber ) = 0;
 
         void addVar( string name, string value );

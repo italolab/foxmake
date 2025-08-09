@@ -11,10 +11,14 @@ class InterResult {
         bool ok;
         string errorMsg;
         int numberOfLines;
+        int numberOfColumns;
 
     public:
         InterResult( int numberOfLines );
+        InterResult( string errorMsg );
+        InterResult( int numberOfLines, int numberOfColumns );
         InterResult( int numberOfLines, string errorMsg );
+        InterResult( int numberOfLines, int numberOfColumns, string errorMsg );
 
         bool isOk();
         string getErrorMsg();

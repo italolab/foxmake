@@ -1,6 +1,8 @@
 
 #include "BlockInter.h"
 
+BlockInter::BlockInter( BlockInter* blockInter ) : Inter( blockInter ) {}
+
 void BlockInter::addVar( string name, string value ) {
     varsMap[ name ] = value;
 }

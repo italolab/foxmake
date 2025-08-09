@@ -20,15 +20,15 @@ ProcExec::ProcExec() {
 
 void ProcExec::exec( int argc, char* argv[] ) {
     try {
-        CMDInter* cmd = new CMDInter();
-        cmd->interpreta( argc, argv, 0 );
-
+        CMDInter* cmdInter = new CMDInter( nullptr );
+        cmdInter->interpreta( argc, argv, 0 );
 
         FileIterator* it = new FileIterator( configFileName );
+
         mainInter->addVar( "main_config_file", configFileName );
         InterResult* result = mainInter->interpreta( it, 1 );
         if ( result->isOk() ) {
-            mainProc->processa( cmd, this );
+            mainProc->processa( cmdInter, this );
         } else {
             cerr << result->getErrorMsg() << endl;
         }

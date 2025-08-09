@@ -22,10 +22,10 @@ class CMDInter : public StringInter {
         void addProperty( string name, string value );
 
     public:
-        CMDInter();
+        CMDInter( BlockInter* blockInter );
 
-        InterResult* interpreta( string cmdstr, int lineNumber );
-        InterResult* interpreta( int argc, char* argv[], int lineNumber );
+        StringInterResult* interpreta( string cmdstr, int lineNumber );
+        StringInterResult* interpreta( int argc, char* argv[], int lineNumber );
 
         vector<string> propertyNames();
         string getPropertyValue( string name );

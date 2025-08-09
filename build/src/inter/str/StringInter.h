@@ -1,16 +1,21 @@
 #ifndef LINE_INTER_H
 #define LINE_INTER_H
 
-#include "../InterResult.h"
+#include "StringInterResult.h"
+#include "../Inter.h"
+
 
 #include <string>
 
 using std::string;
 
-class StringInter {
+class StringInter : public Inter {
 
     public:
-        InterResult* interpreta( string line, int lineNumber );
+        StringInter( BlockInter* blockInter );
+
+        StringInterResult* interpreta( string line, int lineNumber );
+
 
 };
 

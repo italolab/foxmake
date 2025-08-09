@@ -1,12 +1,35 @@
-#ifndef INTER_UTIL_H
-#define INTER_UTIL_H
+#ifndef INTER_H
+#define INTER_H
+
+#include <string>
+#include <stdexcept>
 
 #include "WithPropInter.h"
 
-namespace inter {
+using std::string;
+using std::runtime_error;
 
-    string replaceVars( string line, int lineNumber, WithPropInter* inter );
+class inter_error : public runtime_error {
 
-}
+    public:
+        inter_error( string msg );
 
-#endif
+};
+
+class BlockInter;
+
+class Inter {
+
+    private:
+        BlockInter* blockInter;
+
+    public:
+        Inter( BlockInter* blockInter );
+
+        string replaceProps( string line, int lineNumber, WithPropInter* inter );
+
+        BlockInter* getBlockInter();
+
+};
+
+#endif // INTER_H

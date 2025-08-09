@@ -1,6 +1,6 @@
 is.dll=false
 
-target=release
+target=debug
 compiler=g++
 exe.file.name=cexec.exe
 
@@ -31,7 +31,7 @@ include.dirs=include
 dll.dirs=
 #defines=
 
-cp $(src.dir)/**/io/filter/*.h $(include.dirs)
+cp $(src.dir)/**/inter/block/*.h $(include.dirs)
 cp $(src.dir)/*.cpp $(build.dir)
 cp $(obj.dir)/src/io/* $(build.dir)/objetos
 
