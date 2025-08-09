@@ -31,7 +31,7 @@ void CMDInter::interpreta( string command, int lineNumber ) {
 
 void CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
     if ( argc > 0 ) {
-        this->cmdName = argv[ 0 ];
+        this->name = argv[ 0 ];
 
         stringstream ss;
         for( int i = 0; i < argc; i++ ) {
@@ -72,9 +72,7 @@ void CMDInter::interpreta( int argc, char* argv[], int lineNumber ) {
                         if ( stop ) {
                             value = value.substr( 1, len-2 );
                         } else {
-                            stringstream ss;
-                            ss << "Linha(" << lineNumber << "): Valor com aspas duplas sem fechar.";
-                            throw inter_error( ss.str() );
+                            throw inter_error( "Valor com aspas duplas sem fechar." );
                         }
                     }
                 }
@@ -154,8 +152,8 @@ int CMDInter::getPropertiesLength() {
     return propertiesMap.size();
 }
 
-string CMDInter::getCMDName() {
-    return cmdName;
+string CMDInter::getName() {
+    return name;
 }
 
 string CMDInter::getCMDStr() {

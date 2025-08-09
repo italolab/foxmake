@@ -1,6 +1,6 @@
 is.dll=false
 
-target=debug
+target=release
 compiler=g++
 exe.file.name=cexec.exe
 

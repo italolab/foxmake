@@ -20,15 +20,10 @@ void MainInter::interpreta( BlockIterator* blockIt ) {
     while( blockIt->hasNextLine() ) {
         string line = blockIt->nextLine();
 
-        if ( line.length() == 0 ) {
-            lineNumber++;
+        if ( line.length() == 0 )
             continue;
-        }
-
-        if ( line[ 0 ] == ' ' || line[ 0 ] == '\n' || line[ 0 ] == '\t' || line[ 0 ] == '\r' || line[ 0 ] == '#' ) {
-            lineNumber++;
+        if ( line[ 0 ] == ' ' || line[ 0 ] == '\n' || line[ 0 ] == '\t' || line[ 0 ] == '\r' || line[ 0 ] == '#' )
             continue;
-        }
 
         bool isCmd = false;
 
@@ -47,7 +42,7 @@ void MainInter::interpreta( BlockIterator* blockIt ) {
         if ( isCmd ) {
             CMDInter* cmd = new CMDInter();
             cmd->interpreta( line, lineNumber );
-            cmds.push_back( cmd );
+            cmdsMap[ cmd->getName() ] = cmd;
         } else {
             i = line.find( '=' );
             if ( i == string::npos ) {
@@ -86,14 +81,23 @@ vector<string> MainInter::propertyNames()  {
     return props;
 }
 
-int MainInter::getCMDIntersLength() {
-    return cmds.size();
+int MainInter::getCMDsLength() {
+    return cmdsMap.size();
 }
 
-CMDInter* MainInter::getCMDInterByIndex( int i ) {
-    return cmds[ i ];
+CMDInter* MainInter::getCMDByIndex( int i ) {
+    int k = 0;
+    for( const auto& pair : cmdsMap ) {
+        if ( k == i )
+           return pair.second;
+        k++;
+    }
+    return nullptr;
 }
 
-vector<CMDInter*> MainInter::getCMDInters() {
+vector<string> MainInter::cmdNames() {
+    vector<string> cmds;
+    for( const auto& pair : propertiesMap )
+        cmds.push_back( pair.first );
     return cmds;
 }

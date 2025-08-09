@@ -17,7 +17,7 @@ class MainInter : public BlockInter, public WithPropInter {
     private:
         MainInterDriver* drv;
         map<string, string> propertiesMap;
-        vector<CMDInter*> cmds;
+        map<string, CMDInter*> cmdsMap;
 
     public:
         MainInter( MainInterDriver* drv );
@@ -25,16 +25,16 @@ class MainInter : public BlockInter, public WithPropInter {
         void interpreta( BlockIterator* blockIt );
 
         string getPropertyValue( string name );
-        CMDInter* getCMDInter( string name );
+        CMDInter* getCMD( string name );
 
         bool existsProperty( string name );
 
         int getPropertiesLength();
         vector<string> propertyNames();
 
-        int getCMDIntersLength();
-        CMDInter* getCMDInterByIndex( int i );
-        vector<CMDInter*> getCMDInters();
+        int getCMDsLength();
+        CMDInter* getCMDByIndex( int i );
+        vector<string> cmdNames();
 
 };
 

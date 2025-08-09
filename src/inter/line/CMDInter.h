@@ -12,7 +12,7 @@ using namespace std;
 class CMDInter : public LineInter {
 
     private:
-        string cmdName;
+        string name;
         string cmdstr;
         int lineNumber;
         vector<string> args;
@@ -39,7 +39,7 @@ class CMDInter : public LineInter {
         string getOpArg( int i );
         string getNotOpArg( int i );
 
-        string getCMDName();
+        string getName();
         string getCMDStr();
         int getLineNumber();
 

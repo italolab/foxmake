@@ -43,7 +43,7 @@ namespace inter {
                                     k = j;
                                 } else {
                                     stringstream ss2;
-                                    ss2 << "Linha(" << lineNumber << "): propriedade nao encontrada: $(" << name << ")";
+                                    ss2 << "Linha(" << lineNumber << ") --> Propriedade nao encontrada: $(" << name << ")";
                                     throw inter_error( ss2.str() );
                                 }
                             } else {

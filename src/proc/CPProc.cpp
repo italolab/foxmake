@@ -15,8 +15,8 @@ void CPProc::processa( CMDInter* inter, ProcManager* mgr ) {
     int alen = inter->getArgsLength();
     if ( alen < 2 ) {
         stringstream ss;
-        ss << "Linha(" << inter->getLineNumber() << "): numero de argumentos esperado igual a 2, encontrado " << alen << endl;
-        ss << "Erro em: \"" << inter->getCMDStr() << "\"";
+        ss << "Erro em: \"" << inter->getCMDStr() << "\"" << endl;
+        ss << "Numero de argumentos esperado igual a 2, encontrado " << alen << endl;
         throw proc_error( ss.str() );
     }
     string src = inter->getNotOpArg( 0 );
@@ -39,12 +39,8 @@ void CPProc::processa( CMDInter* inter, ProcManager* mgr ) {
             }
 
             if ( src.find( "**" ) != string::npos ) {
-                if ( strutil::endsWith( src, "*" ) ) {
-                    stringstream ss;
-                    ss << "Linha(" << inter->getLineNumber() << ": nao e possivel fazer copia com coringa no final e copia recursiva." << endl;
-                    ss << "Erro em: \"" + inter->getCMDStr() << "\"";
-                    throw proc_error( ss.str() );
-                }
+                if ( strutil::endsWith( src, "*" ) )
+                    throw proc_error( "Erro em: \"" + inter->getCMDStr() + "\"\nNao e possivel fazer copia com coringa no final e copia recursiva." );
 
                 string replacePath = io::recursiveDirPathToReplace( src );
                 replacePath = io::addSeparatorToDirIfNeed( replacePath );
@@ -59,19 +55,15 @@ void CPProc::processa( CMDInter* inter, ProcManager* mgr ) {
                 }
             }
         } catch ( const io_error& e ) {
-            stringstream ss;
-            ss << "Linha(" << inter->getLineNumber() << ": houve erro na copia recursiva dos arquivos." << endl;
-            ss << "Erro em: \"" + inter->getCMDStr() << "\"";
-            throw proc_error( ss.str() );
+            cout << e.what() << endl;
+            throw proc_error( "Erro em: \"" + inter->getCMDStr() + "\"\nHouve erro na copia recursiva dos arquivos." );
         }
     } else {
         try {
             io::copyFileOrDirectory( src, dest, true );
         } catch ( const io_error& e ) {
-            stringstream ss;
-            ss << "Linha(" << inter->getLineNumber() << ": houve erro na copia dos arquivos." << endl;
-            ss << "Erro em: \"" + inter->getCMDStr() << "\"";
-            throw proc_error( ss.str() );
+            cout << e.what() << endl;
+            throw proc_error( "Erro em: \"" + inter->getCMDStr() + "\"\nHouve erro na copia dos arquivos." );
         }
     }
 }

@@ -47,23 +47,20 @@ void MainProc::processa( CMDInter* inter, ProcManager* mgr ) {
 
 void MainProc::procCMDs( ProcManager* mgr ) {
     MainInter* mainInter = mgr->getMainInter();
-    int tam = mainInter->getCMDIntersLength();
+    int tam = mainInter->getCMDsLength();
 
     if ( tam > 0 )
         cout << "\nEXECUTANDO COMANDOS" << endl;
 
     for( int i = 0; i < tam; i++ ) {
-        CMDInter* inter = mainInter->getCMDInterByIndex( i );
+        CMDInter* cmd = mainInter->getCMDByIndex( i );
 
-        Proc* proc = mgr->getProc( cmdName, inter->getCMDName() );
-        if ( proc == nullptr ) {
-            stringstream ss;
-            ss << "Linha("+inter->getLineNumber() << "): comando nao encontrado: \"" << inter->getCMDName() << "\"";
-            throw runtime_error( ss.str() );
-        }
+        Proc* proc = mgr->getProc( cmdName, cmd->getName() );
+        if ( proc == nullptr )
+            throw runtime_error( "Comando nao encontrado: \"" + cmd->getName() + "\"" );
 
-        proc->processa( inter, mgr );
-        cout << "Executado: " << inter->getCMDStr() << endl;
+        proc->processa( cmd, mgr );
+        cout << "Executado: " << cmd->getCMDStr() << endl;
     }
 
     if ( tam > 0 )
@@ -206,11 +203,8 @@ void MainProc::compileAndLink( CMDInter* inter, MainInter* mainInter, bool isCom
         }
 
         if ( ok && isLink ) {
-            if ( exeFileName == "" ) {
-                stringstream ss;
-                ss << "Linha(" << inter->getLineNumber() << "): a propriedade \"exe.file.name\" deve ter valor definido para linkagem.";
-                throw new runtime_error( ss.str() );
-            }
+            if ( exeFileName == "" )
+                throw runtime_error( "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
 
             stringstream ss;
             ss << compiler;
@@ -257,14 +251,10 @@ void MainProc::compileAndLink( CMDInter* inter, MainInter* mainInter, bool isCom
         if ( ok ) {
             cout << "Compilacao e/ou linkagem executada(s) com sucesso!" << endl;
         } else {
-            stringstream ss;
-            ss << "Linha(" << inter->getLineNumber() << "): houve falha na execucao de algum comando de compilacao ou linkagem.";
-            throw runtime_error( ss.str() );
+            throw runtime_error( "Houve falha na execucao de algum comando de compilacao ou linkagem." );
         }
     } else {
-        stringstream ss;
-        ss << "Linha(" << inter->getLineNumber() << "): nao foi possivel ler o diretorio: \"" << srcDir << "\"";
-        throw runtime_error( ss.str() );
+        throw runtime_error( "Nao foi possivel ler o diretorio: \"" + srcDir + "\"" );
     }
 }
 
