@@ -7,15 +7,7 @@ using std::stringstream;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
-Inter::Inter( BlockInter* blockInter ) {
-    this->blockInter = blockInter;
-}
-
-BlockInter* Inter::getBlockInter() {
-    return blockInter;
-}
-
-string Inter::replaceProps( string line, int lineNumber, WithPropInter* inter ) {
+void Inter::replaceProps( string& line, int lineNumber, WithPropNo* no ) {
     size_t i = line.find( '$' );
     size_t j = line.find( '(' );
 
@@ -44,16 +36,16 @@ string Inter::replaceProps( string line, int lineNumber, WithPropInter* inter ) 
                         }
                         if ( parentesisCount == 0 ) {
                             string name = line.substr( k+2, j-(k+2) );
-                            name = replaceProps( name, lineNumber, inter );
+                            replaceProps( name, lineNumber, no );
 
-                            if ( inter->existsProperty( name ) ) {
-                                string value = inter->getPropertyValue( name );
+                            if ( no->existsProperty( name ) ) {
+                                string value = no->getPropertyValue( name );
                                 ss << value;
                                 k = j;
                             } else {
                                 stringstream ss2;
                                 ss2 << "Linha(" << lineNumber << ") --> Propriedade nao encontrada: $(" << name << ")";
-                                throw inter_error( ss2.str() );
+                                throw new inter_error( ss2.str() );
                             }
                         } else {
                             ss << line[ k ];
@@ -68,7 +60,6 @@ string Inter::replaceProps( string line, int lineNumber, WithPropInter* inter ) 
                 ss << line[ k ];
             }
         }
-        return ss.str();
+        line = ss.str();
     }
-    return line;
 }

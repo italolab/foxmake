@@ -1,12 +1,13 @@
 
 #include "ProcExec.h"
 #include "CPProc.h"
-#include "../inter/block/it/FileIterator.h"
+#include "../inter/InterResult.h"
 
 const string configFileName = "exe.txt";
 
 ProcExec::ProcExec() {
-    mainInter = new MainInter( this );
+    mainScript = nullptr;
+    interManager = new InterManager( this );
 
     mainProc = new MainProc( "main" );
 
@@ -20,15 +21,18 @@ ProcExec::ProcExec() {
 
 void ProcExec::exec( int argc, char* argv[] ) {
     try {
-        CMDInter* cmdInter = new CMDInter( nullptr );
-        cmdInter->interpreta( argc, argv, 0 );
+        InterResult* result = interManager->getCMDInter()->interpretaMainCMD( argc, argv, interManager );
+        if ( !result->isOk() )
+            throw runtime_error( result->getErrorMsg() );
 
-        FileIterator* it = new FileIterator( configFileName );
+        CMD* cmd = (CMD*)result->getNo();
 
-        mainInter->addVar( "main_config_file", configFileName );
-        InterResult* result = mainInter->interpreta( it, 1 );
-        if ( result->isOk() ) {
-            mainProc->processa( cmdInter, this );
+        mainScript->addVar( "main_config_file", configFileName );
+
+        InterResult* result2 = interManager->getMainScriptInter()->interpreta( configFileName, 1, interManager );
+        if ( result2->isOk() ) {
+            mainScript = (MainScript*)result2->getNo();
+            mainProc->processa( cmd, this );
         } else {
             cerr << result->getErrorMsg() << endl;
         }
@@ -66,6 +70,10 @@ MainProc* ProcExec::getMainProc() {
     return mainProc;
 }
 
-MainInter* ProcExec::getMainInter() {
-    return mainInter;
+MainScript* ProcExec::getMainScript() {
+    return mainScript;
+}
+
+InterManager* ProcExec::getInterManager() {
+    return interManager;
 }

@@ -4,7 +4,10 @@
 #include <string>
 #include <stdexcept>
 
-#include "WithPropInter.h"
+#include "InterManager.h"
+#include "InterResult.h"
+#include "../darv/Block.h"
+#include "../darv/WithPropNo.h"
 
 using std::string;
 using std::runtime_error;
@@ -16,20 +19,13 @@ class inter_error : public runtime_error {
 
 };
 
-class BlockInter;
-
 class Inter {
 
-    private:
-        BlockInter* blockInter;
-
     public:
-        Inter( BlockInter* blockInter );
+        virtual InterResult* interpreta( Block* block, string text, int lineNumber, InterManager* manager ) = 0;
 
-        string replaceProps( string line, int lineNumber, WithPropInter* inter );
-
-        BlockInter* getBlockInter();
+        void replaceProps( string& line, int lineNumber, WithPropNo* no );
 
 };
 
-#endif // INTER_H
+#endif

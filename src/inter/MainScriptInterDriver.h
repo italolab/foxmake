@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class MainInterDriver {
+class MainScriptInterDriver {
 
     public:
         virtual vector<string> validMainCMDNames() = 0;

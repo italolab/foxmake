@@ -1,7 +1,7 @@
 #ifndef PROC_H
 #define PROC_H
 
-#include "../inter/str/CMDInter.h"
+#include "../darv/CMD.h"
 
 #include <string>
 #include <stdexcept>
@@ -24,7 +24,7 @@ class Proc {
     public:
         Proc( string cmdName );
 
-        virtual void processa( CMDInter* cmd, ProcManager* mgr ) = 0;
+        virtual void processa( CMD* cmd, ProcManager* mgr ) = 0;
 
         string getCMDName();
 
