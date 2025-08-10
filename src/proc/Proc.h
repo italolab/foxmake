@@ -6,12 +6,19 @@
 #include <string>
 #include <stdexcept>
 
-using namespace std;
+using std::string;
+using std::runtime_error;
 
 class proc_error : public runtime_error {
 
+    private:
+        CMD* cmd;
+
     public:
-        proc_error( string msg );
+        proc_error( CMD* cmd, string msg );
+
+        string message() const;
+
 };
 
 class ProcManager;

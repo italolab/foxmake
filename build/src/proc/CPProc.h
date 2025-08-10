@@ -9,7 +9,7 @@ class CPProc : public Proc {
     public:
         CPProc( string cmdName );
 
-        void processa( CMDInter* inter, ProcManager* mgr );
+        void processa( CMD* cmd, ProcManager* mgr );
 
 };
 

@@ -1,36 +1,35 @@
-#ifndef CMD_INTER_H
-#define CMD_INTER_H
+#ifndef CMD_H
+#define CMD_H
 
-#include "StringInter.h"
+#include "No.h"
+#include "Property.h"
 
 #include <string>
 #include <vector>
 #include <map>
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::map;
 
-class CMDInter : public StringInter {
+class CMD : public No {
 
     private:
         string name;
         string cmdstr;
         int lineNumber;
         vector<string> args;
-        map<string, string> propertiesMap;
-
-        void addArg( string command );
-        void addProperty( string name, string value );
+        map<string, Property*> propertiesMap;
 
     public:
-        CMDInter( BlockInter* blockInter );
+        CMD( Block* parent );
 
-        StringInterResult* interpreta( string cmdstr, int lineNumber );
-        StringInterResult* interpreta( int argc, char* argv[], int lineNumber );
-
+        void addProperty( string name, string value );
         vector<string> propertyNames();
         string getPropertyValue( string name );
         int getPropertiesLength();
 
+        void addArg( string command );
         vector<string> getArgs();
         string getArg( int i );
         bool existsArg( string command );
@@ -42,6 +41,10 @@ class CMDInter : public StringInter {
         string getName();
         string getCMDStr();
         int getLineNumber();
+
+        void setName( string name );
+        void setCMDStr( string cmdstr );
+        void setLineNumber( int lineNumber );
 
 };
 

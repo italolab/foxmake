@@ -19,8 +19,8 @@ class MainProc : public Proc {
         void compileAndLink( CMD* cmd, MainScript* script, bool isCompile, bool isLink );
         void copyFiles( CMD* cmd, MainScript* script );
 
-        void appCopyFileOrDirectoryToBuild( string path, string buildDir );
-        void appDeleteFileOrDirectory( string path );
+        void appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buildDir );
+        void appDeleteFileOrDirectory( CMD* cmd, string path );
 
     public:
         MainProc( string cmdName );

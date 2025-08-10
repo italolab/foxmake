@@ -3,7 +3,8 @@
 
 #include "Proc.h"
 #include "ProcManager.h"
-#include "../inter/block/MainInter.h"
+#include "../darv/MainScript.h"
+#include "../darv/CMD.h"
 
 #include <string>
 
@@ -14,17 +15,17 @@ class MainProc : public Proc {
     private:
         void procCMDs( ProcManager* mgr );
 
-        void clean( CMDInter* inter, MainInter* mainInter );
-        void compileAndLink( CMDInter* inter, MainInter* mainInter, bool isCompile, bool isLink );
-        void copyFiles( CMDInter* inter, MainInter* mainInter );
+        void clean( CMD* cmd, MainScript* script );
+        void compileAndLink( CMD* cmd, MainScript* script, bool isCompile, bool isLink );
+        void copyFiles( CMD* cmd, MainScript* script );
 
-        void appCopyFileOrDirectoryToBuild( string path, string buildDir );
-        void appDeleteFileOrDirectory( string path );
+        void appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buildDir );
+        void appDeleteFileOrDirectory( CMD* cmd, string path );
 
     public:
         MainProc( string cmdName );
 
-        void processa( CMDInter* inter, ProcManager* mgr );
+        void processa( CMD* cmd, ProcManager* mgr );
 
 };
 

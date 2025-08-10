@@ -7,7 +7,7 @@ using std::stringstream;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
-void Inter::replaceProps( string& line, int lineNumber, WithPropNo* no ) {
+InterResult* Inter::replaceProps( string& line, int lineNumber, WithPropNo* no ) {
     size_t i = line.find( '$' );
     size_t j = line.find( '(' );
 
@@ -43,9 +43,7 @@ void Inter::replaceProps( string& line, int lineNumber, WithPropNo* no ) {
                                 ss << value;
                                 k = j;
                             } else {
-                                stringstream ss2;
-                                ss2 << "Linha(" << lineNumber << ") --> Propriedade nao encontrada: $(" << name << ")";
-                                throw new inter_error( ss2.str() );
+                                return new InterResult( 0, "Propriedade nao encontrada: $(" + name + ")" );
                             }
                         } else {
                             ss << line[ k ];
@@ -62,4 +60,6 @@ void Inter::replaceProps( string& line, int lineNumber, WithPropNo* no ) {
         }
         line = ss.str();
     }
+
+    return new InterResult( nullptr, 0 );
 }

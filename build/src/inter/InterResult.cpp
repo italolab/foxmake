@@ -1,13 +1,14 @@
 
 #include "InterResult.h"
 
-InterResult::InterResult( int numberOfLines ) : InterResult( numberOfLines, 0 ) {}
+InterResult::InterResult( No* no, int numberOfLines ) : InterResult( no, numberOfLines, 0 ) {}
 
 InterResult::InterResult( string errorMsg ) : InterResult( 0, 0, errorMsg ) {}
 
 InterResult::InterResult( int numberOfLines, string erroMsg ) : InterResult( numberOfLines, 0, erroMsg ) {}
 
-InterResult::InterResult( int numberOfLines, int numberOfColumns ) {
+InterResult::InterResult( No* no, int numberOfLines, int numberOfColumns ) {
+    this->no = no;
     this->numberOfLines = numberOfLines;
     this->numberOfColumns = numberOfColumns;
     this->ok = true;
@@ -30,4 +31,8 @@ int InterResult::getNumberOfLines() {
 
 string InterResult::getErrorMsg() {
     return errorMsg;
+}
+
+No* InterResult::getNo() {
+    return no;
 }

@@ -85,7 +85,7 @@ void MainProc::clean( CMD* cmd, MainScript* script ) {
 
     if ( fname != "" ) {
         string file = io::concatPaths( binDir, fname );
-        appDeleteFileOrDirectory( file );
+        appDeleteFileOrDirectory( cmd,  file );
 
         cout << "Deletado: " << file << endl;
     }
@@ -94,7 +94,7 @@ void MainProc::clean( CMD* cmd, MainScript* script ) {
     for( string bfile : bfiles ) {
         string fname = io::fileOrDirName( bfile );
         fname = io::concatPaths( buildDir, fname );
-        appDeleteFileOrDirectory( fname );
+        appDeleteFileOrDirectory( cmd, fname );
 
         cout << "Deletado: " << fname << endl;
     }
@@ -116,16 +116,16 @@ void MainProc::copyFiles( CMD* cmd, MainScript* script ) {
     if ( isDll == "true" ) {
         string dllFileName = script->getPropertyValue( "dll.file.name" );
         string fname = io::concatPaths( binDir, dllFileName );
-        appCopyFileOrDirectoryToBuild( fname, buildDir );
+        appCopyFileOrDirectoryToBuild( cmd, fname, buildDir );
     } else {
         string exeFileName = script->getPropertyValue( "exe.file.name" );
         string fname = io::concatPaths( binDir, exeFileName );
-        appCopyFileOrDirectoryToBuild( fname, buildDir );
+        appCopyFileOrDirectoryToBuild( cmd, fname, buildDir );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
-        appCopyFileOrDirectoryToBuild( bfile, buildDir );
+        appCopyFileOrDirectoryToBuild( cmd, bfile, buildDir );
         cout << "Copiado: " << bfile << endl;
     }
 
@@ -204,7 +204,7 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, bool isCompile, boo
 
         if ( ok && isLink ) {
             if ( exeFileName == "" )
-                throw runtime_error( "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
+                throw proc_error( cmd, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
 
             stringstream ss;
             ss << compiler;
@@ -251,30 +251,30 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, bool isCompile, boo
         if ( ok ) {
             cout << "Compilacao e/ou linkagem executada(s) com sucesso!" << endl;
         } else {
-            throw runtime_error( "Houve falha na execucao de algum comando de compilacao ou linkagem." );
+            throw proc_error( cmd, "Houve falha na execucao de algum comando de compilacao ou linkagem." );
         }
     } else {
-        throw runtime_error( "Nao foi possivel ler o diretorio: \"" + srcDir + "\"" );
+        throw proc_error( cmd, "Nao foi possivel ler o diretorio: \"" + srcDir + "\"" );
     }
 }
 
-void MainProc::appDeleteFileOrDirectory( string path ) {
+void MainProc::appDeleteFileOrDirectory( CMD* cmd, string path ) {
     try {
         io::deleteFileOrDirectory( path );
     } catch ( const io_error& e ) {
-        throw runtime_error( "Nao foi possivel deletar o arquivo ou pasta: " + path );
+        throw proc_error( cmd, "Nao foi possivel deletar o arquivo ou pasta: " + path );
     }
 }
 
-void MainProc::appCopyFileOrDirectoryToBuild( string path, string buildDir ) {
+void MainProc::appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buildDir ) {
     if ( !io::fileExists( path ) )
-        throw runtime_error( "O arquivo ou pasta: \"" + path + "\" nao existe." );
+        throw proc_error( cmd, "O arquivo ou pasta: \"" + path + "\" nao existe." );
 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
         io::createDirectories( bdir );
         io::copyFileOrDirectory( path, bdir, true );
     } catch ( const io_error& e ) {
-        throw runtime_error( "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
+        throw proc_error( cmd, "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
     }
 }

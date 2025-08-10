@@ -23,21 +23,25 @@ void ProcExec::exec( int argc, char* argv[] ) {
     try {
         InterResult* result = interManager->getCMDInter()->interpretaMainCMD( argc, argv, interManager );
         if ( !result->isOk() )
-            throw runtime_error( result->getErrorMsg() );
+            throw runtime_error( "Erro: " + result->getErrorMsg() );
 
         CMD* cmd = (CMD*)result->getNo();
-
-        mainScript->addVar( "main_config_file", configFileName );
 
         InterResult* result2 = interManager->getMainScriptInter()->interpreta( configFileName, 1, interManager );
         if ( result2->isOk() ) {
             mainScript = (MainScript*)result2->getNo();
-            mainProc->processa( cmd, this );
+            mainScript->addVar( "main_config_file", configFileName );
+
+            try {
+                mainProc->processa( cmd, this );
+            } catch ( const proc_error& ex ) {
+                throw runtime_error( ex.message() );
+            }
         } else {
             cerr << result->getErrorMsg() << endl;
         }
     } catch ( const exception& e ) {
-        cerr << "Erro: " << e.what() << endl;
+        cerr << e.what() << endl;
     }
 }
 

@@ -1,11 +1,11 @@
-#ifndef WITH_PROP_INTER_H
-#define WITH_PROP_INTER_H
+#ifndef WITH_PROP_NO_H
+#define WITH_PROP_NO_H
 
 #include <string>
 
 using std::string;
 
-class WithPropInter {
+class WithPropNo {
 
     public:
         virtual bool existsProperty( string name ) = 0;

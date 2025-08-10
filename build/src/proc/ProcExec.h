@@ -4,8 +4,9 @@
 #include "ProcManager.h"
 #include "Proc.h"
 #include "MainProc.h"
-#include "../inter/block/MainInter.h"
-#include "../inter/block/MainInterDriver.h"
+#include "../darv/MainScript.h"
+#include "../inter/MainScriptInterDriver.h"
+#include "../inter/InterManager.h"
 
 #include <map>
 #include <vector>
@@ -13,11 +14,12 @@
 
 using namespace std;
 
-class ProcExec : public ProcManager, MainInterDriver {
+class ProcExec : public ProcManager, MainScriptInterDriver {
 
     private:
         MainProc* mainProc;
-        MainInter* mainInter;
+        MainScript* mainScript;
+        InterManager* interManager;
         map<string, map<string, Proc*>*> procsMapMap;
         string mainCMDName;
 
@@ -32,7 +34,8 @@ class ProcExec : public ProcManager, MainInterDriver {
 
         Proc* getProc( string cmdName, string subCmdName );
         MainProc* getMainProc();
-        MainInter* getMainInter();
+        MainScript* getMainScript();
+        InterManager* getInterManager();
 
         vector<string> validMainCMDNames();
 

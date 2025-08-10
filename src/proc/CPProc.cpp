@@ -7,7 +7,8 @@
 #include <sstream>
 #include <iostream>
 
-using namespace std;
+using std::string;
+using std::stringstream;
 
 CPProc::CPProc( string cmdName ) : Proc( cmdName ) {}
 
@@ -15,9 +16,8 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
     int alen = cmd->getArgsLength();
     if ( alen < 2 ) {
         stringstream ss;
-        ss << "Erro em: \"" << cmd->getCMDStr() << "\"" << endl;
-        ss << "Numero de argumentos esperado igual a 2, encontrado " << alen << endl;
-        throw proc_error( ss.str() );
+        ss << "Numero de argumentos esperado igual a 2, encontrado " << alen;
+        throw proc_error( cmd, ss.str() );
     }
     string src = cmd->getNotOpArg( 0 );
     string dest = cmd->getNotOpArg( 1 );
@@ -40,7 +40,7 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
 
             if ( src.find( "**" ) != string::npos ) {
                 if ( strutil::endsWith( src, "*" ) )
-                    throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nNao e possivel fazer copia com coringa no final e copia recursiva." );
+                    throw proc_error( cmd, "Nao e possivel fazer copia com coringa no final e copia recursiva." );
 
                 string replacePath = io::recursiveDirPathToReplace( src );
                 replacePath = io::addSeparatorToDirIfNeed( replacePath );
@@ -55,15 +55,13 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
                 }
             }
         } catch ( const io_error& e ) {
-            cout << e.what() << endl;
-            throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nHouve erro na copia recursiva dos arquivos." );
+            throw proc_error( cmd, "Houve erro na copia recursiva dos arquivos.\nVerifique os caminhos da origem e do destino." );
         }
     } else {
         try {
             io::copyFileOrDirectory( src, dest, true );
         } catch ( const io_error& e ) {
-            cout << e.what() << endl;
-            throw proc_error( "Erro em: \"" + cmd->getCMDStr() + "\"\nHouve erro na copia dos arquivos." );
+            throw proc_error( cmd, "Houve erro na copia dos arquivos.\nVerifique os caminhos da origem e do destino." );
         }
     }
 }
