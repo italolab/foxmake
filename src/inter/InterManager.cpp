@@ -7,6 +7,7 @@
 InterManager::InterManager( MainScriptInterDriver* drv ) {
     this->mainScriptInter = new MainScriptInter( drv );
     this->cmdInter = new CMDInter();
+    this->propInter = new PropInter();
     this->varInter = new VarInter();
 }
 
@@ -16,6 +17,10 @@ MainScriptInter* InterManager::getMainScriptInter() {
 
 CMDInter* InterManager::getCMDInter() {
     return cmdInter;
+}
+
+PropInter* InterManager::getPropInter() {
+    return propInter;
 }
 
 VarInter* InterManager::getVarInter() {

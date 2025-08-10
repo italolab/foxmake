@@ -17,6 +17,7 @@ class InterResult {
         int numberOfColumns;
 
     public:
+        InterResult( bool ok );
         InterResult( No* no, int numberOfLines );
         InterResult( No* no, int numberOfLines, int numberOfColumns );
 

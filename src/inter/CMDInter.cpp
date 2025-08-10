@@ -2,6 +2,7 @@
 #include "CMDInter.h"
 #include "InterManager.h"
 #include "../darv/CMD.h"
+#include "../darv/Prop.h"
 
 #include <sstream>
 #include <cstring>
@@ -83,7 +84,7 @@ InterResult* CMDInter::interpreta( Block* block, int argc, char* argv[], int lin
                 }
             }
 
-            cmd->addProperty( name, value );
+            cmd->addProperty( new Prop( name, value ) );
         } else {
             cmd->addArg( param );
         }

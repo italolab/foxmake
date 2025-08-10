@@ -13,13 +13,13 @@ using std::vector;
 class MainScript : public Block, public WithPropNo {
 
     private:
-        map<string, Property*> propertiesMap;
+        map<string, Prop*> propertiesMap;
         vector<CMD*> cmdsVect;
 
     public:
         MainScript();
 
-        void addProperty( string name, string value );
+        void addProperty( Prop* prop );
         string getPropertyValue( string name );
         bool existsProperty( string name );
         int getPropertiesLength();

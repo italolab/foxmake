@@ -1,5 +1,5 @@
-#ifndef PROPERTY_H
-#define PROPERTY_H
+#ifndef PROP_H
+#define PROP_H
 
 #include "No.h"
 
@@ -7,18 +7,18 @@
 
 using std::string;
 
-class Property : public No {
+class Prop : public No {
 
     private:
         string name;
         string value;
 
     public:
-        Property( string name, string value );
+        Prop( string name, string value );
 
         string getName();
         string getValue();
 
 };
 
-#endif // PROPERTY_H
+#endif

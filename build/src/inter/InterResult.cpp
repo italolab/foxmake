@@ -21,6 +21,13 @@ InterResult::InterResult( int numberOfLines, int numberOfColumns, string errorMs
     this->ok = false;
 }
 
+InterResult::InterResult( bool ok ) {
+    this->numberOfLines = 0;
+    this->numberOfColumns = 0;
+    this->errorMsg = "";
+    this->ok = ok;
+}
+
 bool InterResult::isOk() {
     return ok;
 }

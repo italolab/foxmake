@@ -1,6 +1,5 @@
 
 #include "CMD.h"
-#include "Property.h"
 
 CMD::CMD( Block* parent ) : No( parent ) {
     this->lineNumber = 0;
@@ -49,8 +48,8 @@ string CMD::getArg( int i ) {
     return args[ i ];
 }
 
-void CMD::addProperty( string name, string value ) {
-    propertiesMap[ name ] = new Property( name, value );
+void CMD::addProperty( Prop* prop ) {
+    propertiesMap[ prop->getName() ] = prop;
 }
 
 string CMD::getPropertyValue( string name ) {

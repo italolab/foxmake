@@ -2,7 +2,7 @@
 #define CMD_H
 
 #include "No.h"
-#include "Property.h"
+#include "Prop.h"
 
 #include <string>
 #include <vector>
@@ -19,12 +19,12 @@ class CMD : public No {
         string cmdstr;
         int lineNumber;
         vector<string> args;
-        map<string, Property*> propertiesMap;
+        map<string, Prop*> propertiesMap;
 
     public:
         CMD( Block* parent );
 
-        void addProperty( string name, string value );
+        void addProperty( Prop* prop );
         vector<string> propertyNames();
         string getPropertyValue( string name );
         int getPropertiesLength();

@@ -46,6 +46,8 @@ InterResult* MainScriptInter::interpreta( Block* block, string file, int lineNum
                     isCmd = true;
         }
 
+        int currentLineNumber = lineNumber + numberOfLines;
+
         if ( isCmd ) {
             InterResult* replaceResult = Inter::replaceProps( line, lineNumber, script );
             if ( !replaceResult->isOk() )
@@ -53,7 +55,6 @@ InterResult* MainScriptInter::interpreta( Block* block, string file, int lineNum
 
             delete replaceResult;
 
-            int currentLineNumber = lineNumber + numberOfLines;
             InterResult* result = manager->getCMDInter()->interpreta( script, line, currentLineNumber, manager );
 
             numberOfLines += result->getNumberOfLines();
@@ -64,23 +65,9 @@ InterResult* MainScriptInter::interpreta( Block* block, string file, int lineNum
                 return new InterResult( numberOfLines, result->getErrorMsg() );
             }
         } else {
-            i = line.find( '=' );
-            if ( i == string::npos ) {
-                stringstream ss;
-                ss << "Erro na linha: " << ( lineNumber + numberOfLines ) << ";\nPropriedade em formato inválido: \"" << line << "\"";
-                return new InterResult( numberOfLines, ss.str() );
-            }
-
-            string name = line.substr( 0, i );
-            string value = line.substr( i+1, line.length()-i );
-
-            InterResult* replaceResult = Inter::replaceProps( value, lineNumber, script );
-            if ( !replaceResult->isOk() )
-                return replaceResult;
-
-            delete replaceResult;
-
-            script->addProperty( name, value );
+            InterResult* result = manager->getPropInter()->interpreta( script, line, currentLineNumber, manager );
+            if ( result->isOk() )
+                script->addProperty( (Prop*)result->getNo() );
         }
 
         numberOfLines++;

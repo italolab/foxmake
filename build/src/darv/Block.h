@@ -15,15 +15,17 @@ using std::map;
 class Block : public No {
 
     private:
-        map<string, Var*> varsMap;
+        map<string, Var*> localVarsMap;
 
     public:
         Block( Block* parent );
 
-        void addVar( string name, string value );
-        string getVarValue( string varName );
-        bool existsVar( string varName );
-        vector<string> vars();
+        void addLocalVar( string name, string value );
+        Var* getLocalVar( string varName );
+        bool existsLocalVar( string varName );
+        vector<string> localVars();
+
+        Var* getVar( string varName );
 
 };
 

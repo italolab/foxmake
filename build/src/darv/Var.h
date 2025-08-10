@@ -2,10 +2,11 @@
 #define VAR_H
 
 #include "No.h"
-
 #include <string>
 
 using std::string;
+
+class Block;
 
 class Var : public No {
 

@@ -3,8 +3,8 @@
 
 MainScript::MainScript() : Block( nullptr ) {}
 
-void MainScript::addProperty( string name, string value ) {
-    propertiesMap[ name ] = new Property( name, value );
+void MainScript::addProperty( Prop* prop ) {
+    propertiesMap[ prop->getName() ] = prop;
 }
 
 int MainScript::getPropertiesLength() {
@@ -12,7 +12,7 @@ int MainScript::getPropertiesLength() {
 }
 
 string MainScript::getPropertyValue( string name ) {
-    Property* prop = propertiesMap[ name ];
+    Prop* prop = propertiesMap[ name ];
     if ( prop != nullptr )
         return prop->getValue();
     return "";

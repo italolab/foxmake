@@ -4,6 +4,7 @@
 #include "MainScriptInterDriver.h"
 #include "MainScriptInter.h"
 #include "CMDInter.h"
+#include "PropInter.h"
 #include "VarInter.h"
 
 class InterManager {
@@ -11,6 +12,7 @@ class InterManager {
     private:
         MainScriptInter* mainScriptInter;
         CMDInter* cmdInter;
+        PropInter* propInter;
         VarInter* varInter;
 
     public:
@@ -18,6 +20,7 @@ class InterManager {
 
         MainScriptInter* getMainScriptInter();
         CMDInter* getCMDInter();
+        PropInter* getPropInter();
         VarInter* getVarInter();
 };
 

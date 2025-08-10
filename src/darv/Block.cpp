@@ -1,27 +1,33 @@
 
 #include "Block.h"
-#include "Var.h"
 
 Block::Block( Block* parent ) : No( parent ) {}
 
-void Block::addVar( string name, string value ) {
-    varsMap[ name ] = new Var( this, name, value );
+Var* Block::getVar( string varName ) {
+    Var* var = this->getLocalVar( varName );
+
+    Block* parent = No::getParent();
+    if ( var == nullptr && parent != nullptr )
+        return parent->getVar( varName );
+
+    return nullptr;
 }
 
-bool Block::existsVar( string varName ) {
-    return varsMap.find( varName ) != varsMap.end();
+void Block::addLocalVar( string name, string value ) {
+    localVarsMap[ name ] = new Var( this, name, value );
 }
 
-string Block::getVarValue( string varName ) {
-    Var* var = varsMap[ varName ];
-    if ( var != nullptr )
-        return var->getValue();
-    return "";
+bool Block::existsLocalVar( string varName ) {
+    return localVarsMap.find( varName ) != localVarsMap.end();
 }
 
-vector<string> Block::vars() {
+Var* Block::getLocalVar( string varName ) {
+    return localVarsMap[ varName ];
+}
+
+vector<string> Block::localVars() {
     vector<string> varsVect;
-    for( const auto& pair : varsMap )
+    for( const auto& pair : localVarsMap )
         varsVect.push_back( pair.first );
     return varsVect;
 }
