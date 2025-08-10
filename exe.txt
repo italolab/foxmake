@@ -36,4 +36,6 @@ cp $(src.dir)/*.cpp $(build.dir)
 cp $(obj.dir)/src/io/* $(build.dir)/objetos
 
 cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
-cp $(src.dir) $(build.dir)
+
+cd ../TestesUnit
+cp $(src.dir) ../cexec/$(build.dir)

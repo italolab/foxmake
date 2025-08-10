@@ -14,8 +14,6 @@ InterResult* PropInter::interpreta( WithPropNo* no, string str, int lineNumber, 
     if ( !replaceResult->isOk() )
         return replaceResult;
 
-    delete replaceResult;
-
     Prop* prop = new Prop( name, value );
     return new InterResult( prop, 0, str.length() );
 }

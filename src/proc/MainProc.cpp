@@ -9,7 +9,6 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include <stdexcept>
 
 MainProc::MainProc( string cmdName ) : Proc( cmdName ) {}
 

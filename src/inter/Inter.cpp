@@ -60,6 +60,5 @@ InterResult* Inter::replaceProps( string& line, int lineNumber, WithPropNo* no )
         }
         line = ss.str();
     }
-
     return new InterResult( nullptr, 0 );
 }

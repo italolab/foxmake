@@ -5,7 +5,14 @@
 #include <sstream>
 #include <vector>
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::stringstream;
+
+namespace shell {
+    string getWorkingDir();
+    bool setWorkingDir( string wdir );
+}
 
 class Shell {
 

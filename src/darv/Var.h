@@ -19,6 +19,7 @@ class Var : public No {
 
         string getName();
         string getValue();
+        void setValue( string value );
 
 };
 

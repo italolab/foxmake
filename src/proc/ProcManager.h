@@ -10,8 +10,8 @@
 
 using namespace std;
 
-class Proc;
 class MainProc;
+class Proc;
 
 class ProcManager {
 

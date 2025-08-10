@@ -62,12 +62,23 @@ InterResult* MainScriptInter::interpreta( Block* block, string file, int lineNum
             if ( result->isOk() ) {
                 script->addCMD( (CMD*)result->getNo() );
             } else {
-                return new InterResult( numberOfLines, result->getErrorMsg() );
+                return new InterResult( lineNumber + numberOfLines, result->getErrorMsg() );
             }
         } else {
             InterResult* result = manager->getPropInter()->interpreta( script, line, currentLineNumber, manager );
-            if ( result->isOk() )
+
+            numberOfLines += result->getNumberOfLines();
+
+            if ( result->isOk() ) {
                 script->addProperty( (Prop*)result->getNo() );
+            } else {
+                string error;
+                if ( result->getErrorMsg() != "" )
+                    error = result->getErrorMsg();
+                else error = "Linha nao reconhecida como comando, propriedade ou variavel.";
+
+                return new InterResult( lineNumber + numberOfLines, error );
+            }
         }
 
         numberOfLines++;

@@ -1,7 +1,9 @@
 
 #include "ProcExec.h"
 #include "CPProc.h"
+#include "CDProc.h"
 #include "../inter/InterResult.h"
+#include "../shell/shell.h"
 
 const string configFileName = "exe.txt";
 
@@ -13,6 +15,7 @@ ProcExec::ProcExec() {
 
     map<string, Proc*>* mainSubProcsMap = new map<string, Proc*>();
     (*mainSubProcsMap)[ "cp" ] = new CPProc( "cp" );
+    (*mainSubProcsMap)[ "cd" ] = new CDProc( "cd" );
 
     procsMapMap[ "main" ] = mainSubProcsMap;
 
@@ -31,15 +34,17 @@ void ProcExec::exec( int argc, char* argv[] ) {
         if ( result2->isOk() ) {
             mainScript = (MainScript*)result2->getNo();
             mainScript->addLocalVar( "main_config_file", configFileName );
+            mainScript->addLocalVar( "working_dir", shell::getWorkingDir() );
 
-            try {
-                mainProc->processa( cmd, this );
-            } catch ( const proc_error& ex ) {
-                throw runtime_error( ex.message() );
-            }
+            string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
+            cout << "Diretorio corrente: " << wdir << endl;
+
+            mainProc->processa( cmd, this );
         } else {
-            cerr << result->getErrorMsg() << endl;
+            throw proc_error( result2->getNumberOfLines(), result2->getErrorMsg() );
         }
+    } catch ( const proc_error& e ) {
+        cerr << e.message() << endl;
     } catch ( const exception& e ) {
         cerr << e.what() << endl;
     }

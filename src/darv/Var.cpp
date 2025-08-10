@@ -13,3 +13,7 @@ string Var::getName() {
 string Var::getValue() {
     return value;
 }
+
+void Var::setValue( string value ) {
+    this->value = value;
+}

@@ -1,6 +1,7 @@
 #ifndef PROC_H
 #define PROC_H
 
+#include "ProcManager.h"
 #include "../darv/CMD.h"
 
 #include <string>
@@ -13,15 +14,15 @@ class proc_error : public runtime_error {
 
     private:
         CMD* cmd;
+        int lineNumber;
 
     public:
         proc_error( CMD* cmd, string msg );
+        proc_error( int lineNumber, string msg );
 
         string message() const;
 
 };
-
-class ProcManager;
 
 class Proc {
 
