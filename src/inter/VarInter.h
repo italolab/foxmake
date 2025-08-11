@@ -12,7 +12,7 @@ class InterManager;
 class VarInter : public Inter {
 
     public:
-        InterResult* interpreta( Block* block, string str, int lineNumber, InterManager* manager );
+        InterResult* interpreta( Block* block, string line, int lineNumber, InterManager* manager );
 
 };
 

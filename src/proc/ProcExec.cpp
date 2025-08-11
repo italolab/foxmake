@@ -30,7 +30,7 @@ void ProcExec::exec( int argc, char* argv[] ) {
 
         CMD* cmd = (CMD*)result->getNo();
 
-        InterResult* result2 = interManager->getMainScriptInter()->interpreta( configFileName, 1, interManager );
+        InterResult* result2 = interManager->getMainScriptInter()->interprets( configFileName, 1, interManager );
         if ( result2->isOk() ) {
             mainScript = (MainScript*)result2->getNo();
             mainScript->addLocalVar( "main_config_file", configFileName );

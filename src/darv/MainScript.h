@@ -8,13 +8,11 @@
 #include <string>
 
 using std::string;
-using std::vector;
 
 class MainScript : public Block, public WithPropNo {
 
     private:
         map<string, Prop*> propertiesMap;
-        vector<CMD*> cmdsVect;
 
     public:
         MainScript();
@@ -25,11 +23,6 @@ class MainScript : public Block, public WithPropNo {
         int getPropertiesLength();
         vector<string> propertyNames();
 
-        void addCMD( CMD* cmd );
-        CMD* getCMD( string name );
-        int getCMDsLength();
-        CMD* getCMDByIndex( int i );
-        vector<CMD*> cmds();
 };
 
 #endif

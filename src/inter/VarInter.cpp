@@ -2,10 +2,26 @@
 #include "VarInter.h"
 #include "../darv/Var.h"
 
-InterResult* VarInter::interpreta( Block* block, string str, int lineNumber, InterManager* manager ) {
-    string name = "a";
-    string value = "b";
-    int numberOfColumns = 0;
+InterResult* VarInter::interpreta( Block* block, string line, int lineNumber, InterManager* manager ) {
+    if ( line.length() == 0 )
+        return new InterResult( false );
+    if ( line[ 0 ] != '$' )
+        return new InterResult( false );
+
+    size_t i = line.find( '=' );
+    if ( i == string::npos )
+        return new InterResult( false );
+
+    string name = line.substr( 1, i );
+    string value = line.substr( i+1, line.length()-i );
+
+    /*InterResult* replaceResult = Inter::replaceProps( value, lineNumber, no );
+    if ( !replaceResult->isOk() )
+        return replaceResult;*/
+
     Var* var = new Var( block, name, value );
-    return new InterResult( var, 0, numberOfColumns );
+    if ( block != nullptr )
+        block->addLocalVar( var );
+
+    return new InterResult( var, 0, line.length() );
 }

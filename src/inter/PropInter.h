@@ -10,7 +10,7 @@ class InterManager;
 class PropInter : public Inter {
 
     public:
-        InterResult* interpreta( WithPropNo* no, string str, int lineNumber, InterManager* manager );
+        InterResult* interpreta( WithPropNo* no, string line, int lineNumber, InterManager* manager );
 
 };
 

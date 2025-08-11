@@ -10,6 +10,9 @@
 using std::istringstream;
 using std::stringstream;
 
+#include <iostream>
+using namespace std;
+
 InterResult* CMDInter::interpretaMainCMD( int argc, char* argv[], InterManager* manager ) {
     return interpreta( nullptr, argc, argv, 0, manager );
 }
@@ -90,5 +93,7 @@ InterResult* CMDInter::interpreta( Block* block, int argc, char* argv[], int lin
         }
     }
 
+    if ( block != nullptr )
+        block->addCMD( cmd );
     return new InterResult( cmd, 0, 0 );
 }

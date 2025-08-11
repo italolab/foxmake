@@ -1,13 +1,14 @@
 #ifndef INTER_MANAGER_H
 #define INTER_MANAGER_H
 
-#include "MainScriptInterDriver.h"
+#include "AbstractInterManager.h"
+#include "BlockInterDriver.h"
 #include "MainScriptInter.h"
 #include "CMDInter.h"
 #include "PropInter.h"
 #include "VarInter.h"
 
-class InterManager {
+class InterManager : public AbstractInterManager {
 
     private:
         MainScriptInter* mainScriptInter;
@@ -16,7 +17,7 @@ class InterManager {
         VarInter* varInter;
 
     public:
-        InterManager( MainScriptInterDriver* drv );
+        InterManager( BlockInterDriver* drv );
 
         MainScriptInter* getMainScriptInter();
         CMDInter* getCMDInter();

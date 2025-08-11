@@ -4,7 +4,7 @@
 #include "CMDInter.h"
 #include "VarInter.h"
 
-InterManager::InterManager( MainScriptInterDriver* drv ) {
+InterManager::InterManager( BlockInterDriver* drv ) {
     this->mainScriptInter = new MainScriptInter( drv );
     this->cmdInter = new CMDInter();
     this->propInter = new PropInter();

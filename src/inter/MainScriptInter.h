@@ -1,23 +1,20 @@
 #ifndef MAIN_SCRIPT_INTER_H
 #define MAIN_SCRIPT_INTER_H
 
-#include "Inter.h"
-#include "InterResult.h"
-#include "MainScriptInterDriver.h"
+#include "BlockInter.h"
+#include "it/BlockIterator.h"
 
-class InterManager;
-
-class MainScriptInter : public Inter {
-
-    private:
-        MainScriptInterDriver* drv;
+class MainScriptInter : public BlockInter {
 
     public:
-        MainScriptInter( MainScriptInterDriver* drv );
+        MainScriptInter( BlockInterDriver* drv );
 
-        InterResult* interpreta( string file, int lineNumber, InterManager* manager );
+        InterResult* interpretsLine( Block* block, string line, int lineNumber, AbstractInterManager* manager );
+        BlockIterator* createBlockIterator( string str );
+        Block* createBlock( Block* block );
+        string errorMSGForNotRecognizedStatement();
 
-        InterResult* interpreta( Block* block, string file, int lineNumber, InterManager* manager );
+        InterResult* interprets( string str, int lineNumber, AbstractInterManager* mgr );
 
 };
 

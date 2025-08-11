@@ -5,7 +5,7 @@
 #include "Proc.h"
 #include "MainProc.h"
 #include "../darv/MainScript.h"
-#include "../inter/MainScriptInterDriver.h"
+#include "../inter/BlockInterDriver.h"
 #include "../inter/InterManager.h"
 
 #include <map>
@@ -14,7 +14,7 @@
 
 using namespace std;
 
-class ProcExec : public ProcManager, MainScriptInterDriver {
+class ProcExec : public ProcManager, BlockInterDriver {
 
     private:
         MainProc* mainProc;
