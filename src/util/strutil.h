@@ -23,6 +23,9 @@ namespace strutil {
     string trim( string str );
     string replace( string str, string subStr, string newSubStr );
 
+    bool isWhiteSpace( char ch );
+    string removeStartWhiteSpaces( string str );
+
 }
 
 #endif

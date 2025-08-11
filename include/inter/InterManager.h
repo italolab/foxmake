@@ -24,11 +24,11 @@ class InterManager {
 
         InterResult* interpretsMainCMD( int argc, char* argv[] );
 
-        InterResult* interpretsCMD( Block* block, string cmdstr, int lineNumber );
-        InterResult* interpretsVar( Block* block, string line, int lineNumber );
-        InterResult* interpretsProp( MainScript* script, string line, int lineNumber );
+        InterResult* interpretsCMD( Block* parent, string cmdstr, int lineNumber );
+        InterResult* interpretsVar( Block* parent, string line, int lineNumber );
+        InterResult* interpretsProp( MainScript* parent, string line, int lineNumber );
 
-        InterResult* interpretsMainScript( string file, int lineNumber );
+        InterResult* interpretsMainScript( MainScript* script, string file, int lineNumber );
 
 };
 

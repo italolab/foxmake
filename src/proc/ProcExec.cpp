@@ -2,13 +2,14 @@
 #include "ProcExec.h"
 #include "CPProc.h"
 #include "CDProc.h"
+#include "EchoProc.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 
 const string configFileName = "exe.txt";
 
 ProcExec::ProcExec() {
-    mainScript = nullptr;
+    mainScript = new MainScript();
     interManager = new InterManager( this );
 
     mainProc = new MainProc( "main" );
@@ -16,6 +17,7 @@ ProcExec::ProcExec() {
     map<string, Proc*>* mainSubProcsMap = new map<string, Proc*>();
     (*mainSubProcsMap)[ "cp" ] = new CPProc( "cp" );
     (*mainSubProcsMap)[ "cd" ] = new CDProc( "cd" );
+    (*mainSubProcsMap)[ "echo" ] = new EchoProc( "echo" );
 
     procsMapMap[ "main" ] = mainSubProcsMap;
 
@@ -30,12 +32,11 @@ void ProcExec::exec( int argc, char* argv[] ) {
 
         CMD* cmd = (CMD*)result->getNo();
 
-        InterResult* result2 = interManager->interpretsMainScript( configFileName, 1 );
-        if ( result2->isOk() ) {
-            mainScript = (MainScript*)result2->getNo();
-            mainScript->addLocalVar( "main_config_file", configFileName );
-            mainScript->addLocalVar( "working_dir", shell::getWorkingDir() );
+        mainScript->addLocalVar( "main_config_file", configFileName );
+        mainScript->addLocalVar( "working_dir", shell::getWorkingDir() );
 
+        InterResult* result2 = interManager->interpretsMainScript( mainScript, configFileName, 1 );
+        if ( result2->isOk() ) {
             string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
             cout << "Diretorio corrente: " << wdir << endl;
 

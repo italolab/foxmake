@@ -85,4 +85,26 @@ namespace strutil {
         return newStr;
     }
 
+    string removeStartWhiteSpaces( string str ) {
+        int len = str.length();
+
+        int i = 0;
+        bool notWhiteSpace = false;
+        while( !notWhiteSpace && i < len ) {
+            if ( isWhiteSpace( str[ i ] ) ) {
+                i++;
+            } else {
+                notWhiteSpace = true;
+            }
+        }
+
+        if ( i < len )
+            return str.substr( i, len-i );
+        return "";
+    }
+
+    bool isWhiteSpace( char ch ) {
+        return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
+    }
+
 }

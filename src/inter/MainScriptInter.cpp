@@ -4,7 +4,6 @@
 #include "it/FileIterator.h"
 #include "../darv/MainScript.h"
 
-
 MainScriptInter::MainScriptInter( BlockInterDriver* drv ) : BlockInter( drv ) {}
 
 InterResult* MainScriptInter::interpretsLine( Block* block, string line, int lineNumber, void* mgr ) {
@@ -12,7 +11,9 @@ InterResult* MainScriptInter::interpretsLine( Block* block, string line, int lin
     return manager->interpretsProp( (MainScript*)block, line, lineNumber );
 }
 
-InterResult* MainScriptInter::interprets( string str, int lineNumber, void* mgr ) {
+InterResult* MainScriptInter::interprets( MainScript* script, string str, int lineNumber, void* mgr ) {
+    this->script = script;
+
     return BlockInter::interprets2( nullptr, str, lineNumber, mgr );
 }
 
@@ -24,6 +25,6 @@ BlockIterator* MainScriptInter::createBlockIterator( string file ) {
     return new FileIterator( file );
 }
 
-Block* MainScriptInter::createBlock( Block* parent ) {
-    return new MainScript();
+Block* MainScriptInter::createOrGetBlock( Block* parent ) {
+    return script;
 }

@@ -3,18 +3,22 @@
 
 #include "BlockInter.h"
 #include "it/BlockIterator.h"
+#include "../darv/MainScript.h"
 
 class MainScriptInter : public BlockInter {
+
+    private:
+        MainScript* script;
 
     public:
         MainScriptInter( BlockInterDriver* drv );
 
-        InterResult* interpretsLine( Block* block, string line, int lineNumber, void* manager );
+        InterResult* interpretsLine( Block* script, string line, int lineNumber, void* manager );
         BlockIterator* createBlockIterator( string str );
-        Block* createBlock( Block* block );
+        Block* createOrGetBlock( Block* parent );
         string errorMSGForNotRecognizedStatement();
 
-        InterResult* interprets( string str, int lineNumber, void* mgr );
+        InterResult* interprets( MainScript* script, string str, int lineNumber, void* mgr );
 
 };
 

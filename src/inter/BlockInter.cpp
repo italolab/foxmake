@@ -1,7 +1,6 @@
 
 #include "BlockInter.h"
 #include "InterManager.h"
-#include "../darv/MainScript.h"
 
 #include <vector>
 
@@ -16,7 +15,7 @@ InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber,
 
     vector<string> validCMDs = drv->validMainCMDNames();
 
-    Block* block = createBlock( parent );
+    Block* block = createOrGetBlock( parent );
     BlockIterator* it = createBlockIterator( str );
 
     int numberOfLines = 0;
@@ -47,10 +46,9 @@ InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber,
 
         InterResult* result = new InterResult( false );
         if ( isCmd ) {
-            MainScript* root = (MainScript*)block->getRoot();
-            InterResult* replaceResult = Inter::replacePropsAndVars( line, currentLineNumber, root );
+            InterResult* replaceResult = Inter::replacePropsAndVars( line, currentLineNumber, block );
             if ( !replaceResult->isOk() )
-                return replaceResult;
+                return new InterResult( lineNumber + numberOfLines, replaceResult->getErrorMsg() );
 
             result = manager->interpretsCMD( block, line, currentLineNumber );
         }

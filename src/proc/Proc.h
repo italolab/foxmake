@@ -32,7 +32,7 @@ class Proc {
     public:
         Proc( string cmdName );
 
-        virtual void processa( CMD* cmd, ProcManager* mgr ) = 0;
+        virtual void processa( CMD* cmd, ProcManager* manager ) = 0;
 
         string getCMDName();
 

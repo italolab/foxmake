@@ -52,7 +52,7 @@ InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* bl
                                     ss << value;
                                     k = j;
                                 } else {
-                                    return new InterResult( 0, "Propriedade nao encontrada: $(" + name + ")" );
+                                    return new InterResult( 0, "Propriedade ou variavel nao encontrada: $(" + name + ")" );
                                 }
                             }
                         } else {

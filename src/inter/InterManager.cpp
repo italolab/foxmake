@@ -15,18 +15,18 @@ InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
     return cmdInter->interpretsMainCMD( argc, argv, this );
 }
 
-InterResult* InterManager::interpretsCMD( Block* block, string cmdstr, int lineNumber ) {
-    return cmdInter->interprets( block, cmdstr, lineNumber, this );
+InterResult* InterManager::interpretsCMD( Block* parent, string cmdstr, int lineNumber ) {
+    return cmdInter->interprets( parent, cmdstr, lineNumber, this );
 }
 
-InterResult* InterManager::interpretsVar( Block* block, string line, int lineNumber ) {
-    return varInter->interprets( block, line, lineNumber, this );
+InterResult* InterManager::interpretsVar( Block* parent, string line, int lineNumber ) {
+    return varInter->interprets( parent, line, lineNumber, this );
 }
 
-InterResult* InterManager::interpretsProp( MainScript* script, string line, int lineNumber ) {
-    return propInter->interprets( script, line, lineNumber, this );
+InterResult* InterManager::interpretsProp( MainScript* parent, string line, int lineNumber ) {
+    return propInter->interprets( parent, line, lineNumber, this );
 }
 
-InterResult* InterManager::interpretsMainScript( string file, int lineNumber ) {
-    return mainScriptInter->interprets( file, lineNumber, this );
+InterResult* InterManager::interpretsMainScript( MainScript* script, string file, int lineNumber ) {
+    return mainScriptInter->interprets( script, file, lineNumber, this );
 }

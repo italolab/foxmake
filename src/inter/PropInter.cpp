@@ -2,7 +2,7 @@
 #include "PropInter.h"
 #include "../darv/Prop.h"
 
-InterResult* PropInter::interprets( MainScript* script, string line, int lineNumber, InterManager* manager ) {
+InterResult* PropInter::interprets( MainScript* parent, string line, int lineNumber, InterManager* manager ) {
     size_t i = line.find( '=' );
     if ( i == string::npos )
         return new InterResult( false );
@@ -10,13 +10,13 @@ InterResult* PropInter::interprets( MainScript* script, string line, int lineNum
     string name = line.substr( 0, i );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, script );
+    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, parent );
     if ( !replaceResult->isOk() )
         return replaceResult;
 
     Prop* prop = new Prop( name, value );
-    if ( script != nullptr )
-        script->addProperty( prop );
+    if ( parent != nullptr )
+        parent->addProperty( prop );
 
     return new InterResult( prop, 0, line.length() );
 }

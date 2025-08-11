@@ -11,7 +11,7 @@ class InterManager;
 class PropInter : public Inter {
 
     public:
-        InterResult* interprets( MainScript* script, string line, int lineNumber, InterManager* manager );
+        InterResult* interprets( MainScript* parent, string line, int lineNumber, InterManager* manager );
 
 };
 

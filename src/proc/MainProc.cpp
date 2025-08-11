@@ -59,7 +59,6 @@ void MainProc::procCMDs( ProcManager* mgr ) {
             throw runtime_error( "Comando nao encontrado: \"" + cmd->getName() + "\"" );
 
         proc->processa( cmd, mgr );
-        cout << "Executado: " << cmd->getCMDStr() << endl;
     }
 
     if ( tam > 0 )

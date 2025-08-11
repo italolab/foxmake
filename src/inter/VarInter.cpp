@@ -2,7 +2,7 @@
 #include "VarInter.h"
 #include "../darv/Var.h"
 
-InterResult* VarInter::interprets( Block* block, string line, int lineNumber, InterManager* manager ) {
+InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, InterManager* manager ) {
     if ( line.length() == 0 )
         return new InterResult( false );
     if ( line[ 0 ] != '$' )
@@ -12,16 +12,16 @@ InterResult* VarInter::interprets( Block* block, string line, int lineNumber, In
     if ( i == string::npos )
         return new InterResult( false );
 
-    string name = line.substr( 1, i );
+    string name = line.substr( 1, i-1 );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, block );
+    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, parent );
     if ( !replaceResult->isOk() )
         return replaceResult;
 
-    Var* var = new Var( block, name, value );
-    if ( block != nullptr )
-        block->addLocalVar( var );
+    Var* var = new Var( parent, name, value );
+    if ( parent != nullptr )
+        parent->addLocalVar( var );
 
     return new InterResult( var, 0, line.length() );
 }

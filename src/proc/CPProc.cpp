@@ -64,4 +64,5 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
             throw proc_error( cmd, "Houve erro na copia dos arquivos.\nVerifique os caminhos da origem e do destino." );
         }
     }
+    cout << "CP Executado: \"" << cmd->getCMDStr() << "\"" << endl;
 }

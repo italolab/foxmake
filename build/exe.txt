@@ -39,3 +39,8 @@ cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
 
 cd ../TestesUnit
 cp $(src.dir) ../cexec/$(build.dir)
+
+$a=$(src.dir)/abc
+
+echo $(a) diretorio
+echo $(working_dir)

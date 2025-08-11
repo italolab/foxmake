@@ -10,7 +10,7 @@ class CDProc : public Proc {
     public:
         CDProc( string cmdName );
 
-        void processa( CMD* cmd, ProcManager* mgr );
+        void processa( CMD* cmd, ProcManager* manager );
 
 };
 

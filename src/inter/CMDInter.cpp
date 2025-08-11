@@ -17,7 +17,7 @@ InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], InterManager* 
     return interprets( nullptr, argc, argv, 0, manager );
 }
 
-InterResult* CMDInter::interprets( Block* block, string cmdstr, int lineNumber, InterManager* manager ) {
+InterResult* CMDInter::interprets( Block* parent, string cmdstr, int lineNumber, InterManager* manager ) {
     string token;
     istringstream iss( cmdstr );
 
@@ -32,11 +32,11 @@ InterResult* CMDInter::interprets( Block* block, string cmdstr, int lineNumber, 
     while( getline( iss2, token, ' ' ) )
         argv[ i++ ] = strdup( token.c_str() );
 
-    return interprets( block, argc, argv, lineNumber, manager );
+    return interprets( parent, argc, argv, lineNumber, manager );
 }
 
-InterResult* CMDInter::interprets( Block* block, int argc, char* argv[], int lineNumber, InterManager* manager ) {
-    CMD* cmd = new CMD( block );
+InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int lineNumber, InterManager* manager ) {
+    CMD* cmd = new CMD( parent );
     cmd->setLineNumber( lineNumber );
 
     if ( argc > 0 ) {
@@ -93,7 +93,8 @@ InterResult* CMDInter::interprets( Block* block, int argc, char* argv[], int lin
         }
     }
 
-    if ( block != nullptr )
-        block->addCMD( cmd );
+    if ( parent != nullptr )
+        parent->addCMD( cmd );
+
     return new InterResult( cmd, 0, 0 );
 }

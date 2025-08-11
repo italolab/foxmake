@@ -1,6 +1,9 @@
 
 #include "Block.h"
 
+#include <iostream>
+using namespace std;
+
 Block::Block( Block* parent ) : No( parent ) {}
 
 Block* Block::getRoot() {
@@ -11,9 +14,11 @@ Block* Block::getRoot() {
 
 Var* Block::getVar( string varName ) {
     Var* var = this->getLocalVar( varName );
+    if ( var != nullptr )
+        return var;
 
     Block* parent = No::getParent();
-    if ( var == nullptr && parent != nullptr )
+    if ( parent != nullptr )
         return parent->getVar( varName );
 
     return nullptr;
