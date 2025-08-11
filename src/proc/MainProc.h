@@ -13,7 +13,7 @@ using namespace std;
 class MainProc : public Proc {
 
     private:
-        vector<string> defaultGoals{ "clean", "compile", "link", "build", "copy" };
+        vector<string> defaultTasks{ "clean", "compile", "link", "build", "copy" };
 
         void procCMDs( ProcManager* mgr );
 
@@ -24,8 +24,8 @@ class MainProc : public Proc {
         void appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buildDir );
         void appDeleteFileOrDirectory( CMD* cmd, string path );
 
-        void executaGoalIfExists( string goalName, ProcManager* manager );
-        bool isDefaultGoal( string goalName );
+        void executaTaskIfExists( string goalName, ProcManager* manager );
+        bool isDefaultTask( string TaskName );
 
     public:
         MainProc( string cmdName );

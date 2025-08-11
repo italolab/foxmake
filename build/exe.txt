@@ -39,6 +39,10 @@ build {
     echo Build concluido!
 }
 
+debug {
+    echo Debug executado!
+}
+
 cp $(src.dir)/**/inter/*.h $(include.dirs)
 cp $(src.dir)/*.cpp $(build.dir)
 cp $(obj.dir)/src/io/* $(build.dir)/objetos

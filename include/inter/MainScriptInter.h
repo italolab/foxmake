@@ -1,21 +1,15 @@
 #ifndef MAIN_SCRIPT_INTER_H
 #define MAIN_SCRIPT_INTER_H
 
-#include "BlockInter.h"
+#include "Inter.h"
+#include "BlockInterDriver.h"
 #include "it/BlockIterator.h"
 #include "../darv/MainScript.h"
 
-class MainScriptInter : public BlockInter {
+class MainScriptInter : public Inter {
 
     private:
-        MainScript* script;
-
-    protected:
-        InterResult* extInterpretsLine( Block* script, BlockIterator* it, string currentLine, int lineNumber, void* manager );
-
-        BlockIterator* createBlockIterator( string str );
-        string errorMSGForNotRecognizedStatement();
-        Block* getBlock();
+        BlockInterDriver* drv;
 
     public:
         MainScriptInter( BlockInterDriver* drv );

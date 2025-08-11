@@ -39,12 +39,12 @@ void MainProc::processa( CMD* cmd, ProcManager* manager ) {
             copyFiles( cmd, script, manager );
 
         if ( isBuild )
-            executaGoalIfExists( "build", manager );
+            executaTaskIfExists( "build", manager );
 
-        vector<string> goalNames = script->goalsNames();
-        for( string goalName : goalNames )
-            if ( !isDefaultGoal( goalName ) )
-                executaGoalIfExists( goalName, manager );
+        vector<string> names = script->taskNames();
+        for( string taskName : names )
+            if ( !isDefaultTask( taskName ) )
+                executaTaskIfExists( taskName, manager );
 
         procCMDs( manager );
     } else {
@@ -105,7 +105,7 @@ void MainProc::clean( CMD* cmd, MainScript* script, ProcManager* manager ) {
         cout << "Deletado: " << fname << endl;
     }
 
-    executaGoalIfExists( "clean", manager );
+    executaTaskIfExists( "clean", manager );
 
     cout << "Limpesa efetuada com sucesso!" << endl;
 }
@@ -137,7 +137,7 @@ void MainProc::copyFiles( CMD* cmd, MainScript* script, ProcManager* manager ) {
         cout << "Copiado: " << bfile << endl;
     }
 
-    executaGoalIfExists( "copy", manager );
+    executaTaskIfExists( "copy", manager );
 
     cout << "Arquivos de build copiados com sucesso!" << endl;
 }
@@ -211,7 +211,7 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manage
             }
             ok = shell->executa();
 
-            executaGoalIfExists( "compile", manager );
+            executaTaskIfExists( "compile", manager );
         }
 
         if ( ok && isLink ) {
@@ -260,7 +260,7 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manage
             shell->pushCommand( ss.str() );
             ok = shell->executa();
 
-            executaGoalIfExists( "link", manager );
+            executaTaskIfExists( "link", manager );
         }
 
         if ( ok ) {
@@ -294,26 +294,26 @@ void MainProc::appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buil
     }
 }
 
-bool MainProc::isDefaultGoal( string goalName ) {
-    for( string name : defaultGoals )
-        if ( name == goalName )
+bool MainProc::isDefaultTask( string taskName ) {
+    for( string name : defaultTasks )
+        if ( name == taskName )
             return true;
     return false;
 }
 
-void MainProc::executaGoalIfExists( string goalName, ProcManager* manager ) {
-    Goal* goal = manager->getMainScript()->getGoal( goalName );
-    if ( goal != nullptr ) {
+void MainProc::executaTaskIfExists( string taskName, ProcManager* manager ) {
+    Task* task = manager->getMainScript()->getTask( taskName );
+    if ( task != nullptr ) {
         cout << endl;
 
-        int len = goal->getCMDsLength();
+        int len = task->getCMDsLength();
         for( int i = 0; i < len; i++ ) {
-            CMD* goalCMD = goal->getCMDByIndex( i );
-            Proc* proc = manager->getProc( goalCMD->getName() );
+            CMD* taskCMD = task->getCMDByIndex( i );
+            Proc* proc = manager->getProc( taskCMD->getName() );
             if ( proc == nullptr )
-                throw runtime_error( "Nenhum procedimento registrado para o comando: \"" + goalCMD->getName() + "\"" );
+                throw runtime_error( "Nenhum procedimento registrado para o comando: \"" + taskCMD->getName() + "\"" );
 
-            proc->processa( goalCMD, manager );
+            proc->processa( taskCMD, manager );
         }
     }
 }

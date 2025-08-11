@@ -4,7 +4,7 @@
 #include "Block.h"
 #include "CMD.h"
 #include "Var.h"
-#include "Goal.h"
+#include "Task.h"
 
 #include <string>
 
@@ -14,7 +14,7 @@ class MainScript : public Block {
 
     private:
         map<string, Prop*> propertiesMap;
-        map<string, Goal*> goalsMap;
+        map<string, Task*> tasksMap;
 
     public:
         MainScript();
@@ -25,10 +25,10 @@ class MainScript : public Block {
         int getPropertiesLength();
         vector<string> propertyNames();
 
-        void addGoal( Goal* goal );
-        Goal* getGoal( string goalName );
-        int getGoalsLength();
-        vector<string> goalsNames();
+        void addTask( Task* task );
+        Task* getTask( string taskName );
+        int getTasksLength();
+        vector<string> taskNames();
 
 };
 

@@ -3,7 +3,7 @@
 
 InterManager::InterManager( BlockInterDriver* drv ) {
     this->mainScriptInter = new MainScriptInter( drv );
-    this->goalInter = new GoalInter( drv );
+    this->taskInter = new TaskInter( drv );
     this->cmdInter = new CMDInter();
     this->propInter = new PropInter();
     this->varInter = new VarInter();
@@ -29,8 +29,8 @@ InterResult* InterManager::interpretsMainScript( MainScript* script, string file
     return mainScriptInter->interprets( script, file, lineNumber, this );
 }
 
-InterResult* InterManager::interpretsGoal( Block* parent, BlockIterator* it, string currentLine, int lineNumber ) {
-    return goalInter->interprets( parent, it, currentLine, lineNumber, this );
+InterResult* InterManager::interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber ) {
+    return taskInter->interprets( parent, it, currentLine, lineNumber, this );
 }
 
 bool InterManager::isValidCMD( string line, vector<string>& validCMDs ) {

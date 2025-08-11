@@ -29,21 +29,21 @@ vector<string> MainScript::propertyNames() {
     return names;
 }
 
-void MainScript::addGoal( Goal* goal ) {
-    goalsMap[ goal->getName() ] = goal;
+void MainScript::addTask( Task* task ) {
+    tasksMap[ task->getName() ] = task;
 }
 
-Goal* MainScript::getGoal( string goalName ) {
-    return goalsMap[ goalName ];
+Task* MainScript::getTask( string taskName ) {
+    return tasksMap[ taskName ];
 }
 
-int MainScript::getGoalsLength() {
-    return goalsMap.size();
+int MainScript::getTasksLength() {
+    return tasksMap.size();
 }
 
-vector<string> MainScript::goalsNames() {
+vector<string> MainScript::taskNames() {
     vector<string> names;
-    for( const auto& pair : goalsMap )
+    for( const auto& pair : tasksMap )
         names.push_back( pair.first );
     return names;
 }

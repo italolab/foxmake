@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="build" />
+				<Option parameters="debug" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -40,14 +40,14 @@
 		<Unit filename="src/darv/Block.h" />
 		<Unit filename="src/darv/CMD.cpp" />
 		<Unit filename="src/darv/CMD.h" />
-		<Unit filename="src/darv/Goal.cpp" />
-		<Unit filename="src/darv/Goal.h" />
 		<Unit filename="src/darv/MainScript.cpp" />
 		<Unit filename="src/darv/MainScript.h" />
 		<Unit filename="src/darv/No.cpp" />
 		<Unit filename="src/darv/No.h" />
 		<Unit filename="src/darv/Prop.cpp" />
 		<Unit filename="src/darv/Prop.h" />
+		<Unit filename="src/darv/Task.cpp" />
+		<Unit filename="src/darv/Task.h" />
 		<Unit filename="src/darv/Var.cpp" />
 		<Unit filename="src/darv/Var.h" />
 		<Unit filename="src/darv/darv.h" />
@@ -56,8 +56,6 @@
 		<Unit filename="src/inter/BlockInterDriver.h" />
 		<Unit filename="src/inter/CMDInter.cpp" />
 		<Unit filename="src/inter/CMDInter.h" />
-		<Unit filename="src/inter/GoalInter.cpp" />
-		<Unit filename="src/inter/GoalInter.h" />
 		<Unit filename="src/inter/Inter.cpp" />
 		<Unit filename="src/inter/Inter.h" />
 		<Unit filename="src/inter/InterManager.cpp" />
@@ -68,6 +66,8 @@
 		<Unit filename="src/inter/MainScriptInter.h" />
 		<Unit filename="src/inter/PropInter.cpp" />
 		<Unit filename="src/inter/PropInter.h" />
+		<Unit filename="src/inter/TaskInter.cpp" />
+		<Unit filename="src/inter/TaskInter.h" />
 		<Unit filename="src/inter/VarInter.cpp" />
 		<Unit filename="src/inter/VarInter.h" />
 		<Unit filename="src/inter/it/BlockIterator.h" />
