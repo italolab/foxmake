@@ -25,7 +25,6 @@ class Block : public No {
         Block* getRoot();
 
         void addCMD( CMD* cmd );
-        CMD* getCMD( string name );
         int getCMDsLength();
         CMD* getCMDByIndex( int i );
         vector<CMD*> cmds();

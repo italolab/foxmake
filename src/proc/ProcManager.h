@@ -20,8 +20,8 @@ class ProcManager {
 
         virtual MainProc* getMainProc() = 0;
         virtual MainScript* getMainScript() = 0;
-        virtual Proc* getProc( string cmdName, string subCmdName ) = 0;
-        virtual vector<string> validSubCMDs( string cmdName ) = 0;
+        virtual Proc* getProc( string cmdName ) = 0;
+        virtual vector<string> validCMDNames() = 0;
 
 };
 

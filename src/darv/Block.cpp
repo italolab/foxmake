@@ -55,13 +55,6 @@ int Block::getCMDsLength() {
     return cmdsVect.size();
 }
 
-CMD* Block::getCMD( string name ) {
-    for( CMD* cmd : cmdsVect )
-        if ( cmd->getName() == name )
-            return cmd;
-    return nullptr;
-}
-
 CMD* Block::getCMDByIndex( int i ) {
     int k = 0;
     for( CMD* cmd : cmdsVect ) {

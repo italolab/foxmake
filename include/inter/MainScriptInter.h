@@ -10,15 +10,17 @@ class MainScriptInter : public BlockInter {
     private:
         MainScript* script;
 
+    protected:
+        InterResult* extInterpretsLine( Block* script, BlockIterator* it, string currentLine, int lineNumber, void* manager );
+
+        BlockIterator* createBlockIterator( string str );
+        string errorMSGForNotRecognizedStatement();
+        Block* getBlock();
+
     public:
         MainScriptInter( BlockInterDriver* drv );
 
-        InterResult* interpretsLine( Block* script, string line, int lineNumber, void* manager );
-        BlockIterator* createBlockIterator( string str );
-        Block* createOrGetBlock( Block* parent );
-        string errorMSGForNotRecognizedStatement();
-
-        InterResult* interprets( MainScript* script, string str, int lineNumber, void* mgr );
+        InterResult* interprets( MainScript* script, string file, int lineNumber, void* mgr );
 
 };
 

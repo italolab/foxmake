@@ -28,3 +28,22 @@ vector<string> MainScript::propertyNames() {
         names.push_back( pair.first );
     return names;
 }
+
+void MainScript::addGoal( Goal* goal ) {
+    goalsMap[ goal->getName() ] = goal;
+}
+
+Goal* MainScript::getGoal( string goalName ) {
+    return goalsMap[ goalName ];
+}
+
+int MainScript::getGoalsLength() {
+    return goalsMap.size();
+}
+
+vector<string> MainScript::goalsNames() {
+    vector<string> names;
+    for( const auto& pair : goalsMap )
+        names.push_back( pair.first );
+    return names;
+}

@@ -13,14 +13,19 @@ using namespace std;
 class MainProc : public Proc {
 
     private:
+        vector<string> defaultGoals{ "clean", "compile", "link", "build", "copy" };
+
         void procCMDs( ProcManager* mgr );
 
-        void clean( CMD* cmd, MainScript* script );
-        void compileAndLink( CMD* cmd, MainScript* script, bool isCompile, bool isLink );
-        void copyFiles( CMD* cmd, MainScript* script );
+        void clean( CMD* cmd, MainScript* script, ProcManager* manager );
+        void compileAndLink( CMD* cmd, MainScript* script, ProcManager* manager, bool isCompile, bool isLink );
+        void copyFiles( CMD* cmd, MainScript* script, ProcManager* manager );
 
         void appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buildDir );
         void appDeleteFileOrDirectory( CMD* cmd, string path );
+
+        void executaGoalIfExists( string goalName, ProcManager* manager );
+        bool isDefaultGoal( string goalName );
 
     public:
         MainProc( string cmdName );

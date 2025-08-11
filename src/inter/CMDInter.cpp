@@ -17,7 +17,13 @@ InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], InterManager* 
     return interprets( nullptr, argc, argv, 0, manager );
 }
 
-InterResult* CMDInter::interprets( Block* parent, string cmdstr, int lineNumber, InterManager* manager ) {
+InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, InterManager* manager ) {
+    string cmdstr = line;
+
+    InterResult* replaceResult = Inter::replacePropsAndVars( cmdstr, lineNumber, parent );
+    if ( !replaceResult->isOk() )
+        return replaceResult;
+
     string token;
     istringstream iss( cmdstr );
 
@@ -97,4 +103,16 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
         parent->addCMD( cmd );
 
     return new InterResult( cmd, 0, 0 );
+}
+
+bool CMDInter::isValidCMD( string line, vector<string>& validCMDs ) {
+    size_t i = line.find( ' ' );
+    if ( i != string::npos ) {
+        string cmd = line.substr( 0, i );
+        for( string validCMD : validCMDs )
+            if ( validCMD == cmd )
+                return true;
+    }
+
+    return false;
 }

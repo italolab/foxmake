@@ -10,7 +10,7 @@ using std::vector;
 class BlockInterDriver {
 
     public:
-        virtual vector<string> validMainCMDNames() = 0;
+        virtual vector<string> validCMDNames() = 0;
 
 };
 

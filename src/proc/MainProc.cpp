@@ -12,8 +12,8 @@
 
 MainProc::MainProc( string cmdName ) : Proc( cmdName ) {}
 
-void MainProc::processa( CMD* cmd, ProcManager* mgr ) {
-    MainScript* script = mgr->getMainScript();
+void MainProc::processa( CMD* cmd, ProcManager* manager ) {
+    MainScript* script = manager->getMainScript();
 
     if ( cmd->getArgsLength() > 0 ) {
         bool isClean = cmd->existsArg( "clean" );
@@ -30,15 +30,23 @@ void MainProc::processa( CMD* cmd, ProcManager* mgr ) {
         }
 
         if ( isClean )
-            clean( cmd, script );
+            clean( cmd, script, manager );
 
         if ( isCompile || isLink )
-            compileAndLink( cmd, script, isCompile, isLink );
+            compileAndLink( cmd, script, manager, isCompile, isLink );
 
         if ( isCopy )
-            copyFiles( cmd, script );
+            copyFiles( cmd, script, manager );
 
-        procCMDs( mgr );
+        if ( isBuild )
+            executaGoalIfExists( "build", manager );
+
+        vector<string> goalNames = script->goalsNames();
+        for( string goalName : goalNames )
+            if ( !isDefaultGoal( goalName ) )
+                executaGoalIfExists( goalName, manager );
+
+        procCMDs( manager );
     } else {
         cout << "Nenhum comando informado." << endl;
     }
@@ -54,7 +62,7 @@ void MainProc::procCMDs( ProcManager* mgr ) {
     for( int i = 0; i < tam; i++ ) {
         CMD* cmd = script->getCMDByIndex( i );
 
-        Proc* proc = mgr->getProc( cmdName, cmd->getName() );
+        Proc* proc = mgr->getProc( cmd->getName() );
         if ( proc == nullptr )
             throw runtime_error( "Comando nao encontrado: \"" + cmd->getName() + "\"" );
 
@@ -65,7 +73,7 @@ void MainProc::procCMDs( ProcManager* mgr ) {
         cout << "Comandos executados com sucesso." << endl;
 }
 
-void MainProc::clean( CMD* cmd, MainScript* script ) {
+void MainProc::clean( CMD* cmd, MainScript* script, ProcManager* manager ) {
     cout << "\nEXECUTANDO LIMPESA..." << endl;
 
     string isDll = script->getPropertyValue( "is.dll" );
@@ -97,10 +105,12 @@ void MainProc::clean( CMD* cmd, MainScript* script ) {
         cout << "Deletado: " << fname << endl;
     }
 
+    executaGoalIfExists( "clean", manager );
+
     cout << "Limpesa efetuada com sucesso!" << endl;
 }
 
-void MainProc::copyFiles( CMD* cmd, MainScript* script ) {
+void MainProc::copyFiles( CMD* cmd, MainScript* script, ProcManager* manager ) {
     cout << "\nCOPIANDO ARQUIVOS DE BUILD..." << endl;
 
     string isDll = script->getPropertyValue( "is.dll" );
@@ -127,10 +137,12 @@ void MainProc::copyFiles( CMD* cmd, MainScript* script ) {
         cout << "Copiado: " << bfile << endl;
     }
 
+    executaGoalIfExists( "copy", manager );
+
     cout << "Arquivos de build copiados com sucesso!" << endl;
 }
 
-void MainProc::compileAndLink( CMD* cmd, MainScript* script, bool isCompile, bool isLink ) {
+void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manager, bool isCompile, bool isLink ) {
     cout << "\nCOMPILANDO E/OU LINKANDO..." << endl;
 
     string isDll = script->getPropertyValue( "is.dll" );
@@ -198,9 +210,12 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, bool isCompile, boo
                 shell->pushCommand( ss.str() );
             }
             ok = shell->executa();
+
+            executaGoalIfExists( "compile", manager );
         }
 
         if ( ok && isLink ) {
+            cout << endl;
             if ( exeFileName == "" )
                 throw proc_error( cmd, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
 
@@ -244,6 +259,8 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, bool isCompile, boo
             Shell* shell = new Shell( true );
             shell->pushCommand( ss.str() );
             ok = shell->executa();
+
+            executaGoalIfExists( "link", manager );
         }
 
         if ( ok ) {
@@ -274,5 +291,29 @@ void MainProc::appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buil
         io::copyFileOrDirectory( path, bdir, true );
     } catch ( const io_error& e ) {
         throw proc_error( cmd, "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
+    }
+}
+
+bool MainProc::isDefaultGoal( string goalName ) {
+    for( string name : defaultGoals )
+        if ( name == goalName )
+            return true;
+    return false;
+}
+
+void MainProc::executaGoalIfExists( string goalName, ProcManager* manager ) {
+    Goal* goal = manager->getMainScript()->getGoal( goalName );
+    if ( goal != nullptr ) {
+        cout << endl;
+
+        int len = goal->getCMDsLength();
+        for( int i = 0; i < len; i++ ) {
+            CMD* goalCMD = goal->getCMDByIndex( i );
+            Proc* proc = manager->getProc( goalCMD->getName() );
+            if ( proc == nullptr )
+                throw runtime_error( "Nenhum procedimento registrado para o comando: \"" + goalCMD->getName() + "\"" );
+
+            proc->processa( goalCMD, manager );
+        }
     }
 }

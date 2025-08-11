@@ -6,15 +6,19 @@
 
 MainScriptInter::MainScriptInter( BlockInterDriver* drv ) : BlockInter( drv ) {}
 
-InterResult* MainScriptInter::interpretsLine( Block* block, string line, int lineNumber, void* mgr ) {
-    InterManager* manager = (InterManager*)mgr;
-    return manager->interpretsProp( (MainScript*)block, line, lineNumber );
-}
-
-InterResult* MainScriptInter::interprets( MainScript* script, string str, int lineNumber, void* mgr ) {
+InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
     this->script = script;
 
-    return BlockInter::interprets2( nullptr, str, lineNumber, mgr );
+    return BlockInter::interpretsBlock( nullptr, file, lineNumber, mgr );
+}
+
+InterResult* MainScriptInter::extInterpretsLine( Block* script, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
+    InterManager* manager = (InterManager*)mgr;
+
+    InterResult* result = manager->interpretsProp( (MainScript*)script, currentLine, lineNumber );
+    if ( result->isOk() )
+        return result;
+    return manager->interpretsGoal( script, it, currentLine, lineNumber );
 }
 
 string MainScriptInter::errorMSGForNotRecognizedStatement() {
@@ -25,6 +29,6 @@ BlockIterator* MainScriptInter::createBlockIterator( string file ) {
     return new FileIterator( file );
 }
 
-Block* MainScriptInter::createOrGetBlock( Block* parent ) {
+Block* MainScriptInter::getBlock() {
     return script;
 }

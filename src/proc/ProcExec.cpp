@@ -14,14 +14,10 @@ ProcExec::ProcExec() {
 
     mainProc = new MainProc( "main" );
 
-    map<string, Proc*>* mainSubProcsMap = new map<string, Proc*>();
-    (*mainSubProcsMap)[ "cp" ] = new CPProc( "cp" );
-    (*mainSubProcsMap)[ "cd" ] = new CDProc( "cd" );
-    (*mainSubProcsMap)[ "echo" ] = new EchoProc( "echo" );
-
-    procsMapMap[ "main" ] = mainSubProcsMap;
-
-    this->mainCMDName = "main";
+    procsMap[ "main" ] = mainProc;
+    procsMap[ "cp" ] = new CPProc( "cp" );
+    procsMap[ "cd" ] = new CDProc( "cd" );
+    procsMap[ "echo" ] = new EchoProc( "echo" );
 }
 
 void ProcExec::exec( int argc, char* argv[] ) {
@@ -51,29 +47,15 @@ void ProcExec::exec( int argc, char* argv[] ) {
     }
 }
 
-vector<string> ProcExec::validSubCMDs( string cmdName ) {
-    vector<string> keys;
-
-    map<string, Proc*>* pmap = getProcsMap( cmdName );
-    for( const auto& pair : *pmap )
-        keys.push_back( pair.first );
-    return keys;
+Proc* ProcExec::getProc( string cmdName ) {
+    return procsMap[ cmdName ];
 }
 
-Proc* ProcExec::getProc( string cmdName, string subCmdName ) {
-    map<string, Proc*>* pmap = getProcsMap( cmdName );
-    return (*pmap)[ subCmdName ];
-}
-
-map<string, Proc*>* ProcExec::getProcsMap( string cmdName ) {
-    map<string, Proc*>* pmap = procsMapMap[ cmdName ];
-    if ( pmap == nullptr )
-        throw runtime_error( "Nome de cmd (Proc) invalido: \"" + cmdName + "\"" );
-    return pmap;
-}
-
-vector<string> ProcExec::validMainCMDNames() {
-    return validSubCMDs( mainCMDName );
+vector<string> ProcExec::validCMDNames() {
+    vector<string> names;
+    for( const auto& pair : procsMap )
+        names.push_back( pair.first );
+    return names;
 }
 
 MainProc* ProcExec::getMainProc() {

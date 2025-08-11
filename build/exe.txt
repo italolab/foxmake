@@ -31,6 +31,14 @@ include.dirs=include
 dll.dirs=
 #defines=
 
+compile {
+    echo Compilou!
+}
+
+build {
+    echo Build concluido!
+}
+
 cp $(src.dir)/**/inter/*.h $(include.dirs)
 cp $(src.dir)/*.cpp $(build.dir)
 cp $(obj.dir)/src/io/* $(build.dir)/objetos
@@ -40,7 +48,10 @@ cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
 cd ../TestesUnit
 cp $(src.dir) ../cexec/$(build.dir)
 
-$a=$(src.dir)/abc
+build {
+    $a=$(src.dir)/abc
 
-echo $(a) diretorio
-echo $(working_dir)
+    echo $(a) diretorio
+    echo $(working_dir)
+    echo Build completo!
+}

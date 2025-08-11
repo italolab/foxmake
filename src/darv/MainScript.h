@@ -4,6 +4,7 @@
 #include "Block.h"
 #include "CMD.h"
 #include "Var.h"
+#include "Goal.h"
 
 #include <string>
 
@@ -13,6 +14,7 @@ class MainScript : public Block {
 
     private:
         map<string, Prop*> propertiesMap;
+        map<string, Goal*> goalsMap;
 
     public:
         MainScript();
@@ -22,6 +24,11 @@ class MainScript : public Block {
         bool existsProperty( string name );
         int getPropertiesLength();
         vector<string> propertyNames();
+
+        void addGoal( Goal* goal );
+        Goal* getGoal( string goalName );
+        int getGoalsLength();
+        vector<string> goalsNames();
 
 };
 

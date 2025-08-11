@@ -16,15 +16,15 @@ class BlockInter : public Inter {
         BlockInterDriver* drv;
 
     protected:
-        virtual InterResult* interpretsLine( Block* block, string line, int lineNumber, void* mgr ) = 0;
+        virtual InterResult* extInterpretsLine( Block* block, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) = 0;
         virtual BlockIterator* createBlockIterator( string str ) = 0;
-        virtual Block* createOrGetBlock( Block* parent ) = 0;
         virtual string errorMSGForNotRecognizedStatement() = 0;
+        virtual Block* getBlock() = 0;
 
     public:
         BlockInter( BlockInterDriver* drv );
 
-        InterResult* interprets2( Block* parent, string str, int lineNumber, void* mgr );
+        InterResult* interpretsBlock( Block* parent, string blockStr, int lineNumber, void* mgr );
 };
 
 #endif

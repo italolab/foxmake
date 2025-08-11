@@ -40,6 +40,8 @@
 		<Unit filename="src/darv/Block.h" />
 		<Unit filename="src/darv/CMD.cpp" />
 		<Unit filename="src/darv/CMD.h" />
+		<Unit filename="src/darv/Goal.cpp" />
+		<Unit filename="src/darv/Goal.h" />
 		<Unit filename="src/darv/MainScript.cpp" />
 		<Unit filename="src/darv/MainScript.h" />
 		<Unit filename="src/darv/No.cpp" />
@@ -49,12 +51,13 @@
 		<Unit filename="src/darv/Var.cpp" />
 		<Unit filename="src/darv/Var.h" />
 		<Unit filename="src/darv/darv.h" />
-		<Unit filename="src/inter/AbstractInterManager.h" />
 		<Unit filename="src/inter/BlockInter.cpp" />
 		<Unit filename="src/inter/BlockInter.h" />
 		<Unit filename="src/inter/BlockInterDriver.h" />
 		<Unit filename="src/inter/CMDInter.cpp" />
 		<Unit filename="src/inter/CMDInter.h" />
+		<Unit filename="src/inter/GoalInter.cpp" />
+		<Unit filename="src/inter/GoalInter.h" />
 		<Unit filename="src/inter/Inter.cpp" />
 		<Unit filename="src/inter/Inter.h" />
 		<Unit filename="src/inter/InterManager.cpp" />
@@ -86,6 +89,8 @@
 		<Unit filename="src/proc/CDProc.h" />
 		<Unit filename="src/proc/CPProc.cpp" />
 		<Unit filename="src/proc/CPProc.h" />
+		<Unit filename="src/proc/EchoProc.cpp" />
+		<Unit filename="src/proc/EchoProc.h" />
 		<Unit filename="src/proc/MainProc.cpp" />
 		<Unit filename="src/proc/MainProc.h" />
 		<Unit filename="src/proc/Proc.cpp" />

@@ -1,6 +1,7 @@
 
 #include "BlockInter.h"
 #include "InterManager.h"
+#include "../util/strutil.h"
 
 #include <vector>
 
@@ -10,37 +11,29 @@ BlockInter::BlockInter( BlockInterDriver* drv ) {
     this->drv = drv;
 }
 
-InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber, void* mgr ) {
+InterResult* BlockInter::interpretsBlock( Block* parent, string blockStr, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
-    vector<string> validCMDs = drv->validMainCMDNames();
+    vector<string> validCMDs = drv->validCMDNames();
 
-    Block* block = createOrGetBlock( parent );
-    BlockIterator* it = createBlockIterator( str );
+    Block* block = getBlock();
+    BlockIterator* it = createBlockIterator( blockStr );
 
     int numberOfLines = 0;
     while( it->hasNextLine() ) {
         string line = it->nextLine();
+        line = strutil::removeStartWhiteSpaces( line );
 
         if ( line.length() == 0 ) {
             numberOfLines++;
             continue;
         }
-        if ( line[ 0 ] == ' ' || line[ 0 ] == '\n' || line[ 0 ] == '\t' || line[ 0 ] == '\r' || line[ 0 ] == '#' ) {
+        if ( strutil::isWhiteSpace( line[ 0 ] ) || line[ 0 ] == '#' ) {
             numberOfLines++;
             continue;
         }
 
-        bool isCmd = false;
-
-        size_t i = line.find( ' ' );
-        if ( i != string::npos ) {
-            string cmd = line.substr( 0, i );
-            int len = validCMDs.size();
-            for( int k = 0; !isCmd && k < len; k++ )
-                if ( cmd == validCMDs[ k ] )
-                    isCmd = true;
-        }
+        bool isCmd = manager->isValidCMD( line, validCMDs );
 
         int currentLineNumber = lineNumber + numberOfLines;
 
@@ -56,7 +49,7 @@ InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber,
         if ( !result->isOk() )
             result = manager->interpretsVar( block, line, currentLineNumber );
         if ( !result->isOk() )
-            result = interpretsLine( block, line, currentLineNumber, mgr );
+            result = extInterpretsLine( block, it, line, currentLineNumber, mgr );
 
         if ( result->isOk() ) {
             numberOfLines += result->getNumberOfLines();
