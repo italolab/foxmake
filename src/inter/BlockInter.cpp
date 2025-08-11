@@ -11,7 +11,7 @@ BlockInter::BlockInter( BlockInterDriver* drv ) {
     this->drv = drv;
 }
 
-InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber, AbstractInterManager* mgr ) {
+InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
     vector<string> validCMDs = drv->validMainCMDNames();
@@ -52,11 +52,11 @@ InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber,
             if ( !replaceResult->isOk() )
                 return replaceResult;
 
-            result = manager->getCMDInter()->interpreta( block, line, currentLineNumber, manager );
+            result = manager->interpretsCMD( block, line, currentLineNumber );
         }
 
         if ( !result->isOk() )
-            result = manager->getVarInter()->interpreta( block, line, currentLineNumber, manager );
+            result = manager->interpretsVar( block, line, currentLineNumber );
         if ( !result->isOk() )
             result = interpretsLine( block, line, currentLineNumber, mgr );
 

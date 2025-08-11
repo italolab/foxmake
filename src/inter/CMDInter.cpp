@@ -13,11 +13,11 @@ using std::stringstream;
 #include <iostream>
 using namespace std;
 
-InterResult* CMDInter::interpretaMainCMD( int argc, char* argv[], InterManager* manager ) {
-    return interpreta( nullptr, argc, argv, 0, manager );
+InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], InterManager* manager ) {
+    return interprets( nullptr, argc, argv, 0, manager );
 }
 
-InterResult* CMDInter::interpreta( Block* block, string cmdstr, int lineNumber, InterManager* manager ) {
+InterResult* CMDInter::interprets( Block* block, string cmdstr, int lineNumber, InterManager* manager ) {
     string token;
     istringstream iss( cmdstr );
 
@@ -32,10 +32,10 @@ InterResult* CMDInter::interpreta( Block* block, string cmdstr, int lineNumber, 
     while( getline( iss2, token, ' ' ) )
         argv[ i++ ] = strdup( token.c_str() );
 
-    return interpreta( block, argc, argv, lineNumber, manager );
+    return interprets( block, argc, argv, lineNumber, manager );
 }
 
-InterResult* CMDInter::interpreta( Block* block, int argc, char* argv[], int lineNumber, InterManager* manager ) {
+InterResult* CMDInter::interprets( Block* block, int argc, char* argv[], int lineNumber, InterManager* manager ) {
     CMD* cmd = new CMD( block );
     cmd->setLineNumber( lineNumber );
 

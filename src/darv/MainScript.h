@@ -3,13 +3,13 @@
 
 #include "Block.h"
 #include "CMD.h"
-#include "WithPropNo.h"
+#include "Var.h"
 
 #include <string>
 
 using std::string;
 
-class MainScript : public Block, public WithPropNo {
+class MainScript : public Block {
 
     private:
         map<string, Prop*> propertiesMap;

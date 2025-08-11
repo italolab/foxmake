@@ -9,12 +9,12 @@ class MainScriptInter : public BlockInter {
     public:
         MainScriptInter( BlockInterDriver* drv );
 
-        InterResult* interpretsLine( Block* block, string line, int lineNumber, AbstractInterManager* manager );
+        InterResult* interpretsLine( Block* block, string line, int lineNumber, void* manager );
         BlockIterator* createBlockIterator( string str );
         Block* createBlock( Block* block );
         string errorMSGForNotRecognizedStatement();
 
-        InterResult* interprets( string str, int lineNumber, AbstractInterManager* mgr );
+        InterResult* interprets( string str, int lineNumber, void* mgr );
 
 };
 

@@ -1,5 +1,6 @@
 
 #include "Inter.h"
+#include "../darv/MainScript.h"
 
 #include <sstream>
 
@@ -7,9 +8,11 @@ using std::stringstream;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
-InterResult* Inter::replaceProps( string& line, int lineNumber, WithPropNo* no ) {
+InterResult* Inter::replaceProps( string& line, int lineNumber, Block* block ) {
     size_t i = line.find( '$' );
     size_t j = line.find( '(' );
+
+    MainScript* script = (MainScript*)block->getRoot();
 
     if ( i != string::npos && j == i+1 ) {
         stringstream ss;
@@ -36,14 +39,21 @@ InterResult* Inter::replaceProps( string& line, int lineNumber, WithPropNo* no )
                         }
                         if ( parentesisCount == 0 ) {
                             string name = line.substr( k+2, j-(k+2) );
-                            replaceProps( name, lineNumber, no );
+                            replaceProps( name, lineNumber, block );
 
-                            if ( no->existsProperty( name ) ) {
-                                string value = no->getPropertyValue( name );
+                            if ( script->existsProperty( name ) ) {
+                                string value = script->getPropertyValue( name );
                                 ss << value;
                                 k = j;
                             } else {
-                                return new InterResult( 0, "Propriedade nao encontrada: $(" + name + ")" );
+                                Var* var = block->getVar( name );
+                                if ( var != nullptr ) {
+                                    string value = var->getValue();
+                                    ss << value;
+                                    k = j;
+                                } else {
+                                    return new InterResult( 0, "Propriedade nao encontrada: $(" + name + ")" );
+                                }
                             }
                         } else {
                             ss << line[ k ];

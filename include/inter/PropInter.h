@@ -3,6 +3,7 @@
 
 #include "Inter.h"
 #include "InterResult.h"
+#include "../darv/MainScript.h"
 #include "../darv/Block.h"
 
 class InterManager;
@@ -10,7 +11,7 @@ class InterManager;
 class PropInter : public Inter {
 
     public:
-        InterResult* interpreta( WithPropNo* no, string line, int lineNumber, InterManager* manager );
+        InterResult* interprets( MainScript* script, string line, int lineNumber, InterManager* manager );
 
 };
 

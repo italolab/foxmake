@@ -24,13 +24,13 @@ ProcExec::ProcExec() {
 
 void ProcExec::exec( int argc, char* argv[] ) {
     try {
-        InterResult* result = interManager->getCMDInter()->interpretaMainCMD( argc, argv, interManager );
+        InterResult* result = interManager->interpretsMainCMD( argc, argv );
         if ( !result->isOk() )
             throw runtime_error( "Erro: " + result->getErrorMsg() );
 
         CMD* cmd = (CMD*)result->getNo();
 
-        InterResult* result2 = interManager->getMainScriptInter()->interprets( configFileName, 1, interManager );
+        InterResult* result2 = interManager->interpretsMainScript( configFileName, 1 );
         if ( result2->isOk() ) {
             mainScript = (MainScript*)result2->getNo();
             mainScript->addLocalVar( "main_config_file", configFileName );

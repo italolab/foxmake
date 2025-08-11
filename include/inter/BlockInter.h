@@ -3,7 +3,6 @@
 
 #include "Inter.h"
 #include "InterResult.h"
-#include "AbstractInterManager.h"
 #include "BlockInterDriver.h"
 #include "it/BlockIterator.h"
 
@@ -17,7 +16,7 @@ class BlockInter : public Inter {
         BlockInterDriver* drv;
 
     protected:
-        virtual InterResult* interpretsLine( Block* block, string line, int lineNumber, AbstractInterManager* mgr ) = 0;
+        virtual InterResult* interpretsLine( Block* block, string line, int lineNumber, void* mgr ) = 0;
         virtual BlockIterator* createBlockIterator( string str ) = 0;
         virtual Block* createBlock( Block* parent ) = 0;
         virtual string errorMSGForNotRecognizedStatement() = 0;
@@ -25,7 +24,7 @@ class BlockInter : public Inter {
     public:
         BlockInter( BlockInterDriver* drv );
 
-        InterResult* interprets2( Block* parent, string str, int lineNumber, AbstractInterManager* mgr );
+        InterResult* interprets2( Block* parent, string str, int lineNumber, void* mgr );
 };
 
 #endif

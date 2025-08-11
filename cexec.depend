@@ -399,16 +399,16 @@
 	<string>
 	<vector>
 
-1754853598 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
+1754904155 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.cpp
 	"Inter.h"
+	"../darv/MainScript.h"
 	<sstream>
 
-1754815212 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
+1754904121 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\inter.h
 	<string>
 	<stdexcept>
 	"InterResult.h"
 	"../darv/Block.h"
-	"../darv/WithPropNo.h"
 
 1754654888 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\maininter.cpp
 	"MainInter.h"
@@ -519,7 +519,7 @@
 	"Proc.h"
 	<sstream>
 
-1754873858 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+1754902977 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
 	"ProcExec.h"
 	"CPProc.h"
 	"CDProc.h"
@@ -685,7 +685,7 @@
 	"No.h"
 	<string>
 
-1754874484 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\mainscriptinter.h
+1754903954 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\mainscriptinter.h
 	"BlockInter.h"
 	"it/BlockIterator.h"
 
@@ -693,15 +693,17 @@
 	<string>
 	<vector>
 
-1754873233 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\intermanager.h
-	"AbstractInterManager.h"
+1754904088 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\intermanager.h
 	"BlockInterDriver.h"
 	"MainScriptInter.h"
 	"CMDInter.h"
 	"PropInter.h"
 	"VarInter.h"
+	"InterResult.h"
+	"../darv/Block.h"
+	"../darv/MainScript.h"
 
-1754815212 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\cmdinter.h
+1754902544 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\cmdinter.h
 	"Inter.h"
 	<string>
 
@@ -713,15 +715,12 @@
 	<vector>
 	<map>
 
-1754865971 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\varinter.h
+1754902555 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\varinter.h
 	"Inter.h"
 	<string>
 
-1754876271 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\block.cpp
+1754876530 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\block.cpp
 	"Block.h"
-	<iostream>
-	<typeinfo>
-	"MainScript.h"
 
 1754835682 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.cpp
 	"CMD.h"
@@ -736,27 +735,27 @@
 1754869425 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.cpp
 	"MainScript.h"
 
-1754869489 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.h
+1754904192 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.h
 	"Block.h"
 	"CMD.h"
-	"WithPropNo.h"
+	"Var.h"
 	<string>
 
 1754865510 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\withpropno.h
 	"Prop.h"
 	<string>
 
-1754867361 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\intermanager.cpp
+1754904221 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\intermanager.cpp
 	"InterManager.h"
 	"MainScriptInter.h"
 	"CMDInter.h"
 	"VarInter.h"
 
-1754874704 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\varinter.cpp
+1754903767 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\varinter.cpp
 	"VarInter.h"
 	"../darv/Var.h"
 
-1754873857 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\cmdinter.cpp
+1754902627 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\cmdinter.cpp
 	"CMDInter.h"
 	"InterManager.h"
 	"../darv/CMD.h"
@@ -765,7 +764,7 @@
 	<cstring>
 	<iostream>
 
-1754875303 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\mainscriptinter.cpp
+1754904012 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\mainscriptinter.cpp
 	"MainScriptInter.h"
 	"InterManager.h"
 	"it/FileIterator.h"
@@ -821,15 +820,15 @@
 1754830980 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\darv.h
 	<string>
 
-1754865975 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\propinter.h
+1754903967 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\propinter.h
 	"Inter.h"
 	"InterResult.h"
+	"../darv/MainScript.h"
 	"../darv/Block.h"
 
-1754875524 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\propinter.cpp
+1754904130 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\propinter.cpp
 	"PropInter.h"
 	"../darv/Prop.h"
-	<iostream>
 
 1754835500 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\prop.h
 	"No.h"
@@ -849,10 +848,9 @@
 	"Proc.h"
 	<string>
 
-1754874342 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\blockinter.h
+1754904258 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\blockinter.h
 	"Inter.h"
 	"InterResult.h"
-	"AbstractInterManager.h"
 	"BlockInterDriver.h"
 	"it/BlockIterator.h"
 	<string>
@@ -861,12 +859,16 @@
 	<string>
 	<vector>
 
-1754876060 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\blockinter.cpp
+1754903998 source:c:\users\italo\workspace-cpp\dlls\cexec\src\inter\blockinter.cpp
 	"BlockInter.h"
 	"InterManager.h"
 	"../darv/MainScript.h"
 	<vector>
-	<iostream>
 
 1754868706 c:\users\italo\workspace-cpp\dlls\cexec\src\inter\abstractintermanager.h
+
+1754903289 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\withpropblockno.h
+	"Prop.h"
+	"Var.h"
+	<string>
 

@@ -6,7 +6,6 @@
 
 #include "InterResult.h"
 #include "../darv/Block.h"
-#include "../darv/WithPropNo.h"
 
 using std::string;
 using std::runtime_error;
@@ -21,7 +20,7 @@ class inter_error : public runtime_error {
 class Inter {
 
     public:
-        InterResult* replaceProps( string& line, int lineNumber, WithPropNo* no );
+        InterResult* replaceProps( string& line, int lineNumber, Block* block );
 
 };
 

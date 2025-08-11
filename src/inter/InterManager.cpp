@@ -11,18 +11,22 @@ InterManager::InterManager( BlockInterDriver* drv ) {
     this->varInter = new VarInter();
 }
 
-MainScriptInter* InterManager::getMainScriptInter() {
-    return mainScriptInter;
+InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
+    return cmdInter->interpretsMainCMD( argc, argv, this );
 }
 
-CMDInter* InterManager::getCMDInter() {
-    return cmdInter;
+InterResult* InterManager::interpretsCMD( Block* block, string cmdstr, int lineNumber ) {
+    return cmdInter->interprets( block, cmdstr, lineNumber, this );
 }
 
-PropInter* InterManager::getPropInter() {
-    return propInter;
+InterResult* InterManager::interpretsVar( Block* block, string line, int lineNumber ) {
+    return varInter->interprets( block, line, lineNumber, this );
 }
 
-VarInter* InterManager::getVarInter() {
-    return varInter;
+InterResult* InterManager::interpretsProp( MainScript* script, string line, int lineNumber ) {
+    return propInter->interprets( script, line, lineNumber, this );
+}
+
+InterResult* InterManager::interpretsMainScript( string file, int lineNumber ) {
+    return mainScriptInter->interprets( file, lineNumber, this );
 }

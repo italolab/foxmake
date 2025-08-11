@@ -2,7 +2,7 @@
 #include "VarInter.h"
 #include "../darv/Var.h"
 
-InterResult* VarInter::interpreta( Block* block, string line, int lineNumber, InterManager* manager ) {
+InterResult* VarInter::interprets( Block* block, string line, int lineNumber, InterManager* manager ) {
     if ( line.length() == 0 )
         return new InterResult( false );
     if ( line[ 0 ] != '$' )
@@ -15,9 +15,9 @@ InterResult* VarInter::interpreta( Block* block, string line, int lineNumber, In
     string name = line.substr( 1, i );
     string value = line.substr( i+1, line.length()-i );
 
-    /*InterResult* replaceResult = Inter::replaceProps( value, lineNumber, no );
+    InterResult* replaceResult = Inter::replaceProps( value, lineNumber, block );
     if ( !replaceResult->isOk() )
-        return replaceResult;*/
+        return replaceResult;
 
     Var* var = new Var( block, name, value );
     if ( block != nullptr )

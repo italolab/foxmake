@@ -7,12 +7,12 @@
 
 MainScriptInter::MainScriptInter( BlockInterDriver* drv ) : BlockInter( drv ) {}
 
-InterResult* MainScriptInter::interpretsLine( Block* block, string line, int lineNumber, AbstractInterManager* mgr ) {
+InterResult* MainScriptInter::interpretsLine( Block* block, string line, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
-    return manager->getPropInter()->interpreta( (MainScript*)block, line, lineNumber, manager );
+    return manager->interpretsProp( (MainScript*)block, line, lineNumber );
 }
 
-InterResult* MainScriptInter::interprets( string str, int lineNumber, AbstractInterManager* mgr ) {
+InterResult* MainScriptInter::interprets( string str, int lineNumber, void* mgr ) {
     return BlockInter::interprets2( nullptr, str, lineNumber, mgr );
 }
 

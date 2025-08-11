@@ -1,14 +1,17 @@
 #ifndef INTER_MANAGER_H
 #define INTER_MANAGER_H
 
-#include "AbstractInterManager.h"
 #include "BlockInterDriver.h"
 #include "MainScriptInter.h"
 #include "CMDInter.h"
 #include "PropInter.h"
 #include "VarInter.h"
+#include "InterResult.h"
 
-class InterManager : public AbstractInterManager {
+#include "../darv/Block.h"
+#include "../darv/MainScript.h"
+
+class InterManager {
 
     private:
         MainScriptInter* mainScriptInter;
@@ -19,10 +22,14 @@ class InterManager : public AbstractInterManager {
     public:
         InterManager( BlockInterDriver* drv );
 
-        MainScriptInter* getMainScriptInter();
-        CMDInter* getCMDInter();
-        PropInter* getPropInter();
-        VarInter* getVarInter();
+        InterResult* interpretsMainCMD( int argc, char* argv[] );
+
+        InterResult* interpretsCMD( Block* block, string cmdstr, int lineNumber );
+        InterResult* interpretsVar( Block* block, string line, int lineNumber );
+        InterResult* interpretsProp( MainScript* script, string line, int lineNumber );
+
+        InterResult* interpretsMainScript( string file, int lineNumber );
+
 };
 
 #endif

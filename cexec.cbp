@@ -48,7 +48,6 @@
 		<Unit filename="src/darv/Prop.h" />
 		<Unit filename="src/darv/Var.cpp" />
 		<Unit filename="src/darv/Var.h" />
-		<Unit filename="src/darv/WithPropNo.h" />
 		<Unit filename="src/darv/darv.h" />
 		<Unit filename="src/inter/AbstractInterManager.h" />
 		<Unit filename="src/inter/BlockInter.cpp" />
