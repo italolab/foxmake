@@ -15,7 +15,7 @@ InterResult* VarInter::interprets( Block* block, string line, int lineNumber, In
     string name = line.substr( 1, i );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replaceProps( value, lineNumber, block );
+    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, block );
     if ( !replaceResult->isOk() )
         return replaceResult;
 

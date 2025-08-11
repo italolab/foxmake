@@ -20,7 +20,7 @@ class inter_error : public runtime_error {
 class Inter {
 
     public:
-        InterResult* replaceProps( string& line, int lineNumber, Block* block );
+        InterResult* replacePropsAndVars( string& line, int lineNumber, Block* block );
 
 };
 

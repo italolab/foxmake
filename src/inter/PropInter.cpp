@@ -10,7 +10,7 @@ InterResult* PropInter::interprets( MainScript* script, string line, int lineNum
     string name = line.substr( 0, i );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replaceProps( value, lineNumber, script );
+    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, script );
     if ( !replaceResult->isOk() )
         return replaceResult;
 

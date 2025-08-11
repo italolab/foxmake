@@ -8,7 +8,7 @@ using std::stringstream;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
-InterResult* Inter::replaceProps( string& line, int lineNumber, Block* block ) {
+InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* block ) {
     size_t i = line.find( '$' );
     size_t j = line.find( '(' );
 
@@ -39,7 +39,7 @@ InterResult* Inter::replaceProps( string& line, int lineNumber, Block* block ) {
                         }
                         if ( parentesisCount == 0 ) {
                             string name = line.substr( k+2, j-(k+2) );
-                            replaceProps( name, lineNumber, block );
+                            replacePropsAndVars( name, lineNumber, block );
 
                             if ( script->existsProperty( name ) ) {
                                 string value = script->getPropertyValue( name );

@@ -48,7 +48,7 @@ InterResult* BlockInter::interprets2( Block* parent, string str, int lineNumber,
         InterResult* result = new InterResult( false );
         if ( isCmd ) {
             MainScript* root = (MainScript*)block->getRoot();
-            InterResult* replaceResult = Inter::replaceProps( line, currentLineNumber, root );
+            InterResult* replaceResult = Inter::replacePropsAndVars( line, currentLineNumber, root );
             if ( !replaceResult->isOk() )
                 return replaceResult;
 
