@@ -29,10 +29,10 @@ namespace io {
     AllFileFilter* all_file_filter();
 
     bool createDirectories( string path );
-    void recursiveCopyFileOrDirectory( string path, string dir, bool isOverwriteExisting );
+    void copyFileOrDirectory( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive );
     void copyFile( string srcFile, string destDir, bool isOverwriteExisting );
-    void copyFiles( string srcDir, string destDir, FileFilter* filter, bool isOverwriteExisting );
-    void recursiveCopyDir( string srcDir, string destDir, bool isOverwriteExisting );
+    void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive );
+    void copyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     bool deleteFileOrDirectory( string path );
     int recursiveDeleteDirectory( string path );
@@ -58,7 +58,8 @@ namespace io {
     char fileSeparator();
 
     bool isJokerInPath( string path );
-    bool isDirectory( string path );
+    bool isDir( string path );
+    bool isEmptyDir( string dir );
     bool fileExists( string path );
 
 }

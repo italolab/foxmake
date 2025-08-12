@@ -21,7 +21,7 @@ void CDProc::processa( CMD* cmd, ProcManager* manager ) {
     if ( !io::fileExists( newDir ) )
         throw proc_error( cmd, "Diretorio nao encontrado." );
 
-    if ( !io::isDirectory( newDir ) )
+    if ( !io::isDir( newDir ) )
         throw proc_error( cmd, "O caminho informado nao e um diretorio." );
 
     bool ok = shell::setWorkingDir( newDir );

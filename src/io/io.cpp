@@ -21,14 +21,6 @@ namespace io {
         return new AllFileFilter();
     }
 
-    void recursiveCopyFileOrDirectory( string path, string dir, bool isOverwriteExisting ) {
-        if ( isDirectory( path ) ) {
-            recursiveCopyDir( path, dir, isOverwriteExisting );
-        } else {
-            copyFile( path, dir, isOverwriteExisting );
-        }
-    }
-
     bool deleteFileOrDirectory( string path ) {
         string p = makePreferred( path );
         try {
@@ -76,7 +68,7 @@ namespace io {
 
     int recursiveDeleteFileOrDirectory( string path ) {
         string p = makePreferred( path );
-        if ( isDirectory( p ) ) {
+        if ( isDir( p ) ) {
             return recursiveDeleteDirectory( p );
         } else {
             bool deleted = deleteFileOrDirectory( p );
@@ -99,6 +91,14 @@ namespace io {
         }
     }
 
+    void copyFileOrDirectory( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive ) {
+        if ( isDir( srcPath ) ) {
+            copyDir( srcPath, destDir, isOverwriteExisting, isRecursive );
+        } else {
+            copyFile( srcPath, destDir, isOverwriteExisting );
+        }
+    }
+
     void copyFile( string srcFile, string destDir, bool isOverwriteExisting ) {
         try {
             string destDir2 = addSeparatorToDirIfNeed( destDir );
@@ -118,17 +118,19 @@ namespace io {
         }
     }
 
-    void recursiveCopyDir( string srcDir, string destDir, bool isOverwriteExisting ) {
+    void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
             string fsrcName = fileOrDirName( srcDir );
 
-            filesystem::path src = makePreferred( srcDir );
-            filesystem::path dest = makePreferred( concatPaths( destDir, fsrcName ) );
+            string src = makePreferred( srcDir );
+            string dest = makePreferred( concatPaths( destDir, fsrcName ) );
 
             if ( isOverwriteExisting && filesystem::exists( dest ) )
                 filesystem::remove_all( dest );
 
-            filesystem::copy( src, dest, filesystem::copy_options::recursive );
+            if ( isRecursive )
+                filesystem::copy( src, dest, filesystem::copy_options::recursive );
+            else filesystem::copy( src, dest );
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
@@ -148,12 +150,10 @@ namespace io {
         filesystem::copy_file( file, dest2 );
     }
 
-    void copyFiles( string srcDir, string destDir, FileFilter* filter, bool isOverwriteExisting ) {
+    void copyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
             string src = makePreferred( srcDir );
             string dest = makePreferred( destDir );
-
-            src = addSeparatorToDirIfNeed( src );
 
             for( const auto& entry : filesystem::directory_iterator( src ) ) {
                 string file = makePreferred( entry.path().string() );
@@ -163,7 +163,7 @@ namespace io {
                     isCopyFile = filter->isFilter( file );
 
                 if ( isCopyFile && !filesystem::is_directory( file ) )
-                    __copyFile( file, dest, src, isOverwriteExisting );
+                    __copyFile( file, dest, replacePath, isOverwriteExisting );
             }
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
@@ -225,7 +225,7 @@ namespace io {
 
     string recursiveDirPathToReplace( string path ) {
         string p = makePreferred( path );
-        size_t i = p.find( "**" );
+        size_t i = p.find( "-" );
         if ( i == string::npos ) {
             return "";
         } else {
@@ -259,11 +259,11 @@ namespace io {
     string recursiveFileOrDirName( string path ) {
         string p = makePreferred( path );
 
-        size_t i = p.find( "**" );
+        size_t i = p.find( "-" );
         if ( i == string::npos ) {
             return fileOrDirName( path );
         } else {
-            i += 3;
+            i += 2;
             return p.substr( i, p.length()-i+1 );
         }
     }
@@ -322,7 +322,10 @@ namespace io {
         if ( p.is_absolute() ) {
             return makePreferred( path );
         } else {
-            return makePreferred( currentPath() + "/" + path );
+            string pp = currentPath();
+            pp += filesystem::path::preferred_separator;
+            pp += path;
+            return makePreferred( pp );
         }
     }
 
@@ -350,13 +353,17 @@ namespace io {
         return path.substr( i+1, path.length()-i );
     }
 
-    bool isDirectory( string path ) {
+    bool isDir( string path ) {
         return filesystem::is_directory( path );
+    }
+
+    bool isEmptyDir( string dir ) {
+        return filesystem::is_empty( dir );
     }
 
     string removeRecursiveJoker( string path ) {
         string p = makePreferred( path );
-        string replaceStr = "**";
+        string replaceStr = "-";
         replaceStr += filesystem::path::preferred_separator;
         return strutil::replace( p, replaceStr, "" );
     }

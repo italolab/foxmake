@@ -22,7 +22,7 @@ class MainProc : public Proc {
         void copyFiles( CMD* cmd, MainScript* script, ProcManager* manager );
 
         void appCopyFileOrDirectoryToBuild( string path, string buildDir );
-        void appRecursiveDeleteFileOrDirectory( string path );
+        void appRecursiveDeleteFileOrDirectoryIfExists( string path );
 
         void executaTaskIfExists( string goalName, ProcManager* manager );
         bool isDefaultTask( string TaskName );

@@ -24,7 +24,7 @@ void RMProc::processa( CMD* cmd, ProcManager* manager ) {
             bool isDeleteByExt = false;
             if ( fileName.length() > 0 ) {
                 isDeleteAllFiles = ( fileName[ 0 ] == '*' );
-                if ( fileName.length() > 1 )
+                if ( isDeleteAllFiles && fileName.length() > 1 )
                     isDeleteByExt = ( fileName[ 1 ] == '.' );
             }
 

@@ -89,18 +89,14 @@ void MainProc::clean( CMD* cmd, MainScript* script, ProcManager* manager ) {
 
     if ( fname != "" ) {
         string file = io::concatPaths( binDir, fname );
-        //appRecursiveDeleteFileOrDirectory( file );
-
-        cout << "Deletado: " << file << endl;
+        //appRecursiveDeleteFileOrDirectoryIfExists( file );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
         string fname = io::fileOrDirName( bfile );
         fname = io::concatPaths( buildDir, fname );
-        appRecursiveDeleteFileOrDirectory( fname );
-
-        cout << "Deletado: " << fname << endl;
+        appRecursiveDeleteFileOrDirectoryIfExists( fname );
     }
 
     executaTaskIfExists( "clean", manager );
@@ -130,10 +126,8 @@ void MainProc::copyFiles( CMD* cmd, MainScript* script, ProcManager* manager ) {
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
-    for( string bfile : bfiles ) {
+    for( string bfile : bfiles )
         appCopyFileOrDirectoryToBuild( bfile, buildDir );
-        cout << "Copiado: " << bfile << endl;
-    }
 
     executaTaskIfExists( "copy", manager );
 
@@ -271,13 +265,16 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manage
     }
 }
 
-void MainProc::appRecursiveDeleteFileOrDirectory( string path ) {
+void MainProc::appRecursiveDeleteFileOrDirectoryIfExists( string path ) {
     try {
-        int count = io::recursiveDeleteFileOrDirectory( path );
-        if ( count == 0 )
-            throw runtime_error( "Arquivo ou pasta nao deletado: \"" + path + "\"" );
+        if ( io::fileExists( path ) ) {
+            int count = io::recursiveDeleteFileOrDirectory( path );
+            if ( count == 0 )
+                throw runtime_error( "Arquivo ou pasta nao deletado: \"" + path + "\"" );
+
+            cout << "Deletado: " << path << endl;
+        }
     } catch ( const io_error& e ) {
-        cerr << e.what() << endl;
         throw runtime_error( "Nao foi possivel deletar o arquivo ou pasta: \"" + path + "\"" );
     }
 }
@@ -289,7 +286,9 @@ void MainProc::appCopyFileOrDirectoryToBuild( string path, string buildDir ) {
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
         io::createDirectories( bdir );
-        io::recursiveCopyFileOrDirectory( path, bdir, true );
+        io::copyFileOrDirectory( path, bdir, true, true );
+
+        cout << "Copiado: " << path << endl;
     } catch ( const io_error& e ) {
         throw runtime_error( "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
     }

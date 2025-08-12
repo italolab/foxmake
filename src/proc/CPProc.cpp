@@ -11,7 +11,7 @@ using std::string;
 using std::stringstream;
 
 void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
-    int alen = cmd->getArgsLength();
+    int alen = cmd->countNotOpArgs();
     if ( alen != 2 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 2, encontrado " << alen;
@@ -20,48 +20,55 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
     string src = cmd->getNotOpArg( 0 );
     string dest = cmd->getNotOpArg( 1 );
 
+    bool isRecursive = cmd->existsArg( "-r" );
+    bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
+
     if ( !io::fileExists( dest ) )
         throw proc_error( cmd, "O diretorio de destino nao existe: \"" + dest + "\"" );
 
-    if ( io::isJokerInPath( src ) ) {
-        try {
+    string replacePath = "";
+    if ( src.find( '-' ) != string::npos ) {
+        replacePath = io::recursiveDirPathToReplace( src );
+        replacePath = io::addSeparatorToDirIfNeed( replacePath );
+    }
+
+    try {
+        string fileName = io::fileOrDirName( src );
+
+        bool isCopyAllFiles = false;
+        bool isCopyByExt = false;
+        if ( fileName.length() > 0 ) {
+            isCopyAllFiles = ( fileName[ 0 ] == '*' );
+            if ( isCopyAllFiles && fileName.length() > 1 )
+                isCopyByExt = ( fileName[ 1 ] == '.' );
+        }
+
+        if ( isCopyAllFiles ) {
             string srcDir = io::removeRecursiveJoker( src );
             srcDir = io::dirPath( srcDir );
 
-            FileFilter* filter;
-            string ext = io::extension( src );
-            if ( ext != "" && src.find( "*." + ext ) != string::npos ) {
-                ext = "." + ext;
-                filter = io::by_ext_file_filter( ext );
-            } else {
-                filter = io::all_file_filter();
-            }
-
-            if ( src.find( "**" ) != string::npos ) {
-                if ( strutil::endsWith( src, "*" ) )
-                    throw proc_error( cmd, "Nao e possivel fazer copia com coringa no final e copia recursiva." );
-
-                string replacePath = io::recursiveDirPathToReplace( src );
-                replacePath = io::addSeparatorToDirIfNeed( replacePath );
-
-                io::recursiveCopyFiles( srcDir, dest, replacePath, filter, true );
-            } else {
-                if ( strutil::endsWith( src, "*" ) ) {
-                    string replacePath = io::dirPath( src );
-                    io::recursiveCopyFiles( srcDir, dest, replacePath, filter, true );
+            if ( isCopyByExt ) {
+                string ext = io::extension( src );
+                if ( isRecursive ) {
+                    io::recursiveCopyFiles( srcDir, dest, replacePath, io::by_ext_file_filter( ext ), isOverwrite );
                 } else {
-                    io::copyFiles( srcDir, dest, filter, true );
+                    io::copyFiles( srcDir, dest, replacePath, io::by_ext_file_filter( ext ), isOverwrite );
+                }
+            } else {
+                if ( isRecursive ) {
+                    io::recursiveCopyFiles( srcDir, dest, replacePath, io::all_file_filter(), isOverwrite );
+                } else {
+                    io::copyFiles( srcDir, dest, replacePath, io::all_file_filter(), isOverwrite );
                 }
             }
-        } catch ( const io_error& e ) {
-            throw proc_error( cmd, "Houve erro na copia recursiva dos arquivos.\nVerifique os caminhos da origem e do destino." );
+        } else {
+            if ( io::isDir( src ) && !io::isEmptyDir( src ) )
+                throw proc_error( cmd, "Tentativa de copiar nao recursivamente uma pasta nao vazia." );
+
+            io::copyFileOrDirectory( src, dest, isOverwrite, isRecursive );
         }
-    } else {
-        try {
-            io::recursiveCopyFileOrDirectory( src, dest, true );
-        } catch ( const io_error& e ) {
-            throw proc_error( cmd, "Houve erro na copia dos arquivos.\nVerifique os caminhos da origem e do destino." );
-        }
+    } catch ( const io_error& e ) {
+        throw proc_error( cmd, "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, se a copia e recursiva e com ou sem sobrescrita." );
     }
     cout << "CP Executado: \"" << cmd->getCMDStr() << "\"" << endl;
 }
