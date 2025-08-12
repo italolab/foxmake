@@ -72,4 +72,4 @@ build {
     echo $(a) diretorio
     echo $(working_dir)
     echo Build completo!
-}a
+}

@@ -89,6 +89,8 @@
 		<Unit filename="src/proc/CPProc.h" />
 		<Unit filename="src/proc/EchoProc.cpp" />
 		<Unit filename="src/proc/EchoProc.h" />
+		<Unit filename="src/proc/MKDirProc.cpp" />
+		<Unit filename="src/proc/MKDirProc.h" />
 		<Unit filename="src/proc/MainProc.cpp" />
 		<Unit filename="src/proc/MainProc.h" />
 		<Unit filename="src/proc/Proc.cpp" />
@@ -98,6 +100,8 @@
 		<Unit filename="src/proc/ProcManager.h" />
 		<Unit filename="src/proc/RMProc.cpp" />
 		<Unit filename="src/proc/RMProc.h" />
+		<Unit filename="src/proc/task/CleanTaskProc.cpp" />
+		<Unit filename="src/proc/task/CleanTaskProc.h" />
 		<Unit filename="src/shell/shell.cpp" />
 		<Unit filename="src/shell/shell.h" />
 		<Unit filename="src/util/strutil.cpp" />

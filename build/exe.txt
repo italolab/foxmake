@@ -33,10 +33,13 @@ dll.dirs=
 
 compile {
     echo Compilou!
+
 }
 
 build {
+
     echo Build concluido!
+
 }
 
 debug {

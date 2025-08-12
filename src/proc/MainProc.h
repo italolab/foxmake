@@ -13,19 +13,8 @@ using namespace std;
 class MainProc : public Proc {
 
     private:
-        vector<string> defaultTasks{ "clean", "compile", "link", "build", "copy" };
-
         void procCMDs( ProcManager* mgr );
-
-        void clean( CMD* cmd, MainScript* script, ProcManager* manager );
-        void compileAndLink( CMD* cmd, MainScript* script, ProcManager* manager, bool isCompile, bool isLink );
-        void copyFiles( CMD* cmd, MainScript* script, ProcManager* manager );
-
-        void appCopyFileOrDirectoryToBuild( string path, string buildDir );
-        void appRecursiveDeleteFileOrDirectoryIfExists( string path );
-
-        void executaTaskIfExists( string goalName, ProcManager* manager );
-        bool isDefaultTask( string TaskName );
+        void compileAndLink( CMD* cmd, ProcManager* manager, bool isCompile, bool isLink );
 
     public:
         void processa( CMD* cmd, ProcManager* mgr );
