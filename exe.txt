@@ -52,6 +52,14 @@ cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
 cd ../TestesUnit
 cp $(src.dir) ../cexec/$(build.dir)
 
+cd ../cexec
+
+rm $(build.dir)/TestesUnit.dll
+rm -r $(include.dirs)/*
+rm -r $(obj.dir)
+
+rm -r $(build.dir)
+
 build {
     $a=$(src.dir)/abc
 

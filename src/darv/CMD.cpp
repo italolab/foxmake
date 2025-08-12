@@ -5,9 +5,27 @@ CMD::CMD( Block* parent ) : No( parent ) {
     this->lineNumber = 0;
 }
 
+int CMD::countOpArgs() {
+    int count = 0;
+    for( string a : argsVect )
+        if ( a.length() > 0 )
+            if ( a[ 0 ] == '-' )
+                count++;
+    return count;
+}
+
+int CMD::countNotOpArgs() {
+    int count = 0;
+    for( string a : argsVect )
+        if ( a.length() > 0 )
+            if ( a[ 0 ] != '-' )
+                count++;
+    return count;
+}
+
 string CMD::getOpArg( int i ) {
     int k = 0;
-    for( string a : args ) {
+    for( string a : argsVect ) {
         if ( a.length() > 0 ) {
             if ( a[ 0 ] == '-' ) {
                 if ( i == k )
@@ -21,7 +39,7 @@ string CMD::getOpArg( int i ) {
 
 string CMD::getNotOpArg( int i ) {
     int k = 0;
-    for( string a : args ) {
+    for( string a : argsVect ) {
         if ( a.length() > 0 ) {
             if ( a[ 0 ] != '-' ) {
                 if ( i == k )
@@ -34,18 +52,26 @@ string CMD::getNotOpArg( int i ) {
 }
 
 bool CMD::existsArg( string arg ) {
-    for( string a : args )
+    for( string a : argsVect )
         if ( a == arg )
             return true;
     return false;
 }
 
 void CMD::addArg( string arg ) {
-    args.push_back( arg );
+    argsVect.push_back( arg );
 }
 
 string CMD::getArg( int i ) {
-    return args[ i ];
+    return argsVect[ i ];
+}
+
+int CMD::getArgsLength() {
+    return argsVect.size();
+}
+
+vector<string> CMD::args() {
+    return argsVect;
 }
 
 void CMD::addProperty( Prop* prop ) {
@@ -56,19 +82,11 @@ string CMD::getPropertyValue( string name ) {
     return propertiesMap[ name ]->getValue();
 }
 
-vector<string> CMD::getArgs() {
-    return args;
-}
-
 vector<string> CMD::propertyNames() {
     vector<string> props;
     for( const auto& pair : propertiesMap )
         props.push_back( pair.first );
     return props;
-}
-
-int CMD::getArgsLength() {
-    return args.size();
 }
 
 int CMD::getPropertiesLength() {

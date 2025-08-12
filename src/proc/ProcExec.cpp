@@ -1,6 +1,7 @@
 
 #include "ProcExec.h"
 #include "CPProc.h"
+#include "RMProc.h"
 #include "CDProc.h"
 #include "EchoProc.h"
 #include "../inter/InterResult.h"
@@ -12,12 +13,12 @@ ProcExec::ProcExec() {
     mainScript = new MainScript();
     interManager = new InterManager( this );
 
-    mainProc = new MainProc( "main" );
+    mainProc = new MainProc();
 
-    procsMap[ "main" ] = mainProc;
-    procsMap[ "cp" ] = new CPProc( "cp" );
-    procsMap[ "cd" ] = new CDProc( "cd" );
-    procsMap[ "echo" ] = new EchoProc( "echo" );
+    procsMap[ "cp" ] = new CPProc();
+    procsMap[ "rm" ] = new RMProc();
+    procsMap[ "cd" ] = new CDProc();
+    procsMap[ "echo" ] = new EchoProc();
 }
 
 void ProcExec::exec( int argc, char* argv[] ) {
@@ -28,8 +29,8 @@ void ProcExec::exec( int argc, char* argv[] ) {
 
         CMD* cmd = (CMD*)result->getNo();
 
-        mainScript->addLocalVar( "main_config_file", configFileName );
-        mainScript->addLocalVar( "working_dir", shell::getWorkingDir() );
+        mainScript->putLocalVar( "main_config_file", configFileName );
+        mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
         InterResult* result2 = interManager->interpretsMainScript( mainScript, configFileName, 1 );
         if ( result2->isOk() ) {

@@ -29,8 +29,8 @@ class Block : public No {
         CMD* getCMDByIndex( int i );
         vector<CMD*> cmds();
 
-        void addLocalVar( string name, string value );
-        void addLocalVar( Var* var );
+        void putLocalVar( string name, string value );
+        void putLocalVar( Var* var );
         Var* getLocalVar( string varName );
         bool existsLocalVar( string varName );
         vector<string> localVars();

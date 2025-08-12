@@ -18,7 +18,7 @@ class CMD : public No {
         string name;
         string cmdstr;
         int lineNumber;
-        vector<string> args;
+        vector<string> argsVect;
         map<string, Prop*> propertiesMap;
 
     public:
@@ -30,9 +30,11 @@ class CMD : public No {
         int getPropertiesLength();
 
         void addArg( string command );
-        vector<string> getArgs();
+        vector<string> args();
         string getArg( int i );
         bool existsArg( string command );
+        int countOpArgs();
+        int countNotOpArgs();
         int getArgsLength();
 
         string getOpArg( int i );

@@ -3,7 +3,7 @@
 
 MainScript::MainScript() : Block( nullptr ) {}
 
-void MainScript::addProperty( Prop* prop ) {
+void MainScript::putProperty( Prop* prop ) {
     propertiesMap[ prop->getName() ] = prop;
 }
 
@@ -29,7 +29,7 @@ vector<string> MainScript::propertyNames() {
     return names;
 }
 
-void MainScript::addTask( Task* task ) {
+void MainScript::putTask( Task* task ) {
     tasksMap[ task->getName() ] = task;
 }
 

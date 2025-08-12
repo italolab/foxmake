@@ -65,12 +65,12 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
     vector<string> validCMDs = drv->validCMDNames();
 
-    Task* task = ((MainScript*)parent)->getTask( taskName );
+    Task* task = parent->getTask( taskName );
     if ( task == nullptr ) {
         task = new Task( parent );
         task->setName( taskName );
 
-        ((MainScript*)parent)->addTask( task );
+        parent->putTask( task );
     }
 
     StringIterator* it2 = new StringIterator( blockStr );

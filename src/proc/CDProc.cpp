@@ -8,11 +8,9 @@
 
 using std::stringstream;
 
-CDProc::CDProc( string cmdName ) : Proc( cmdName ) {}
-
 void CDProc::processa( CMD* cmd, ProcManager* manager ) {
     int alen = cmd->getArgsLength();
-    if ( alen < 1 ) {
+    if ( alen != 1 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
         throw proc_error( cmd, ss.str() );

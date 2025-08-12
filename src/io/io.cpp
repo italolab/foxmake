@@ -21,31 +21,24 @@ namespace io {
         return new AllFileFilter();
     }
 
-    void copyFileOrDirectory( string path, string dir, bool isOverwriteExisting ) {
+    void recursiveCopyFileOrDirectory( string path, string dir, bool isOverwriteExisting ) {
         if ( isDirectory( path ) ) {
-            copyDir( path, dir, isOverwriteExisting );
+            recursiveCopyDir( path, dir, isOverwriteExisting );
         } else {
             copyFile( path, dir, isOverwriteExisting );
         }
     }
 
-    void deleteFileOrDirectory( string path ) {
-        if ( isDirectory( path ) ) {
-            deleteDirectory( path );
-        } else {
-            deleteFile( path );
-        }
-    }
-
-    bool deleteFile( string path ) {
+    bool deleteFileOrDirectory( string path ) {
+        string p = makePreferred( path );
         try {
-            return filesystem::remove( makePreferred( path ) );
+            return filesystem::remove( p );
         } catch ( const filesystem::filesystem_error& e ) {
-            return false;
+            throw io_error( e.what() );
         }
     }
 
-    int recursiveDeleteFiles( string dir, FileFilter* filter ) {
+    int recursiveDeleteFilesOnly( string dir, FileFilter* filter ) {
         int removedCount = 0;
         try {
             string dirpath = makePreferred( dir );
@@ -56,10 +49,8 @@ namespace io {
                     if ( !filter->isFilter( file ) )
                         continue;
 
-                if ( filesystem::is_directory( file ) ) {
-                    removedCount += deleteDirectory( file );
-                } else {
-                    deleteFile( file );
+                if ( !filesystem::is_directory( file ) ) {
+                    deleteFileOrDirectory( file );
                     removedCount++;
                 }
             }
@@ -69,7 +60,33 @@ namespace io {
         return removedCount;
     }
 
-    int deleteDirectory( string path ) {
+    int recursiveDeleteDirectoryContent( string dir ) {
+        int removedCount = 0;
+        try {
+            string dirpath = makePreferred( dir );
+            for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
+                string file = makePreferred( entry.path().string() );
+                removedCount += recursiveDeleteFileOrDirectory( file );
+            }
+            return removedCount;
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+    }
+
+    int recursiveDeleteFileOrDirectory( string path ) {
+        string p = makePreferred( path );
+        if ( isDirectory( p ) ) {
+            return recursiveDeleteDirectory( p );
+        } else {
+            bool deleted = deleteFileOrDirectory( p );
+            if ( deleted )
+                return 1;
+            return 0;
+        }
+    }
+
+    int recursiveDeleteDirectory( string path ) {
         try {
             string p = makePreferred( path );
             if ( filesystem::exists( p ) ) {
@@ -101,7 +118,7 @@ namespace io {
         }
     }
 
-    void copyDir( string srcDir, string destDir, bool isOverwriteExisting ) {
+    void recursiveCopyDir( string srcDir, string destDir, bool isOverwriteExisting ) {
         try {
             string fsrcName = fileOrDirName( srcDir );
 
@@ -267,11 +284,37 @@ namespace io {
     }
 
     string addSeparatorToDirIfNeed( string dir ) {
-        string d = dir;
+        string d = makePreferred( dir );
         if ( d.length() > 0 )
             if( d[ d.length()-1 ] != filesystem::path::preferred_separator )
                 d += filesystem::path::preferred_separator;
         return d;
+    }
+
+    string parentDirPath( string path ) {
+        string p = makePreferred( path );
+        if ( p.length() > 0 ) {
+            if ( p[ p.length()-1 ] == filesystem::path::preferred_separator )
+                p = p.substr( 0, p.length()-1 );
+
+            size_t i = p.find_last_of( filesystem::path::preferred_separator );
+            if ( i != string::npos ) {
+                size_t j = ( i == 0 ? string::npos : p.find_last_of( filesystem::path::preferred_separator, i-1 ) );
+                if ( j == string::npos ) {
+                    if ( filesystem::path::preferred_separator == '/' ) {
+                        p = "/";
+                    } else {
+                        p = p.substr( 0, i );
+                        p += filesystem::path::preferred_separator;
+                    }
+                } else {
+                    p = p.substr( 0, i );
+                }
+            } else {
+                p = "";
+            }
+        }
+        return p;
     }
 
     string absolutePath( string path ) {
@@ -292,7 +335,7 @@ namespace io {
         }
     }
 
-    bool isJokerCopyInPath( string path ) {
+    bool isJokerInPath( string path ) {
         string file = fileOrDirName( path );
         if ( file.length() > 0 )
             if ( file[ 0 ] == '*' )
@@ -316,6 +359,14 @@ namespace io {
         string replaceStr = "**";
         replaceStr += filesystem::path::preferred_separator;
         return strutil::replace( p, replaceStr, "" );
+    }
+
+    string removeDirContentJoker( string path ) {
+        string p = makePreferred( path );
+        if ( p.length() > 0 )
+            if ( p[ p.length()-1 ] == '*' )
+                return p.substr( 0, p.length()-2 );
+        return p;
     }
 
 }

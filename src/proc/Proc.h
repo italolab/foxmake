@@ -26,15 +26,8 @@ class proc_error : public runtime_error {
 
 class Proc {
 
-    protected:
-        string cmdName;
-
     public:
-        Proc( string cmdName );
-
         virtual void processa( CMD* cmd, ProcManager* manager ) = 0;
-
-        string getCMDName();
 
 };
 

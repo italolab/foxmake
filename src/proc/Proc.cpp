@@ -25,11 +25,3 @@ string proc_error::message() const {
     return ss.str();
 }
 
-Proc::Proc( string cmdName ) {
-    this->cmdName = cmdName;
-}
-
-string Proc::getCMDName() {
-    return cmdName;
-}
-

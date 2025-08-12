@@ -19,13 +19,13 @@ class MainScript : public Block {
     public:
         MainScript();
 
-        void addProperty( Prop* prop );
+        void putProperty( Prop* prop );
         string getPropertyValue( string name );
         bool existsProperty( string name );
         int getPropertiesLength();
         vector<string> propertyNames();
 
-        void addTask( Task* task );
+        void putTask( Task* task );
         Task* getTask( string taskName );
         int getTasksLength();
         vector<string> taskNames();

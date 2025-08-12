@@ -7,8 +7,6 @@
 class CPProc : public Proc {
 
     public:
-        CPProc( string cmdName );
-
         void processa( CMD* cmd, ProcManager* manager );
 
 };

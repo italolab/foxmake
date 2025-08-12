@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="debug" />
+				<Option parameters="build debug" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -51,8 +51,6 @@
 		<Unit filename="src/darv/Var.cpp" />
 		<Unit filename="src/darv/Var.h" />
 		<Unit filename="src/darv/darv.h" />
-		<Unit filename="src/inter/BlockInter.cpp" />
-		<Unit filename="src/inter/BlockInter.h" />
 		<Unit filename="src/inter/BlockInterDriver.h" />
 		<Unit filename="src/inter/CMDInter.cpp" />
 		<Unit filename="src/inter/CMDInter.h" />
@@ -98,6 +96,8 @@
 		<Unit filename="src/proc/ProcExec.cpp" />
 		<Unit filename="src/proc/ProcExec.h" />
 		<Unit filename="src/proc/ProcManager.h" />
+		<Unit filename="src/proc/RMProc.cpp" />
+		<Unit filename="src/proc/RMProc.h" />
 		<Unit filename="src/shell/shell.cpp" />
 		<Unit filename="src/shell/shell.h" />
 		<Unit filename="src/util/strutil.cpp" />

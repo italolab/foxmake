@@ -21,7 +21,7 @@ InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, I
 
     Var* var = new Var( parent, name, value );
     if ( parent != nullptr )
-        parent->addLocalVar( var );
+        parent->putLocalVar( var );
 
     return new InterResult( var, 0, line.length() );
 }

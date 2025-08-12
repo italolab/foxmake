@@ -29,19 +29,21 @@ namespace io {
     AllFileFilter* all_file_filter();
 
     bool createDirectories( string path );
-    void copyFileOrDirectory( string path, string dir, bool isOverwriteExisting );
+    void recursiveCopyFileOrDirectory( string path, string dir, bool isOverwriteExisting );
     void copyFile( string srcFile, string destDir, bool isOverwriteExisting );
-    void copyDir( string srcDir, string destDir, bool isOverwriteExisting );
     void copyFiles( string srcDir, string destDir, FileFilter* filter, bool isOverwriteExisting );
+    void recursiveCopyDir( string srcDir, string destDir, bool isOverwriteExisting );
     void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
-    void deleteFileOrDirectory( string path );
-    bool deleteFile( string path );
-    int deleteDirectory( string path );
-    int recursiveDeleteFiles( string dir, FileFilter* filter );
+    bool deleteFileOrDirectory( string path );
+    int recursiveDeleteDirectory( string path );
+    int recursiveDeleteFileOrDirectory( string path );
+    int recursiveDeleteFilesOnly( string dir, FileFilter* filter );
+    int recursiveDeleteDirectoryContent( string dir );
 
     string currentPath();
     string absolutePath( string path );
     string relativePath( string path );
+    string parentDirPath( string path );
     string recursiveDirPath( string path );
     string recursiveFileOrDirName( string path );
     string recursiveDirPathToReplace( string path );
@@ -52,8 +54,10 @@ namespace io {
     string concatPaths( string p1, string p2 );
     string extension( string path );
     string removeRecursiveJoker( string path );
+    string removeDirContentJoker( string path );
+    char fileSeparator();
 
-    bool isJokerCopyInPath( string path );
+    bool isJokerInPath( string path );
     bool isDirectory( string path );
     bool fileExists( string path );
 

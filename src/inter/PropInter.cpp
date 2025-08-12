@@ -16,7 +16,7 @@ InterResult* PropInter::interprets( MainScript* parent, string line, int lineNum
 
     Prop* prop = new Prop( name, value );
     if ( parent != nullptr )
-        parent->addProperty( prop );
+        parent->putProperty( prop );
 
     return new InterResult( prop, 0, line.length() );
 }

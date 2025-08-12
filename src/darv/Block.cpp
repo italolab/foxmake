@@ -24,11 +24,11 @@ Var* Block::getVar( string varName ) {
     return nullptr;
 }
 
-void Block::addLocalVar( string name, string value ) {
+void Block::putLocalVar( string name, string value ) {
     localVarsMap[ name ] = new Var( this, name, value );
 }
 
-void Block::addLocalVar( Var* var ) {
+void Block::putLocalVar( Var* var ) {
     localVarsMap[ var->getName() ] = var;
 }
 

@@ -10,8 +10,6 @@
 #include <sstream>
 #include <vector>
 
-MainProc::MainProc( string cmdName ) : Proc( cmdName ) {}
-
 void MainProc::processa( CMD* cmd, ProcManager* manager ) {
     MainScript* script = manager->getMainScript();
 
@@ -91,7 +89,7 @@ void MainProc::clean( CMD* cmd, MainScript* script, ProcManager* manager ) {
 
     if ( fname != "" ) {
         string file = io::concatPaths( binDir, fname );
-        appDeleteFileOrDirectory( cmd,  file );
+        //appRecursiveDeleteFileOrDirectory( file );
 
         cout << "Deletado: " << file << endl;
     }
@@ -100,7 +98,7 @@ void MainProc::clean( CMD* cmd, MainScript* script, ProcManager* manager ) {
     for( string bfile : bfiles ) {
         string fname = io::fileOrDirName( bfile );
         fname = io::concatPaths( buildDir, fname );
-        appDeleteFileOrDirectory( cmd, fname );
+        appRecursiveDeleteFileOrDirectory( fname );
 
         cout << "Deletado: " << fname << endl;
     }
@@ -124,16 +122,16 @@ void MainProc::copyFiles( CMD* cmd, MainScript* script, ProcManager* manager ) {
     if ( isDll == "true" ) {
         string dllFileName = script->getPropertyValue( "dll.file.name" );
         string fname = io::concatPaths( binDir, dllFileName );
-        appCopyFileOrDirectoryToBuild( cmd, fname, buildDir );
+        appCopyFileOrDirectoryToBuild( fname, buildDir );
     } else {
         string exeFileName = script->getPropertyValue( "exe.file.name" );
         string fname = io::concatPaths( binDir, exeFileName );
-        appCopyFileOrDirectoryToBuild( cmd, fname, buildDir );
+        appCopyFileOrDirectoryToBuild( fname, buildDir );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
-        appCopyFileOrDirectoryToBuild( cmd, bfile, buildDir );
+        appCopyFileOrDirectoryToBuild( bfile, buildDir );
         cout << "Copiado: " << bfile << endl;
     }
 
@@ -273,24 +271,27 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manage
     }
 }
 
-void MainProc::appDeleteFileOrDirectory( CMD* cmd, string path ) {
+void MainProc::appRecursiveDeleteFileOrDirectory( string path ) {
     try {
-        io::deleteFileOrDirectory( path );
+        int count = io::recursiveDeleteFileOrDirectory( path );
+        if ( count == 0 )
+            throw runtime_error( "Arquivo ou pasta nao deletado: \"" + path + "\"" );
     } catch ( const io_error& e ) {
-        throw proc_error( cmd, "Nao foi possivel deletar o arquivo ou pasta: " + path );
+        cerr << e.what() << endl;
+        throw runtime_error( "Nao foi possivel deletar o arquivo ou pasta: \"" + path + "\"" );
     }
 }
 
-void MainProc::appCopyFileOrDirectoryToBuild( CMD* cmd, string path, string buildDir ) {
+void MainProc::appCopyFileOrDirectoryToBuild( string path, string buildDir ) {
     if ( !io::fileExists( path ) )
-        throw proc_error( cmd, "O arquivo ou pasta: \"" + path + "\" nao existe." );
+        throw runtime_error( "O arquivo ou pasta: \"" + path + "\" nao existe." );
 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
         io::createDirectories( bdir );
-        io::copyFileOrDirectory( path, bdir, true );
+        io::recursiveCopyFileOrDirectory( path, bdir, true );
     } catch ( const io_error& e ) {
-        throw proc_error( cmd, "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
+        throw runtime_error( "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
     }
 }
 

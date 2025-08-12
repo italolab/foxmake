@@ -10,11 +10,9 @@
 using std::string;
 using std::stringstream;
 
-CPProc::CPProc( string cmdName ) : Proc( cmdName ) {}
-
 void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
     int alen = cmd->getArgsLength();
-    if ( alen < 2 ) {
+    if ( alen != 2 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 2, encontrado " << alen;
         throw proc_error( cmd, ss.str() );
@@ -22,9 +20,10 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
     string src = cmd->getNotOpArg( 0 );
     string dest = cmd->getNotOpArg( 1 );
 
-    io::createDirectories( dest );
+    if ( !io::fileExists( dest ) )
+        throw proc_error( cmd, "O diretorio de destino nao existe: \"" + dest + "\"" );
 
-    if ( io::isJokerCopyInPath( src ) ) {
+    if ( io::isJokerInPath( src ) ) {
         try {
             string srcDir = io::removeRecursiveJoker( src );
             srcDir = io::dirPath( srcDir );
@@ -59,7 +58,7 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
         }
     } else {
         try {
-            io::copyFileOrDirectory( src, dest, true );
+            io::recursiveCopyFileOrDirectory( src, dest, true );
         } catch ( const io_error& e ) {
             throw proc_error( cmd, "Houve erro na copia dos arquivos.\nVerifique os caminhos da origem e do destino." );
         }

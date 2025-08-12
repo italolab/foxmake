@@ -8,8 +8,6 @@
 class EchoProc : public Proc {
 
     public:
-        EchoProc( string cmdName );
-
         void processa( CMD* cmd, ProcManager* manager );
 
 };
