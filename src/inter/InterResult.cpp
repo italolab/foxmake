@@ -3,37 +3,52 @@
 
 InterResult::InterResult( No* no, int numberOfLines ) : InterResult( no, numberOfLines, 0 ) {}
 
-InterResult::InterResult( string errorMsg ) : InterResult( 0, 0, errorMsg ) {}
+InterResult::InterResult( string line, string errorMsg ) : InterResult( line, 0, 0, errorMsg ) {}
 
-InterResult::InterResult( int numberOfLines, string erroMsg ) : InterResult( numberOfLines, 0, erroMsg ) {}
+InterResult::InterResult( string line, int numberOfLines, string erroMsg ) : InterResult( line, numberOfLines, 0, erroMsg ) {}
 
 InterResult::InterResult( No* no, int numberOfLines, int numberOfColumns ) {
     this->no = no;
     this->numberOfLines = numberOfLines;
     this->numberOfColumns = numberOfColumns;
-    this->ok = true;
+    this->line = "";
+    this->errorMsg = "";
+    this->interpreted = true;
+    this->errorFound = false;
 }
 
-InterResult::InterResult( int numberOfLines, int numberOfColumns, string errorMsg ) {
+InterResult::InterResult( string line, int numberOfLines, int numberOfColumns, string errorMsg ) {
     this->numberOfLines = numberOfLines;
     this->numberOfColumns = numberOfColumns;
+    this->line = line;
     this->errorMsg = errorMsg;
-    this->ok = false;
+    this->interpreted = false;
+    this->errorFound = true;
 }
 
-InterResult::InterResult( bool ok ) {
-    this->numberOfLines = 0;
+InterResult::InterResult( bool interpreted ) {
+    this->numberOfLines = ( interpreted ? 1 : 0 );
     this->numberOfColumns = 0;
+    this->line = "";
     this->errorMsg = "";
-    this->ok = ok;
+    this->interpreted = interpreted;
+    this->errorFound = false;
 }
 
-bool InterResult::isOk() {
-    return ok;
+bool InterResult::isInterpreted() {
+    return interpreted;
+}
+
+bool InterResult::isErrorFound() {
+    return errorFound;
 }
 
 int InterResult::getNumberOfLines() {
     return numberOfLines;
+}
+
+string InterResult::getLine() {
+    return line;
 }
 
 string InterResult::getErrorMsg() {

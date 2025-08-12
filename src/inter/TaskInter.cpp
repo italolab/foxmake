@@ -36,11 +36,25 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
         return new InterResult( false );
 
     stringstream ss;
-    int lineNumber2 = lineNumber + 1;
+    int numberOfLines0 = 0;
 
     int bracesCount = 1;
     while( it->hasNextLine() && bracesCount > 0 ) {
         string line = it->nextLine();
+        string line2 = strutil::removeStartWhiteSpaces( line );
+
+        numberOfLines0++;
+
+        if ( line2.length() == 0 ) {
+            ss << "\n";
+            continue;
+        }
+
+        if ( line2[ 0 ] == '#' ) {
+            ss << line << "\n";
+            continue;
+        }
+
         int len = line.length();
         for( int i = 0; bracesCount > 0 && i < len; i++ ) {
             switch( line[ i ] ) {
@@ -52,13 +66,14 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
                     break;
             }
 
-            if ( bracesCount > 0 )
-                ss << line[ i ];
+            if ( bracesCount == 0 )
+                for( int j = i+1; j < len; j++ )
+                    if ( !strutil::isWhiteSpace( line[ j ] ) )
+                        return new InterResult( line, numberOfLines0+1, "Fim de bloco de tarefa com caracteres desnecessarios." );
         }
 
         if ( bracesCount > 0 )
-            ss << "\n";
-        lineNumber2++;
+            ss << line << "\n";
     }
 
     string blockStr = ss.str();
@@ -75,16 +90,17 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
     StringIterator* it2 = new StringIterator( blockStr );
 
-    int numberOfLines = 0;
+    int numberOfLines = 1;
     while( it2->hasNextLine() ) {
         string line = it2->nextLine();
-        line = strutil::removeStartWhiteSpaces( line );
+        string line2 = strutil::removeStartWhiteSpaces( line );
 
-        if ( line.length() == 0 ) {
+        if ( line2.length() == 0 ) {
             numberOfLines++;
             continue;
         }
-        if ( strutil::isWhiteSpace( line[ 0 ] ) || line[ 0 ] == '#' ) {
+
+        if ( line2[ 0 ] == '#' ) {
             numberOfLines++;
             continue;
         }
@@ -96,22 +112,22 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
         InterResult* result = new InterResult( false );
         if ( isCmd )
             result = manager->interpretsCMD( task, line, currentLineNumber );
-        if ( !result->isOk() )
+        if ( !result->isInterpreted() && !result->isErrorFound())
             result = manager->interpretsVar( task, line, currentLineNumber );
 
-        if ( result->isOk() ) {
-            numberOfLines += result->getNumberOfLines();
-        } else {
+        numberOfLines += result->getNumberOfLines();
+
+        if ( !result->isInterpreted() ) {
             string error;
-            if ( result->getErrorMsg() != "" )
+            if ( result->isErrorFound() )
                 error = result->getErrorMsg();
             else error = "Linha nao reconhecida como comando, propriedade ou variavel.";
 
-            return new InterResult( lineNumber + numberOfLines, error );
+            return new InterResult( result->getLine(), numberOfLines, error );
         }
-
-        numberOfLines++;
     }
+
+    numberOfLines++;
 
     return new InterResult( task, numberOfLines );
 }

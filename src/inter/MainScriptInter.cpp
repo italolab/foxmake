@@ -37,25 +37,23 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
         InterResult* result = new InterResult( false );
         if ( isCmd )
             result = manager->interpretsCMD( script, line, currentLineNumber );
-        if ( !result->isOk() )
+        if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsVar( script, line, currentLineNumber );
-        if ( !result->isOk() )
+        if ( !result->isInterpreted() && !result->isErrorFound())
             result = manager->interpretsProp( script, line, currentLineNumber );
-        if ( !result->isOk() )
+        if ( !result->isInterpreted() && !result->isErrorFound())
             result = manager->interpretsTask( script, it, line, currentLineNumber );
 
-        if ( result->isOk() ) {
-            numberOfLines += result->getNumberOfLines();
-        } else {
+        numberOfLines += result->getNumberOfLines();
+
+        if ( !result->isInterpreted() ) {
             string error;
-            if ( result->getErrorMsg() != "" )
+            if ( result->isErrorFound() )
                 error = result->getErrorMsg();
             else error = "Linha nao reconhecida como instrucao valida.";
 
-            return new InterResult( lineNumber + numberOfLines, error );
+            return new InterResult( result->getLine(), numberOfLines, error );
         }
-
-        numberOfLines++;
     }
 
     return new InterResult( script, numberOfLines );

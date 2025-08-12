@@ -16,12 +16,12 @@ InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, I
     string value = line.substr( i+1, line.length()-i );
 
     InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, parent );
-    if ( !replaceResult->isOk() )
+    if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     Var* var = new Var( parent, name, value );
     if ( parent != nullptr )
         parent->putLocalVar( var );
 
-    return new InterResult( var, 0, line.length() );
+    return new InterResult( var, 1, line.length() );
 }

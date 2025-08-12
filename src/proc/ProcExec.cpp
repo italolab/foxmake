@@ -26,8 +26,8 @@ ProcExec::ProcExec() {
 void ProcExec::exec( int argc, char* argv[] ) {
     try {
         InterResult* result = interManager->interpretsMainCMD( argc, argv );
-        if ( !result->isOk() )
-            throw runtime_error( "Erro: " + result->getErrorMsg() );
+        if ( !result->isInterpreted() )
+            throw runtime_error( "Erro em: \"" + result->getLine() + "\"\n" + result->getErrorMsg() );
 
         CMD* cmd = (CMD*)result->getNo();
 
@@ -35,13 +35,13 @@ void ProcExec::exec( int argc, char* argv[] ) {
         mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
         InterResult* result2 = interManager->interpretsMainScript( mainScript, configFileName, 1 );
-        if ( result2->isOk() ) {
+        if ( result2->isInterpreted() ) {
             string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
             cout << "Diretorio corrente: " << wdir << endl;
 
             mainProc->processa( cmd, this );
         } else {
-            throw proc_error( result2->getNumberOfLines(), result2->getErrorMsg() );
+            throw proc_error( result2 );
         }
     } catch ( const proc_error& e ) {
         cerr << e.message() << endl;

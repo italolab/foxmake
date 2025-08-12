@@ -3,15 +3,13 @@
 #include "InterManager.h"
 #include "../darv/CMD.h"
 #include "../darv/Prop.h"
+#include "../util/strutil.h"
 
 #include <sstream>
 #include <cstring>
 
 using std::istringstream;
 using std::stringstream;
-
-#include <iostream>
-using namespace std;
 
 InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], InterManager* manager ) {
     return interprets( nullptr, argc, argv, 0, manager );
@@ -21,7 +19,7 @@ InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, I
     string cmdstr = line;
 
     InterResult* replaceResult = Inter::replacePropsAndVars( cmdstr, lineNumber, parent );
-    if ( !replaceResult->isOk() )
+    if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     string token;
@@ -45,6 +43,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
     CMD* cmd = new CMD( parent );
     cmd->setLineNumber( lineNumber );
 
+    string line = "";
     if ( argc > 0 ) {
         cmd->setName( argv[ 0 ] );
 
@@ -54,7 +53,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
             if ( i < argc-1 )
                 ss << " ";
         }
-        cmd->setCMDStr( ss.str() );
+        cmd->setCMDStr( line = ss.str() );
     }
 
     for( int i = 1; i < argc; i++ ) {
@@ -87,7 +86,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
                         if ( stop ) {
                             value = value.substr( 1, len-2 );
                         } else {
-                            return new InterResult( 0, 0, "Valor com aspas duplas sem fechar." );
+                            return new InterResult( line, 0, 0, "Valor com aspas duplas sem fechar." );
                         }
                     }
                 }
@@ -102,13 +101,14 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
     if ( parent != nullptr )
         parent->addCMD( cmd );
 
-    return new InterResult( cmd, 0, 0 );
+    return new InterResult( cmd, 1, 0 );
 }
 
 bool CMDInter::isValidCMD( string line, vector<string>& validCMDs ) {
-    size_t i = line.find( ' ' );
+    string line2 = strutil::removeStartWhiteSpaces( line );
+    size_t i = line2.find( ' ' );
     if ( i != string::npos ) {
-        string cmd = line.substr( 0, i );
+        string cmd = line2.substr( 0, i );
         for( string validCMD : validCMDs )
             if ( validCMD == cmd )
                 return true;

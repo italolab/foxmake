@@ -11,12 +11,12 @@ InterResult* PropInter::interprets( MainScript* parent, string line, int lineNum
     string value = line.substr( i+1, line.length()-i );
 
     InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, parent );
-    if ( !replaceResult->isOk() )
+    if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     Prop* prop = new Prop( name, value );
     if ( parent != nullptr )
         parent->putProperty( prop );
 
-    return new InterResult( prop, 0, line.length() );
+    return new InterResult( prop, 1, line.length() );
 }

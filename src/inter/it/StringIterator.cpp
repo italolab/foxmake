@@ -8,10 +8,7 @@ StringIterator::StringIterator( string str ) {
 }
 
 bool StringIterator::hasNextLine() {
-    char ch = stream->peek();
-    if ( ch == '\n' )
-        stream->get();
-    return ch != EOF;
+    return stream->peek() != EOF;
 }
 
 string StringIterator::nextLine() {
