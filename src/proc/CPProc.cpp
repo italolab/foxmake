@@ -11,14 +11,14 @@ using std::string;
 using std::stringstream;
 
 void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
-    int alen = cmd->countNotOpArgs();
+    int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 2, encontrado " << alen;
         throw proc_error( cmd, ss.str() );
     }
-    string src = cmd->getNotOpArg( 0 );
-    string dest = cmd->getNotOpArg( 1 );
+    string src = cmd->getNoOpArg( 0 );
+    string dest = cmd->getNoOpArg( 1 );
 
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
@@ -60,9 +60,10 @@ void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
                 } else {
                     io::copyFiles( srcDir, dest, replacePath, io::all_file_filter(), isOverwrite );
                 }
+
             }
         } else {
-            if ( io::isDir( src ) && !io::isEmptyDir( src ) )
+            if ( !isRecursive && io::isDir( src ) && !io::isEmptyDir( src ) )
                 throw proc_error( cmd, "Tentativa de copiar nao recursivamente uma pasta nao vazia." );
 
             io::copyFileOrDirectory( src, dest, isOverwrite, isRecursive );

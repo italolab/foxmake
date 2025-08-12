@@ -142,7 +142,7 @@ namespace io {
         dest2 = dirPath( dest2 );
         dest2 = concatPaths( dest2, fname );
 
-        createDirectories( dirPath( dest2 ) );
+        createDirs( dirPath( dest2 ) );
 
         if ( isOverwriteExisting && filesystem::exists( dest2 ) )
             filesystem::remove( dest2 );
@@ -199,9 +199,22 @@ namespace io {
         return makePreferred( path );
     }
 
-    bool createDirectories( string path ) {
-        filesystem::path dirpath = makePreferred( path );
-        return filesystem::create_directories( dirpath );
+    bool createDir( string path ) {
+        string p = makePreferred( path );
+        try {
+            return filesystem::create_directory( p );
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+    }
+
+    bool createDirs( string path ) {
+        string p = makePreferred( path );
+        try {
+            return filesystem::create_directories( p );
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
     }
 
     bool fileExists( string path ) {

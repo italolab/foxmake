@@ -9,14 +9,14 @@
 using std::stringstream;
 
 void CDProc::processa( CMD* cmd, ProcManager* manager ) {
-    int alen = cmd->getArgsLength();
+    int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
         throw proc_error( cmd, ss.str() );
     }
 
-    string newDir = cmd->getArg( 0 );
+    string newDir = cmd->getNoOpArg( 0 );
 
     if ( !io::fileExists( newDir ) )
         throw proc_error( cmd, "Diretorio nao encontrado." );

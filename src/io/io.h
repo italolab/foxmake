@@ -28,7 +28,8 @@ namespace io {
     ByExtFileFilter* by_ext_file_filter( string ext );
     AllFileFilter* all_file_filter();
 
-    bool createDirectories( string path );
+    bool createDir( string path );
+    bool createDirs( string path );
     void copyFileOrDirectory( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive );
     void copyFile( string srcFile, string destDir, bool isOverwriteExisting );
     void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive );

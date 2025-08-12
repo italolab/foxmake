@@ -34,11 +34,11 @@ class CMD : public No {
         string getArg( int i );
         bool existsArg( string command );
         int countOpArgs();
-        int countNotOpArgs();
+        int countNoOpArgs();
         int getArgsLength();
 
         string getOpArg( int i );
-        string getNotOpArg( int i );
+        string getNoOpArg( int i );
 
         string getName();
         string getCMDStr();

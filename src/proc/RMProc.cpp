@@ -6,14 +6,14 @@
 #include <sstream>
 
 void RMProc::processa( CMD* cmd, ProcManager* manager ) {
-    int alen = cmd->countNotOpArgs();
+    int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
         throw proc_error( cmd, ss.str() );
     }
 
-    string file = cmd->getNotOpArg( 0 );
+    string file = cmd->getNoOpArg( 0 );
     bool isRecursive = cmd->existsArg( "-r" );
 
     string fileName = io::fileOrDirName( file );

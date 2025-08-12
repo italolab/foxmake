@@ -432,7 +432,7 @@
 	<string>
 	<vector>
 
-1755001908 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
+1755008635 c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.h
 	"filter/FileFilter.h"
 	"filter/ByExtFileFilter.h"
 	"filter/AllFileFilter.h"
@@ -445,7 +445,7 @@
 	<vector>
 	<stdexcept>
 
-1755002030 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
+1755009581 source:c:\users\italo\workspace-cpp\dlls\cexec\src\io\io.cpp
 	"io.h"
 	"../util/strutil.h"
 	<iostream>
@@ -487,7 +487,7 @@
 	"../darv/CMD.h"
 	<string>
 
-1755002369 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
+1755009162 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cpproc.cpp
 	"CPProc.h"
 	"../io/io.h"
 	"../io/filter/FileFilter.h"
@@ -499,7 +499,7 @@
 	"Proc.h"
 	"ProcManager.h"
 
-1755000501 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
+1755008859 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mainproc.cpp
 	"MainProc.h"
 	"../darv/CMD.h"
 	"../shell/shell.h"
@@ -519,11 +519,12 @@
 	"Proc.h"
 	<sstream>
 
-1754978370 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+1755008948 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
 	"ProcExec.h"
 	"CPProc.h"
 	"RMProc.h"
 	"CDProc.h"
+	"MKDirProc.h"
 	"EchoProc.h"
 	"../inter/InterResult.h"
 	"../shell/shell.h"
@@ -729,10 +730,10 @@
 	"Block.h"
 	<iostream>
 
-1754975084 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.cpp
+1755007905 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.cpp
 	"CMD.h"
 
-1754975023 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.h
+1755007905 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.h
 	"No.h"
 	"Prop.h"
 	<string>
@@ -843,7 +844,7 @@
 1754835504 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\prop.cpp
 	"Prop.h"
 
-1755001966 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cdproc.cpp
+1755007971 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cdproc.cpp
 	"CDProc.h"
 	"../darv/Var.h"
 	"../shell/shell.h"
@@ -930,13 +931,22 @@
 	"../util/strutil.h"
 	<sstream>
 
-1754998793 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\rmproc.cpp
+1755007936 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\rmproc.cpp
 	"RMProc.h"
 	"../io/io.h"
 	"../util/strutil.h"
 	<sstream>
 
 1754978352 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\rmproc.h
+	"Proc.h"
+	<string>
+
+1755009718 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mkdirproc.cpp
+	"MKDirProc.h"
+	"../io/io.h"
+	<sstream>
+
+1755007725 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\mkdirproc.h
 	"Proc.h"
 	<string>
 

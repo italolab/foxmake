@@ -113,7 +113,7 @@ void MainProc::copyFiles( CMD* cmd, MainScript* script, ProcManager* manager ) {
     string buildFiles = script->getPropertyValue( "build.files" );
 
     if ( buildDir != "" )
-        io::createDirectories( buildDir );
+        io::createDirs( buildDir );
 
     if ( isDll == "true" ) {
         string dllFileName = script->getPropertyValue( "dll.file.name" );
@@ -158,8 +158,8 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manage
     string compilerParams = script->getPropertyValue( "compiler.params" );
     string linkerParams = script->getPropertyValue( "linker.params" );
 
-    io::createDirectories( binDir );
-    io::createDirectories( objDir );
+    io::createDirs( binDir );
+    io::createDirs( objDir );
 
     bool isdll = isDll == "true";
 
@@ -169,7 +169,7 @@ void MainProc::compileAndLink( CMD* cmd, MainScript* script, ProcManager* manage
         for( CPPFile* cppFile : cppFiles ) {
             string absFile = io::concatPaths( objDir, cppFile->objFileName );
             string dir = io::dirPath( absFile );
-            io::createDirectories( dir );
+            io::createDirs( dir );
         }
 
         if ( isCompile ) {
@@ -285,7 +285,7 @@ void MainProc::appCopyFileOrDirectoryToBuild( string path, string buildDir ) {
 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
-        io::createDirectories( bdir );
+        io::createDirs( bdir );
         io::copyFileOrDirectory( path, bdir, true, true );
 
         cout << "Copiado: " << path << endl;

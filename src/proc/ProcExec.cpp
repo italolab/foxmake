@@ -3,6 +3,7 @@
 #include "CPProc.h"
 #include "RMProc.h"
 #include "CDProc.h"
+#include "MKDirProc.h"
 #include "EchoProc.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
@@ -18,6 +19,7 @@ ProcExec::ProcExec() {
     procsMap[ "cp" ] = new CPProc();
     procsMap[ "rm" ] = new RMProc();
     procsMap[ "cd" ] = new CDProc();
+    procsMap[ "mkdir" ] = new MKDirProc();
     procsMap[ "echo" ] = new EchoProc();
 }
 
