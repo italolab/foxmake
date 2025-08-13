@@ -25,6 +25,7 @@ class MainScript : public Block {
         MainScript();
 
         void putProperty( Prop* prop );
+        Prop* getProperty( string name );
         string getPropertyValue( string name );
         bool existsProperty( string name );
         int getPropertiesLength();

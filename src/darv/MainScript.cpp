@@ -1,14 +1,10 @@
 
 #include "MainScript.h"
 
-MainScript::MainScript() : Block( nullptr, 0 ) {}
+MainScript::MainScript() : Block( nullptr, 0, "" ) {}
 
 void MainScript::putProperty( Prop* prop ) {
     propertiesMap[ prop->getName() ] = prop;
-}
-
-int MainScript::getPropertiesLength() {
-    return propertiesMap.size();
 }
 
 string MainScript::getPropertyValue( string name ) {
@@ -18,8 +14,16 @@ string MainScript::getPropertyValue( string name ) {
     return "";
 }
 
+Prop* MainScript::getProperty( string name ) {
+    return propertiesMap[ name ];
+}
+
 bool MainScript::existsProperty( string name ) {
     return propertiesMap.find( name ) != propertiesMap.end();
+}
+
+int MainScript::getPropertiesLength() {
+    return propertiesMap.size();
 }
 
 vector<string> MainScript::propertyNames() {

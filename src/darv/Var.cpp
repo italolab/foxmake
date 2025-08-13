@@ -1,7 +1,7 @@
 
 #include "Var.h"
 
-Var::Var( Statement* parent, string name, string value, int lineNumber ) : Statement( parent, lineNumber ) {
+Var::Var( Statement* parent, string name, string value, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {
     this->name = name;
     this->value = value;
 }

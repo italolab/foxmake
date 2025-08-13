@@ -77,7 +77,7 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
     }
     bool ok = shell->executa();
     if ( !ok )
-        throw runtime_error( "Falha na compilacao!" );
+        throw taskproc_error( "Falha na compilacao!" );
 
     manager->executaTaskIfExists( "compile" );
 

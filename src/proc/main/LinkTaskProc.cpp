@@ -45,8 +45,10 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     bool isdll = isDll == "true";
 
-    if ( exeFileName == "" )
-        throw proc_error( mainCMD, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
+    if ( exeFileName == "" ) {
+        Prop* prop = script->getProperty( "exe.file.name" );
+        throw taskproc_error( prop, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
+    }
 
     stringstream ss;
     ss << compiler;
@@ -92,7 +94,7 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     bool ok = shell->executa();
     if ( !ok )
-        throw runtime_error( "Falha na linkagem!" );
+        throw taskproc_error( "Falha na linkagem!" );
 
     manager->executaTaskIfExists( "link" );
 

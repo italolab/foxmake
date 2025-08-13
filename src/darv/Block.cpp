@@ -1,7 +1,7 @@
 
 #include "Block.h"
 
-Block::Block( Statement* parent, int lineNumber ) : Statement( parent, lineNumber ) {}
+Block::Block( Statement* parent, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {}
 
 Statement* Block::getRoot() {
     if ( Statement::getParent() == nullptr )
@@ -22,7 +22,7 @@ Var* Block::getVar( string varName ) {
 }
 
 void Block::putLocalVar( string name, string value ) {
-    localVarsMap[ name ] = new Var( this, name, value, 0 );
+    localVarsMap[ name ] = new Var( this, name, value, 0, "" );
 }
 
 void Block::putLocalVar( Var* var ) {

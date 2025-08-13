@@ -1,10 +1,10 @@
 
 #include "Statement.h"
-#include <typeinfo>
 
-Statement::Statement( Statement* parent, int lineNumber ) {
+Statement::Statement( Statement* parent, int lineNumber, string line ) {
     this->parent = parent;
     this->lineNumber = lineNumber;
+    this->line = line;
 }
 
 Statement* Statement::getParent() {
@@ -13,4 +13,8 @@ Statement* Statement::getParent() {
 
 int Statement::getLineNumber() {
     return lineNumber;
+}
+
+string Statement::getLine() {
+    return line;
 }

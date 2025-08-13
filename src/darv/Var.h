@@ -13,7 +13,7 @@ class Var : public Statement {
         string value;
 
     public:
-        Var( Statement* parent, string name, string value, int lineNumber );
+        Var( Statement* parent, string name, string value, int lineNumber, string line );
 
         string getName();
         string getValue();

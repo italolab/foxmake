@@ -20,7 +20,7 @@ class Block : public Statement {
         vector<CMD*> cmdsVect;
 
     public:
-        Block( Statement* parent, int lineNumber );
+        Block( Statement* parent, int lineNumber, string line );
 
         Statement* getRoot();
 

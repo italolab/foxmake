@@ -50,14 +50,15 @@ void ProcExec::exec( int argc, char* argv[] ) {
         mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
         InterResult* result2 = interManager->interpretsMainScript( mainScript, DEFAULT_SETTINGS_FILE_NAME, 1 );
-        if ( result2->isInterpreted() ) {
-            string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
-            cout << "Diretorio corrente: " << wdir << endl;
-
-            mainProc->proc( cmd, this );
-        } else {
+        if ( !result2->isInterpreted() )
             throw proc_error( result2 );
-        }
+
+        string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
+        cout << "Diretorio corrente: " << wdir << endl;
+
+        mainProc->proc( cmd, this );
+    } catch ( const taskproc_error& e ) {
+        cerr << e.message() << endl;
     } catch ( const proc_error& e ) {
         cerr << e.message() << endl;
     } catch ( const exception& e ) {

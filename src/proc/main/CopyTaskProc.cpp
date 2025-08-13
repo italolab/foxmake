@@ -48,10 +48,10 @@ void CopyTaskProc::proc( CMD* mainCMD, void* mgr ) {
 }
 
 void CopyTaskProc::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script ) {
-
+    Prop* prop = script->getProperty( propName );
 
     if ( !io::fileExists( path ) )
-        throw runtime_error( "O arquivo ou pasta: \"" + path + "\" nao existe." );
+        throw taskproc_error( prop, "O arquivo ou pasta: \"" + path + "\" nao existe." );
 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
@@ -60,6 +60,6 @@ void CopyTaskProc::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
 
         cout << "Copiado: " << path << endl;
     } catch ( const io_error& e ) {
-        throw runtime_error( "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
+        throw taskproc_error( prop, "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
     }
 }

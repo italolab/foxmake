@@ -1113,10 +1113,10 @@
 	"Statement.h"
 	<typeinfo>
 
-1755074502 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.cpp
+1755078427 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.cpp
 	"Block.h"
 
-1755074134 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.h
+1755078076 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.h
 	"Statement.h"
 	"Var.h"
 	"CMD.h"
@@ -1124,31 +1124,31 @@
 	<vector>
 	<map>
 
-1755074022 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\statement.h
+1755077856 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\statement.h
 	<string>
 
-1755074102 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\var.h
+1755078156 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\var.h
 	"Statement.h"
 	<string>
 
-1755074158 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.h
+1755078084 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.h
 	"Statement.h"
 	"Prop.h"
 	<string>
 	<vector>
 	<map>
 
-1755074693 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\prop.h
+1755078139 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\prop.h
 	"Statement.h"
 	<string>
 
-1755074338 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.cpp
+1755078188 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.cpp
 	"CMD.h"
 
-1755073488 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.cpp
+1755078757 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.cpp
 	"MainScript.h"
 
-1755074480 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.h
+1755078710 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.h
 	"Block.h"
 	"CMD.h"
 	"Var.h"
@@ -1158,24 +1158,23 @@
 	<vector>
 	<map>
 
-1755074370 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\task.h
+1755078148 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\task.h
 	"Block.h"
 	<string>
 
-1755074715 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\prop.cpp
+1755078196 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\prop.cpp
 	"Prop.h"
 
-1755074040 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\statement.cpp
+1755077862 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\statement.cpp
 	"Statement.h"
-	<typeinfo>
 
-1755074356 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\task.cpp
+1755078202 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\task.cpp
 	"Task.h"
 
-1755074348 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\var.cpp
+1755078211 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\var.cpp
 	"Var.h"
 
-1755074671 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.cpp
+1755078408 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.cpp
 	"CMDInter.h"
 	"InterManager.h"
 	"../darv/CMD.h"
@@ -1277,11 +1276,11 @@
 	"../darv/MainScript.h"
 	"../util/strutil.h"
 
-1755073573 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\propinter.cpp
+1755078456 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\propinter.cpp
 	"PropInter.h"
 	"../darv/Prop.h"
 
-1755073649 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\taskinter.cpp
+1755078515 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\taskinter.cpp
 	"TaskInter.h"
 	"InterManager.h"
 	"it/StringIterator.h"
@@ -1289,7 +1288,7 @@
 	"../util/strutil.h"
 	<sstream>
 
-1755073666 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\varinter.cpp
+1755078463 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\varinter.cpp
 	"VarInter.h"
 	"../darv/Var.h"
 
@@ -1526,8 +1525,10 @@
 	<string>
 	<stdexcept>
 
-1755076498 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskproc.h
+1755079514 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskproc.h
 	"../darv/CMD.h"
+	<string>
+	<stdexcept>
 
 1755076309 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.h
 	"../Proc.h"
@@ -1566,7 +1567,7 @@
 	"../Proc.h"
 	<string>
 
-1755076384 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
+1755080217 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
 	"MainProc.h"
 	"../ProcManager.h"
 	"../../darv/CMD.h"
@@ -1578,22 +1579,22 @@
 	<vector>
 	<iostream>
 
-1755071470 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.cpp
+1755080700 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.cpp
 	"CleanTaskProc.h"
 	"../ProcManager.h"
-	"../../darv/MainScript.h"
 	"../../io/io.h"
 	"../../util/strutil.h"
 	<iostream>
 
-1755076793 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.h
+1755079711 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.h
 	"../TaskProc.h"
+	"../../darv/MainScript.h"
 
 1755025958 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\proc.cpp
 	"Proc.h"
 	<sstream>
 
-1755075690 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
+1755079632 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
 	"CompileAllTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -1609,7 +1610,7 @@
 1755076797 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.h
 	"../TaskProc.h"
 
-1755072746 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskproc.cpp
+1755079920 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskproc.cpp
 	"CopyTaskProc.h"
 	"../ProcManager.h"
 	"../../io/io.h"
@@ -1622,7 +1623,7 @@
 	"../TaskProc.h"
 	"../../darv/MainScript.h"
 
-1755071548 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
+1755079963 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
 	"LinkTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -1648,7 +1649,7 @@
 	"../Proc.h"
 	<string>
 
-1755076535 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
+1755080607 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
 	"ProcExec.h"
 	"cp/CPProc.h"
 	"rm/RMProc.h"
@@ -1677,4 +1678,8 @@
 	"../../util/strutil.h"
 	<sstream>
 	<iostream>
+
+1755080272 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskproc.cpp
+	"TaskProc.h"
+	<sstream>
 

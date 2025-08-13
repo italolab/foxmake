@@ -17,17 +17,17 @@ using std::cout;
 using std::endl;
 
 
-void MainProc::proc( CMD* cmd, void* mgr ) {
+void MainProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
-    if ( cmd->countNoOpArgs() == 0 )
-        throw runtime_error( "E necessario informar ao menos uma tarefa como argumento." );
+    if ( mainCMD->countNoOpArgs() == 0 )
+        throw proc_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );
 
-    bool isClean = cmd->existsArg( "clean" );
-    bool isCompile = cmd->existsArg( "compile" );
-    bool isLink = cmd->existsArg( "link" );
-    bool isBuild = cmd->existsArg( "build" );
-    bool isCopy = cmd->existsArg( "copy" );
+    bool isClean = mainCMD->existsArg( "clean" );
+    bool isCompile = mainCMD->existsArg( "compile" );
+    bool isLink = mainCMD->existsArg( "link" );
+    bool isBuild = mainCMD->existsArg( "build" );
+    bool isCopy = mainCMD->existsArg( "copy" );
 
     if ( isBuild ) {
         isClean = true;
@@ -37,13 +37,13 @@ void MainProc::proc( CMD* cmd, void* mgr ) {
     }
 
     if ( isClean )
-        manager->executaTaskProc( "clean", cmd );
+        manager->executaTaskProc( "clean", mainCMD );
 
     if ( isCompile || isLink )
-        compileAndLink( cmd, manager, isCompile, isLink );
+        compileAndLink( mainCMD, manager, isCompile, isLink );
 
     if ( isCopy )
-        manager->executaTaskProc( "copy", cmd );
+        manager->executaTaskProc( "copy", mainCMD );
 
     executaNoDefaultTasks( manager );
     executaCMDs( manager );

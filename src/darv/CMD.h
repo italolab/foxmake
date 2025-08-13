@@ -22,7 +22,7 @@ class CMD : public Statement {
         map<string, Prop*> propertiesMap;
 
     public:
-        CMD( Statement* parent, int lineNumber );
+        CMD( Statement* parent, int lineNumber, string line );
 
         void addProperty( Prop* prop );
         vector<string> propertyNames();

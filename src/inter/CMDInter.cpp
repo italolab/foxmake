@@ -40,11 +40,10 @@ InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, I
 }
 
 InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int lineNumber, InterManager* manager ) {
-    CMD* cmd = new CMD( parent, lineNumber );
-
     string line = "";
+    string cmdName = "";
     if ( argc > 0 ) {
-        cmd->setName( argv[ 0 ] );
+        cmdName = argv[ 0 ];
 
         stringstream ss;
         for( int i = 0; i < argc; i++ ) {
@@ -52,8 +51,13 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
             if ( i < argc-1 )
                 ss << " ";
         }
-        cmd->setCMDStr( line = ss.str() );
+        line = ss.str();
     }
+
+    CMD* cmd = new CMD( parent, lineNumber, line );
+    cmd->setName( cmdName );
+    cmd->setCMDStr( line );
+
 
     for( int i = 1; i < argc; i++ ) {
         string param( argv[ i ] );
@@ -91,7 +95,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
                 }
             }
 
-            cmd->addProperty( new Prop( cmd, name, value, lineNumber ) );
+            cmd->addProperty( new Prop( cmd, name, value, lineNumber, line ) );
         } else {
             cmd->addArg( param );
         }

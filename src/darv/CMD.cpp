@@ -1,7 +1,7 @@
 
 #include "CMD.h"
 
-CMD::CMD( Statement* parent, int lineNumber ) : Statement( parent, lineNumber ) {
+CMD::CMD( Statement* parent, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {
     this->lineNumber = 0;
 }
 

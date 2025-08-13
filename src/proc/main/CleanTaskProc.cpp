@@ -1,7 +1,6 @@
 
 #include "CleanTaskProc.h"
 #include "../ProcManager.h"
-#include "../../darv/MainScript.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
@@ -23,23 +22,18 @@ void CleanTaskProc::proc( CMD* mainCMD, void* mgr ) {
     string objDir = script->getPropertyValue( "obj.dir" );
     string buildFiles = script->getPropertyValue( "build.files" );
 
-    string fname;
-    if ( isDll == "true" ) {
-        fname = script->getPropertyValue( "dll.file.name" );
-    } else {
-        fname = script->getPropertyValue( "exe.file.name" );
-    }
-
+    string propName = ( isDll == "true" ? "dll.file.name" : "exe.file.name" );
+    string fname = script->getPropertyValue( propName );
     if ( fname != "" ) {
         string file = io::concatPaths( binDir, fname );
-        //appRecursiveDeleteFileOrDirectoryIfExists( file );
+        //appRecursiveDeleteFileOrDirectoryIfExists( file, propName, script );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
         string fname = io::fileOrDirName( bfile );
         fname = io::concatPaths( buildDir, fname );
-        appRecursiveDeleteFileOrDirectoryIfExists( fname );
+        appRecursiveDeleteFileOrDirectoryIfExists( fname, "build.files", script );
     }
 
     manager->executaTaskIfExists( "clean" );
@@ -47,16 +41,18 @@ void CleanTaskProc::proc( CMD* mainCMD, void* mgr ) {
     cout << "Limpesa efetuada com sucesso!" << endl;
 }
 
-void CleanTaskProc::appRecursiveDeleteFileOrDirectoryIfExists( string path ) {
+void CleanTaskProc::appRecursiveDeleteFileOrDirectoryIfExists( string path, string propName, MainScript* script ) {
+    Prop* prop = script->getProperty( propName );
+
     try {
         if ( io::fileExists( path ) ) {
             int count = io::recursiveDeleteFileOrDirectory( path );
             if ( count == 0 )
-                throw runtime_error( "Arquivo ou pasta nao deletado: \"" + path + "\"" );
+                throw taskproc_error( prop, "Arquivo ou pasta nao deletado: \"" + path + "\"" );
 
             cout << "Deletado: " << path << endl;
         }
     } catch ( const io_error& e ) {
-        throw runtime_error( "Nao foi possivel deletar o arquivo ou pasta: \"" + path + "\"" );
+        throw taskproc_error( prop, "Nao foi possivel deletar o arquivo ou pasta: \"" + path + "\"" );
     }
 }

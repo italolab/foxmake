@@ -1,7 +1,7 @@
 
 #include "Task.h"
 
-Task::Task( Statement* parent, int lineNumber ) : Block( parent, lineNumber ) {}
+Task::Task( Statement* parent, int lineNumber, string line ) : Block( parent, lineNumber, line ) {}
 
 string Task::getName() {
     return name;

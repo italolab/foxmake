@@ -10,13 +10,15 @@ class Statement {
     private:
         Statement* parent;
         int lineNumber;
+        string line;
 
     public:
-        Statement( Statement* parent, int lineNumber );
+        Statement( Statement* parent, int lineNumber, string line );
 
         Statement* getParent();
 
         int getLineNumber();
+        string getLine();
 };
 
 #endif
