@@ -9,10 +9,6 @@
 #include <stdexcept>
 #include <vector>
 
-using namespace std;
-
-char fileSeparator();
-
 class io_error : public runtime_error {
     public:
         io_error( string msg );
@@ -62,6 +58,9 @@ namespace io {
     bool isDir( string path );
     bool isEmptyDir( string dir );
     bool fileExists( string path );
+
+    long lastWriteTimeInSeconds( string path );
+    long writingTimeElapsedInMS( string path );
 
 }
 

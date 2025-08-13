@@ -3,10 +3,13 @@
 #include "io.h"
 #include "../util/strutil.h"
 
-#include <iostream>
 #include <fstream>
 #include <filesystem>
-#include <limits>
+//#include <limits>
+#include <chrono>
+
+namespace filesystem = std::filesystem;
+namespace chrono = std::chrono;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
 joker_error::joker_error( string msg ) : io_error( msg ) {}
@@ -387,6 +390,25 @@ namespace io {
             if ( p[ p.length()-1 ] == '*' )
                 return p.substr( 0, p.length()-2 );
         return p;
+    }
+
+    long lastWriteTimeInSeconds( string path ) {
+        auto ftime = filesystem::last_write_time(path);
+
+        auto sctp = chrono::time_point_cast<std::chrono::system_clock::duration>(
+            ftime - filesystem::file_time_type::clock::now() + std::chrono::system_clock::now()
+        );
+
+        auto duration = chrono::duration_cast<chrono::seconds>( sctp.time_since_epoch() );
+        return duration.count();
+    }
+
+    long writingTimeElapsedInMS( string path ) {
+        filesystem::file_time_type fileTime = filesystem::last_write_time( path );
+        chrono::time_point now = filesystem::file_time_type::clock::now();
+        chrono::duration elapsed = now - fileTime;
+        chrono::duration durationMS = chrono::duration_cast<chrono::milliseconds>( elapsed );
+        return durationMS.count();
     }
 
 }
