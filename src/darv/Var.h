@@ -1,21 +1,19 @@
 #ifndef VAR_H
 #define VAR_H
 
-#include "No.h"
+#include "Statement.h"
 #include <string>
 
 using std::string;
 
-class Block;
-
-class Var : public No {
+class Var : public Statement {
 
     private:
         string name;
         string value;
 
     public:
-        Var( Block* parent, string name, string value );
+        Var( Statement* parent, string name, string value, int lineNumber );
 
         string getName();
         string getValue();

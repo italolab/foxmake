@@ -11,8 +11,9 @@ using namespace std;
 class MainProc : public Proc {
 
     private:
-        void procCMDs( void* mgr );
         void compileAndLink( CMD* cmd, void* manager, bool isCompile, bool isLink );
+        void executaNoDefaultTasks( void* mgr );
+        void executaCMDs( void* mgr );
 
     public:
         void proc( CMD* cmd, void* mgr );

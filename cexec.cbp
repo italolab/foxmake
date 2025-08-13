@@ -34,8 +34,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="dll.txt" />
-		<Unit filename="exe.txt" />
+		<Unit filename="settings-dll.txt" />
+		<Unit filename="settings.txt" />
+		<Unit filename="src/consts.h" />
 		<Unit filename="src/darv/Block.cpp" />
 		<Unit filename="src/darv/Block.h" />
 		<Unit filename="src/darv/CMD.cpp" />

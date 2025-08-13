@@ -1,12 +1,12 @@
 
 #include "Block.h"
 
-Block::Block( Block* parent ) : No( parent ) {}
+Block::Block( Statement* parent, int lineNumber ) : Statement( parent, lineNumber ) {}
 
-Block* Block::getRoot() {
-    if ( No::getParent() == nullptr )
+Statement* Block::getRoot() {
+    if ( Statement::getParent() == nullptr )
         return this;
-    return No::getParent()->getRoot();
+    return ((Block*)Statement::getParent())->getRoot();
 }
 
 Var* Block::getVar( string varName ) {
@@ -14,7 +14,7 @@ Var* Block::getVar( string varName ) {
     if ( var != nullptr )
         return var;
 
-    Block* parent = No::getParent();
+    Block* parent = (Block*)Statement::getParent();
     if ( parent != nullptr )
         return parent->getVar( varName );
 
@@ -22,7 +22,7 @@ Var* Block::getVar( string varName ) {
 }
 
 void Block::putLocalVar( string name, string value ) {
-    localVarsMap[ name ] = new Var( this, name, value );
+    localVarsMap[ name ] = new Var( this, name, value, 0 );
 }
 
 void Block::putLocalVar( Var* var ) {

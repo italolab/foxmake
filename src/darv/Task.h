@@ -13,7 +13,7 @@ class Task : public Block {
         string name;
 
     public:
-        Task( Block* parent );
+        Task( Statement* parent, int lineNumber );
 
         string getName();
         void setName( string name );

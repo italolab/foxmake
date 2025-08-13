@@ -82,7 +82,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
     Task* task = parent->getTask( taskName );
     if ( task == nullptr ) {
-        task = new Task( parent );
+        task = new Task( parent, lineNumber );
         task->setName( taskName );
 
         parent->putTask( task );

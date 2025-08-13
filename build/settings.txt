@@ -1,0 +1,77 @@
+is.dll=false
+
+target=debug
+compiler=g++
+exe.file.name=cexec.exe
+
+debug.bin.dir=bin/Debug
+debug.obj.dir=obj/Debug
+debug.compiler.params=-Wall -fexceptions -g
+debug.linker.params=
+
+release.bin.dir=bin/Release
+release.obj.dir=obj/Release
+release.compiler.params=-Wall -fexceptions -O2
+release.linker.params=-s
+
+
+bin.dir=$($(target).bin.dir)
+obj.dir=$($(target).obj.dir)
+compiler.params=$($(target).compiler.params)
+linker.params=$($(target).linker.params)
+
+src.dir=src
+build.dir=build
+
+include.files=../Utils/src
+build.files="../Utils/bin/Debug/Utils.dll" settings.txt settings-dll.txt obj
+
+lib.dirs=
+include.dirs=include
+dll.dirs=
+#defines=
+
+compile {
+    echo Compilou!
+
+}
+
+build {
+
+    echo Build concluido!
+
+}
+
+debug {
+    echo Debug executado!
+}
+
+mkdir $(include.dirs)
+
+cp $(src.dir)/-/inter/*.h $(include.dirs)
+cp $(src.dir)/*.cpp $(build.dir)
+mkdir $(build.dir)/objects
+cp $(obj.dir)/src/io/* $(build.dir)/objects
+
+mkdir -p $(build.dir)/a/b/c
+
+cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
+
+cd ../TestesUnit
+cp -r $(src.dir) ../cexec/$(build.dir)
+
+cd ../cexec
+
+rm $(build.dir)/TestesUnit.dll
+#rm -r $(include.dirs)/*
+#rm -r $(obj.dir)
+
+mkdir $(build.dir)/c/b
+
+build {
+    $a=$(src.dir)/abc
+
+    echo $(a) diretorio
+    echo $(working_dir)
+    echo Build completo!
+}

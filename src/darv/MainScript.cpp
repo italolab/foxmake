@@ -1,7 +1,7 @@
 
 #include "MainScript.h"
 
-MainScript::MainScript() : Block( nullptr ) {}
+MainScript::MainScript() : Block( nullptr, 0 ) {}
 
 void MainScript::putProperty( Prop* prop ) {
     propertiesMap[ prop->getName() ] = prop;

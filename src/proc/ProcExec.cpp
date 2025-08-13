@@ -44,7 +44,7 @@ void ProcExec::exec( int argc, char* argv[] ) {
         if ( !result->isInterpreted() )
             throw runtime_error( "Erro em: \"" + result->getLine() + "\"\n" + result->getErrorMsg() );
 
-        CMD* cmd = (CMD*)result->getNo();
+        CMD* cmd = (CMD*)result->getStatement();
 
         mainScript->putLocalVar( "main_config_file", DEFAULT_SETTINGS_FILE_NAME );
         mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );

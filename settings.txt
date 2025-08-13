@@ -24,7 +24,7 @@ src.dir=src
 build.dir=build
 
 include.files=../Utils/src
-build.files="../Utils/bin/Debug/Utils.dll" exe.txt dll.txt obj
+build.files="../Utils/bin/Debug/Utils.dll" settings.txt settings-dll.txt obj
 
 lib.dirs=
 include.dirs=include
@@ -45,6 +45,8 @@ build {
 debug {
     echo Debug executado!
 }
+
+mkdir $(include.dirs)
 
 cp $(src.dir)/-/inter/*.h $(include.dirs)
 cp $(src.dir)/*.cpp $(build.dir)

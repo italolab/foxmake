@@ -1,7 +1,6 @@
 
 #include "CopyTaskProc.h"
 #include "../ProcManager.h"
-#include "../../darv/MainScript.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
@@ -32,23 +31,25 @@ void CopyTaskProc::proc( CMD* mainCMD, void* mgr ) {
     if ( isDll == "true" ) {
         string dllFileName = script->getPropertyValue( "dll.file.name" );
         string fname = io::concatPaths( binDir, dllFileName );
-        appCopyFileOrDirectoryToBuild( fname, buildDir );
+        appCopyFileOrDirectoryToBuild( fname, buildDir, "dll.file.name", script );
     } else {
         string exeFileName = script->getPropertyValue( "exe.file.name" );
         string fname = io::concatPaths( binDir, exeFileName );
-        appCopyFileOrDirectoryToBuild( fname, buildDir );
+        appCopyFileOrDirectoryToBuild( fname, buildDir, "exe.file.name", script );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles )
-        appCopyFileOrDirectoryToBuild( bfile, buildDir );
+        appCopyFileOrDirectoryToBuild( bfile, buildDir, "build.files", script );
 
     manager->executaTaskIfExists( "copy" );
 
     cout << "Arquivos de build copiados com sucesso!" << endl;
 }
 
-void CopyTaskProc::appCopyFileOrDirectoryToBuild( string path, string buildDir ) {
+void CopyTaskProc::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script ) {
+
+
     if ( !io::fileExists( path ) )
         throw runtime_error( "O arquivo ou pasta: \"" + path + "\" nao existe." );
 

@@ -1,20 +1,20 @@
 #ifndef PROP_H
 #define PROP_H
 
-#include "No.h"
+#include "Statement.h"
 
 #include <string>
 
 using std::string;
 
-class Prop : public No {
+class Prop : public Statement {
 
     private:
         string name;
         string value;
 
     public:
-        Prop( string name, string value );
+        Prop( Statement* block, string name, string value, int lineNumber );
 
         string getName();
         string getValue();

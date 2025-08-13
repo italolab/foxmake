@@ -1,7 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "No.h"
+#include "Statement.h"
 #include "Var.h"
 #include "CMD.h"
 
@@ -13,16 +13,16 @@ using std::string;
 using std::vector;
 using std::map;
 
-class Block : public No {
+class Block : public Statement {
 
     private:
         map<string, Var*> localVarsMap;
         vector<CMD*> cmdsVect;
 
     public:
-        Block( Block* parent );
+        Block( Statement* parent, int lineNumber );
 
-        Block* getRoot();
+        Statement* getRoot();
 
         void addCMD( CMD* cmd );
         int getCMDsLength();

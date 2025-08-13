@@ -5,10 +5,15 @@
 #include "CMD.h"
 #include "Var.h"
 #include "Task.h"
+#include "Prop.h"
 
 #include <string>
+#include <vector>
+#include <map>
 
 using std::string;
+using std::vector;
+using std::map;
 
 class MainScript : public Block {
 

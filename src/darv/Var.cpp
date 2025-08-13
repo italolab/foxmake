@@ -1,7 +1,7 @@
 
 #include "Var.h"
 
-Var::Var( Block* parent, string name, string value ) : No( parent ) {
+Var::Var( Statement* parent, string name, string value, int lineNumber ) : Statement( parent, lineNumber ) {
     this->name = name;
     this->value = value;
 }

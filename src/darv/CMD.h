@@ -1,7 +1,7 @@
 #ifndef CMD_H
 #define CMD_H
 
-#include "No.h"
+#include "Statement.h"
 #include "Prop.h"
 
 #include <string>
@@ -12,7 +12,7 @@ using std::string;
 using std::vector;
 using std::map;
 
-class CMD : public No {
+class CMD : public Statement {
 
     private:
         string name;
@@ -22,7 +22,7 @@ class CMD : public No {
         map<string, Prop*> propertiesMap;
 
     public:
-        CMD( Block* parent );
+        CMD( Statement* parent, int lineNumber );
 
         void addProperty( Prop* prop );
         vector<string> propertyNames();

@@ -1,7 +1,7 @@
 
 #include "Prop.h"
 
-Prop::Prop( string name, string value ) : No( nullptr ) {
+Prop::Prop( Statement* parent, string name, string value, int lineNumber ) : Statement( parent, lineNumber ) {
     this->name = name;
     this->value = value;
 }

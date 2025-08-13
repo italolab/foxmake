@@ -40,8 +40,7 @@ InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, I
 }
 
 InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int lineNumber, InterManager* manager ) {
-    CMD* cmd = new CMD( parent );
-    cmd->setLineNumber( lineNumber );
+    CMD* cmd = new CMD( parent, lineNumber );
 
     string line = "";
     if ( argc > 0 ) {
@@ -92,7 +91,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
                 }
             }
 
-            cmd->addProperty( new Prop( name, value ) );
+            cmd->addProperty( new Prop( cmd, name, value, lineNumber ) );
         } else {
             cmd->addArg( param );
         }

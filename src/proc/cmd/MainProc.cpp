@@ -14,58 +14,43 @@
 void MainProc::proc( CMD* cmd, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
-    if ( cmd->getArgsLength() > 0 ) {
-        bool isClean = cmd->existsArg( "clean" );
-        bool isCompile = cmd->existsArg( "compile" );
-        bool isLink = cmd->existsArg( "link" );
-        bool isBuild = cmd->existsArg( "build" );
-        bool isCopy = cmd->existsArg( "copy" );
+    if ( cmd->countNoOpArgs() == 0 )
+        throw runtime_error( "E necessario informar ao menos uma tarefa como argumento." );
 
-        if ( isBuild ) {
-            isClean = true;
-            isCompile = true;
-            isLink = true;
-            isCopy = true;
-        }
+    bool isClean = cmd->existsArg( "clean" );
+    bool isCompile = cmd->existsArg( "compile" );
+    bool isLink = cmd->existsArg( "link" );
+    bool isBuild = cmd->existsArg( "build" );
+    bool isCopy = cmd->existsArg( "copy" );
 
-        if ( isClean )
-            manager->executaTaskProc( "clean", cmd );
-
-        if ( isCompile || isLink )
-            compileAndLink( cmd, manager, isCompile, isLink );
-
-        if ( isCopy )
-            manager->executaTaskProc( "copy", cmd );
-
-        vector<string> names = manager->getMainScript()->taskNames();
-        for( string taskName : names )
-            if ( !manager->isDefaultTask( taskName ) )
-                manager->executaTaskIfExists( taskName );
-
-        procCMDs( manager );
-    } else {
-        cout << "Nenhum comando informado." << endl;
+    if ( isBuild ) {
+        isClean = true;
+        isCompile = true;
+        isLink = true;
+        isCopy = true;
     }
+
+    if ( isClean )
+        manager->executaTaskProc( "clean", cmd );
+
+    if ( isCompile || isLink )
+        compileAndLink( cmd, manager, isCompile, isLink );
+
+    if ( isCopy )
+        manager->executaTaskProc( "copy", cmd );
+
+    executaNoDefaultTasks( manager );
+    executaCMDs( manager );
 }
 
-void MainProc::procCMDs( void* mgr ) {
+void MainProc::executaNoDefaultTasks( void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
-    MainScript* script = manager->getMainScript();
-    int tam = script->getCMDsLength();
-
-    if ( tam > 0 )
-        cout << "\nEXECUTANDO COMANDOS" << endl;
-
-    for( int i = 0; i < tam; i++ ) {
-        CMD* cmd = script->getCMDByIndex( i );
-        manager->executaCMDProc( cmd );
-    }
-
-    if ( tam > 0 )
-        cout << "Comandos executados com sucesso." << endl;
+    vector<string> names = manager->getMainScript()->taskNames();
+    for( string taskName : names )
+        if ( !manager->isDefaultTask( taskName ) )
+            manager->executaTaskIfExists( taskName );
 }
-
 void MainProc::compileAndLink( CMD* cmd, void* mgr, bool isCompile, bool isLink ) {
     ProcManager* manager = (ProcManager*)mgr;
     MainScript* script = manager->getMainScript();
@@ -87,3 +72,20 @@ void MainProc::compileAndLink( CMD* cmd, void* mgr, bool isCompile, bool isLink 
         manager->executaTaskProc( "link", cmd );
 }
 
+void MainProc::executaCMDs( void* mgr ) {
+    ProcManager* manager = (ProcManager*)mgr;
+
+    MainScript* script = manager->getMainScript();
+    int tam = script->getCMDsLength();
+
+    if ( tam > 0 )
+        cout << "\nEXECUTANDO COMANDOS" << endl;
+
+    for( int i = 0; i < tam; i++ ) {
+        CMD* cmd = script->getCMDByIndex( i );
+        manager->executaCMDProc( cmd );
+    }
+
+    if ( tam > 0 )
+        cout << "Comandos executados com sucesso." << endl;
+}
