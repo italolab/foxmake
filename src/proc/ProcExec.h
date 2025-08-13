@@ -2,9 +2,9 @@
 #define PROC_EXEC_H
 
 #include "ProcManager.h"
-#include "cmd/Proc.h"
-#include "cmd/MainProc.h"
-#include "task/TaskProc.h"
+#include "Proc.h"
+#include "TaskProc.h"
+#include "main/MainProc.h"
 #include "../darv/MainScript.h"
 #include "../inter/BlockInterDriver.h"
 #include "../inter/InterManager.h"

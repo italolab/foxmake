@@ -1113,3 +1113,568 @@
 	"Statement.h"
 	<typeinfo>
 
+1755074502 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.cpp
+	"Block.h"
+
+1755074134 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.h
+	"Statement.h"
+	"Var.h"
+	"CMD.h"
+	<string>
+	<vector>
+	<map>
+
+1755074022 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\statement.h
+	<string>
+
+1755074102 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\var.h
+	"Statement.h"
+	<string>
+
+1755074158 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.h
+	"Statement.h"
+	"Prop.h"
+	<string>
+	<vector>
+	<map>
+
+1755074693 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\prop.h
+	"Statement.h"
+	<string>
+
+1755074338 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.cpp
+	"CMD.h"
+
+1755073488 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.cpp
+	"MainScript.h"
+
+1755074480 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.h
+	"Block.h"
+	"CMD.h"
+	"Var.h"
+	"Task.h"
+	"Prop.h"
+	<string>
+	<vector>
+	<map>
+
+1755074370 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\task.h
+	"Block.h"
+	<string>
+
+1755074715 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\prop.cpp
+	"Prop.h"
+
+1755074040 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\statement.cpp
+	"Statement.h"
+	<typeinfo>
+
+1755074356 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\task.cpp
+	"Task.h"
+
+1755074348 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\var.cpp
+	"Var.h"
+
+1755074671 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.cpp
+	"CMDInter.h"
+	"InterManager.h"
+	"../darv/CMD.h"
+	"../darv/Prop.h"
+	"../util/strutil.h"
+	<sstream>
+	<cstring>
+
+1755074247 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.h
+	"Inter.h"
+	<string>
+
+1754904469 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\inter.h
+	<string>
+	<stdexcept>
+	"InterResult.h"
+	"../darv/Block.h"
+
+1755073247 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\interresult.h
+	"../darv/Statement.h"
+	<string>
+
+1754936613 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
+	"BlockInterDriver.h"
+	"MainScriptInter.h"
+	"TaskInter.h"
+	"CMDInter.h"
+	"PropInter.h"
+	"VarInter.h"
+	"InterResult.h"
+	"it/BlockIterator.h"
+	"../darv/Block.h"
+	"../darv/MainScript.h"
+
+1754925045 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\blockinterdriver.h
+	<string>
+	<vector>
+
+1754936627 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\mainscriptinter.h
+	"Inter.h"
+	"BlockInterDriver.h"
+	"it/BlockIterator.h"
+	"../darv/MainScript.h"
+
+1754815212 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\blockiterator.h
+	<string>
+
+1755074289 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\taskinter.h
+	"Inter.h"
+	"BlockInterDriver.h"
+	"it/BlockIterator.h"
+	"../darv/MainScript.h"
+	"../darv/Task.h"
+
+1754908546 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\propinter.h
+	"Inter.h"
+	"InterResult.h"
+	"../darv/MainScript.h"
+	"../darv/Block.h"
+
+1754908550 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\varinter.h
+	"Inter.h"
+	<string>
+
+1754905369 c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.h
+	<string>
+	<vector>
+	<stdexcept>
+
+1755025262 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\inter.cpp
+	"Inter.h"
+	"../darv/MainScript.h"
+	<sstream>
+
+1754936284 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.cpp
+	"InterManager.h"
+
+1755073247 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\interresult.cpp
+	"InterResult.h"
+
+1754815212 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\fileiterator.cpp
+	"FileIterator.h"
+
+1754815212 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\fileiterator.h
+	"BlockIterator.h"
+	<fstream>
+
+1755025068 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\stringiterator.cpp
+	"StringIterator.h"
+
+1754815212 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\stringiterator.h
+	"BlockIterator.h"
+	<sstream>
+
+1755025545 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\mainscriptinter.cpp
+	"MainScriptInter.h"
+	"InterManager.h"
+	"it/FileIterator.h"
+	"../darv/MainScript.h"
+	"../util/strutil.h"
+
+1755073573 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\propinter.cpp
+	"PropInter.h"
+	"../darv/Prop.h"
+
+1755073649 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\taskinter.cpp
+	"TaskInter.h"
+	"InterManager.h"
+	"it/StringIterator.h"
+	"../darv/Task.h"
+	"../util/strutil.h"
+	<sstream>
+
+1755073666 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\varinter.cpp
+	"VarInter.h"
+	"../darv/Var.h"
+
+1754510042 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppio.cpp
+	"cppio.h"
+	"io.h"
+	"../util/strutil.h"
+	<filesystem>
+
+1754509970 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppio.h
+	<string>
+	<vector>
+
+1755008635 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.h
+	"filter/FileFilter.h"
+	"filter/ByExtFileFilter.h"
+	"filter/AllFileFilter.h"
+	<string>
+	<stdexcept>
+	<vector>
+
+1754600049 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filter\filefilter.h
+	<string>
+
+1754600197 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filter\byextfilefilter.h
+	"FileFilter.h"
+	<string>
+
+1754600987 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filter\allfilefilter.h
+	"FileFilter.h"
+	<string>
+
+1754600994 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filter\allfilefilter.cpp
+	"AllFileFilter.h"
+
+1754998821 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filter\byextfilefilter.cpp
+	"ByExtFileFilter.h"
+	"../../util/strutil.h"
+
+1755009581 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.cpp
+	"io.h"
+	"../util/strutil.h"
+	<iostream>
+	<fstream>
+	<filesystem>
+	<limits>
+
+1754946703 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
+	"proc/ProcExec.h"
+
+1755076464 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.h
+	"ProcManager.h"
+	"Proc.h"
+	"TaskProc.h"
+	"main/MainProc.h"
+	"../darv/MainScript.h"
+	"../inter/BlockInterDriver.h"
+	"../inter/InterManager.h"
+	<map>
+	<vector>
+	<string>
+
+1755076484 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
+	"Proc.h"
+	"TaskProc.h"
+	"main/MainProc.h"
+	"../darv/MainScript.h"
+	"../io/cppio.h"
+	<string>
+	<vector>
+	<map>
+
+1755064369 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\proc.h
+	"../../darv/CMD.h"
+	"../../inter/InterResult.h"
+	<string>
+	<stdexcept>
+
+1755071929 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\mainproc.h
+	"Proc.h"
+	"../../darv/MainScript.h"
+	<string>
+
+1755066297 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\taskproc.h
+	"../../darv/CMD.h"
+
+1755067536 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\cdproc.cpp
+	"CDProc.h"
+	"../ProcManager.h"
+	"../../darv/Var.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755064390 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\cdproc.h
+	"Proc.h"
+	<string>
+
+1754850410 c:\users\italo\workspace-cpp\dlls\cbuild\src\shell\shell.h
+	<string>
+	<sstream>
+	<vector>
+
+1755064588 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\cpproc.cpp
+	"CPProc.h"
+	"../../io/io.h"
+	"../../io/filter/FileFilter.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755064496 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\cpproc.h
+	"Proc.h"
+
+1755064542 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\echoproc.cpp
+	"EchoProc.h"
+	"../../util/strutil.h"
+	<iostream>
+
+1755064380 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\echoproc.h
+	"Proc.h"
+	<string>
+
+1755072166 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\mainproc.cpp
+	"MainProc.h"
+	"../ProcManager.h"
+	"../../darv/CMD.h"
+	"../../shell/shell.h"
+	"../../util/strutil.h"
+	"../../io/io.h"
+	"../../io/cppio.h"
+	<iostream>
+	<sstream>
+	<vector>
+
+1755065198 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\mkdirproc.cpp
+	"MKDirProc.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755064373 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\mkdirproc.h
+	"Proc.h"
+	<string>
+
+1755025958 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\proc.cpp
+	"Proc.h"
+	<sstream>
+
+1755065244 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\rmproc.cpp
+	"RMProc.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755064363 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cmd\rmproc.h
+	"Proc.h"
+	<string>
+
+1755071470 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\cleantaskproc.cpp
+	"CleanTaskProc.h"
+	"../ProcManager.h"
+	"../../darv/MainScript.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<iostream>
+
+1755064346 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\cleantaskproc.h
+	"TaskProc.h"
+
+1755072746 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\copytaskproc.cpp
+	"CopyTaskProc.h"
+	"../ProcManager.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<string>
+	<vector>
+	<iostream>
+
+1755072737 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\copytaskproc.h
+	"TaskProc.h"
+	"../../darv/MainScript.h"
+
+1755071548 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\linktaskproc.cpp
+	"LinkTaskProc.h"
+	"../ProcManager.h"
+	"../../darv/MainScript.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<vector>
+	<string>
+	<sstream>
+	<stdexcept>
+	<iostream>
+
+1755064335 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\linktaskproc.h
+	"TaskProc.h"
+
+1754855423 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\shell\shell.cpp
+	<windows.h>
+	<direct.h>
+	<unistd.h>
+	<cstring>
+	<iostream>
+	"shell.h"
+
+1754905377 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.cpp
+	"strutil.h"
+	<sstream>
+	<iostream>
+
+1755075690 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\compilealltaskproc.cpp
+	"CompileAllTaskProc.h"
+	"../ProcManager.h"
+	"../../darv/MainScript.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<vector>
+	<string>
+	<sstream>
+	<stdexcept>
+	<iostream>
+
+1755075690 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\task\compilealltaskproc.h
+	"TaskProc.h"
+
+1755076592 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\proc.h
+	"../darv/CMD.h"
+	"../inter/InterResult.h"
+	<string>
+	<stdexcept>
+
+1755076498 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskproc.h
+	"../darv/CMD.h"
+
+1755076309 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.h
+	"../Proc.h"
+	"../../darv/MainScript.h"
+
+1755067536 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdproc.cpp
+	"CDProc.h"
+	"../ProcManager.h"
+	"../../darv/Var.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755076275 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdproc.h
+	"../Proc.h"
+	<string>
+
+1755064588 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpproc.cpp
+	"CPProc.h"
+	"../../io/io.h"
+	"../../io/filter/FileFilter.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755076283 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpproc.h
+	"../Proc.h"
+
+1755064542 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoproc.cpp
+	"EchoProc.h"
+	"../../util/strutil.h"
+	<iostream>
+
+1755076288 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoproc.h
+	"../Proc.h"
+	<string>
+
+1755076384 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
+	"MainProc.h"
+	"../ProcManager.h"
+	"../../darv/CMD.h"
+	"../../shell/shell.h"
+	"../../util/strutil.h"
+	"../../io/io.h"
+	"../../io/cppio.h"
+	<string>
+	<vector>
+	<iostream>
+
+1755071470 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.cpp
+	"CleanTaskProc.h"
+	"../ProcManager.h"
+	"../../darv/MainScript.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<iostream>
+
+1755076793 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.h
+	"../TaskProc.h"
+
+1755025958 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\proc.cpp
+	"Proc.h"
+	<sstream>
+
+1755075690 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
+	"CompileAllTaskProc.h"
+	"../ProcManager.h"
+	"../../darv/MainScript.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<vector>
+	<string>
+	<sstream>
+	<stdexcept>
+	<iostream>
+
+1755076797 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.h
+	"../TaskProc.h"
+
+1755072746 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskproc.cpp
+	"CopyTaskProc.h"
+	"../ProcManager.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<string>
+	<vector>
+	<iostream>
+
+1755076805 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskproc.h
+	"../TaskProc.h"
+	"../../darv/MainScript.h"
+
+1755071548 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
+	"LinkTaskProc.h"
+	"../ProcManager.h"
+	"../../darv/MainScript.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<vector>
+	<string>
+	<sstream>
+	<stdexcept>
+	<iostream>
+
+1755076809 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.h
+	"../TaskProc.h"
+
+1755065198 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirproc.cpp
+	"MKDirProc.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755076816 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirproc.h
+	"../Proc.h"
+	<string>
+
+1755076535 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
+	"ProcExec.h"
+	"cp/CPProc.h"
+	"rm/RMProc.h"
+	"cd/CDProc.h"
+	"mkdir/MKDirProc.h"
+	"echo/EchoProc.h"
+	"main/CleanTaskProc.h"
+	"main/CompileAllTaskProc.h"
+	"main/LinkTaskProc.h"
+	"main/CopyTaskProc.h"
+	"../inter/InterResult.h"
+	"../shell/shell.h"
+	"../io/cppio.h"
+	"../consts.h"
+	<iostream>
+
+1755076823 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmproc.h
+	"../Proc.h"
+	<string>
+
+1755071380 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
+
+1755065244 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmproc.cpp
+	"RMProc.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+

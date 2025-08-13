@@ -1,14 +1,14 @@
 
 #include "ProcExec.h"
-#include "cmd/CPProc.h"
-#include "cmd/RMProc.h"
-#include "cmd/CDProc.h"
-#include "cmd/MKDirProc.h"
-#include "cmd/EchoProc.h"
-#include "task/CleanTaskProc.h"
-#include "task/CompileTaskProc.h"
-#include "task/LinkTaskProc.h"
-#include "task/CopyTaskProc.h"
+#include "cp/CPProc.h"
+#include "rm/RMProc.h"
+#include "cd/CDProc.h"
+#include "mkdir/MKDirProc.h"
+#include "echo/EchoProc.h"
+#include "main/CleanTaskProc.h"
+#include "main/CompileAllTaskProc.h"
+#include "main/LinkTaskProc.h"
+#include "main/CopyTaskProc.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/cppio.h"
@@ -33,7 +33,7 @@ ProcExec::ProcExec() {
     procsMap[ "echo" ] = new EchoProc();
 
     taskProcsMap[ "clean" ] = new CleanTaskProc();
-    taskProcsMap[ "compile" ] = new CompileTaskProc();
+    taskProcsMap[ "compileall" ] = new CompileAllTaskProc();
     taskProcsMap[ "link" ] = new LinkTaskProc();
     taskProcsMap[ "copy" ] = new CopyTaskProc();
 }

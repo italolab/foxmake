@@ -1,9 +1,9 @@
 #ifndef PROC_MANAGER_H
 #define PROC_MANAGER_H
 
-#include "cmd/Proc.h"
-#include "cmd/MainProc.h"
-#include "task/TaskProc.h"
+#include "Proc.h"
+#include "TaskProc.h"
+#include "main/MainProc.h"
 #include "../darv/MainScript.h"
 #include "../io/cppio.h"
 
