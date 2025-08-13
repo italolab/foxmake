@@ -1,9 +1,6 @@
 
 #include "Block.h"
 
-#include <iostream>
-using namespace std;
-
 Block::Block( Block* parent ) : No( parent ) {}
 
 Block* Block::getRoot() {
@@ -40,11 +37,11 @@ Var* Block::getLocalVar( string varName ) {
     return localVarsMap[ varName ];
 }
 
-vector<string> Block::localVars() {
-    vector<string> varsVect;
+vector<string> Block::localVarNames() {
+    vector<string> names;
     for( const auto& pair : localVarsMap )
-        varsVect.push_back( pair.first );
-    return varsVect;
+        names.push_back( pair.first );
+    return names;
 }
 
 void Block::addCMD( CMD* cmd ) {
@@ -65,6 +62,6 @@ CMD* Block::getCMDByIndex( int i ) {
     return nullptr;
 }
 
-vector<CMD*> Block::cmds() {
+vector<CMD*>& Block::cmds() {
     return cmdsVect;
 }

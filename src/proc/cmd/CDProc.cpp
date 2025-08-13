@@ -1,14 +1,20 @@
 
 #include "CDProc.h"
-#include "../darv/Var.h"
-#include "../shell/shell.h"
-#include "../io/io.h"
+#include "../ProcManager.h"
+#include "../../darv/Var.h"
+#include "../../shell/shell.h"
+#include "../../io/io.h"
 
 #include <sstream>
+#include <iostream>
 
 using std::stringstream;
+using std::cout;
+using std::endl;
 
-void CDProc::processa( CMD* cmd, ProcManager* manager ) {
+void CDProc::proc( CMD* cmd, void* mgr ) {
+    MainScript* script = ((ProcManager*)mgr)->getMainScript();
+
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
         stringstream ss;
@@ -28,7 +34,7 @@ void CDProc::processa( CMD* cmd, ProcManager* manager ) {
     if ( !ok )
         throw proc_error( cmd, "Nao foi possivel alterar o diretorio corrente." );
 
-    Var* var = manager->getMainScript()->getLocalVar( "working_dir" );
+    Var* var = script->getLocalVar( "working_dir" );
     if ( var == nullptr )
         throw runtime_error( "Nao foi encontrada a variavel de diretorio de trabalho." );
 

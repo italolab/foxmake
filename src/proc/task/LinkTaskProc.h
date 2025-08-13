@@ -1,12 +1,12 @@
 #ifndef LINK_TASK_PROC_H
 #define LINK_TASK_PROC_H
 
-#include "../Proc.h"
+#include "TaskProc.h"
 
-class LinkTaskProc : public Proc {
+class LinkTaskProc : public TaskProc {
 
     public:
-        void processa( CMD* cmd, ProcManager* manager );
+        void proc( CMD* mainCMD, void* mgr );
 
 };
 

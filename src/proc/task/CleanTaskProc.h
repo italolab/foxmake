@@ -1,15 +1,15 @@
 #ifndef CLEAN_TASK_PROC_H
 #define CLEAN_TASK_PROC_H
 
-#include "../Proc.h"
+#include "TaskProc.h"
 
-class CleanTaskProc : public Proc {
+class CleanTaskProc : public TaskProc {
 
     private:
         void appRecursiveDeleteFileOrDirectoryIfExists( string path );
 
     public:
-        void processa( CMD* cmd, ProcManager* manager );
+        void proc( CMD* mainCMD, void* mgr );
 
 };
 

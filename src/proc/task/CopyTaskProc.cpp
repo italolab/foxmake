@@ -1,16 +1,22 @@
 
 #include "CopyTaskProc.h"
+#include "../ProcManager.h"
 #include "../../darv/MainScript.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 using std::vector;
+using std::cout;
+using std::endl;
 
-void CopyTaskProc::processa( CMD* cmd, ProcManager* manager ) {
+void CopyTaskProc::proc( CMD* cmd, void* mgr ) {
+    ProcManager* manager = (ProcManager*)mgr;
+
     cout << "\nCOPIANDO ARQUIVOS DE BUILD..." << endl;
 
     MainScript* script = manager->getMainScript();

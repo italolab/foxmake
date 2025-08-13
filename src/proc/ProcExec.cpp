@@ -1,10 +1,10 @@
 
 #include "ProcExec.h"
-#include "CPProc.h"
-#include "RMProc.h"
-#include "CDProc.h"
-#include "MKDirProc.h"
-#include "EchoProc.h"
+#include "cmd/CPProc.h"
+#include "cmd/RMProc.h"
+#include "cmd/CDProc.h"
+#include "cmd/MKDirProc.h"
+#include "cmd/EchoProc.h"
 #include "task/CleanTaskProc.h"
 #include "task/CompileTaskProc.h"
 #include "task/LinkTaskProc.h"
@@ -12,6 +12,12 @@
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/cppio.h"
+
+#include <iostream>
+
+using std::cout;
+using std::cerr;
+using std::endl;
 
 const string configFileName = "exe.txt";
 
@@ -49,7 +55,7 @@ void ProcExec::exec( int argc, char* argv[] ) {
             string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
             cout << "Diretorio corrente: " << wdir << endl;
 
-            mainProc->processa( cmd, this );
+            mainProc->proc( cmd, this );
         } else {
             throw proc_error( result2 );
         }
@@ -61,16 +67,25 @@ void ProcExec::exec( int argc, char* argv[] ) {
 }
 
 void ProcExec::reloadCPPFiles( string srcDir ) {
+    cppFilesVect.clear();
+
     bool ok = cppio::recursiveProcSrcFiles( srcDir, cppFilesVect );
     if ( !ok )
         throw runtime_error( "Nao foi possivel ler o diretorio de fontes do projeto: \"" + srcDir + "\"" );
 }
 
+void ProcExec::executaCMDProc( CMD* cmd ) {
+    Proc* proc = procsMap[ cmd->getName() ];
+    if ( proc == nullptr )
+        throw runtime_error( "Procedimento de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
+    proc->proc( cmd, this );
+}
+
 void ProcExec::executaTaskProc( string taskName, CMD* mainCMD ) {
-    Proc* proc = this->getTaskProc( taskName );
+    TaskProc* proc = taskProcsMap[ taskName ];
     if ( proc == nullptr )
         throw runtime_error( "Procedimento de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
-    proc->processa( mainCMD, this );
+    proc->proc( mainCMD, this );
 }
 
 void ProcExec::executaTaskIfExists( string taskName ) {
@@ -81,11 +96,7 @@ void ProcExec::executaTaskIfExists( string taskName ) {
         int len = task->getCMDsLength();
         for( int i = 0; i < len; i++ ) {
             CMD* taskCMD = task->getCMDByIndex( i );
-            Proc* proc = this->getProc( taskCMD->getName() );
-            if ( proc == nullptr )
-                throw runtime_error( "Nenhum procedimento registrado para o comando: \"" + taskCMD->getName() + "\"" );
-
-            proc->processa( taskCMD, this );
+            this->executaCMDProc( taskCMD );
         }
     }
 }
@@ -100,14 +111,6 @@ bool ProcExec::isDefaultTask( string taskName ) {
 
 vector<CPPFile*>& ProcExec::getCPPFiles() {
     return cppFilesVect;
-}
-
-Proc* ProcExec::getProc( string cmdName ) {
-    return procsMap[ cmdName ];
-}
-
-Proc* ProcExec::getTaskProc( string taskName ) {
-    return taskProcsMap[ taskName ];
 }
 
 vector<string> ProcExec::validCMDNames() {

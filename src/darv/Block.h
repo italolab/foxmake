@@ -27,13 +27,13 @@ class Block : public No {
         void addCMD( CMD* cmd );
         int getCMDsLength();
         CMD* getCMDByIndex( int i );
-        vector<CMD*> cmds();
+        vector<CMD*>& cmds();
 
         void putLocalVar( string name, string value );
         void putLocalVar( Var* var );
         Var* getLocalVar( string varName );
         bool existsLocalVar( string varName );
-        vector<string> localVars();
+        vector<string> localVarNames();
 
         Var* getVar( string varName );
 

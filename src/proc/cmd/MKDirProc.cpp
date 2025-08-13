@@ -1,10 +1,16 @@
 
 #include "MKDirProc.h"
-#include "../io/io.h"
+#include "../../io/io.h"
 
 #include <sstream>
+#include <iostream>
 
-void MKDirProc::processa( CMD* cmd, ProcManager* manager ) {
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::stringstream;
+
+void MKDirProc::proc( CMD* cmd, void* mgr ) {
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         stringstream ss;

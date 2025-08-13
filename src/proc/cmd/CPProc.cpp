@@ -1,8 +1,8 @@
 
 #include "CPProc.h"
-#include "../io/io.h"
-#include "../io/filter/FileFilter.h"
-#include "../util/strutil.h"
+#include "../../io/io.h"
+#include "../../io/filter/FileFilter.h"
+#include "../../util/strutil.h"
 
 #include <sstream>
 #include <iostream>
@@ -10,7 +10,7 @@
 using std::string;
 using std::stringstream;
 
-void CPProc::processa( CMD* cmd, ProcManager* mgr ) {
+void CPProc::proc( CMD* cmd, void* mgr ) {
     int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {
         stringstream ss;

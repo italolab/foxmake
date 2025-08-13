@@ -1,11 +1,16 @@
 
 #include "RMProc.h"
-#include "../io/io.h"
-#include "../util/strutil.h"
+#include "../../io/io.h"
+#include "../../util/strutil.h"
 
 #include <sstream>
+#include <iostream>
 
-void RMProc::processa( CMD* cmd, ProcManager* manager ) {
+using std::cout;
+using std::endl;
+using std::stringstream;
+
+void RMProc::proc( CMD* cmd, void* mgr ) {
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         stringstream ss;

@@ -456,10 +456,11 @@
 1754946703 source:c:\users\italo\workspace-cpp\dlls\cexec\src\main.cpp
 	"proc/ProcExec.h"
 
-1755030580 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.h
+1755066698 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.h
 	"ProcManager.h"
-	"Proc.h"
-	"MainProc.h"
+	"cmd/Proc.h"
+	"cmd/MainProc.h"
+	"task/TaskProc.h"
 	"../darv/MainScript.h"
 	"../inter/BlockInterDriver.h"
 	"../inter/InterManager.h"
@@ -467,13 +468,15 @@
 	<vector>
 	<string>
 
-1755031011 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procmanager.h
+1755067625 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procmanager.h
+	"cmd/Proc.h"
+	"cmd/MainProc.h"
+	"task/TaskProc.h"
 	"../darv/MainScript.h"
 	"../io/cppio.h"
-	<map>
-	<vector>
 	<string>
-	<iostream>
+	<vector>
+	<map>
 
 1755025929 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\proc.h
 	"ProcManager.h"
@@ -521,13 +524,13 @@
 	"Proc.h"
 	<sstream>
 
-1755032351 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+1755066949 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
 	"ProcExec.h"
-	"CPProc.h"
-	"RMProc.h"
-	"CDProc.h"
-	"MKDirProc.h"
-	"EchoProc.h"
+	"cmd/CPProc.h"
+	"cmd/RMProc.h"
+	"cmd/CDProc.h"
+	"cmd/MKDirProc.h"
+	"cmd/EchoProc.h"
 	"task/CleanTaskProc.h"
 	"task/CompileTaskProc.h"
 	"task/LinkTaskProc.h"
@@ -535,6 +538,7 @@
 	"../inter/InterResult.h"
 	"../shell/shell.h"
 	"../io/cppio.h"
+	<iostream>
 
 1754855423 source:c:\users\italo\workspace-cpp\dlls\cexec\src\shell\shell.cpp
 	<windows.h>
@@ -721,7 +725,7 @@
 	"Inter.h"
 	<string>
 
-1754974462 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\block.h
+1755067390 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\block.h
 	"No.h"
 	"Var.h"
 	"CMD.h"
@@ -733,24 +737,23 @@
 	"Inter.h"
 	<string>
 
-1754974512 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\block.cpp
+1755067370 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\block.cpp
 	"Block.h"
-	<iostream>
 
-1755007905 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.cpp
+1755067320 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.cpp
 	"CMD.h"
 
-1755007905 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.h
+1755067320 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\cmd.h
 	"No.h"
 	"Prop.h"
 	<string>
 	<vector>
 	<map>
 
-1754974532 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.cpp
+1755067261 source:c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.cpp
 	"MainScript.h"
 
-1754974491 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.h
+1755067271 c:\users\italo\workspace-cpp\dlls\cexec\src\darv\mainscript.h
 	"Block.h"
 	"CMD.h"
 	"Var.h"
@@ -957,21 +960,23 @@
 	"Proc.h"
 	<string>
 
-1755028766 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\taskproc.h
-	"../Proc.h"
-	<string>
+1755066297 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\taskproc.h
+	"../../darv/CMD.h"
 
-1755032214 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.cpp
+1755065383 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.cpp
 	"CleanTaskProc.h"
+	"../ProcManager.h"
 	"../../darv/MainScript.h"
 	"../../io/io.h"
 	"../../util/strutil.h"
+	<iostream>
 
-1755032195 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.h
-	"../Proc.h"
+1755064346 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.h
+	"TaskProc.h"
 
-1755032963 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.cpp
+1755067581 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.cpp
 	"CompileTaskProc.h"
+	"../ProcManager.h"
 	"../../darv/MainScript.h"
 	"../../shell/shell.h"
 	"../../io/io.h"
@@ -980,23 +985,27 @@
 	<string>
 	<sstream>
 	<stdexcept>
+	<iostream>
 
-1755029684 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.h
-	"../Proc.h"
+1755064343 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.h
+	"TaskProc.h"
 
-1755032258 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\copytaskproc.cpp
+1755067556 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\copytaskproc.cpp
 	"CopyTaskProc.h"
+	"../ProcManager.h"
 	"../../darv/MainScript.h"
 	"../../io/io.h"
 	"../../util/strutil.h"
 	<string>
 	<vector>
+	<iostream>
 
-1755032242 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\copytaskproc.h
-	"../Proc.h"
+1755064339 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\copytaskproc.h
+	"TaskProc.h"
 
-1755032935 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\linktaskproc.cpp
+1755067597 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\linktaskproc.cpp
 	"LinkTaskProc.h"
+	"../ProcManager.h"
 	"../../darv/MainScript.h"
 	"../../shell/shell.h"
 	"../../io/io.h"
@@ -1005,7 +1014,89 @@
 	<string>
 	<sstream>
 	<stdexcept>
+	<iostream>
 
-1755029668 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\linktaskproc.h
-	"../Proc.h"
+1755064335 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\linktaskproc.h
+	"TaskProc.h"
+
+1755064369 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\proc.h
+	"../../darv/CMD.h"
+	"../../inter/InterResult.h"
+	<string>
+	<stdexcept>
+
+1755064242 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\mainproc.h
+	"Proc.h"
+	"../../darv/MainScript.h"
+	<string>
+
+1755025958 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\proc.cpp
+	"Proc.h"
+	<sstream>
+
+1755064542 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\echoproc.cpp
+	"EchoProc.h"
+	"../../util/strutil.h"
+	<iostream>
+
+1755064380 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\echoproc.h
+	"Proc.h"
+	<string>
+
+1755064588 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\cpproc.cpp
+	"CPProc.h"
+	"../../io/io.h"
+	"../../io/filter/FileFilter.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755064496 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\cpproc.h
+	"Proc.h"
+
+1755067536 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\cdproc.cpp
+	"CDProc.h"
+	"../ProcManager.h"
+	"../../darv/Var.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755064390 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\cdproc.h
+	"Proc.h"
+	<string>
+
+1755066758 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\mainproc.cpp
+	"MainProc.h"
+	"../ProcManager.h"
+	"../../darv/CMD.h"
+	"../../shell/shell.h"
+	"../../util/strutil.h"
+	"../../io/io.h"
+	"../../io/cppio.h"
+	<iostream>
+	<sstream>
+	<vector>
+
+1755065198 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\mkdirproc.cpp
+	"MKDirProc.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755064373 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\mkdirproc.h
+	"Proc.h"
+	<string>
+
+1755065244 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\rmproc.cpp
+	"RMProc.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755064363 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\rmproc.h
+	"Proc.h"
+	<string>
 

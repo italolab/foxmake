@@ -1,18 +1,19 @@
 #ifndef PROC_MANAGER_H
 #define PROC_MANAGER_H
 
+#include "cmd/Proc.h"
+#include "cmd/MainProc.h"
+#include "task/TaskProc.h"
 #include "../darv/MainScript.h"
 #include "../io/cppio.h"
 
-#include <map>
-#include <vector>
 #include <string>
-#include <iostream>
+#include <vector>
+#include <map>
 
-using namespace std;
-
-class MainProc;
-class Proc;
+using std::string;
+using std::vector;
+using std::map;
 
 class ProcManager {
 
@@ -21,12 +22,11 @@ class ProcManager {
 
         virtual void reloadCPPFiles( string srcDir ) = 0;
 
+        virtual void executaCMDProc( CMD* cmd ) = 0;
+
         virtual bool isDefaultTask( string taskName ) = 0;
         virtual void executaTaskProc( string taskName, CMD* mainCMD ) = 0;
         virtual void executaTaskIfExists( string taskName ) = 0;
-
-        virtual Proc* getProc( string cmdName ) = 0;
-        virtual Proc* getTaskProc( string cmdName ) = 0;
 
         virtual vector<CPPFile*>& getCPPFiles() = 0;
         virtual vector<string> validCMDNames() = 0;

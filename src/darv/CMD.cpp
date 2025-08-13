@@ -70,7 +70,7 @@ int CMD::getArgsLength() {
     return argsVect.size();
 }
 
-vector<string> CMD::args() {
+vector<string>& CMD::args() {
     return argsVect;
 }
 

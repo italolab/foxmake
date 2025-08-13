@@ -30,7 +30,7 @@ class CMD : public No {
         int getPropertiesLength();
 
         void addArg( string command );
-        vector<string> args();
+        vector<string>& args();
         string getArg( int i );
         bool existsArg( string command );
         int countOpArgs();

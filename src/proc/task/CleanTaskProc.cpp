@@ -1,10 +1,18 @@
 
 #include "CleanTaskProc.h"
+#include "../ProcManager.h"
 #include "../../darv/MainScript.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
-void CleanTaskProc::processa( CMD* cmd, ProcManager* manager ) {
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+void CleanTaskProc::proc( CMD* cmd, void* mgr ) {
+    ProcManager* manager = (ProcManager*)mgr;
+
     cout << "\nEXECUTANDO LIMPESA..." << endl;
 
     MainScript* script = manager->getMainScript();

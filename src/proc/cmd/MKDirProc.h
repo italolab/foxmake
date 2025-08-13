@@ -8,7 +8,7 @@
 class MKDirProc : public Proc {
 
     public:
-        void processa( CMD* cmd, ProcManager* manager );
+        void proc( CMD* cmd, void* mgr );
 
 };
 

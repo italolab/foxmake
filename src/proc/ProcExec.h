@@ -2,8 +2,9 @@
 #define PROC_EXEC_H
 
 #include "ProcManager.h"
-#include "Proc.h"
-#include "MainProc.h"
+#include "cmd/Proc.h"
+#include "cmd/MainProc.h"
+#include "task/TaskProc.h"
 #include "../darv/MainScript.h"
 #include "../inter/BlockInterDriver.h"
 #include "../inter/InterManager.h"
@@ -12,7 +13,9 @@
 #include <vector>
 #include <string>
 
-using namespace std;
+using std::map;
+using std::vector;
+using std::string;
 
 class ProcExec : public ProcManager, BlockInterDriver {
 
@@ -21,7 +24,7 @@ class ProcExec : public ProcManager, BlockInterDriver {
         MainScript* mainScript;
         InterManager* interManager;
         map<string, Proc*> procsMap;
-        map<string, Proc*> taskProcsMap;
+        map<string, TaskProc*> taskProcsMap;
         vector<CPPFile*> cppFilesVect;
 
     public:
@@ -29,14 +32,13 @@ class ProcExec : public ProcManager, BlockInterDriver {
 
         void exec( int argc, char* argv[] );
 
-        Proc* getProc( string cmdName );
-        Proc* getTaskProc( string taskName );
-
         void reloadCPPFiles( string srcDir );
 
         vector<CPPFile*>& getCPPFiles();
         vector<string> validCMDNames();
         vector<string> registeredTaskProcNames();
+
+        void executaCMDProc( CMD* cmd );
 
         bool isDefaultTask( string taskName );
         void executaTaskProc( string taskName, CMD* mainCMD );

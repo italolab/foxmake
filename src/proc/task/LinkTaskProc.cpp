@@ -1,5 +1,6 @@
 
 #include "LinkTaskProc.h"
+#include "../ProcManager.h"
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
@@ -9,12 +10,17 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 
 using std::string;
 using std::vector;
 using std::stringstream;
+using std::cout;
+using std::endl;
 
-void LinkTaskProc::processa( CMD* cmd, ProcManager* manager ) {
+void LinkTaskProc::proc( CMD* cmd, void* mgr ) {
+    ProcManager* manager = (ProcManager*)mgr;
+
     cout << "\nLINKANDO..." << endl;
 
     MainScript* script = manager->getMainScript();

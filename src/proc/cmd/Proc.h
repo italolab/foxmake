@@ -1,9 +1,8 @@
 #ifndef PROC_H
 #define PROC_H
 
-#include "ProcManager.h"
-#include "../darv/CMD.h"
-#include "../inter/InterResult.h"
+#include "../../darv/CMD.h"
+#include "../../inter/InterResult.h"
 
 #include <string>
 #include <stdexcept>
@@ -28,7 +27,7 @@ class proc_error : public runtime_error {
 class Proc {
 
     public:
-        virtual void processa( CMD* cmd, ProcManager* manager ) = 0;
+        virtual void proc( CMD* cmd, void* mgr ) = 0;
 
 };
 
