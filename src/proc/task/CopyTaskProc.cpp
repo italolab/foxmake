@@ -14,7 +14,7 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-void CopyTaskProc::proc( CMD* cmd, void* mgr ) {
+void CopyTaskProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
     cout << "\nCOPIANDO ARQUIVOS DE BUILD..." << endl;

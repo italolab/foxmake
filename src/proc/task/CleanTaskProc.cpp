@@ -10,7 +10,7 @@
 using std::cout;
 using std::endl;
 
-void CleanTaskProc::proc( CMD* cmd, void* mgr ) {
+void CleanTaskProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
     cout << "\nEXECUTANDO LIMPESA..." << endl;

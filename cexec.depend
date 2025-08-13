@@ -524,7 +524,7 @@
 	"Proc.h"
 	<sstream>
 
-1755066949 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
+1755071396 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\procexec.cpp
 	"ProcExec.h"
 	"cmd/CPProc.h"
 	"cmd/RMProc.h"
@@ -538,6 +538,7 @@
 	"../inter/InterResult.h"
 	"../shell/shell.h"
 	"../io/cppio.h"
+	"../consts.h"
 	<iostream>
 
 1754855423 source:c:\users\italo\workspace-cpp\dlls\cexec\src\shell\shell.cpp
@@ -963,7 +964,7 @@
 1755066297 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\taskproc.h
 	"../../darv/CMD.h"
 
-1755065383 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.cpp
+1755071470 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.cpp
 	"CleanTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -974,7 +975,7 @@
 1755064346 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\cleantaskproc.h
 	"TaskProc.h"
 
-1755067581 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.cpp
+1755071488 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.cpp
 	"CompileTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -990,7 +991,7 @@
 1755064343 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\compiletaskproc.h
 	"TaskProc.h"
 
-1755067556 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\copytaskproc.cpp
+1755071529 source:c:\users\italo\workspace-cpp\dlls\cexec\src\proc\task\copytaskproc.cpp
 	"CopyTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -1099,4 +1100,6 @@
 1755064363 c:\users\italo\workspace-cpp\dlls\cexec\src\proc\cmd\rmproc.h
 	"Proc.h"
 	<string>
+
+1755071380 c:\users\italo\workspace-cpp\dlls\cexec\src\consts.h
 

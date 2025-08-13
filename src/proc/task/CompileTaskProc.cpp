@@ -18,7 +18,7 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-void CompileTaskProc::proc( CMD* cmd, void* mgr ) {
+void CompileTaskProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
     cout << "\nCOMPILANDO..." << endl;

@@ -12,14 +12,13 @@
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/cppio.h"
+#include "../consts.h"
 
 #include <iostream>
 
 using std::cout;
 using std::cerr;
 using std::endl;
-
-const string configFileName = "exe.txt";
 
 ProcExec::ProcExec() {
     mainScript = new MainScript();
@@ -47,10 +46,10 @@ void ProcExec::exec( int argc, char* argv[] ) {
 
         CMD* cmd = (CMD*)result->getNo();
 
-        mainScript->putLocalVar( "main_config_file", configFileName );
+        mainScript->putLocalVar( "main_config_file", DEFAULT_SETTINGS_FILE_NAME );
         mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
-        InterResult* result2 = interManager->interpretsMainScript( mainScript, configFileName, 1 );
+        InterResult* result2 = interManager->interpretsMainScript( mainScript, DEFAULT_SETTINGS_FILE_NAME, 1 );
         if ( result2->isInterpreted() ) {
             string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
             cout << "Diretorio corrente: " << wdir << endl;

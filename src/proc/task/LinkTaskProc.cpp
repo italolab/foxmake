@@ -18,7 +18,7 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-void LinkTaskProc::proc( CMD* cmd, void* mgr ) {
+void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
     cout << "\nLINKANDO..." << endl;
@@ -46,7 +46,7 @@ void LinkTaskProc::proc( CMD* cmd, void* mgr ) {
     bool isdll = isDll == "true";
 
     if ( exeFileName == "" )
-        throw proc_error( cmd, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
+        throw proc_error( mainCMD, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
 
     stringstream ss;
     ss << compiler;
