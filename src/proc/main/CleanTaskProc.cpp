@@ -4,6 +4,8 @@
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
+#include "../../consts.h"
+
 #include <iostream>
 
 using std::cout;
@@ -16,13 +18,13 @@ void CleanTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    string isDll = script->getPropertyValue( "is.dll" );
-    string buildDir = script->getPropertyValue( "build.dir" );
-    string binDir = script->getPropertyValue( "bin.dir" );
-    string objDir = script->getPropertyValue( "obj.dir" );
-    string buildFiles = script->getPropertyValue( "build.files" );
+    string isDll = script->getPropertyValue( props::IS_DLL );
+    string buildDir = script->getPropertyValue( props::BUILD_DIR );
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+    string objDir = script->getPropertyValue( props::OBJ_DIR );
+    string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    string propName = ( isDll == "true" ? "dll.file.name" : "exe.file.name" );
+    string propName = ( isDll == "true" ? props::DLL_FILE_NAME : props::EXE_FILE_NAME );
     string fname = script->getPropertyValue( propName );
     if ( fname != "" ) {
         string file = io::concatPaths( binDir, fname );
@@ -33,10 +35,10 @@ void CleanTaskProc::proc( CMD* mainCMD, void* mgr ) {
     for( string bfile : bfiles ) {
         string fname = io::fileOrDirName( bfile );
         fname = io::concatPaths( buildDir, fname );
-        appRecursiveDeleteFileOrDirectoryIfExists( fname, "build.files", script );
+        appRecursiveDeleteFileOrDirectoryIfExists( fname, props::BUILD_FILES, script );
     }
 
-    manager->executaTaskIfExists( "clean" );
+    manager->executaTaskIfExists( tasks::CLEAN );
 
     cout << "Limpesa efetuada com sucesso!" << endl;
 }

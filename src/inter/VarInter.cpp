@@ -1,8 +1,9 @@
 
 #include "VarInter.h"
+#include "InterManager.h"
 #include "../darv/Var.h"
 
-InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, InterManager* manager ) {
+InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, void* mgr ) {
     if ( line.length() == 0 )
         return new InterResult( false );
     if ( line[ 0 ] != '$' )

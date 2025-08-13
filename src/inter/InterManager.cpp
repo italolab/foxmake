@@ -1,9 +1,11 @@
 
 #include "InterManager.h"
 
-InterManager::InterManager( BlockInterDriver* drv ) {
-    this->mainScriptInter = new MainScriptInter( drv );
-    this->taskInter = new TaskInter( drv );
+InterManager::InterManager( InterDriver* drv ) {
+    this->drv = drv;
+
+    this->mainScriptInter = new MainScriptInter();
+    this->taskInter = new TaskInter();
     this->cmdInter = new CMDInter();
     this->propInter = new PropInter();
     this->varInter = new VarInter();
@@ -33,6 +35,15 @@ InterResult* InterManager::interpretsTask( MainScript* parent, BlockIterator* it
     return taskInter->interprets( parent, it, currentLine, lineNumber, this );
 }
 
-bool InterManager::isValidCMD( string line, vector<string>& validCMDs ) {
+bool InterManager::isValidCMD( string line ) {
+    vector<string> validCMDs = drv->validCMDNames();
     return cmdInter->isValidCMD( line, validCMDs );
+}
+
+bool InterManager::isValidProp( string propName ) {
+    vector<string> validProps = drv->validPropNames();
+    for( string vprop : validProps )
+        if ( vprop == propName )
+            return true;
+    return false;
 }

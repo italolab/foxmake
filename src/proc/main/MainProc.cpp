@@ -7,6 +7,8 @@
 #include "../../io/io.h"
 #include "../../io/cppio.h"
 
+#include "../../consts.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -23,11 +25,11 @@ void MainProc::proc( CMD* mainCMD, void* mgr ) {
     if ( mainCMD->countNoOpArgs() == 0 )
         throw proc_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );
 
-    bool isClean = mainCMD->existsArg( "clean" );
-    bool isCompile = mainCMD->existsArg( "compile" );
-    bool isLink = mainCMD->existsArg( "link" );
-    bool isBuild = mainCMD->existsArg( "build" );
-    bool isCopy = mainCMD->existsArg( "copy" );
+    bool isClean = mainCMD->existsArg( tasks::CLEAN );
+    bool isCompile = mainCMD->existsArg( tasks::COMPILEALL );
+    bool isLink = mainCMD->existsArg( tasks::LINK );
+    bool isCopy = mainCMD->existsArg( tasks::COPY );
+    bool isBuild = mainCMD->existsArg( tasks::BUILD );
 
     if ( isBuild ) {
         isClean = true;
@@ -37,13 +39,13 @@ void MainProc::proc( CMD* mainCMD, void* mgr ) {
     }
 
     if ( isClean )
-        manager->executaTaskProc( "clean", mainCMD );
+        manager->executaTaskProc( tasks::CLEAN, mainCMD );
 
     if ( isCompile || isLink )
         compileAndLink( mainCMD, manager, isCompile, isLink );
 
     if ( isCopy )
-        manager->executaTaskProc( "copy", mainCMD );
+        manager->executaTaskProc( tasks::COPY, mainCMD );
 
     executaNoDefaultTasks( manager );
     executaCMDs( manager );
@@ -61,8 +63,8 @@ void MainProc::compileAndLink( CMD* cmd, void* mgr, bool isCompile, bool isLink 
     ProcManager* manager = (ProcManager*)mgr;
     MainScript* script = manager->getMainScript();
 
-    string srcDir = script->getPropertyValue( "src.dir" );
-    string objDir = script->getPropertyValue( "obj.dir" );
+    string srcDir = script->getPropertyValue( props::SRC_DIR );
+    string objDir = script->getPropertyValue( props::OBJ_DIR );
     manager->reloadCPPFiles( srcDir );
 
     vector<CPPFile*>& cppFiles = manager->getCPPFiles();
@@ -73,9 +75,9 @@ void MainProc::compileAndLink( CMD* cmd, void* mgr, bool isCompile, bool isLink 
     }
 
     if ( isCompile )
-        manager->executaTaskProc( "compileall", cmd );
+        manager->executaTaskProc( tasks::COMPILEALL, cmd );
     if ( isLink )
-        manager->executaTaskProc( "link", cmd );
+        manager->executaTaskProc( tasks::LINK, cmd );
 }
 
 void MainProc::executaCMDs( void* mgr ) {

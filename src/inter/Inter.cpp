@@ -9,11 +9,10 @@ using std::stringstream;
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
 InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* block ) {
-    size_t i = line.find( '$' );
-    size_t j = line.find( '(' );
-
     MainScript* script = (MainScript*)block->getRoot();
 
+    size_t i = line.find( '$' );
+    size_t j = line.find( '(' );
     if ( i != string::npos && j == i+1 ) {
         stringstream ss;
 

@@ -5,14 +5,8 @@
 #include "../darv/MainScript.h"
 #include "../util/strutil.h"
 
-MainScriptInter::MainScriptInter( BlockInterDriver* drv ) {
-    this->drv = drv;
-}
-
 InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
-
-    vector<string> validCMDs = drv->validCMDNames();
 
     FileIterator* it = new FileIterator( file );
 
@@ -30,7 +24,7 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
             continue;
         }
 
-        bool isCmd = manager->isValidCMD( line, validCMDs );
+        bool isCmd = manager->isValidCMD( line );
 
         int currentLineNumber = lineNumber + numberOfLines;
 
@@ -52,7 +46,7 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
                 error = result->getErrorMsg();
             else error = "Linha nao reconhecida como instrucao valida.";
 
-            return new InterResult( result->getLine(), numberOfLines, error );
+            return new InterResult( result->getLine(), lineNumber + numberOfLines, error );
         }
     }
 

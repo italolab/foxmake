@@ -33,4 +33,4 @@ defines=BUILD_DLL
 output.def.file=$(bin.dir)/libCExec.def
 out.implib.file=$(bin.dir)/libCExec.a
 
-cp $(src.dir)/**/*.h $(include.dirs)
+cp $(src.dir)/-/*.h $(include.dirs)

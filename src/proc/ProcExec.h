@@ -6,7 +6,7 @@
 #include "TaskProc.h"
 #include "main/MainProc.h"
 #include "../darv/MainScript.h"
-#include "../inter/BlockInterDriver.h"
+#include "../inter/InterDriver.h"
 #include "../inter/InterManager.h"
 
 #include <map>
@@ -17,7 +17,7 @@ using std::map;
 using std::vector;
 using std::string;
 
-class ProcExec : public ProcManager, BlockInterDriver {
+class ProcExec : public ProcManager, InterDriver {
 
     private:
         MainProc* mainProc;
@@ -36,6 +36,7 @@ class ProcExec : public ProcManager, BlockInterDriver {
 
         vector<CPPFile*>& getCPPFiles();
         vector<string> validCMDNames();
+        vector<string> validPropNames();
         vector<string> registeredTaskProcNames();
 
         void executaCMDProc( CMD* cmd );

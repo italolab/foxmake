@@ -4,6 +4,8 @@
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
+#include "../../consts.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -20,29 +22,29 @@ void CopyTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    string isDll = script->getPropertyValue( "is.dll" );
-    string buildDir = script->getPropertyValue( "build.dir" );
-    string binDir = script->getPropertyValue( "bin.dir" );
-    string buildFiles = script->getPropertyValue( "build.files" );
+    string isDll = script->getPropertyValue( props::IS_DLL );
+    string buildDir = script->getPropertyValue( props::BUILD_DIR );
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+    string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
     if ( buildDir != "" )
         io::createDirs( buildDir );
 
     if ( isDll == "true" ) {
-        string dllFileName = script->getPropertyValue( "dll.file.name" );
+        string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
         string fname = io::concatPaths( binDir, dllFileName );
-        appCopyFileOrDirectoryToBuild( fname, buildDir, "dll.file.name", script );
+        appCopyFileOrDirectoryToBuild( fname, buildDir, props::DLL_FILE_NAME, script );
     } else {
-        string exeFileName = script->getPropertyValue( "exe.file.name" );
+        string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
         string fname = io::concatPaths( binDir, exeFileName );
-        appCopyFileOrDirectoryToBuild( fname, buildDir, "exe.file.name", script );
+        appCopyFileOrDirectoryToBuild( fname, buildDir, props::EXE_FILE_NAME, script );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles )
-        appCopyFileOrDirectoryToBuild( bfile, buildDir, "build.files", script );
+        appCopyFileOrDirectoryToBuild( bfile, buildDir, props::BUILD_FILES, script );
 
-    manager->executaTaskIfExists( "copy" );
+    manager->executaTaskIfExists( tasks::COPY );
 
     cout << "Arquivos de build copiados com sucesso!" << endl;
 }

@@ -6,6 +6,8 @@
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
+#include "../../consts.h"
+
 #include <vector>
 #include <string>
 #include <sstream>
@@ -25,29 +27,30 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    string isDll = script->getPropertyValue( "is.dll" );
+    string isDll = script->getPropertyValue( props::IS_DLL );
 
-    string binDir = script->getPropertyValue( "bin.dir" );
-    string objDir = script->getPropertyValue( "obj.dir" );
+    string compiler = script->getPropertyValue( props::COMPILER );
+    string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
 
-    string libDirs = script->getPropertyValue( "lib.dirs" );
-    string dllDirs = script->getPropertyValue( "dll.dirs" );
+    string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
+    string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
 
-    string outputDefFile = script->getPropertyValue( "output.def.file" );
-    string outImplibFile = script->getPropertyValue( "out.implib.file" );
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+    string objDir = script->getPropertyValue( props::OBJ_DIR );
 
-    string defines = script->getPropertyValue( "defines" );
-    string exeFileName = script->getPropertyValue( "exe.file.name" );
-    string dllFileName = script->getPropertyValue( "dll.file.name" );
+    string libDirs = script->getPropertyValue( props::LIB_DIRS );
+    string dllDirs = script->getPropertyValue( props::DLL_DIRS );
 
-    string compiler = script->getPropertyValue( "compiler" );
-    string linkerParams = script->getPropertyValue( "linker.params" );
+    string outputDefFile = script->getPropertyValue( props::OUTPUT_DEF_FILE );
+    string outImplibFile = script->getPropertyValue( props::OUT_IMPLIB_FILE );
+
+    string defines = script->getPropertyValue( props::DEFINES );
 
     bool isdll = isDll == "true";
 
     if ( exeFileName == "" ) {
-        Prop* prop = script->getProperty( "exe.file.name" );
-        throw taskproc_error( prop, "A propriedade \"exe.file.name\" deve ter valor definido para linkagem." );
+        Prop* prop = script->getProperty( props::EXE_FILE_NAME );
+        throw taskproc_error( prop, "A propriedade \"" + props::EXE_FILE_NAME + "\" deve ter valor definido para linkagem." );
     }
 
     stringstream ss;
@@ -96,7 +99,7 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
     if ( !ok )
         throw taskproc_error( "Falha na linkagem!" );
 
-    manager->executaTaskIfExists( "link" );
+    manager->executaTaskIfExists( tasks::LINK );
 
     cout << "Linkagem executada com sucesso." << endl;
 }

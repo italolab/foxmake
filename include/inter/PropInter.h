@@ -6,12 +6,10 @@
 #include "../darv/MainScript.h"
 #include "../darv/Block.h"
 
-class InterManager;
-
 class PropInter : public Inter {
 
     public:
-        InterResult* interprets( MainScript* parent, string line, int lineNumber, InterManager* manager );
+        InterResult* interprets( MainScript* parent, string line, int lineNumber, void* mgr );
 
 };
 

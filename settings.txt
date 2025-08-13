@@ -1,24 +1,25 @@
 is.dll=false
 
-target=debug
 compiler=g++
 exe.file.name=cexec.exe
 
-debug.bin.dir=bin/Debug
-debug.obj.dir=obj/Debug
-debug.compiler.params=-Wall -fexceptions -g
-debug.linker.params=
+$target=debug
 
-release.bin.dir=bin/Release
-release.obj.dir=obj/Release
-release.compiler.params=-Wall -fexceptions -O2
-release.linker.params=-s
+$debug_bin_dir=bin/Debug
+$debug_obj_dir=obj/Debug
+$debug_compiler_params=-Wall -fexceptions -g
+$debug_linker_params=
+
+$release_bin_dir=bin/Release
+$release_obj_dir=obj/Release
+$release_compiler_params=-Wall -fexceptions -O2
+$release_linker_params=-s
 
 
-bin.dir=$($(target).bin.dir)
-obj.dir=$($(target).obj.dir)
-compiler.params=$($(target).compiler.params)
-linker.params=$($(target).linker.params)
+bin.dir=$($(target)_bin_dir)
+obj.dir=$($(target)_obj_dir)
+compiler.params=$($(target)_compiler_params)
+linker.params=$($(target)_linker_params)
 
 src.dir=src
 build.dir=build
@@ -40,7 +41,7 @@ compile {
 
 build {
 
-    echo Build concluido!
+    echo Buildando....
 
 }
 
@@ -67,8 +68,6 @@ cd ../$(project_name)
 rm $(build.dir)/TestesUnit.dll
 #rm -r $(include.dirs)/*
 #rm -r $(obj.dir)
-
-mkdir $(build.dir)/c/b
 
 build {
     $a=$(src.dir)/abc

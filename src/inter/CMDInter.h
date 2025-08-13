@@ -10,11 +10,11 @@ class InterManager;
 class CMDInter : public Inter {
 
     private:
-        InterResult* interprets( Block* parent, int argc, char* argv[], int lineNumber, InterManager* manager );
+        InterResult* interprets( Block* parent, int argc, char* argv[], int lineNumber, void* mgr );
 
     public:
-        InterResult* interprets( Block* parent, string line, int lineNumber, InterManager* manager );
-        InterResult* interpretsMainCMD( int argc, char* argv[], InterManager* manager );
+        InterResult* interprets( Block* parent, string line, int lineNumber, void* mgr );
+        InterResult* interpretsMainCMD( int argc, char* argv[], void* mgr );
 
         bool isValidCMD( string line, vector<string>& validCMDss );
 

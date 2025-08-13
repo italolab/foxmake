@@ -11,11 +11,11 @@
 using std::istringstream;
 using std::stringstream;
 
-InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], InterManager* manager ) {
-    return interprets( nullptr, argc, argv, 0, manager );
+InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], void* mgr ) {
+    return interprets( nullptr, argc, argv, 0, mgr );
 }
 
-InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, InterManager* manager ) {
+InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, void* mgr ) {
     string cmdstr = line;
 
     InterResult* replaceResult = Inter::replacePropsAndVars( cmdstr, lineNumber, parent );
@@ -36,10 +36,10 @@ InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, I
     while( getline( iss2, token, ' ' ) )
         argv[ i++ ] = strdup( token.c_str() );
 
-    return interprets( parent, argc, argv, lineNumber, manager );
+    return interprets( parent, argc, argv, lineNumber, mgr );
 }
 
-InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int lineNumber, InterManager* manager ) {
+InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int lineNumber, void* mgr ) {
     string line = "";
     string cmdName = "";
     if ( argc > 0 ) {

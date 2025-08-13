@@ -6,6 +6,8 @@
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
+#include "../../consts.h"
+
 #include <vector>
 #include <string>
 #include <sstream>
@@ -25,20 +27,21 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    string isDll = script->getPropertyValue( "is.dll" );
+    string isDll = script->getPropertyValue( props::IS_DLL );
 
-    string binDir = script->getPropertyValue( "bin.dir" );
-    string objDir = script->getPropertyValue( "obj.dir" );
+    string compiler = script->getPropertyValue( props::COMPILER );
+    string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
 
-    string includeDirs = script->getPropertyValue( "include.dirs" );
-    string libDirs = script->getPropertyValue( "lib.dirs" );
+    string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
+    string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
 
-    string defines = script->getPropertyValue( "defines" );
-    string exeFileName = script->getPropertyValue( "exe.file.name" );
-    string dllFileName = script->getPropertyValue( "dll.file.name" );
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+    string objDir = script->getPropertyValue( props::OBJ_DIR );
 
-    string compiler = script->getPropertyValue( "compiler" );
-    string compilerParams = script->getPropertyValue( "compiler.params" );
+    string includeDirs = script->getPropertyValue( props::INCLUDE_DIRS );
+    string libDirs = script->getPropertyValue( props::LIB_DIRS );
+
+    string defines = script->getPropertyValue( props::DEFINES );
 
     io::createDirs( binDir );
     io::createDirs( objDir );
@@ -79,7 +82,7 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
     if ( !ok )
         throw taskproc_error( "Falha na compilacao!" );
 
-    manager->executaTaskIfExists( "compile" );
+    manager->executaTaskIfExists( tasks::COMPILEALL );
 
     cout << "Compilacao executada com sucesso!" << endl;
 }

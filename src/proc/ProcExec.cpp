@@ -12,6 +12,7 @@
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/cppio.h"
+
 #include "../consts.h"
 
 #include <iostream>
@@ -26,16 +27,16 @@ ProcExec::ProcExec() {
 
     mainProc = new MainProc();
 
-    procsMap[ "cp" ] = new CPProc();
-    procsMap[ "rm" ] = new RMProc();
-    procsMap[ "cd" ] = new CDProc();
-    procsMap[ "mkdir" ] = new MKDirProc();
-    procsMap[ "echo" ] = new EchoProc();
+    procsMap[ cmds::CP ] = new CPProc();
+    procsMap[ cmds::RM ] = new RMProc();
+    procsMap[ cmds::CD ] = new CDProc();
+    procsMap[ cmds::MKDIR ] = new MKDirProc();
+    procsMap[ cmds::ECHO ] = new EchoProc();
 
-    taskProcsMap[ "clean" ] = new CleanTaskProc();
-    taskProcsMap[ "compileall" ] = new CompileAllTaskProc();
-    taskProcsMap[ "link" ] = new LinkTaskProc();
-    taskProcsMap[ "copy" ] = new CopyTaskProc();
+    taskProcsMap[ tasks::CLEAN ] = new CleanTaskProc();
+    taskProcsMap[ tasks::COMPILEALL ] = new CompileAllTaskProc();
+    taskProcsMap[ tasks::LINK ] = new LinkTaskProc();
+    taskProcsMap[ tasks::COPY ] = new CopyTaskProc();
 }
 
 void ProcExec::exec( int argc, char* argv[] ) {
@@ -46,10 +47,10 @@ void ProcExec::exec( int argc, char* argv[] ) {
 
         CMD* cmd = (CMD*)result->getStatement();
 
-        mainScript->putLocalVar( "main_config_file", DEFAULT_SETTINGS_FILE_NAME );
+        mainScript->putLocalVar( "main_config_file", consts::DEFAULT_SETTINGS_FILE_NAME );
         mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
-        InterResult* result2 = interManager->interpretsMainScript( mainScript, DEFAULT_SETTINGS_FILE_NAME, 1 );
+        InterResult* result2 = interManager->interpretsMainScript( mainScript, consts::DEFAULT_SETTINGS_FILE_NAME, 1 );
         if ( !result2->isInterpreted() )
             throw proc_error( result2 );
 
@@ -125,6 +126,10 @@ vector<string> ProcExec::registeredTaskProcNames() {
     for( const auto& pair : taskProcsMap )
         names.push_back( pair.first );
     return names;
+}
+
+vector<string> ProcExec::validPropNames() {
+    return props::VALID_NAMES;
 }
 
 MainProc* ProcExec::getMainProc() {

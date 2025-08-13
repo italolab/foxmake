@@ -1,7 +1,7 @@
 #ifndef INTER_MANAGER_H
 #define INTER_MANAGER_H
 
-#include "BlockInterDriver.h"
+#include "InterDriver.h"
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "CMDInter.h"
@@ -22,8 +22,10 @@ class InterManager {
         VarInter* varInter;
         TaskInter* taskInter;
 
+        InterDriver* drv;
+
     public:
-        InterManager( BlockInterDriver* drv );
+        InterManager( InterDriver* drv );
 
         InterResult* interpretsMainCMD( int argc, char* argv[] );
 
@@ -34,7 +36,8 @@ class InterManager {
         InterResult* interpretsMainScript( MainScript* script, string file, int lineNumber );
         InterResult* interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber );
 
-        bool isValidCMD( string line, vector<string>& validCMDs );
+        bool isValidCMD( string line );
+        bool isValidProp( string propName );
 };
 
 #endif

@@ -10,10 +10,6 @@
 using std::stringstream;
 using std::istringstream;
 
-TaskInter::TaskInter( BlockInterDriver* drv ) {
-    this->drv = drv;
-}
-
 InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
@@ -69,7 +65,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
             if ( bracesCount == 0 )
                 for( int j = i+1; j < len; j++ )
                     if ( !strutil::isWhiteSpace( line[ j ] ) )
-                        return new InterResult( line, numberOfLines0+1, "Fim de bloco de tarefa com caracteres desnecessarios." );
+                        return new InterResult( line, numberOfLines0, "Fim de bloco de tarefa com caracteres desnecessarios." );
         }
 
         if ( bracesCount > 0 )
@@ -77,8 +73,6 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     }
 
     string blockStr = ss.str();
-
-    vector<string> validCMDs = drv->validCMDNames();
 
     Task* task = parent->getTask( taskName );
     if ( task == nullptr ) {
@@ -105,7 +99,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
             continue;
         }
 
-        bool isCmd = manager->isValidCMD( line, validCMDs );
+        bool isCmd = manager->isValidCMD( line );
 
         int currentLineNumber = lineNumber + numberOfLines;
 
