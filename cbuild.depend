@@ -1197,7 +1197,7 @@
 	"../darv/Statement.h"
 	<string>
 
-1755087647 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
+1755202152 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
 	"InterDriver.h"
 	"MainScriptInter.h"
 	"TaskInter.h"
@@ -1253,7 +1253,7 @@
 1755073247 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\interresult.cpp
 	"InterResult.h"
 
-1754815212 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\fileiterator.cpp
+1755170329 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\fileiterator.cpp
 	"FileIterator.h"
 
 1754815212 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\it\fileiterator.h
@@ -1298,11 +1298,12 @@
 	"../util/strutil.h"
 	<filesystem>
 
-1755171950 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppio.h
+1755172203 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppio.h
 	<string>
 	<vector>
+	<map>
 
-1755120601 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.h
+1755170871 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.h
 	"filter/FileFilter.h"
 	"filter/ByExtFileFilter.h"
 	"filter/AllFileFilter.h"
@@ -1328,18 +1329,20 @@
 	"ByExtFileFilter.h"
 	"../../util/strutil.h"
 
-1755120861 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.cpp
+1755172564 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.cpp
 	"io.h"
 	"../util/strutil.h"
 	<fstream>
 	<filesystem>
 	<chrono>
+	<iostream>
 
-1755120861 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
+1755172694 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
 	"proc/ProcExec.h"
 	"io/io.h"
+	<iostream>
 
-1755087526 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.h
+1755174140 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.h
 	"ProcManager.h"
 	"Proc.h"
 	"TaskProc.h"
@@ -1347,17 +1350,18 @@
 	"../darv/MainScript.h"
 	"../inter/InterDriver.h"
 	"../inter/InterManager.h"
+	"../io/SourceCodeInfoManager.h"
 	<map>
 	<vector>
 	<string>
 
-1755171664 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
+1755174127 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
 	"Proc.h"
 	"TaskProc.h"
 	"main/MainProc.h"
 	"../darv/MainScript.h"
 	"../inter/InterManager.h"
-	"../io/cppio.h"
+	"../io/SourceCodeInfoManager.h"
 	<string>
 	<vector>
 	<map>
@@ -1568,7 +1572,7 @@
 	"../Proc.h"
 	<string>
 
-1755171733 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
+1755201617 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
 	"MainProc.h"
 	"../ProcManager.h"
 	"../../darv/CMD.h"
@@ -1576,7 +1580,7 @@
 	"../../shell/shell.h"
 	"../../util/strutil.h"
 	"../../io/io.h"
-	"../../io/cppio.h"
+	"../../io/SourceCodeInfoManager.h"
 	"../../consts.h"
 	<string>
 	<vector>
@@ -1598,12 +1602,13 @@
 	"Proc.h"
 	<sstream>
 
-1755091293 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
+1755186766 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
 	"CompileAllTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
 	"../../shell/shell.h"
 	"../../io/io.h"
+	"../../io/SourceCodeInfoManager.h"
 	"../../util/strutil.h"
 	"../../consts.h"
 	<vector>
@@ -1629,12 +1634,13 @@
 	"../TaskProc.h"
 	"../../darv/MainScript.h"
 
-1755091256 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
+1755186796 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
 	"LinkTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
 	"../../shell/shell.h"
 	"../../io/io.h"
+	"../../io/SourceCodeInfoManager.h"
 	"../../util/strutil.h"
 	"../../consts.h"
 	<vector>
@@ -1656,7 +1662,7 @@
 	"../Proc.h"
 	<string>
 
-1755171733 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
+1755174110 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
 	"ProcExec.h"
 	"cp/CPProc.h"
 	"rm/RMProc.h"
@@ -1669,15 +1675,16 @@
 	"main/CopyTaskProc.h"
 	"../inter/InterResult.h"
 	"../shell/shell.h"
-	"../io/cppio.h"
+	"../io/io.h"
 	"../consts.h"
+	<stdexcept>
 	<iostream>
 
 1755076823 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmproc.h
 	"../Proc.h"
 	<string>
 
-1755090791 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
+1755191024 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
 	<string>
 	<vector>
 
@@ -1702,4 +1709,41 @@
 1755090165 c:\users\italo\workspace-cpp\dlls\cbuild\src\prop_consts.h
 	<string>
 	<vector>
+
+1755172653 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppfiles.h
+	<string>
+	<vector>
+	<map>
+
+1755168460 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppfilesmanager.cpp
+	"CPPFilesManager.h"
+	"io.h"
+	"../util/strutil.h"
+	<filesystem>
+
+1755168144 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppfilesmanager.h
+	<string>
+	<vector>
+	<map>
+
+1755201858 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodeinfomanager.cpp
+	"SourceCodeInfoManager.h"
+	"io.h"
+	"../util/strutil.h"
+	<filesystem>
+	<fstream>
+	<iostream>
+
+1755201782 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodeinfomanager.h
+	<string>
+	<vector>
+	<map>
+
+1755191032 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\lastwritetimemanager.cpp
+	"LastWriteTimeManager.h"
+	<fstream>
+
+1755190976 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\lastwritetimemanager.h
+	<string>
+	<map>
 

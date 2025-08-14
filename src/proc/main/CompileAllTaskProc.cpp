@@ -4,6 +4,7 @@
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
+#include "../../io/SourceCodeInfoManager.h"
 #include "../../util/strutil.h"
 
 #include "../../consts.h"
@@ -48,10 +49,13 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     bool isdll = isDll == "true";
 
-    vector<CPPFile*>& cppFiles = manager->getCPPFiles();
+    SourceCodeInfoManager* sourceCodeInfoManager = manager->getSourceCodeInfoManager();
+    vector<string> sourceCodeFilePaths = sourceCodeInfoManager->sourceCodeFilePaths();
 
     Shell* shell = new Shell( true );
-    for( CPPFile* cppFile : cppFiles ) {
+    for( string filePath : sourceCodeFilePaths ) {
+        SourceCodeInfo* sourceCodeInfo = sourceCodeInfoManager->getSourceCodeInfo( filePath );
+
         stringstream ss;
         ss << compiler << " " << compilerParams;
 
@@ -73,8 +77,8 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
             ss << incdirParams.str();
         }
 
-        ss << " -o " << io::concatPaths( objDir, cppFile->objFileName );
-        ss << " -c " << cppFile->fileName;
+        ss << " -o " << io::concatPaths( objDir, sourceCodeInfo->objFilePath );
+        ss << " -c " << sourceCodeInfo->filePath;
 
         shell->pushCommand( ss.str() );
     }

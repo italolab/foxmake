@@ -73,8 +73,8 @@
 		<Unit filename="src/inter/it/FileIterator.h" />
 		<Unit filename="src/inter/it/StringIterator.cpp" />
 		<Unit filename="src/inter/it/StringIterator.h" />
-		<Unit filename="src/io/cppio.cpp" />
-		<Unit filename="src/io/cppio.h" />
+		<Unit filename="src/io/SourceCodeInfoManager.cpp" />
+		<Unit filename="src/io/SourceCodeInfoManager.h" />
 		<Unit filename="src/io/filter/AllFileFilter.cpp" />
 		<Unit filename="src/io/filter/AllFileFilter.h" />
 		<Unit filename="src/io/filter/ByExtFileFilter.cpp" />

@@ -54,6 +54,8 @@ namespace io {
     string removeDirContentJoker( string path );
     char fileSeparator();
 
+    string resolvePath( string currDir, string path );
+
     bool isJokerInPath( string path );
     bool isDir( string path );
     bool isEmptyDir( string dir );

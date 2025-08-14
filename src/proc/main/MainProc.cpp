@@ -6,7 +6,7 @@
 #include "../../shell/shell.h"
 #include "../../util/strutil.h"
 #include "../../io/io.h"
-#include "../../io/cppio.h"
+#include "../../io/SourceCodeInfoManager.h"
 
 #include "../../consts.h"
 
@@ -72,25 +72,42 @@ void MainProc::executaNoDefaultTasks( void* mgr ) {
         if ( !manager->isDefaultTask( taskName ) )
             manager->executaTaskIfExists( taskName );
 }
-void MainProc::compileAndLink( CMD* cmd, void* mgr, bool isCompile, bool isLink ) {
+void MainProc::compileAndLink( CMD* mainCMD, void* mgr, bool isCompile, bool isLink ) {
     ProcManager* manager = (ProcManager*)mgr;
     MainScript* script = manager->getMainScript();
 
     string srcDir = script->getPropertyValue( props::SRC_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
-    manager->reloadCPPFiles( srcDir );
 
-    vector<CPPFile*>& cppFiles = manager->getCPPFiles();
-    for( CPPFile* cppFile : cppFiles ) {
-        string absFile = io::concatPaths( objDir, cppFile->objFileName );
+    if ( !io::fileExists( srcDir ) )
+        throw proc_error( mainCMD, "Diretorio de codigos fonte nao encontrado.\nVerifique a propriedade \"" + props::SRC_DIR + "\"" );
+
+    SourceCodeInfoManager* sourceCodeInfoManager = manager->getSourceCodeInfoManager();
+
+    bool ok = sourceCodeInfoManager->recursiveProcFiles( srcDir );
+    if ( !ok )
+        throw proc_error( mainCMD, "Houve algum problema de leitura dos arquivos de codigo fonte." );
+
+    vector<string> filesToCompile;
+    sourceCodeInfoManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
+    for( string file : filesToCompile )
+        cout << "Compilar: " << file << endl;
+
+    cout << endl;
+
+    vector<string> sourceCodeFilePaths = sourceCodeInfoManager->sourceCodeFilePaths();
+    for( string filePath : sourceCodeFilePaths ) {
+        SourceCodeInfo* info = sourceCodeInfoManager->getSourceCodeInfo( filePath );
+
+        string absFile = io::concatPaths( objDir, info->objFilePath );
         string dir = io::dirPath( absFile );
         io::createDirs( dir );
     }
 
     if ( isCompile )
-        manager->executaTaskProc( tasks::COMPILEALL, cmd );
+        manager->executaTaskProc( tasks::COMPILEALL, mainCMD );
     if ( isLink )
-        manager->executaTaskProc( tasks::LINK, cmd );
+        manager->executaTaskProc( tasks::LINK, mainCMD );
 }
 
 void MainProc::executaCMDs( void* mgr ) {

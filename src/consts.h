@@ -11,6 +11,8 @@ namespace consts {
 
     const string DEFAULT_SETTINGS_FILE_NAME = "settings.txt";
 
+    const string LAST_WRITE_TIMES_FILE = "lwtimes.txt";
+
 }
 
 namespace tasks {

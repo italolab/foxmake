@@ -5,7 +5,6 @@
 
 #include <fstream>
 #include <filesystem>
-//#include <limits>
 #include <chrono>
 
 namespace filesystem = std::filesystem;
@@ -13,6 +12,9 @@ namespace chrono = std::chrono;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
 joker_error::joker_error( string msg ) : io_error( msg ) {}
+
+#include <iostream>
+using namespace std;
 
 namespace io {
 
@@ -390,6 +392,33 @@ namespace io {
             if ( p[ p.length()-1 ] == '*' )
                 return p.substr( 0, p.length()-2 );
         return p;
+    }
+
+    string resolvePath( string currDir, string path ) {
+        string sep = "";
+        sep += filesystem::path::preferred_separator;
+
+        string resolvedPath = makePreferred( path );
+        if ( strutil::startsWith( resolvedPath, "."+sep ) )
+            resolvedPath = strutil::replace( resolvedPath, "."+sep, "" );
+
+        size_t i = resolvedPath.find( ".."+sep );
+        bool isRepeat = i != string::npos;
+        string dir = addSeparatorToDirIfNeed( currDir );
+        while( isRepeat ) {
+            dir = parentDirPath( dir );
+            dir = addSeparatorToDirIfNeed( dir );
+
+            size_t j = resolvedPath.find( ".."+sep, i+3 );
+            if ( j == string::npos ) {
+                isRepeat = false;
+            } else {
+                i = j;
+            }
+        }
+
+        size_t k = ( i == string::npos ? 0 : i+3 );
+        return resolvedPath.replace( 0, k, dir );
     }
 
     long lastWriteTimeInSeconds( string path ) {

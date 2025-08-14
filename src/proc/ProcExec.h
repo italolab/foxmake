@@ -8,6 +8,7 @@
 #include "../darv/MainScript.h"
 #include "../inter/InterDriver.h"
 #include "../inter/InterManager.h"
+#include "../io/SourceCodeInfoManager.h"
 
 #include <map>
 #include <vector>
@@ -25,16 +26,13 @@ class ProcExec : public ProcManager, InterDriver {
         InterManager* interManager;
         map<string, Proc*> procsMap;
         map<string, TaskProc*> taskProcsMap;
-        vector<CPPFile*> cppFilesVect;
+        SourceCodeInfoManager* sourceCodeInfoManager;
 
     public:
         ProcExec();
 
         void exec( int argc, char* argv[] );
 
-        void reloadCPPFiles( string srcDir );
-
-        vector<CPPFile*>& getCPPFiles();
         vector<string> validCMDNames();
         vector<string> validPropNames();
         vector<string> registeredTaskProcNames();
@@ -47,6 +45,7 @@ class ProcExec : public ProcManager, InterDriver {
 
         MainProc* getMainProc();
         MainScript* getMainScript();
+        SourceCodeInfoManager* getSourceCodeInfoManager();
         InterManager* getInterManager();
 
 };

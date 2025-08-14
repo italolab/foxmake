@@ -1,7 +1,7 @@
 
 #include "FileIterator.h"
 
-using namespace std;
+using std::ifstream;
 
 namespace fileit {
 

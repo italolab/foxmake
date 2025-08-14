@@ -11,19 +11,25 @@
 #include "main/CopyTaskProc.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
-#include "../io/cppio.h"
+#include "../io/io.h"
 
 #include "../consts.h"
 
+#include <stdexcept>
 #include <iostream>
 
 using std::cout;
 using std::cerr;
 using std::endl;
 
+using std::runtime_error;
+using std::exception;
+
 ProcExec::ProcExec() {
     mainScript = new MainScript();
     interManager = new InterManager( this );
+
+    sourceCodeInfoManager = new SourceCodeInfoManager();
 
     mainProc = new MainProc();
 
@@ -55,14 +61,6 @@ void ProcExec::exec( int argc, char* argv[] ) {
     } catch ( const exception& e ) {
         cerr << e.what() << endl;
     }
-}
-
-void ProcExec::reloadCPPFiles( string srcDir ) {
-    cppFilesVect.clear();
-
-    bool ok = cppio::recursiveProcSrcFiles( srcDir, cppFilesVect );
-    if ( !ok )
-        throw runtime_error( "Nao foi possivel ler o diretorio de fontes do projeto: \"" + srcDir + "\"" );
 }
 
 void ProcExec::executaCMDProc( CMD* cmd ) {
@@ -100,10 +98,6 @@ bool ProcExec::isDefaultTask( string taskName ) {
     return false;
 }
 
-vector<CPPFile*>& ProcExec::getCPPFiles() {
-    return cppFilesVect;
-}
-
 vector<string> ProcExec::validCMDNames() {
     vector<string> names;
     for( const auto& pair : procsMap )
@@ -128,6 +122,10 @@ MainProc* ProcExec::getMainProc() {
 
 MainScript* ProcExec::getMainScript() {
     return mainScript;
+}
+
+SourceCodeInfoManager* ProcExec::getSourceCodeInfoManager() {
+    return sourceCodeInfoManager;
 }
 
 InterManager* ProcExec::getInterManager() {
