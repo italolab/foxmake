@@ -5,6 +5,7 @@
 #include "TaskProc.h"
 #include "main/MainProc.h"
 #include "../darv/MainScript.h"
+#include "../inter/InterManager.h"
 #include "../io/cppio.h"
 
 #include <string>
@@ -33,6 +34,7 @@ class ProcManager {
 
         virtual MainProc* getMainProc() = 0;
         virtual MainScript* getMainScript() = 0;
+        virtual InterManager* getInterManager() = 0;
 
 };
 

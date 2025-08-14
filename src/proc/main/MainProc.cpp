@@ -2,6 +2,7 @@
 #include "MainProc.h"
 #include "../ProcManager.h"
 #include "../../darv/CMD.h"
+#include "../../inter/InterResult.h"
 #include "../../shell/shell.h"
 #include "../../util/strutil.h"
 #include "../../io/io.h"
@@ -21,6 +22,18 @@ using std::endl;
 
 void MainProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
+    InterManager* interManager = manager->getInterManager();
+    MainScript* mainScript = manager->getMainScript();
+
+    mainScript->putLocalVar( "main_config_file", consts::DEFAULT_SETTINGS_FILE_NAME );
+    mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
+
+    InterResult* result2 = interManager->interpretsMainScript( mainScript, consts::DEFAULT_SETTINGS_FILE_NAME, 1 );
+    if ( !result2->isInterpreted() )
+        throw proc_error( result2 );
+
+    string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
+    cout << "Diretorio corrente: " << wdir << endl;
 
     if ( mainCMD->countNoOpArgs() == 0 )
         throw proc_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );

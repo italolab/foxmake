@@ -1298,7 +1298,7 @@
 	"../util/strutil.h"
 	<filesystem>
 
-1754509970 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppio.h
+1755171950 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\cppio.h
 	<string>
 	<vector>
 
@@ -1351,11 +1351,12 @@
 	<vector>
 	<string>
 
-1755076484 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
+1755171664 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
 	"Proc.h"
 	"TaskProc.h"
 	"main/MainProc.h"
 	"../darv/MainScript.h"
+	"../inter/InterManager.h"
 	"../io/cppio.h"
 	<string>
 	<vector>
@@ -1567,10 +1568,11 @@
 	"../Proc.h"
 	<string>
 
-1755090853 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
+1755171733 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
 	"MainProc.h"
 	"../ProcManager.h"
 	"../../darv/CMD.h"
+	"../../inter/InterResult.h"
 	"../../shell/shell.h"
 	"../../util/strutil.h"
 	"../../io/io.h"
@@ -1654,7 +1656,7 @@
 	"../Proc.h"
 	<string>
 
-1755091410 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
+1755171733 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
 	"ProcExec.h"
 	"cp/CPProc.h"
 	"rm/RMProc.h"
