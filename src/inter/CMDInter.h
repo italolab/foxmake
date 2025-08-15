@@ -7,7 +7,7 @@
 
 class InterManager;
 
-class CMDInter : public Inter {
+class CMDInter : public Inter{
 
     private:
         InterResult* interprets( Block* parent, int argc, char* argv[], int lineNumber, void* mgr );

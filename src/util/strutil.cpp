@@ -13,8 +13,8 @@ namespace strutil {
 
         stringstream ss;
         bool charAdded = false;
-        int len = str.length();
-        for( int i = 0; i < len; i++ ) {
+        size_t len = str.length();
+        for( size_t i = 0; i < len; i++ ) {
             if ( str[ i ] == '\"' ) {
                 size_t j = str.find( '\"', i+1 );
                 if ( j == string::npos ) {
@@ -42,10 +42,10 @@ namespace strutil {
     }
 
     bool endsWith( string str, string suffix ) {
-        int suffixLen = suffix.length();
-        int strLen = str.length();
+        size_t suffixLen = suffix.length();
+        size_t strLen = str.length();
         if ( suffixLen <= strLen ) {
-            for( int i = 0; i < suffixLen; i++ )
+            for( size_t i = 0; i < suffixLen; i++ )
                 if ( suffix[ suffixLen - i - 1 ] != str[ strLen - i - 1 ] )
                     return false;
             return true;
@@ -54,10 +54,10 @@ namespace strutil {
     }
 
     bool startsWith( string str, string prefix ) {
-        int prefixLen = prefix.length();
-        int strLen = str.length();
+        size_t prefixLen = prefix.length();
+        size_t strLen = str.length();
         if ( prefixLen <= strLen ) {
-            for( int i = 0; i < prefixLen; i++ )
+            for( size_t i = 0; i < prefixLen; i++ )
                 if ( prefix[ i ] != str[ i ] )
                     return false;
             return true;
@@ -65,11 +65,22 @@ namespace strutil {
         return false;
     }
 
+    bool isNextToken( string str, int i, string token ) {
+        size_t strLen = str.length();
+        size_t tokenLen = token.length();
+        if ( tokenLen <= strLen-i+1 ) {
+            for( size_t j = 0; j < tokenLen; j++ )
+                if ( str[ i+j ] != token[ j ] )
+                    return false;
+            return true;
+        }
+        return false;
+    }
 
     string trim( string str ) {
         stringstream ss;
-        int len = str.length();
-        for( int i = 0; i < len; i++ )
+        size_t len = str.length();
+        for( size_t i = 0; i < len; i++ )
             if ( str[ i ] != ' ' && str[ i ] != '\t' && str[ i ] != '\r' && str[ i ] != '\n' )
                 ss << str[ i ];
         return ss.str();

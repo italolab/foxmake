@@ -4,22 +4,17 @@
 #include "../util/strutil.h"
 
 #include <filesystem>
-#include <fstream>
 
-using std::ifstream;
 using std::getline;
-
-#include <iostream>
-using namespace std;
 
 SourceCodeManager::SourceCodeManager() {
     this->filesToCompileManager = new FilesToCompileManager();
 }
 
 bool SourceCodeManager::recursiveProcFiles( string basedir ) {
-    scInfosMap.clear();
-    dependenciesMap.clear();
-    allSourceCodeFiles.clear();
+    cppOrCSourceCodeInfosMap.clear();
+    allSourceCodeInfosMap.clear();
+    classToIncludeMap.clear();
 
     string prefBaseDir = io::makePreferred( basedir );
     try {
@@ -27,117 +22,216 @@ bool SourceCodeManager::recursiveProcFiles( string basedir ) {
             string filePath = io::relativePath( entry.path().string() );
             filePath = io::makePreferred( filePath );
             if ( !filesystem::is_directory( filePath ) ) {
-                if ( strutil::endsWith( filePath, ".cpp" ) || strutil::endsWith( filePath, ".c" ) ) {
-                    string objFilePath = strutil::replace( filePath, ".cpp", ".o" );
-                    objFilePath = strutil::replace( objFilePath, ".c", ".o" );
+                string objFilePath = strutil::replace( filePath, ".cpp", ".o" );
+                objFilePath = strutil::replace( objFilePath, ".c", ".o" );
 
-                    SourceCodeInfo* info = new SourceCodeInfo;
-                    info->filePath = filePath;
-                    info->objFilePath = objFilePath;
-                    scInfosMap[ filePath ] = info;
+                vector<string> dependencies;
+                vector<string> extendedClasses;
+
+                SourceCodeInfo* info = new SourceCodeInfo;
+                info->filePath = filePath;
+                info->objFilePath = objFilePath;
+                info->dependencies = dependencies;
+                info->extendedClasses = extendedClasses;
+
+                if ( strutil::endsWith( filePath, ".cpp" ) || strutil::endsWith( filePath, ".c" ) ) {
+                    cppOrCSourceCodeInfosMap[ filePath ] = info;
+                    allSourceCodeInfosMap[ filePath ] = info;
                 } else if ( strutil::endsWith( filePath, ".h" ) ) {
-                    vector<string> dependencies;
-                    dependenciesMap[ filePath ] = dependencies;
+                    allSourceCodeInfosMap[ filePath ] = info;
                 }
-                allSourceCodeFiles.push_back( filePath );
             }
         }
 
-        this->loadDependencies();
-
-        /*
-        for( const auto& pair : dependenciesMap ) {
-            cout << pair.first << endl;
-            for( string path : pair.second )
-                cout << "\t" << path << endl;
-        }
-        */
-
-        return true;
+        return this->loadDependencies();
     } catch ( const filesystem::filesystem_error& error ) {
         return false;
     }
 }
 
 bool SourceCodeManager::loadDependencies() {
-    for( const auto& pair : dependenciesMap )
-        ((vector<string>)pair.second).clear();
+    for( const auto& pair : headerSourceCodeInfosMap )
+        ((SourceCodeInfo*)pair.second)->dependencies.clear();
 
-    for( const auto& pair : dependenciesMap ) {
-        bool ok = this->loadDepencenciesForHeaderFile( pair.first );
+    for( const auto& pair : allSourceCodeInfosMap ) {
+        SourceCodeInfo* info = pair.second;
+        bool ok = this->loadDepencenciesForHeaderFile( info->filePath );
         if ( !ok )
             return false;
+    }
 
-        string cpp = strutil::replace( pair.first, ".h", ".cpp" );
-        this->loadDepencenciesForHeaderFile( cpp );
+    for( const auto& pair : allSourceCodeInfosMap ) {
+        SourceCodeInfo* info = pair.second;
+        vector<string> extendedClasses = info->extendedClasses;
+        for( string exClass : extendedClasses )
+            if ( classToIncludeMap.find( exClass ) != classToIncludeMap.end() )
+                info->dependencies.push_back( classToIncludeMap[ exClass ] );
     }
 
     return true;
 }
 
-bool SourceCodeManager::loadDepencenciesForHeaderFile( string headerFilePath ) {
-    ifstream in( headerFilePath );
+bool SourceCodeManager::loadDepencenciesForHeaderFile( string filePath ) {
+    ifstream in( filePath );
     if ( !in.is_open() )
         return false;
 
-    bool isEnd = false;
-
     string line;
-    while( !isEnd && !in.eof() ) {
+    while( !in.eof() ) {
         getline( in, line );
         line = strutil::removeStartWhiteSpaces( line );
 
-        size_t i = line.find( '{' );
-        if ( i != string::npos ) {
-            isEnd = true;
-        } else {
-            if ( strutil::startsWith( line, "#include" ) ) {
-                size_t j = line.find( '\"' );
-                while( j != string::npos ) {
-                    j++;
-
-                    size_t k = line.find( '\"', j );
-                    if ( k != string::npos ) {
-                        string includePath = line.substr( j, k-j );
-
-                        string dir = io::dirPath( headerFilePath );
-                        includePath = io::resolvePath( dir, includePath );
-
-                        string cppPath = strutil::replace( headerFilePath, ".h", ".cpp" );
-                        if ( io::fileExists( cppPath ) )
-                            if ( scInfosMap.find( cppPath ) != scInfosMap.end() )
-                                dependenciesMap[ includePath ].push_back( cppPath );
-                    }
-
-                    j = line.find( '\"', k+1 );
-                }
-            }
-        }
+        bool interpreted = this->interpretsInclude( line, filePath );
+        if ( !interpreted )
+            interpreted = this->interpretsClasse( in, line, filePath );
     }
 
     in.close();
     return true;
 }
 
-SourceCodeInfo* SourceCodeManager::getSourceCodeInfo( string filePath ) {
-    return scInfosMap[ filePath ];
+bool SourceCodeManager::interpretsInclude( string line, string filePath ) {
+    if ( !strutil::startsWith( line, "#include" ) )
+        return false;
+
+    size_t j = line.find( '\"' );
+    while( j != string::npos ) {
+        j++;
+
+        size_t k = line.find( '\"', j );
+        if ( k != string::npos ) {
+            string includePath = line.substr( j, k-j );
+
+            string dir = io::dirPath( filePath );
+            includePath = io::resolvePath( dir, includePath );
+
+            if ( allSourceCodeInfosMap.find( includePath ) != allSourceCodeInfosMap.end() )
+                allSourceCodeInfosMap[ includePath ]->dependencies.push_back( filePath );
+        }
+
+        j = line.find( '\"', k+1 );
+    }
+
+    return true;
 }
 
-vector<string> SourceCodeManager::sourceCodeFilePaths() {
+bool SourceCodeManager::interpretsClasse( ifstream& in, string line, string filePath ) {
+    size_t i = 0;
+    size_t j = 0;
+
+    char classTokenCHs[] = { 'c', 'l', 'a', 's', 's', '\0' };
+    string classToken( classTokenCHs );
+    if ( strutil::startsWith( line, classToken ) ) {
+        i = 0;
+        j = 6;
+    } else {
+        char classTokenCHs2[] = { ' ', 'c', 'l', 'a', 's', 's', ' ', '0' };
+        string classToken2( classTokenCHs2 );
+        i = line.find( classToken2 );
+        if ( i == string::npos )
+            return false;
+
+        j = 7;
+    }
+
+    i += j;
+
+    string line2 = line;
+
+    char ch = '\0';
+    if ( i < line2.length() )
+        ch = line2[ i ];
+
+    size_t len = line2.length();
+
+    stringstream ss;
+    while( !strutil::isWhiteSpace( ch ) && ch != ':' && ch != '{' && i < len ) {
+        ss << ch;
+        i++;
+        if ( i < len )
+            ch = line2[ i ];
+    }
+
+    string className = ss.str();
+    if ( className.length() > 0 )
+        classToIncludeMap[ className ] = filePath;
+
+    while ( ch != ':' && ch != '{' && i < len ) {
+        i++;
+        if ( i < len )
+            ch = line2[ i ];
+    }
+
+    if ( ch == ':' ) {
+        i++;
+        while( ch != '{' && !in.eof() ) {
+            size_t len = line2.length();
+            while( ch != '{' && i < len ) {
+                ch = line2[ i ];
+                while( strutil::isWhiteSpace( ch ) && i < len ) {
+                    i++;
+                    if ( i < len )
+                        ch = line2[ i ];
+                }
+
+                if ( ch == ',' ) {
+                    i++;
+                    continue;
+                }
+
+                if ( ch == '{' ) {
+                    i = len;
+                    continue;
+                }
+
+                if ( strutil::isNextToken( line2, i, "public" ) ) {
+                    i += 7;
+                } else if ( strutil::isNextToken( line2, i, "protected" ) ) {
+                    i += 10;
+                } else if ( strutil::isNextToken( line2, i, "private" ) ) {
+                    i += 8;
+                }
+
+                if ( i < len )
+                    ch = line2[ i ];
+
+                stringstream ss;
+                while( !strutil::isWhiteSpace( ch ) && ch != ',' && ch != '{' && i < len ) {
+                    ss << ch;
+                    i++;
+                    if ( i < len )
+                        ch = line2[ i ];
+                }
+
+                string extendedClassName = ss.str();
+                if ( extendedClassName.length() > 0 )
+                    allSourceCodeInfosMap[ filePath ]->extendedClasses.push_back( extendedClassName );
+            }
+
+            if ( i == len && ch != '{' && !in.eof() ) {
+                getline( in, line2 );
+                i = 0;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+
+SourceCodeInfo* SourceCodeManager::getCPPOrCSourceCodeInfo( string filePath ) {
+    return cppOrCSourceCodeInfosMap[ filePath ];
+}
+
+vector<string> SourceCodeManager::cppOrCFilePaths() {
     vector<string> paths;
-    for( const auto& pair : scInfosMap )
+    for( const auto& pair : cppOrCSourceCodeInfosMap )
         paths.push_back( pair.first );
     return paths;
 }
 
-bool SourceCodeManager::isHeaderFileLoaded( string filePath ) {
-    return dependenciesMap.find( filePath ) != dependenciesMap.end();
-}
-
-vector<string>& SourceCodeManager::getDepencenciesForHeaderFile( string filePath ) {
-    return dependenciesMap[ filePath ];
-}
-
 void SourceCodeManager::loadFilesToCompile( vector<string>& filesToCompile, string configFilePath ) {
-    filesToCompileManager->loadFilesToCompile( filesToCompile, allSourceCodeFiles, dependenciesMap, configFilePath );
+    filesToCompileManager->loadFilesToCompile( filesToCompile, allSourceCodeInfosMap, configFilePath );
 }

@@ -1183,7 +1183,7 @@
 	<sstream>
 	<cstring>
 
-1755088257 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.h
+1755246082 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.h
 	"Inter.h"
 	<string>
 
@@ -1197,7 +1197,7 @@
 	"../darv/Statement.h"
 	<string>
 
-1755215953 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
+1755256931 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
 	"InterDriver.h"
 	"MainScriptInter.h"
 	"TaskInter.h"
@@ -1237,7 +1237,7 @@
 	"Inter.h"
 	<string>
 
-1754905369 c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.h
+1755249298 c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.h
 	<string>
 	<vector>
 	<stdexcept>
@@ -1303,7 +1303,7 @@
 	<vector>
 	<map>
 
-1755170871 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.h
+1755257172 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.h
 	"filter/FileFilter.h"
 	"filter/ByExtFileFilter.h"
 	"filter/AllFileFilter.h"
@@ -1329,7 +1329,7 @@
 	"ByExtFileFilter.h"
 	"../../util/strutil.h"
 
-1755172564 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.cpp
+1755257150 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\io.cpp
 	"io.h"
 	"../util/strutil.h"
 	<fstream>
@@ -1503,7 +1503,7 @@
 	<iostream>
 	"shell.h"
 
-1754905377 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.cpp
+1755249314 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.cpp
 	"strutil.h"
 	<sstream>
 	<iostream>
@@ -1572,7 +1572,7 @@
 	"../Proc.h"
 	<string>
 
-1755212116 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
+1755252857 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
 	"MainProc.h"
 	"../ProcManager.h"
 	"../../darv/CMD.h"
@@ -1602,7 +1602,7 @@
 	"Proc.h"
 	<sstream>
 
-1755212152 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
+1755252784 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compilealltaskproc.cpp
 	"CompileAllTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -1634,7 +1634,7 @@
 	"../TaskProc.h"
 	"../../darv/MainScript.h"
 
-1755212171 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
+1755252776 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
 	"LinkTaskProc.h"
 	"../ProcManager.h"
 	"../../darv/MainScript.h"
@@ -1747,30 +1747,34 @@
 	<string>
 	<map>
 
-1755212376 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodemanager.h
+1755255433 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodemanager.h
 	"FilesToCompileManager.h"
+	"SourceCodeInfo.h"
 	<string>
 	<vector>
 	<map>
+	<fstream>
 
-1755215923 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodemanager.cpp
+1755257108 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodemanager.cpp
 	"SourceCodeManager.h"
 	"io.h"
 	"../util/strutil.h"
 	<filesystem>
-	<fstream>
-	<iostream>
 
-1755213584 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filestocompilemanager.h
+1755256329 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filestocompilemanager.h
+	"SourceCodeInfo.h"
 	<string>
 	<vector>
 	<map>
 
-1755215939 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filestocompilemanager.cpp
+1755257110 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\io\filestocompilemanager.cpp
 	"FilesToCompileManager.h"
 	"io.h"
 	"../util/strutil.h"
 	<filesystem>
 	<fstream>
-	<iostream>
+
+1755252815 c:\users\italo\workspace-cpp\dlls\cbuild\src\io\sourcecodeinfo.h
+	<string>
+	<vector>
 

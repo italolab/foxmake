@@ -2,30 +2,33 @@
 #define CPP_FILES_MANAGER_H
 
 #include "FilesToCompileManager.h"
+#include "SourceCodeInfo.h"
 
 #include <string>
 #include <vector>
 #include <map>
+#include <fstream>
 
 using std::string;
 using std::vector;
 using std::map;
-
-typedef struct TSourceCodeInfo {
-    string filePath;
-    string objFilePath;
-} SourceCodeInfo;
+using std::ifstream;
 
 class SourceCodeManager {
 
     private:
-        map<string, SourceCodeInfo*> scInfosMap;
-        map<string, vector<string>> dependenciesMap;
-        vector<string> allSourceCodeFiles;
+        map<string, SourceCodeInfo*> cppOrCSourceCodeInfosMap;
+        map<string, SourceCodeInfo*> headerSourceCodeInfosMap;
+        map<string, SourceCodeInfo*> allSourceCodeInfosMap;
+        map<string, string> classToIncludeMap;
+
         FilesToCompileManager* filesToCompileManager;
 
         bool loadDependencies();
         bool loadDepencenciesForHeaderFile( string headerFilePath );
+
+        bool interpretsInclude( string line, string filePath );
+        bool interpretsClasse( ifstream& in, string line, string filePath );
 
     public:
         SourceCodeManager();
@@ -33,12 +36,8 @@ class SourceCodeManager {
         void loadFilesToCompile( vector<string>& filesToCompile, string configFilePath );
         bool recursiveProcFiles( string srcDir );
 
-        SourceCodeInfo* getSourceCodeInfo( string filePath );
-        vector<string> sourceCodeFilePaths();
-
-        vector<string>& getDepencenciesForHeaderFile( string filePath );
-        bool isHeaderFileLoaded( string filePath );
-
+        SourceCodeInfo* getCPPOrCSourceCodeInfo( string filePath );
+        vector<string> cppOrCFilePaths();
 };
 
 #endif

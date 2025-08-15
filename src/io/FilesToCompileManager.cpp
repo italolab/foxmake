@@ -6,15 +6,11 @@
 #include <filesystem>
 #include <fstream>
 
-#include <iostream>
-using namespace std;
-
 namespace filesystem = std::filesystem;
 
 void FilesToCompileManager::loadFilesToCompile(
                                     vector<string>& filesToCompile,
-                                    vector<string>& sourceFiles,
-                                    map<string, vector<string>>& dependenciesMap,
+                                    map<string, SourceCodeInfo*>& allSourceInfosMap,
                                     string configFilePath ) {
 
     map<string, long> timesElapsedMap;
@@ -22,30 +18,32 @@ void FilesToCompileManager::loadFilesToCompile(
     if ( io::fileExists( configFilePath ) )
         this->loadWritingTimesElapsedFile( timesElapsedMap, configFilePath );
 
-    for( string filePath : sourceFiles ) {
+    for( const auto& pair : allSourceInfosMap ) {
+        string filePath = pair.second->filePath;
+
         if ( !filesystem::is_directory( filePath ) ) {
             if ( timesElapsedMap.find( filePath ) != timesElapsedMap.end() ) {
                 long savedWritingTimeElapsed = timesElapsedMap[ filePath ];
 
                 long currentWritingTimeElapsed = io::writingTimeElapsedInMS( filePath );
                 if ( currentWritingTimeElapsed < savedWritingTimeElapsed )
-                    this->addDependenciesToCompile( filesToCompile, dependenciesMap, filePath );
+                    this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );
             } else {
-                this->addDependenciesToCompile( filesToCompile, dependenciesMap, filePath );
+                this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );
             }
         }
     }
 
-    this->saveWritingTimesElapsedInFile( sourceFiles, configFilePath );
+    this->saveWritingTimesElapsedInFile( allSourceInfosMap, configFilePath );
 }
 
 void FilesToCompileManager::addDependenciesToCompile(
                                     vector<string>& filesToCompile,
-                                    map<string, vector<string>>& dependenciesMap,
+                                    map<string, SourceCodeInfo*>& allSourceInfos,
                                     string filePath ) {
 
     if ( strutil::endsWith( filePath, ".h" ) ) {
-        recursiveLoadDependencies( filesToCompile, dependenciesMap, filePath );
+        recursiveLoadDependencies( filesToCompile, allSourceInfos, filePath );
     } else if ( strutil::endsWith( filePath, ".cpp" ) || strutil::endsWith( filePath, ".c" ) ) {
         if ( !containsInVector( filesToCompile, filePath ) )
             filesToCompile.push_back( filePath );
@@ -54,28 +52,17 @@ void FilesToCompileManager::addDependenciesToCompile(
 
 void FilesToCompileManager::recursiveLoadDependencies(
                                         vector<string>& filesToCompile,
-                                        map<string, vector<string>>& depsMap,
-                                        string headerFilePath ) {
+                                        map<string, SourceCodeInfo*>& allSourceInfosMap,
+                                        string filePath ) {
 
-    string filePath = strutil::replace( headerFilePath, ".h", ".cpp" );
-    if ( io::fileExists( filePath ) ) {
-        if ( !this->containsInVector( filesToCompile, filePath ) )
-            filesToCompile.push_back( filePath );
-    } else {
-        filePath = strutil::replace( headerFilePath, ".h", ".c" );
-        if ( io::fileExists( filePath ) )
-            if ( !this->containsInVector( filesToCompile, filePath ) )
-                filesToCompile.push_back( filePath );
-    }
+    if ( !this->containsInVector( filesToCompile, filePath ) )
+        filesToCompile.push_back( filePath );
 
-    cout << headerFilePath << endl;
-    if ( depsMap.find( headerFilePath ) != depsMap.end() ) {
-        vector<string>& deps = depsMap[ headerFilePath ];
+    if ( allSourceInfosMap.find( filePath ) != allSourceInfosMap.end() ) {
+        vector<string>& deps = allSourceInfosMap[ filePath ]->dependencies;
         for( string fpath : deps ) {
-            string headerPath = strutil::replace( fpath, ".cpp", ".h" );
-            cout << "\t" << headerPath << endl;
             if ( !this->containsInVector( filesToCompile, fpath ) )
-                this->recursiveLoadDependencies( filesToCompile, depsMap, headerPath );
+                this->recursiveLoadDependencies( filesToCompile, allSourceInfosMap, fpath );
         }
     }
 
@@ -110,14 +97,15 @@ bool FilesToCompileManager::loadWritingTimesElapsedFile( map<string, long>& writ
     return true;
 }
 
-bool FilesToCompileManager::saveWritingTimesElapsedInFile( vector<string>& sourceFiles, string configFileName ) {
+bool FilesToCompileManager::saveWritingTimesElapsedInFile( map<string, SourceCodeInfo*>& allSourceInfosMap, string configFileName ) {
     ofstream out( configFileName );
     if ( !out.is_open() )
         return false;
 
-    for( string filePath : sourceFiles ) {
-        long lastWriteTime = io::writingTimeElapsedInMS( filePath );
+    for( const auto& pair : allSourceInfosMap ) {
+        string filePath = pair.second->filePath;
 
+        long lastWriteTime = io::writingTimeElapsedInMS( filePath );
         out << filePath << "=" << lastWriteTime << "\n";
     }
 

@@ -50,11 +50,11 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
     bool isdll = isDll == "true";
 
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-    vector<string> sourceCodeFilePaths = sourceCodeManager->sourceCodeFilePaths();
+    vector<string> cppOrCFilePaths = sourceCodeManager->cppOrCFilePaths();
 
     Shell* shell = new Shell( true );
-    for( string filePath : sourceCodeFilePaths ) {
-        SourceCodeInfo* sourceCodeInfo = sourceCodeManager->getSourceCodeInfo( filePath );
+    for( string filePath : cppOrCFilePaths ) {
+        SourceCodeInfo* sourceCodeInfo = sourceCodeManager->getCPPOrCSourceCodeInfo( filePath );
 
         stringstream ss;
         ss << compiler << " " << compilerParams;

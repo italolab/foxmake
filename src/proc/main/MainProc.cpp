@@ -95,9 +95,9 @@ void MainProc::compileAndLink( CMD* mainCMD, void* mgr, bool isCompile, bool isL
 
     cout << endl;
 
-    vector<string> sourceCodeFilePaths = sourceCodeManager->sourceCodeFilePaths();
-    for( string filePath : sourceCodeFilePaths ) {
-        SourceCodeInfo* info = sourceCodeManager->getSourceCodeInfo( filePath );
+    vector<string> cppOrCFilePaths = sourceCodeManager->cppOrCFilePaths();
+    for( string filePath : cppOrCFilePaths ) {
+        SourceCodeInfo* info = sourceCodeManager->getCPPOrCSourceCodeInfo( filePath );
 
         string absFile = io::concatPaths( objDir, info->objFilePath );
         string dir = io::dirPath( absFile );
