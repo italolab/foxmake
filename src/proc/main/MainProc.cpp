@@ -6,7 +6,7 @@
 #include "../../shell/shell.h"
 #include "../../util/strutil.h"
 #include "../../io/io.h"
-#include "../../io/SourceCodeInfoManager.h"
+#include "../../io/SourceCodeManager.h"
 
 #include "../../consts.h"
 
@@ -82,22 +82,22 @@ void MainProc::compileAndLink( CMD* mainCMD, void* mgr, bool isCompile, bool isL
     if ( !io::fileExists( srcDir ) )
         throw proc_error( mainCMD, "Diretorio de codigos fonte nao encontrado.\nVerifique a propriedade \"" + props::SRC_DIR + "\"" );
 
-    SourceCodeInfoManager* sourceCodeInfoManager = manager->getSourceCodeInfoManager();
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
-    bool ok = sourceCodeInfoManager->recursiveProcFiles( srcDir );
+    bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
     if ( !ok )
         throw proc_error( mainCMD, "Houve algum problema de leitura dos arquivos de codigo fonte." );
 
     vector<string> filesToCompile;
-    sourceCodeInfoManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
+    sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     for( string file : filesToCompile )
         cout << "Compilar: " << file << endl;
 
     cout << endl;
 
-    vector<string> sourceCodeFilePaths = sourceCodeInfoManager->sourceCodeFilePaths();
+    vector<string> sourceCodeFilePaths = sourceCodeManager->sourceCodeFilePaths();
     for( string filePath : sourceCodeFilePaths ) {
-        SourceCodeInfo* info = sourceCodeInfoManager->getSourceCodeInfo( filePath );
+        SourceCodeInfo* info = sourceCodeManager->getSourceCodeInfo( filePath );
 
         string absFile = io::concatPaths( objDir, info->objFilePath );
         string dir = io::dirPath( absFile );

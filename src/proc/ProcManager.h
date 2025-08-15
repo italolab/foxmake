@@ -6,7 +6,7 @@
 #include "main/MainProc.h"
 #include "../darv/MainScript.h"
 #include "../inter/InterManager.h"
-#include "../io/SourceCodeInfoManager.h"
+#include "../io/SourceCodeManager.h"
 
 #include <string>
 #include <vector>
@@ -32,7 +32,7 @@ class ProcManager {
         virtual MainProc* getMainProc() = 0;
         virtual MainScript* getMainScript() = 0;
         virtual InterManager* getInterManager() = 0;
-        virtual SourceCodeInfoManager* getSourceCodeInfoManager() = 0;
+        virtual SourceCodeManager* getSourceCodeManager() = 0;
 
 };
 

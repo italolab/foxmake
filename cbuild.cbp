@@ -51,7 +51,6 @@
 		<Unit filename="src/darv/Task.h" />
 		<Unit filename="src/darv/Var.cpp" />
 		<Unit filename="src/darv/Var.h" />
-		<Unit filename="src/inter/BlockInterDriver.h" />
 		<Unit filename="src/inter/CMDInter.cpp" />
 		<Unit filename="src/inter/CMDInter.h" />
 		<Unit filename="src/inter/Inter.cpp" />
@@ -73,8 +72,10 @@
 		<Unit filename="src/inter/it/FileIterator.h" />
 		<Unit filename="src/inter/it/StringIterator.cpp" />
 		<Unit filename="src/inter/it/StringIterator.h" />
-		<Unit filename="src/io/SourceCodeInfoManager.cpp" />
-		<Unit filename="src/io/SourceCodeInfoManager.h" />
+		<Unit filename="src/io/FilesToCompileManager.cpp" />
+		<Unit filename="src/io/FilesToCompileManager.h" />
+		<Unit filename="src/io/SourceCodeManager.cpp" />
+		<Unit filename="src/io/SourceCodeManager.h" />
 		<Unit filename="src/io/filter/AllFileFilter.cpp" />
 		<Unit filename="src/io/filter/AllFileFilter.h" />
 		<Unit filename="src/io/filter/ByExtFileFilter.cpp" />

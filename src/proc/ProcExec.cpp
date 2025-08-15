@@ -29,7 +29,7 @@ ProcExec::ProcExec() {
     mainScript = new MainScript();
     interManager = new InterManager( this );
 
-    sourceCodeInfoManager = new SourceCodeInfoManager();
+    sourceCodeManager = new SourceCodeManager();
 
     mainProc = new MainProc();
 
@@ -124,8 +124,8 @@ MainScript* ProcExec::getMainScript() {
     return mainScript;
 }
 
-SourceCodeInfoManager* ProcExec::getSourceCodeInfoManager() {
-    return sourceCodeInfoManager;
+SourceCodeManager* ProcExec::getSourceCodeManager() {
+    return sourceCodeManager;
 }
 
 InterManager* ProcExec::getInterManager() {

@@ -4,7 +4,7 @@
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
-#include "../../io/SourceCodeInfoManager.h"
+#include "../../io/SourceCodeManager.h"
 #include "../../util/strutil.h"
 
 #include "../../consts.h"
@@ -49,12 +49,12 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     bool isdll = isDll == "true";
 
-    SourceCodeInfoManager* sourceCodeInfoManager = manager->getSourceCodeInfoManager();
-    vector<string> sourceCodeFilePaths = sourceCodeInfoManager->sourceCodeFilePaths();
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    vector<string> sourceCodeFilePaths = sourceCodeManager->sourceCodeFilePaths();
 
     Shell* shell = new Shell( true );
     for( string filePath : sourceCodeFilePaths ) {
-        SourceCodeInfo* sourceCodeInfo = sourceCodeInfoManager->getSourceCodeInfo( filePath );
+        SourceCodeInfo* sourceCodeInfo = sourceCodeManager->getSourceCodeInfo( filePath );
 
         stringstream ss;
         ss << compiler << " " << compilerParams;

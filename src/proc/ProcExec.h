@@ -8,7 +8,7 @@
 #include "../darv/MainScript.h"
 #include "../inter/InterDriver.h"
 #include "../inter/InterManager.h"
-#include "../io/SourceCodeInfoManager.h"
+#include "../io/SourceCodeManager.h"
 
 #include <map>
 #include <vector>
@@ -26,7 +26,7 @@ class ProcExec : public ProcManager, InterDriver {
         InterManager* interManager;
         map<string, Proc*> procsMap;
         map<string, TaskProc*> taskProcsMap;
-        SourceCodeInfoManager* sourceCodeInfoManager;
+        SourceCodeManager* sourceCodeManager;
 
     public:
         ProcExec();
@@ -45,7 +45,7 @@ class ProcExec : public ProcManager, InterDriver {
 
         MainProc* getMainProc();
         MainScript* getMainScript();
-        SourceCodeInfoManager* getSourceCodeInfoManager();
+        SourceCodeManager* getSourceCodeManager();
         InterManager* getInterManager();
 
 };

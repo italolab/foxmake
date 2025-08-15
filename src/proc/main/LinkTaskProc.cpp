@@ -4,7 +4,7 @@
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
-#include "../../io/SourceCodeInfoManager.h"
+#include "../../io/SourceCodeManager.h"
 #include "../../util/strutil.h"
 
 #include "../../consts.h"
@@ -84,11 +84,11 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
         ss << libdirParams.str() << dllParams.str();
     }
 
-    SourceCodeInfoManager* sourceCodeInfoManager = manager->getSourceCodeInfoManager();
-    vector<string> sourceCodeFilePaths = sourceCodeInfoManager->sourceCodeFilePaths();
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    vector<string> sourceCodeFilePaths = sourceCodeManager->sourceCodeFilePaths();
 
     for( string filePath : sourceCodeFilePaths ) {
-        SourceCodeInfo* sourceCodeInfo = sourceCodeInfoManager->getSourceCodeInfo( filePath );
+        SourceCodeInfo* sourceCodeInfo = sourceCodeManager->getSourceCodeInfo( filePath );
         ss << " " << io::concatPaths( objDir, sourceCodeInfo->objFilePath );
     }
 
