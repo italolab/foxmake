@@ -1,2 +1,10 @@
-compiler=gcc
-exe.file.name=teste.exe
+#compiler=gcc
+#exe.file.name=teste.exe
+
+teste {
+	echo Testando...
+}
+
+teste2 {
+	echo Teste2...
+}
