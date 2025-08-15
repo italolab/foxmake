@@ -13,6 +13,9 @@ namespace consts {
 
     const string LAST_WRITE_TIMES_FILE = "lwtimes.txt";
 
+    const string SOURCE_FILE_EXTENSIONS = ".c .cpp .cc";
+    const string HEADER_FILE_EXTENSIONS = ".h .hpp .tpp .ipp";
+
 }
 
 namespace tasks {
@@ -23,6 +26,7 @@ namespace tasks {
     const string LINK = "link";
     const string COPY = "copy";
     const string BUILD = "build";
+    const string BUILDALL = "buildall";
 
 }
 

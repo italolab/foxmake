@@ -28,6 +28,9 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
+    bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
+    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+
     string isDll = script->getPropertyValue( props::IS_DLL );
 
     string compiler = script->getPropertyValue( props::COMPILER );
@@ -50,12 +53,16 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
     bool isdll = isDll == "true";
 
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-    vector<string> cppOrCFilePaths = sourceCodeManager->cppOrCFilePaths();
+
+    vector<CodeInfo*> filesToCompile;
+    if ( isCompileAll || isBuildAll ) {
+        filesToCompile = sourceCodeManager->sourceCodeInfos();
+    } else {
+        sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
+    }
 
     Shell* shell = new Shell( true );
-    for( string filePath : cppOrCFilePaths ) {
-        SourceCodeInfo* sourceCodeInfo = sourceCodeManager->getCPPOrCSourceCodeInfo( filePath );
-
+    for( CodeInfo* sourceCodeInfo : filesToCompile ) {
         stringstream ss;
         ss << compiler << " " << compilerParams;
 

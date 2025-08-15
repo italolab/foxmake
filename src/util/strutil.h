@@ -20,6 +20,8 @@ namespace strutil {
 
     bool startsWith( string str, string prefix );
     bool endsWith( string str, string suffix );
+    bool endsWithSome( string str, string prefixes );
+    bool isEqualToSome( string str, string values );
     bool isNextToken( string str, int i, string token );
     string trim( string str );
     string replace( string str, string subStr, string newSubStr );

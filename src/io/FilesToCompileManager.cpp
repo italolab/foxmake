@@ -8,9 +8,14 @@
 
 namespace filesystem = std::filesystem;
 
+FilesToCompileManager::FilesToCompileManager( string sourceFileExtensions, string headerFileExtensions ) {
+    this->sourceFileExtensions = sourceFileExtensions;
+    this->headerFileExtensions = headerFileExtensions;
+}
+
 void FilesToCompileManager::loadFilesToCompile(
-                                    vector<string>& filesToCompile,
-                                    map<string, SourceCodeInfo*>& allSourceInfosMap,
+                                    vector<CodeInfo*>& filesToCompile,
+                                    map<string, CodeInfo*>& allSourceInfosMap,
                                     string configFilePath ) {
 
     map<string, long> timesElapsedMap;
@@ -34,45 +39,60 @@ void FilesToCompileManager::loadFilesToCompile(
         }
     }
 
+    this->removeHeaderFiles( filesToCompile );
+
     this->saveWritingTimesElapsedInFile( allSourceInfosMap, configFilePath );
 }
 
 void FilesToCompileManager::addDependenciesToCompile(
-                                    vector<string>& filesToCompile,
-                                    map<string, SourceCodeInfo*>& allSourceInfos,
+                                    vector<CodeInfo*>& filesToCompile,
+                                    map<string, CodeInfo*>& allSourceInfosMap,
                                     string filePath ) {
 
-    if ( strutil::endsWith( filePath, ".h" ) ) {
-        recursiveLoadDependencies( filesToCompile, allSourceInfos, filePath );
-    } else if ( strutil::endsWith( filePath, ".cpp" ) || strutil::endsWith( filePath, ".c" ) ) {
-        if ( !containsInVector( filesToCompile, filePath ) )
-            filesToCompile.push_back( filePath );
+    if ( strutil::endsWithSome( filePath, headerFileExtensions ) ) {
+        recursiveLoadDependencies( filesToCompile, allSourceInfosMap, filePath );
+    } else if ( strutil::endsWithSome( filePath, sourceFileExtensions ) ) {
+        if ( !containsToCompileFile( filesToCompile, filePath ) ) {
+            CodeInfo* info = allSourceInfosMap[ filePath ];
+            filesToCompile.push_back( info );
+        }
     }
 }
 
 void FilesToCompileManager::recursiveLoadDependencies(
-                                        vector<string>& filesToCompile,
-                                        map<string, SourceCodeInfo*>& allSourceInfosMap,
+                                        vector<CodeInfo*>& filesToCompile,
+                                        map<string, CodeInfo*>& allSourceInfosMap,
                                         string filePath ) {
 
-    if ( !this->containsInVector( filesToCompile, filePath ) )
-        filesToCompile.push_back( filePath );
+    if ( !this->containsToCompileFile( filesToCompile, filePath ) )
+        filesToCompile.push_back( allSourceInfosMap[ filePath ] );
 
     if ( allSourceInfosMap.find( filePath ) != allSourceInfosMap.end() ) {
         vector<string>& deps = allSourceInfosMap[ filePath ]->dependencies;
         for( string fpath : deps ) {
-            if ( !this->containsInVector( filesToCompile, fpath ) )
+            if ( !this->containsToCompileFile( filesToCompile, fpath ) )
                 this->recursiveLoadDependencies( filesToCompile, allSourceInfosMap, fpath );
         }
     }
 
 }
 
-bool FilesToCompileManager::containsInVector( vector<string>& filesToCompile, string filePath ) {
-    for( string path : filesToCompile )
-        if ( path == filePath )
+bool FilesToCompileManager::containsToCompileFile( vector<CodeInfo*>& filesToCompile, string filePath ) {
+    for( CodeInfo* info : filesToCompile )
+        if ( info->filePath == filePath )
             return true;
     return false;
+}
+
+void FilesToCompileManager::removeHeaderFiles( vector<CodeInfo*>& filesToCompile ) {
+    int len = filesToCompile.size();
+    for( int i = 0; i < len; i++ ) {
+        string fileName = filesToCompile[ i ]->filePath;
+        if ( strutil::endsWithSome( fileName, headerFileExtensions ) ) {
+            filesToCompile.erase( filesToCompile.begin() + i );
+            i--;
+        }
+    }
 }
 
 bool FilesToCompileManager::loadWritingTimesElapsedFile( map<string, long>& writingTimesElapsedMap, string configFilePath ) {
@@ -97,7 +117,7 @@ bool FilesToCompileManager::loadWritingTimesElapsedFile( map<string, long>& writ
     return true;
 }
 
-bool FilesToCompileManager::saveWritingTimesElapsedInFile( map<string, SourceCodeInfo*>& allSourceInfosMap, string configFileName ) {
+bool FilesToCompileManager::saveWritingTimesElapsedInFile( map<string, CodeInfo*>& allSourceInfosMap, string configFileName ) {
     ofstream out( configFileName );
     if ( !out.is_open() )
         return false;

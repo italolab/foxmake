@@ -2,7 +2,7 @@
 #define CPP_FILES_MANAGER_H
 
 #include "FilesToCompileManager.h"
-#include "SourceCodeInfo.h"
+#include "CodeInfo.h"
 
 #include <string>
 #include <vector>
@@ -17,27 +17,32 @@ using std::ifstream;
 class SourceCodeManager {
 
     private:
-        map<string, SourceCodeInfo*> cppOrCSourceCodeInfosMap;
-        map<string, SourceCodeInfo*> headerSourceCodeInfosMap;
-        map<string, SourceCodeInfo*> allSourceCodeInfosMap;
+        map<string, CodeInfo*> sourceCodeInfosMap;
+        map<string, CodeInfo*> headerCodeInfosMap;
+        map<string, CodeInfo*> allCodeInfosMap;
         map<string, string> classToIncludeMap;
+
+        string sourceFileExtensions;
+        string headerFileExtensions;
 
         FilesToCompileManager* filesToCompileManager;
 
         bool loadDependencies();
-        bool loadDepencenciesForHeaderFile( string headerFilePath );
+        bool loadDepencenciesForFile( string headerFilePath );
 
         bool interpretsInclude( string line, string filePath );
         bool interpretsClasse( ifstream& in, string line, string filePath );
 
     public:
-        SourceCodeManager();
+        SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );
 
-        void loadFilesToCompile( vector<string>& filesToCompile, string configFilePath );
+        void loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath );
         bool recursiveProcFiles( string srcDir );
 
-        SourceCodeInfo* getCPPOrCSourceCodeInfo( string filePath );
-        vector<string> cppOrCFilePaths();
+        CodeInfo* getSourceCodeInfo( string filePath );
+        vector<string> sourceFilePaths();
+        vector<CodeInfo*> sourceCodeInfos();
+
 };
 
 #endif

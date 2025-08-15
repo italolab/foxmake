@@ -1,7 +1,7 @@
 #ifndef FILES_TO_COMPILE_MANAGER_H
 #define FILES_TO_COMPILE_MANAGER_H
 
-#include "SourceCodeInfo.h"
+#include "CodeInfo.h"
 
 #include <string>
 #include <vector>
@@ -14,17 +14,23 @@ using std::map;
 class FilesToCompileManager {
 
     private:
-        bool loadWritingTimesElapsedFile( map<string, long>& writingTimesElapsedMap, string configFileName );
-        bool saveWritingTimesElapsedInFile(  map<string, SourceCodeInfo*>& allSourceInfos, string configFileName );
+        string sourceFileExtensions;
+        string headerFileExtensions;
 
-        void addDependenciesToCompile( vector<string>& filesToCompile, map<string, SourceCodeInfo*>& allSourceInfos, string filePath );
-        void recursiveLoadDependencies( vector<string>& filesToCompile, map<string, SourceCodeInfo*>& allSourceInfos, string fileName );
-        bool containsInVector( vector<string>& vect, string filePath );
+        bool loadWritingTimesElapsedFile( map<string, long>& writingTimesElapsedMap, string configFileName );
+        bool saveWritingTimesElapsedInFile(  map<string, CodeInfo*>& allSourceInfos, string configFileName );
+
+        void addDependenciesToCompile( vector<CodeInfo*>& filesToCompile, map<string, CodeInfo*>& allSourceInfos, string filePath );
+        void recursiveLoadDependencies( vector<CodeInfo*>& filesToCompile, map<string, CodeInfo*>& allSourceInfos, string filePath );
+        bool containsToCompileFile( vector<CodeInfo*>& filesToCompile, string filePath );
+        void removeHeaderFiles( vector<CodeInfo*>& filesToCompile );
 
     public:
+        FilesToCompileManager( string sourceFileExtensions, string headerFileExtensions );
+
         void loadFilesToCompile(
-                    vector<string>& filesToCompile,
-                    map<string, SourceCodeInfo*>& allSourceInfos,
+                    vector<CodeInfo*>& filesToCompile,
+                    map<string, CodeInfo*>& allSourceInfos,
                     string configFilePath );
 
 };

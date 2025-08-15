@@ -29,7 +29,7 @@ ProcExec::ProcExec() {
     mainScript = new MainScript();
     interManager = new InterManager( this );
 
-    sourceCodeManager = new SourceCodeManager();
+    sourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
 
     mainProc = new MainProc();
 

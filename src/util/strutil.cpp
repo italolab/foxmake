@@ -41,6 +41,26 @@ namespace strutil {
         return splitVect;
     }
 
+    bool endsWithSome( string str, string prefixes ) {
+        istringstream iss( prefixes );
+        string prefix;
+
+        while( iss >> prefix )
+            if ( endsWith( str, prefix ) )
+                return true;
+        return false;
+    }
+
+    bool isEqualToSome( string str, string values ) {
+        istringstream iss( values );
+        string value;
+
+        while( iss >> value )
+            if ( str == value )
+                return true;
+        return false;
+    }
+
     bool endsWith( string str, string suffix ) {
         size_t suffixLen = suffix.length();
         size_t strLen = str.length();

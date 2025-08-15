@@ -85,10 +85,10 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
     }
 
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-    vector<string> cppOrCFilePaths = sourceCodeManager->cppOrCFilePaths();
+    vector<string> cppOrCFilePaths = sourceCodeManager->sourceFilePaths();
 
     for( string filePath : cppOrCFilePaths ) {
-        SourceCodeInfo* sourceCodeInfo = sourceCodeManager->getCPPOrCSourceCodeInfo( filePath );
+        CodeInfo* sourceCodeInfo = sourceCodeManager->getSourceCodeInfo( filePath );
         ss << " " << io::concatPaths( objDir, sourceCodeInfo->objFilePath );
     }
 

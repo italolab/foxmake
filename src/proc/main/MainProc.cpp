@@ -39,12 +39,14 @@ void MainProc::proc( CMD* mainCMD, void* mgr ) {
         throw proc_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
-    bool isCompile = mainCMD->existsArg( tasks::COMPILEALL );
+    bool isCompile = mainCMD->existsArg( tasks::COMPILE );
     bool isLink = mainCMD->existsArg( tasks::LINK );
     bool isCopy = mainCMD->existsArg( tasks::COPY );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
 
-    if ( isBuild ) {
+    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+
+    if ( isBuild || isBuildAll ) {
         isClean = true;
         isCompile = true;
         isLink = true;
@@ -88,17 +90,8 @@ void MainProc::compileAndLink( CMD* mainCMD, void* mgr, bool isCompile, bool isL
     if ( !ok )
         throw proc_error( mainCMD, "Houve algum problema de leitura dos arquivos de codigo fonte." );
 
-    vector<string> filesToCompile;
-    sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
-    for( string file : filesToCompile )
-        cout << "Compilar: " << file << endl;
-
-    cout << endl;
-
-    vector<string> cppOrCFilePaths = sourceCodeManager->cppOrCFilePaths();
-    for( string filePath : cppOrCFilePaths ) {
-        SourceCodeInfo* info = sourceCodeManager->getCPPOrCSourceCodeInfo( filePath );
-
+    vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
+    for( CodeInfo* info : sourceCodeInfos ) {
         string absFile = io::concatPaths( objDir, info->objFilePath );
         string dir = io::dirPath( absFile );
         io::createDirs( dir );

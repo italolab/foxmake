@@ -7,11 +7,11 @@
 using std::string;
 using std::vector;
 
-typedef struct TSourceCodeInfo {
+typedef struct TCodeInfo {
     string filePath;
     string objFilePath;
     vector<string> extendedClasses;
     vector<string> dependencies;
-} SourceCodeInfo;
+} CodeInfo;
 
 #endif

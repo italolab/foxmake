@@ -7,13 +7,15 @@
 
 using std::getline;
 
-SourceCodeManager::SourceCodeManager() {
-    this->filesToCompileManager = new FilesToCompileManager();
+SourceCodeManager::SourceCodeManager( string sourceFileExtensions, string headerFileExtensions ) {
+    this->filesToCompileManager = new FilesToCompileManager( sourceFileExtensions, headerFileExtensions );
+    this->sourceFileExtensions = sourceFileExtensions;
+    this->headerFileExtensions = headerFileExtensions;
 }
 
 bool SourceCodeManager::recursiveProcFiles( string basedir ) {
-    cppOrCSourceCodeInfosMap.clear();
-    allSourceCodeInfosMap.clear();
+    sourceCodeInfosMap.clear();
+    allCodeInfosMap.clear();
     classToIncludeMap.clear();
 
     string prefBaseDir = io::makePreferred( basedir );
@@ -22,23 +24,23 @@ bool SourceCodeManager::recursiveProcFiles( string basedir ) {
             string filePath = io::relativePath( entry.path().string() );
             filePath = io::makePreferred( filePath );
             if ( !filesystem::is_directory( filePath ) ) {
-                string objFilePath = strutil::replace( filePath, ".cpp", ".o" );
-                objFilePath = strutil::replace( objFilePath, ".c", ".o" );
+                string ext = io::extension( filePath );
+                string objFilePath = strutil::replace( filePath, ext, "o" );
 
                 vector<string> dependencies;
                 vector<string> extendedClasses;
 
-                SourceCodeInfo* info = new SourceCodeInfo;
+                CodeInfo* info = new CodeInfo;
                 info->filePath = filePath;
                 info->objFilePath = objFilePath;
                 info->dependencies = dependencies;
                 info->extendedClasses = extendedClasses;
 
-                if ( strutil::endsWith( filePath, ".cpp" ) || strutil::endsWith( filePath, ".c" ) ) {
-                    cppOrCSourceCodeInfosMap[ filePath ] = info;
-                    allSourceCodeInfosMap[ filePath ] = info;
-                } else if ( strutil::endsWith( filePath, ".h" ) ) {
-                    allSourceCodeInfosMap[ filePath ] = info;
+                if ( strutil::endsWithSome( filePath, sourceFileExtensions ) ) {
+                    sourceCodeInfosMap[ filePath ] = info;
+                    allCodeInfosMap[ filePath ] = info;
+                } else if ( strutil::endsWithSome( filePath, headerFileExtensions ) ) {
+                    allCodeInfosMap[ filePath ] = info;
                 }
             }
         }
@@ -50,18 +52,18 @@ bool SourceCodeManager::recursiveProcFiles( string basedir ) {
 }
 
 bool SourceCodeManager::loadDependencies() {
-    for( const auto& pair : headerSourceCodeInfosMap )
-        ((SourceCodeInfo*)pair.second)->dependencies.clear();
+    for( const auto& pair : headerCodeInfosMap )
+        ((CodeInfo*)pair.second)->dependencies.clear();
 
-    for( const auto& pair : allSourceCodeInfosMap ) {
-        SourceCodeInfo* info = pair.second;
-        bool ok = this->loadDepencenciesForHeaderFile( info->filePath );
+    for( const auto& pair : allCodeInfosMap ) {
+        CodeInfo* info = pair.second;
+        bool ok = this->loadDepencenciesForFile( info->filePath );
         if ( !ok )
             return false;
     }
 
-    for( const auto& pair : allSourceCodeInfosMap ) {
-        SourceCodeInfo* info = pair.second;
+    for( const auto& pair : allCodeInfosMap ) {
+        CodeInfo* info = pair.second;
         vector<string> extendedClasses = info->extendedClasses;
         for( string exClass : extendedClasses )
             if ( classToIncludeMap.find( exClass ) != classToIncludeMap.end() )
@@ -71,7 +73,7 @@ bool SourceCodeManager::loadDependencies() {
     return true;
 }
 
-bool SourceCodeManager::loadDepencenciesForHeaderFile( string filePath ) {
+bool SourceCodeManager::loadDepencenciesForFile( string filePath ) {
     ifstream in( filePath );
     if ( !in.is_open() )
         return false;
@@ -105,8 +107,8 @@ bool SourceCodeManager::interpretsInclude( string line, string filePath ) {
             string dir = io::dirPath( filePath );
             includePath = io::resolvePath( dir, includePath );
 
-            if ( allSourceCodeInfosMap.find( includePath ) != allSourceCodeInfosMap.end() )
-                allSourceCodeInfosMap[ includePath ]->dependencies.push_back( filePath );
+            if ( allCodeInfosMap.find( includePath ) != allCodeInfosMap.end() )
+                allCodeInfosMap[ includePath ]->dependencies.push_back( filePath );
         }
 
         j = line.find( '\"', k+1 );
@@ -205,7 +207,7 @@ bool SourceCodeManager::interpretsClasse( ifstream& in, string line, string file
 
                 string extendedClassName = ss.str();
                 if ( extendedClassName.length() > 0 )
-                    allSourceCodeInfosMap[ filePath ]->extendedClasses.push_back( extendedClassName );
+                    allCodeInfosMap[ filePath ]->extendedClasses.push_back( extendedClassName );
             }
 
             if ( i == len && ch != '{' && !in.eof() ) {
@@ -221,17 +223,24 @@ bool SourceCodeManager::interpretsClasse( ifstream& in, string line, string file
 }
 
 
-SourceCodeInfo* SourceCodeManager::getCPPOrCSourceCodeInfo( string filePath ) {
-    return cppOrCSourceCodeInfosMap[ filePath ];
+CodeInfo* SourceCodeManager::getSourceCodeInfo( string filePath ) {
+    return sourceCodeInfosMap[ filePath ];
 }
 
-vector<string> SourceCodeManager::cppOrCFilePaths() {
+vector<string> SourceCodeManager::sourceFilePaths() {
     vector<string> paths;
-    for( const auto& pair : cppOrCSourceCodeInfosMap )
+    for( const auto& pair : sourceCodeInfosMap )
         paths.push_back( pair.first );
     return paths;
 }
 
-void SourceCodeManager::loadFilesToCompile( vector<string>& filesToCompile, string configFilePath ) {
-    filesToCompileManager->loadFilesToCompile( filesToCompile, allSourceCodeInfosMap, configFilePath );
+vector<CodeInfo*> SourceCodeManager::sourceCodeInfos() {
+    vector<CodeInfo*> infos;
+    for( const auto& pair : sourceCodeInfosMap )
+        infos.push_back( pair.second );
+    return infos;
+}
+
+void SourceCodeManager::loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath ) {
+    filesToCompileManager->loadFilesToCompile( filesToCompile, allCodeInfosMap, configFilePath );
 }
