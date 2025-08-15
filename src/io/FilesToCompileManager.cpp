@@ -64,17 +64,16 @@ void FilesToCompileManager::recursiveLoadDependencies(
                                         map<string, CodeInfo*>& allSourceInfosMap,
                                         string filePath ) {
 
-    if ( !this->containsToCompileFile( filesToCompile, filePath ) )
-        filesToCompile.push_back( allSourceInfosMap[ filePath ] );
+    if ( allSourceInfosMap.find( filePath ) == allSourceInfosMap.end() )
+        return;
 
-    if ( allSourceInfosMap.find( filePath ) != allSourceInfosMap.end() ) {
-        vector<string>& deps = allSourceInfosMap[ filePath ]->dependencies;
-        for( string fpath : deps ) {
-            if ( !this->containsToCompileFile( filesToCompile, fpath ) )
-                this->recursiveLoadDependencies( filesToCompile, allSourceInfosMap, fpath );
-        }
+    filesToCompile.push_back( allSourceInfosMap[ filePath ] );
+
+    vector<string>& deps = allSourceInfosMap[ filePath ]->dependencies;
+    for( string fpath : deps ) {
+        if ( !this->containsToCompileFile( filesToCompile, fpath ) )
+            this->recursiveLoadDependencies( filesToCompile, allSourceInfosMap, fpath );
     }
-
 }
 
 bool FilesToCompileManager::containsToCompileFile( vector<CodeInfo*>& filesToCompile, string filePath ) {
@@ -91,6 +90,7 @@ void FilesToCompileManager::removeHeaderFiles( vector<CodeInfo*>& filesToCompile
         if ( strutil::endsWithSome( fileName, headerFileExtensions ) ) {
             filesToCompile.erase( filesToCompile.begin() + i );
             i--;
+            len--;
         }
     }
 }
