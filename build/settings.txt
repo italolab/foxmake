@@ -48,7 +48,6 @@ build {
 debug {
     @dir
     echo Debug executado!
-    @@pause
 }
 
 mkdir $(include.dirs)

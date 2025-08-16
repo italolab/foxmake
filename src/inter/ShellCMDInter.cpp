@@ -16,6 +16,8 @@ InterResult* ShellCMDInter::interprets( Block* parent, string line, int lineNumb
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
+    delete replaceResult;
+
     ShellCMD* shellCMD = new ShellCMD( parent, cmdstr, lineNumber, line );
 
     if ( parent != nullptr )

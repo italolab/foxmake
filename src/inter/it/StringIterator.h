@@ -14,6 +14,7 @@ class StringIterator : public BlockIterator {
 
     public:
         StringIterator( string str );
+        virtual ~StringIterator();
 
         bool hasNextLine();
         string nextLine();

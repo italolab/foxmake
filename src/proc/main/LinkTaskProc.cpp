@@ -107,6 +107,8 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
     //if ( exitCode != 0 )
     //    throw st_error( "Falha na linkagem!" );
 
+    delete shell;
+
     manager->executaTaskIfExists( tasks::LINK );
 
     cout << "Linkagem executada com sucesso." << endl;

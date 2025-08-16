@@ -16,6 +16,10 @@ FileIterator::FileIterator( string file ) {
     this->stream = in;
 }
 
+FileIterator::~FileIterator() {
+    delete stream;
+}
+
 bool FileIterator::hasNextLine() {
     if ( stream->eof() ) {
         if ( stream->is_open() )

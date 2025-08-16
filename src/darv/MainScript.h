@@ -23,6 +23,7 @@ class MainScript : public Block {
 
     public:
         MainScript();
+        virtual ~MainScript();
 
         void putProperty( Prop* prop );
         Prop* getProperty( string name );

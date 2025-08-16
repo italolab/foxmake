@@ -22,7 +22,6 @@ using std::cout;
 using std::endl;
 using std::stringstream;
 
-
 void MainProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
     InterManager* interManager = manager->getInterManager();
@@ -47,9 +46,11 @@ void MainProc::proc( CMD* mainCMD, void* mgr ) {
     mainScript->putLocalVar( "main_config_file", settingsFile );
     mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
-    InterResult* result2 = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
-    if ( !result2->isInterpreted() )
-        throw st_error( result2 );
+    InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
+    if ( !result->isInterpreted() )
+        throw st_error( result );
+
+    delete result;
 
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
     cout << "Diretorio corrente: \"" << wdir << "\"" << endl;

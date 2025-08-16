@@ -7,8 +7,6 @@
 
 using std::string;
 
-class InterManager;
-
 class ShellCMDInter : public Inter {
 
     public:

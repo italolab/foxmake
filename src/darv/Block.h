@@ -20,6 +20,7 @@ class Block : public Statement {
 
     public:
         Block( Statement* parent, int lineNumber, string line );
+        virtual ~Block();
 
         Statement* getRoot();
 

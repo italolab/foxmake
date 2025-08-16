@@ -23,6 +23,7 @@ class CMD : public Statement {
 
     public:
         CMD( Statement* parent, int lineNumber, string line );
+        virtual ~CMD();
 
         void addProperty( Prop* prop );
         vector<string> propertyNames();

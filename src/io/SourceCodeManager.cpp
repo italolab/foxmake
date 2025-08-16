@@ -13,6 +13,12 @@ SourceCodeManager::SourceCodeManager( string sourceFileExtensions, string header
     this->headerFileExtensions = headerFileExtensions;
 }
 
+SourceCodeManager::~SourceCodeManager() {
+    delete filesToCompileManager;
+    for( const auto& pair : allCodeInfosMap )
+        delete pair.second;
+}
+
 bool SourceCodeManager::recursiveProcFiles( string basedir ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();
@@ -52,7 +58,7 @@ bool SourceCodeManager::recursiveProcFiles( string basedir ) {
 }
 
 bool SourceCodeManager::loadDependencies() {
-    for( const auto& pair : headerCodeInfosMap )
+    for( const auto& pair : allCodeInfosMap )
         ((CodeInfo*)pair.second)->dependencies.clear();
 
     for( const auto& pair : allCodeInfosMap ) {

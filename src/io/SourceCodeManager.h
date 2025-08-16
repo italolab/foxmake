@@ -18,7 +18,6 @@ class SourceCodeManager {
 
     private:
         map<string, CodeInfo*> sourceCodeInfosMap;
-        map<string, CodeInfo*> headerCodeInfosMap;
         map<string, CodeInfo*> allCodeInfosMap;
         map<string, string> classToIncludeMap;
 
@@ -35,6 +34,7 @@ class SourceCodeManager {
 
     public:
         SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );
+        virtual ~SourceCodeManager();
 
         void loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath );
         void saveWritingTimeElapsedInFile( string configFilePath );

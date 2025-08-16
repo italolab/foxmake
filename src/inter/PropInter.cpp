@@ -20,6 +20,8 @@ InterResult* PropInter::interprets( MainScript* parent, string line, int lineNum
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
+    delete replaceResult;
+
     Prop* prop = new Prop( parent, name, value, lineNumber, line );
     if ( parent != nullptr )
         parent->putProperty( prop );

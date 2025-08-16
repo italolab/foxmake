@@ -23,6 +23,7 @@ class FileIterator : public BlockIterator {
 
     public:
         FileIterator( string file );
+        virtual ~FileIterator();
 
         bool hasNextLine();
         string nextLine();

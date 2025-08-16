@@ -7,6 +7,10 @@ StringIterator::StringIterator( string str ) {
     this->stream = new istringstream( str );
 }
 
+StringIterator::~StringIterator() {
+    delete stream;
+}
+
 bool StringIterator::hasNextLine() {
     return stream->peek() != EOF;
 }

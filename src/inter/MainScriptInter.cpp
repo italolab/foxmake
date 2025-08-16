@@ -51,6 +51,8 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
 
             return new InterResult( result->getLine(), lineNumber + numberOfLines, error );
         }
+
+        delete result;
     }
 
     return new InterResult( script, numberOfLines );

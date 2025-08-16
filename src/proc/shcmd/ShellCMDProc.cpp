@@ -23,6 +23,8 @@ void ShellCMDProc::proc( ShellCMD* shellCMD, void* mgr ) {
         throw st_error( shellCMD, ss.str() );
     }
 
+    delete shell;
+
     cout << "Executado: " << cmdstr << endl;
 
 }

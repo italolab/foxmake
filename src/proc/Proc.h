@@ -7,6 +7,8 @@
 class Proc {
 
     public:
+        virtual ~Proc();
+
         virtual void proc( CMD* cmd, void* mgr ) = 0;
 
 };

@@ -20,6 +20,8 @@ InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, v
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
+    delete replaceResult;
+
     Var* var = new Var( parent, name, value, lineNumber, line );
     if ( parent != nullptr )
         parent->putLocalVar( var );

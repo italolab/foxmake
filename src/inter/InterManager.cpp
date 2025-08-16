@@ -12,6 +12,15 @@ InterManager::InterManager( InterDriver* drv ) {
     this->varInter = new VarInter();
 }
 
+InterManager::~InterManager() {
+    delete mainScriptInter;
+    delete taskInter;
+    delete cmdInter;
+    delete shellCMDInter;
+    delete propInter;
+    delete varInter;
+}
+
 InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
     return cmdInter->interpretsMainCMD( argc, argv, this );
 }

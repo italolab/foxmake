@@ -3,6 +3,13 @@
 
 MainScript::MainScript() : Block( nullptr, 0, "" ) {}
 
+MainScript::~MainScript() {
+    for( const auto& pair : propertiesMap )
+        delete pair.second;
+    for( const auto& pair : tasksMap )
+        delete pair.second;
+}
+
 void MainScript::putProperty( Prop* prop ) {
     propertiesMap[ prop->getName() ] = prop;
 }

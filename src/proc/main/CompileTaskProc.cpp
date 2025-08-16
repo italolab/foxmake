@@ -112,6 +112,8 @@ void CompileTaskProc::proc( CMD* mainCMD, void* mgr ) {
     if ( exitCode != 0 )
         throw st_error( "Falha na compilacao!" );
 
+    delete shell;
+
     sourceCodeManager->saveWritingTimeElapsedInFile( consts::WRITING_TIME_ELAPSED_FILE );
 
     if ( isCompileAll || isBuildAll )

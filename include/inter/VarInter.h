@@ -7,8 +7,6 @@
 
 using std::string;
 
-class InterManager;
-
 class VarInter : public Inter {
 
     public:

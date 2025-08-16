@@ -121,7 +121,10 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
             return new InterResult( result->getLine(), numberOfLines, error );
         }
+
+        delete result;
     }
+
 
     numberOfLines++;
 

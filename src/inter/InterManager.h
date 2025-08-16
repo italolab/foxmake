@@ -28,6 +28,7 @@ class InterManager {
 
     public:
         InterManager( InterDriver* drv );
+        virtual ~InterManager();
 
         InterResult* interpretsMainCMD( int argc, char* argv[] );
 

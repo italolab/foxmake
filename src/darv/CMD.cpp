@@ -5,6 +5,11 @@ CMD::CMD( Statement* parent, int lineNumber, string line ) : Statement( parent, 
     this->lineNumber = 0;
 }
 
+CMD::~CMD() {
+    for( const auto& pair : propertiesMap )
+        delete pair.second;
+}
+
 int CMD::countOpArgs() {
     int count = 0;
     for( string a : argsVect )

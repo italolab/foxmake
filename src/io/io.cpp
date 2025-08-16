@@ -1,5 +1,4 @@
 
-
 #include "io.h"
 #include "../util/strutil.h"
 
@@ -12,9 +11,6 @@ namespace chrono = std::chrono;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
 joker_error::joker_error( string msg ) : io_error( msg ) {}
-
-#include <iostream>
-using namespace std;
 
 namespace io {
 

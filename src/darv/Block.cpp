@@ -3,6 +3,13 @@
 
 Block::Block( Statement* parent, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {}
 
+Block::~Block() {
+    for( const auto& pair : localVarsMap )
+        delete pair.second;
+    for( Statement* st : statementsVect )
+        delete st;
+}
+
 Statement* Block::getRoot() {
     if ( Statement::getParent() == nullptr )
         return this;

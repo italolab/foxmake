@@ -50,6 +50,22 @@ ProcExec::ProcExec() {
     shellCMDProc = new ShellCMDProc();
 }
 
+ProcExec::~ProcExec() {
+    delete mainScript;
+
+    delete interManager;
+    delete sourceCodeManager;
+
+    delete mainProc;
+
+    for( const auto& pair : procsMap )
+        delete pair.second;
+    for( const auto& pair : taskProcsMap )
+        delete pair.second;
+
+    delete shellCMDProc;
+}
+
 void ProcExec::exec( int argc, char* argv[] ) {
     try {
         InterResult* result = interManager->interpretsMainCMD( argc, argv );
@@ -57,6 +73,8 @@ void ProcExec::exec( int argc, char* argv[] ) {
             throw runtime_error( "Erro em: \"" + result->getLine() + "\"\n" + result->getErrorMsg() );
 
         CMD* cmd = (CMD*)result->getStatement();
+
+        delete result;
 
         mainProc->proc( cmd, this );
     } catch ( const st_error& e ) {

@@ -32,6 +32,7 @@ class ProcExec : public ProcManager, InterDriver {
 
     public:
         ProcExec();
+        virtual ~ProcExec();
 
         void exec( int argc, char* argv[] );
 

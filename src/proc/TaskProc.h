@@ -6,6 +6,8 @@
 class TaskProc {
 
     public:
+        virtual ~TaskProc();
+
         virtual void proc( CMD* cmd, void* mgr ) = 0;
 
 };
