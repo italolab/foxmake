@@ -1336,16 +1336,16 @@
 	<filesystem>
 	<chrono>
 
-1755343081 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
-	"proc/ProcExec.h"
+1755344922 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
+	"proc/ExecManager.h"
 	"io/io.h"
 
-1755341339 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.h
+1755344372 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.h
 	"ProcManager.h"
-	"Proc.h"
-	"TaskProc.h"
-	"main/MainProc.h"
-	"shcmd/ShellCMDProc.h"
+	"Exec.h"
+	"TaskExec.h"
+	"main/MainExec.h"
+	"shcmd/ShellCMDExec.h"
 	"../darv/MainScript.h"
 	"../inter/InterDriver.h"
 	"../inter/InterManager.h"
@@ -1354,11 +1354,11 @@
 	<vector>
 	<string>
 
-1755330959 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
-	"Proc.h"
-	"TaskProc.h"
-	"main/MainProc.h"
-	"shcmd/ShellCMDProc.h"
+1755344372 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procmanager.h
+	"Exec.h"
+	"TaskExec.h"
+	"main/MainExec.h"
+	"shcmd/ShellCMDExec.h"
 	"../darv/Statement.h"
 	"../darv/MainScript.h"
 	"../inter/InterManager.h"
@@ -1532,8 +1532,8 @@
 1755342819 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskproc.h
 	"../darv/CMD.h"
 
-1755342868 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.h
-	"../Proc.h"
+1755343962 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.h
+	"../Exec.h"
 	"../../darv/MainScript.h"
 
 1755343053 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdproc.cpp
@@ -1546,8 +1546,8 @@
 	<sstream>
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdproc.h
-	"../Proc.h"
+1755343962 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdproc.h
+	"../Exec.h"
 	<string>
 
 1755342944 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpproc.cpp
@@ -1559,16 +1559,16 @@
 	<sstream>
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpproc.h
-	"../Proc.h"
+1755343962 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpproc.h
+	"../Exec.h"
 
 1755342944 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoproc.cpp
 	"EchoProc.h"
 	"../../util/strutil.h"
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoproc.h
-	"../Proc.h"
+1755343962 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoproc.h
+	"../Exec.h"
 	<string>
 
 1755343534 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainproc.cpp
@@ -1596,8 +1596,8 @@
 	"../../consts.h"
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.h
-	"../TaskProc.h"
+1755344032 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskproc.h
+	"../TaskExec.h"
 	"../../darv/MainScript.h"
 
 1755342811 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\proc.cpp
@@ -1632,11 +1632,11 @@
 	<vector>
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskproc.h
-	"../TaskProc.h"
+1755344032 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskproc.h
+	"../TaskExec.h"
 	"../../darv/MainScript.h"
 
-1755342944 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
+1755343589 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.cpp
 	"LinkTaskProc.h"
 	"../ProcManager.h"
 	"../stexcept.h"
@@ -1652,8 +1652,8 @@
 	<stdexcept>
 	<iostream>
 
-1755343043 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.h
-	"../TaskProc.h"
+1755344032 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskproc.h
+	"../TaskExec.h"
 
 1755342944 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirproc.cpp
 	"MKDirProc.h"
@@ -1662,23 +1662,23 @@
 	<sstream>
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirproc.h
-	"../Proc.h"
+1755343962 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirproc.h
+	"../Exec.h"
 	<string>
 
-1755343483 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
-	"ProcExec.h"
+1755344993 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\procexec.cpp
+	"ExecManager.h"
 	"stexcept.h"
-	"cp/CPProc.h"
-	"rm/RMProc.h"
-	"cd/CDProc.h"
-	"mkdir/MKDirProc.h"
-	"echo/EchoProc.h"
-	"main/CleanTaskProc.h"
-	"main/CompileTaskProc.h"
-	"main/LinkTaskProc.h"
-	"main/CopyTaskProc.h"
-	"shcmd/ShellCMDProc.h"
+	"cp/CPExec.h"
+	"rm/RMExec.h"
+	"cd/CDExec.h"
+	"mkdir/MKDirExec.h"
+	"echo/EchoExec.h"
+	"main/CleanTaskExec.h"
+	"main/CompileTaskExec.h"
+	"main/LinkTaskExec.h"
+	"main/CopyTaskExec.h"
+	"shcmd/ShellCMDExec.h"
 	"../inter/InterResult.h"
 	"../shell/shell.h"
 	"../io/io.h"
@@ -1687,8 +1687,8 @@
 	<typeinfo>
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmproc.h
-	"../Proc.h"
+1755343962 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmproc.h
+	"../Exec.h"
 	<string>
 
 1755277382 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
@@ -1789,7 +1789,7 @@
 	<string>
 	<vector>
 
-1755342944 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compiletaskproc.cpp
+1755343601 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compiletaskproc.cpp
 	"CompileTaskProc.h"
 	"../ProcManager.h"
 	"../stexcept.h"
@@ -1805,8 +1805,8 @@
 	<stdexcept>
 	<iostream>
 
-1755343034 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compiletaskproc.h
-	"../TaskProc.h"
+1755344032 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compiletaskproc.h
+	"../TaskExec.h"
 
 1755340467 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\shellcmdinter.h
 	"Inter.h"
@@ -1824,7 +1824,7 @@
 	"Statement.h"
 	<string>
 
-1755342944 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\shcmd\shellcmdproc.cpp
+1755343615 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\shcmd\shellcmdproc.cpp
 	"ShellCMDProc.h"
 	"../stexcept.h"
 	"../../shell/shell.h"
@@ -1847,4 +1847,206 @@
 	<string>
 
 1755330349 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\it\cmditerator.cpp
+
+1755344583 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\exec.h
+	"../darv/CMD.h"
+	"../inter/InterResult.h"
+
+1755344787 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskexec.h
+	"../darv/CMD.h"
+
+1755343962 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\exec.cpp
+	"Exec.h"
+
+1755344609 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainexec.h
+	"../Exec.h"
+	"../../darv/MainScript.h"
+
+1755344647 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\shcmd\shellcmdexec.h
+	"../../darv/ShellCMD.h"
+	<string>
+
+1755344032 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\taskexec.cpp
+	"TaskExec.h"
+
+1755344705 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoexec.cpp
+	"EchoExec.h"
+	"../../util/strutil.h"
+	<iostream>
+
+1755344667 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\echo\echoexec.h
+	"../Exec.h"
+	<string>
+
+1755345044 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskexec.cpp
+	"CleanTaskExec.h"
+	"../ExecManager.h"
+	"../stexcept.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	"../../consts.h"
+	<iostream>
+
+1755344681 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\cleantaskexec.h
+	"../TaskExec.h"
+	"../../darv/MainScript.h"
+
+1755345044 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compiletaskexec.cpp
+	"CompileTaskExec.h"
+	"../ExecManager.h"
+	"../stexcept.h"
+	"../../darv/MainScript.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	"../../io/SourceCodeManager.h"
+	"../../util/strutil.h"
+	"../../consts.h"
+	<vector>
+	<string>
+	<sstream>
+	<stdexcept>
+	<iostream>
+
+1755344698 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\compiletaskexec.h
+	"../TaskExec.h"
+
+1755345044 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskexec.cpp
+	"CopyTaskExec.h"
+	"../ExecManager.h"
+	"../stexcept.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	"../../consts.h"
+	<string>
+	<vector>
+	<iostream>
+
+1755344698 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\copytaskexec.h
+	"../TaskExec.h"
+	"../../darv/MainScript.h"
+
+1755345044 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskexec.cpp
+	"LinkTaskExec.h"
+	"../ExecManager.h"
+	"../stexcept.h"
+	"../../darv/MainScript.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	"../../io/SourceCodeManager.h"
+	"../../util/strutil.h"
+	"../../consts.h"
+	<vector>
+	<string>
+	<sstream>
+	<stdexcept>
+	<iostream>
+
+1755344698 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\linktaskexec.h
+	"../TaskExec.h"
+
+1755344710 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\shcmd\shellcmdexec.cpp
+	"ShellCMDExec.h"
+	"../stexcept.h"
+	"../../shell/shell.h"
+	<iostream>
+
+1755345044 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdexec.cpp
+	"CDExec.h"
+	"../stexcept.h"
+	"../ExecManager.h"
+	"../../darv/Var.h"
+	"../../shell/shell.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755344582 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cd\cdexec.h
+	"../Exec.h"
+	<string>
+
+1755344583 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpexec.cpp
+	"CPExec.h"
+	"../stexcept.h"
+	"../../io/io.h"
+	"../../io/filter/FileFilter.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755344583 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\cp\cpexec.h
+	"../Exec.h"
+
+1755345044 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\main\mainexec.cpp
+	"MainExec.h"
+	"../ExecManager.h"
+	"../stexcept.h"
+	"../../darv/CMD.h"
+	"../../inter/InterResult.h"
+	"../../shell/shell.h"
+	"../../util/strutil.h"
+	"../../io/io.h"
+	"../../io/SourceCodeManager.h"
+	"../../consts.h"
+	<string>
+	<sstream>
+	<vector>
+	<iostream>
+
+1755344583 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirexec.cpp
+	"MKDirExec.h"
+	"../stexcept.h"
+	"../../io/io.h"
+	<sstream>
+	<iostream>
+
+1755344631 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\mkdir\mkdirexec.h
+	"../Exec.h"
+	<string>
+
+1755344583 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmexec.cpp
+	"RMExec.h"
+	"../stexcept.h"
+	"../../io/io.h"
+	"../../util/strutil.h"
+	<sstream>
+	<iostream>
+
+1755344642 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\rm\rmexec.h
+	"../Exec.h"
+	<string>
+
+1755346133 c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\execmanager.h
+	"Exec.h"
+	"TaskExec.h"
+	"main/MainExec.h"
+	"shcmd/ShellCMDExec.h"
+	"../darv/Statement.h"
+	"../darv/MainScript.h"
+	"../inter/InterManager.h"
+	"../inter/InterDriver.h"
+	"../io/SourceCodeManager.h"
+	<string>
+	<vector>
+	<map>
+
+1755345926 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\proc\execmanager.cpp
+	"ExecManager.h"
+	"stexcept.h"
+	"cp/CPExec.h"
+	"rm/RMExec.h"
+	"cd/CDExec.h"
+	"mkdir/MKDirExec.h"
+	"echo/EchoExec.h"
+	"main/CleanTaskExec.h"
+	"main/CompileTaskExec.h"
+	"main/LinkTaskExec.h"
+	"main/CopyTaskExec.h"
+	"shcmd/ShellCMDExec.h"
+	"../inter/InterResult.h"
+	"../shell/shell.h"
+	"../io/io.h"
+	"../consts.h"
+	<stdexcept>
+	<typeinfo>
+	<iostream>
 

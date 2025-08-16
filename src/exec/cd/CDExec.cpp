@@ -1,0 +1,44 @@
+
+#include "CDExec.h"
+#include "../stexcept.h"
+#include "../ExecManager.h"
+#include "../../darv/Var.h"
+#include "../../shell/shell.h"
+#include "../../io/io.h"
+
+#include <sstream>
+#include <iostream>
+
+using std::stringstream;
+using std::cout;
+using std::endl;
+
+void CDExec::exec( CMD* cmd, void* mgr ) {
+    MainScript* script = ((ExecManager*)mgr)->getMainScript();
+
+    int alen = cmd->countNoOpArgs();
+    if ( alen != 1 ) {
+        stringstream ss;
+        ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
+        throw st_error( cmd, ss.str() );
+    }
+
+    string newDir = cmd->getNoOpArg( 0 );
+
+    if ( !io::fileExists( newDir ) )
+        throw st_error( cmd, "Diretorio nao encontrado." );
+
+    if ( !io::isDir( newDir ) )
+        throw st_error( cmd, "O caminho informado nao e um diretorio." );
+
+    bool ok = shell::setWorkingDir( newDir );
+    if ( !ok )
+        throw st_error( cmd, "Nao foi possivel alterar o diretorio corrente." );
+
+    Var* var = script->getLocalVar( "working_dir" );
+    if ( var == nullptr )
+        throw st_error( cmd, "Nao foi encontrada a variavel de diretorio de trabalho." );
+
+    var->setValue( shell::getWorkingDir() );
+    cout << "Novo diretorio corrente: " << var->getValue() << endl;
+}

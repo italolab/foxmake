@@ -1,11 +1,11 @@
-#include "proc/ProcExec.h"
+#include "exec/ExecManager.h"
 #include "io/io.h"
 
 int main( int argc, char* argv[] ) {
-    ProcExec* exec = new ProcExec();
-    exec->exec( argc, argv );
+    ExecManager* executor = new ExecManager();
+    executor->executor( argc, argv );
 
-    delete exec;
+    delete executor;
 
     return 0;
 }
