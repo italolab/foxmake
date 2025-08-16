@@ -3,7 +3,10 @@
 
 #include "../TaskProc.h"
 
-class CompileAllTaskProc : public TaskProc {
+class CompileTaskProc : public TaskProc {
+
+    private:
+        void appCreateDirs( CMD* mainCMD, string dir );
 
     public:
         void proc( CMD* mainCMD, void* mgr );

@@ -40,8 +40,6 @@ void FilesToCompileManager::loadFilesToCompile(
     }
 
     this->removeHeaderFiles( filesToCompile );
-
-    this->saveWritingTimesElapsedInFile( allSourceInfosMap, configFilePath );
 }
 
 void FilesToCompileManager::addDependenciesToCompile(

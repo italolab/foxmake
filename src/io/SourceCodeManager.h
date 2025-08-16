@@ -37,6 +37,7 @@ class SourceCodeManager {
         SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );
 
         void loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath );
+        void saveWritingTimeElapsedInFile( string configFilePath );
         bool recursiveProcFiles( string srcDir );
 
         CodeInfo* getSourceCodeInfo( string filePath );

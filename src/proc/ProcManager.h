@@ -4,6 +4,8 @@
 #include "Proc.h"
 #include "TaskProc.h"
 #include "main/MainProc.h"
+#include "shcmd/ShellCMDProc.h"
+#include "../darv/Statement.h"
 #include "../darv/MainScript.h"
 #include "../inter/InterManager.h"
 #include "../io/SourceCodeManager.h"
@@ -21,7 +23,7 @@ class ProcManager {
     public:
         virtual void exec( int argc, char* argv[] ) = 0;
 
-        virtual void executaCMDProc( CMD* cmd ) = 0;
+        virtual void executaStatement( Statement* st ) = 0;
 
         virtual bool isDefaultTask( string taskName ) = 0;
         virtual void executaTaskProc( string taskName, CMD* mainCMD ) = 0;

@@ -9,6 +9,7 @@ class CopyTaskProc : public TaskProc {
     private:
         void appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script );
 
+        void appCreateDirs( CMD* mainCMD, string dirPath );
 
     public:
         void proc( CMD* mainCMD, void* mgr );

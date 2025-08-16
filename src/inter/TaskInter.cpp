@@ -106,8 +106,10 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
         InterResult* result = new InterResult( false );
         if ( isCmd )
             result = manager->interpretsCMD( task, line2, currentLineNumber );
-        if ( !result->isInterpreted() && !result->isErrorFound())
+        if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsVar( task, line2, currentLineNumber );
+        if ( !result->isInterpreted() && !result->isErrorFound() )
+            result = manager->interpretsShellCMD( task, line2, currentLineNumber );
 
         numberOfLines += result->getNumberOfLines();
 

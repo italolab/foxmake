@@ -11,7 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="build debug" />
+				<Option parameters="build" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -45,12 +45,16 @@
 		<Unit filename="src/darv/MainScript.h" />
 		<Unit filename="src/darv/Prop.cpp" />
 		<Unit filename="src/darv/Prop.h" />
+		<Unit filename="src/darv/ShellCMD.cpp" />
+		<Unit filename="src/darv/ShellCMD.h" />
 		<Unit filename="src/darv/Statement.cpp" />
 		<Unit filename="src/darv/Statement.h" />
 		<Unit filename="src/darv/Task.cpp" />
 		<Unit filename="src/darv/Task.h" />
 		<Unit filename="src/darv/Var.cpp" />
 		<Unit filename="src/darv/Var.h" />
+		<Unit filename="src/darv/it/CMDIterator.cpp" />
+		<Unit filename="src/darv/it/CMDIterator.h" />
 		<Unit filename="src/inter/CMDInter.cpp" />
 		<Unit filename="src/inter/CMDInter.h" />
 		<Unit filename="src/inter/Inter.cpp" />
@@ -63,6 +67,8 @@
 		<Unit filename="src/inter/MainScriptInter.h" />
 		<Unit filename="src/inter/PropInter.cpp" />
 		<Unit filename="src/inter/PropInter.h" />
+		<Unit filename="src/inter/ShellCMDInter.cpp" />
+		<Unit filename="src/inter/ShellCMDInter.h" />
 		<Unit filename="src/inter/TaskInter.cpp" />
 		<Unit filename="src/inter/TaskInter.h" />
 		<Unit filename="src/inter/VarInter.cpp" />
@@ -85,12 +91,10 @@
 		<Unit filename="src/io/io.cpp" />
 		<Unit filename="src/io/io.h" />
 		<Unit filename="src/main.cpp" />
-		<Unit filename="src/proc/Proc.cpp" />
 		<Unit filename="src/proc/Proc.h" />
 		<Unit filename="src/proc/ProcExec.cpp" />
 		<Unit filename="src/proc/ProcExec.h" />
 		<Unit filename="src/proc/ProcManager.h" />
-		<Unit filename="src/proc/TaskProc.cpp" />
 		<Unit filename="src/proc/TaskProc.h" />
 		<Unit filename="src/proc/cd/CDProc.cpp" />
 		<Unit filename="src/proc/cd/CDProc.h" />
@@ -100,8 +104,8 @@
 		<Unit filename="src/proc/echo/EchoProc.h" />
 		<Unit filename="src/proc/main/CleanTaskProc.cpp" />
 		<Unit filename="src/proc/main/CleanTaskProc.h" />
-		<Unit filename="src/proc/main/CompileAllTaskProc.cpp" />
-		<Unit filename="src/proc/main/CompileAllTaskProc.h" />
+		<Unit filename="src/proc/main/CompileTaskProc.cpp" />
+		<Unit filename="src/proc/main/CompileTaskProc.h" />
 		<Unit filename="src/proc/main/CopyTaskProc.cpp" />
 		<Unit filename="src/proc/main/CopyTaskProc.h" />
 		<Unit filename="src/proc/main/LinkTaskProc.cpp" />
@@ -112,6 +116,10 @@
 		<Unit filename="src/proc/mkdir/MKDirProc.h" />
 		<Unit filename="src/proc/rm/RMProc.cpp" />
 		<Unit filename="src/proc/rm/RMProc.h" />
+		<Unit filename="src/proc/shcmd/ShellCMDProc.cpp" />
+		<Unit filename="src/proc/shcmd/ShellCMDProc.h" />
+		<Unit filename="src/proc/stexcept.cpp" />
+		<Unit filename="src/proc/stexcept.h" />
 		<Unit filename="src/shell/shell.cpp" />
 		<Unit filename="src/shell/shell.h" />
 		<Unit filename="src/util/strutil.cpp" />

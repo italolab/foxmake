@@ -44,24 +44,19 @@ vector<string> Block::localVarNames() {
     return names;
 }
 
-void Block::addCMD( CMD* cmd ) {
-    cmdsVect.push_back( cmd );
+void Block::addStatement( Statement* st ) {
+    statementsVect.push_back( st );
 }
 
-int Block::getCMDsLength() {
-    return cmdsVect.size();
+int Block::getStatementsLength() {
+    return statementsVect.size();
 }
 
-CMD* Block::getCMDByIndex( int i ) {
-    int k = 0;
-    for( CMD* cmd : cmdsVect ) {
-        if ( k == i )
-            return cmd;
-        k++;
-    }
-    return nullptr;
+Statement* Block::getStatementByIndex( int i ) {
+    return statementsVect[ i ];
 }
 
-vector<CMD*>& Block::cmds() {
-    return cmdsVect;
+vector<Statement*>& Block::statements() {
+    return statementsVect;
 }
+

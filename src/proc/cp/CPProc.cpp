@@ -1,5 +1,6 @@
 
 #include "CPProc.h"
+#include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../io/filter/FileFilter.h"
 #include "../../util/strutil.h"
@@ -15,7 +16,7 @@ void CPProc::proc( CMD* cmd, void* mgr ) {
     if ( alen != 2 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 2, encontrado " << alen;
-        throw proc_error( cmd, ss.str() );
+        throw st_error( cmd, ss.str() );
     }
     string src = cmd->getNoOpArg( 0 );
     string dest = cmd->getNoOpArg( 1 );
@@ -24,7 +25,7 @@ void CPProc::proc( CMD* cmd, void* mgr ) {
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
 
     if ( !io::fileExists( dest ) )
-        throw proc_error( cmd, "O diretorio de destino nao existe: \"" + dest + "\"" );
+        throw st_error( cmd, "O diretorio de destino nao existe: \"" + dest + "\"" );
 
     string replacePath = "";
     if ( src.find( '-' ) != string::npos ) {
@@ -64,12 +65,12 @@ void CPProc::proc( CMD* cmd, void* mgr ) {
             }
         } else {
             if ( !isRecursive && io::isDir( src ) && !io::isEmptyDir( src ) )
-                throw proc_error( cmd, "Tentativa de copiar nao recursivamente uma pasta nao vazia." );
+                throw st_error( cmd, "Tentativa de copiar nao recursivamente uma pasta nao vazia." );
 
             io::copyFileOrDirectory( src, dest, isOverwrite, isRecursive );
         }
     } catch ( const io_error& e ) {
-        throw proc_error( cmd, "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, se a copia e recursiva e com ou sem sobrescrita." );
+        throw st_error( cmd, "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, se a copia e recursiva e com ou sem sobrescrita." );
     }
     cout << "CP Executado: \"" << cmd->getCMDStr() << "\"" << endl;
 }

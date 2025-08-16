@@ -1,6 +1,7 @@
 
-#include "CompileAllTaskProc.h"
+#include "CompileTaskProc.h"
 #include "../ProcManager.h"
+#include "../stexcept.h"
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
@@ -21,12 +22,13 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
+void CompileTaskProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
-
-    cout << "\nCOMPILANDO..." << endl;
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     MainScript* script = manager->getMainScript();
+
+    cout << "\nCOMPILANDO..." << endl;
 
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
@@ -47,21 +49,37 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     string defines = script->getPropertyValue( props::DEFINES );
 
-    io::createDirs( binDir );
-    io::createDirs( objDir );
+    if ( binDir != "" )
+        this->appCreateDirs( mainCMD, binDir );
+    if ( objDir != "" )
+        this->appCreateDirs( mainCMD, objDir );
+
+    if ( binDir != "" )
+        binDir = io::addSeparatorToDirIfNeed( binDir );
+    if ( objDir != "" )
+        objDir = io::addSeparatorToDirIfNeed( objDir );
 
     bool isdll = isDll == "true";
 
-    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    if ( compiler == "" )
+        throw st_error( mainCMD, "Nenhum compilador informado. \nDefina a propriedade: \"" + props::COMPILER + "\"" );
+
+    vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
+    for( CodeInfo* info : sourceCodeInfos ) {
+        string dir = io::dirPath( objDir + info->objFilePath );
+        if ( dir != "" )
+            this->appCreateDirs( mainCMD, dir );
+    }
 
     vector<CodeInfo*> filesToCompile;
     if ( isCompileAll || isBuildAll ) {
-        filesToCompile = sourceCodeManager->sourceCodeInfos();
+        filesToCompile = sourceCodeInfos;
     } else {
-        sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
+        sourceCodeManager->loadFilesToCompile( filesToCompile, consts::WRITING_TIME_ELAPSED_FILE );
     }
 
     Shell* shell = new Shell( true );
+
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
         stringstream ss;
         ss << compiler << " " << compilerParams;
@@ -84,16 +102,32 @@ void CompileAllTaskProc::proc( CMD* mainCMD, void* mgr ) {
             ss << incdirParams.str();
         }
 
-        ss << " -o " << io::concatPaths( objDir, sourceCodeInfo->objFilePath );
+        ss << " -o " << objDir << sourceCodeInfo->objFilePath;
         ss << " -c " << sourceCodeInfo->filePath;
 
         shell->pushCommand( ss.str() );
     }
-    bool ok = shell->executa();
-    if ( !ok )
-        throw taskproc_error( "Falha na compilacao!" );
 
-    manager->executaTaskIfExists( tasks::COMPILEALL );
+    int exitCode = shell->executa();
+    if ( exitCode != 0 )
+        throw st_error( "Falha na compilacao!" );
 
-    cout << "Compilacao executada com sucesso!" << endl;
+    sourceCodeManager->saveWritingTimeElapsedInFile( consts::WRITING_TIME_ELAPSED_FILE );
+
+    if ( isCompileAll || isBuildAll )
+        manager->executaTaskIfExists( tasks::COMPILEALL );
+    else manager->executaTaskIfExists( tasks::COMPILE );
+
+    if ( filesToCompile.empty() )
+        cout << "Nao foi necessario compilar algum arquivo.\nCompilacao atualizada!" << endl;
+    else cout << "Compilacao executada com sucesso!" << endl;
+}
+
+void CompileTaskProc::appCreateDirs( CMD* mainCMD, string dirPath ) {
+    try {
+        io::createDirs( dirPath );
+    } catch ( const io_error& e ) {
+        string absDirPath = io::absolutePath( dirPath );
+        throw st_error( mainCMD, "Nao foi possivel criar o diretorio: \"" + absDirPath + "\"" );
+    }
 }

@@ -79,7 +79,10 @@ void CMD::addProperty( Prop* prop ) {
 }
 
 string CMD::getPropertyValue( string name ) {
-    return propertiesMap[ name ]->getValue();
+    Prop* prop = propertiesMap[ name ];
+    if ( prop != nullptr )
+        return prop->getValue();
+    return "";
 }
 
 vector<string> CMD::propertyNames() {

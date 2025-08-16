@@ -3,7 +3,6 @@
 
 #include "Statement.h"
 #include "Var.h"
-#include "CMD.h"
 
 #include <string>
 #include <vector>
@@ -17,17 +16,17 @@ class Block : public Statement {
 
     private:
         map<string, Var*> localVarsMap;
-        vector<CMD*> cmdsVect;
+        vector<Statement*> statementsVect;
 
     public:
         Block( Statement* parent, int lineNumber, string line );
 
         Statement* getRoot();
 
-        void addCMD( CMD* cmd );
-        int getCMDsLength();
-        CMD* getCMDByIndex( int i );
-        vector<CMD*>& cmds();
+        void addStatement( Statement* cmd );
+        int getStatementsLength();
+        Statement* getStatementByIndex( int i );
+        vector<Statement*>& statements();
 
         void putLocalVar( string name, string value );
         void putLocalVar( Var* var );

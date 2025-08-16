@@ -7,9 +7,9 @@
 class MainProc : public Proc {
 
     private:
-        void compileAndLink( CMD* cmd, void* manager, bool isCompile, bool isLink );
+        void genSourceAndHeaderInfos( CMD* mainCMD, void* mgr );
         void executaNoDefaultTasks( void* mgr );
-        void executaCMDs( void* mgr );
+        void executaStatements( void* mgr );
 
     public:
         void proc( CMD* cmd, void* mgr );

@@ -45,11 +45,10 @@ void Shell::pushCommand( string command ) {
 }
 
 #ifdef _WIN32
-bool Shell::executa() {
+int Shell::executa() {
     STARTUPINFO si = { sizeof( si ) };
 
     vector<PROCESS_INFORMATION> vectPIs;
-    bool isError = false;
 
     for( string command : commands ) {
         PROCESS_INFORMATION pi;
@@ -60,26 +59,37 @@ bool Shell::executa() {
 
             if ( isPrintOutput )
                 cout << command << endl;
-        } else {
-            string msg = "cmd nao executado: " + command;
-
-            if ( isPrintOutput )
-                cerr << msg << endl;
-
-            err << msg << endl;
-            isError = true;
-            break;
         }
     }
 
-    for( PROCESS_INFORMATION pi : vectPIs ) {
+    for( PROCESS_INFORMATION pi : vectPIs )
         WaitForSingleObject( pi.hProcess, INFINITE );
 
+    DWORD exitCode = 0;
+    int len = vectPIs.size();
+    for( int i = 0; exitCode == 0 && i < len; i++ ) {
+        DWORD exitCode2;
+        GetExitCodeProcess( vectPIs[ i ].hProcess, &exitCode2 );
+        if ( exitCode2 != 0 )
+            exitCode = exitCode2;
+    }
+
+    for( PROCESS_INFORMATION pi : vectPIs ) {
         CloseHandle( pi.hProcess );
         CloseHandle( pi.hThread );
     }
 
-    return !isError;
+    if ( exitCode != 0 ) {
+        stringstream ss;
+        ss << "Processo retornou o codigo: " << exitCode << endl;
+
+        if ( isPrintOutput )
+            cerr << ss.str() << endl;
+
+        err << ss.str() << endl;
+    }
+
+    return exitCode;
 }
 #else
 bool Shell::executa() {

@@ -1,6 +1,7 @@
 
 #include "MainProc.h"
 #include "../ProcManager.h"
+#include "../stexcept.h"
 #include "../../darv/CMD.h"
 #include "../../inter/InterResult.h"
 #include "../../shell/shell.h"
@@ -11,6 +12,7 @@
 #include "../../consts.h"
 
 #include <string>
+#include <sstream>
 #include <vector>
 #include <iostream>
 
@@ -18,6 +20,7 @@ using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
+using std::stringstream;
 
 
 void MainProc::proc( CMD* mainCMD, void* mgr ) {
@@ -25,18 +28,31 @@ void MainProc::proc( CMD* mainCMD, void* mgr ) {
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
 
-    mainScript->putLocalVar( "main_config_file", consts::DEFAULT_SETTINGS_FILE_NAME );
+    if ( mainCMD->countNoOpArgs() == 0 )
+        throw st_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );
+
+    string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
+    if ( settingsFile == "" )
+        settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
+
+    settingsFile = io::absolutePath( settingsFile );
+    cout << "Arquivo de configuracao: \"" << settingsFile << endl;
+
+    if ( !io::fileExists( settingsFile ) )
+        throw st_error( mainCMD, "Arquivo de configuracoes nao encontrado." );
+
+    string workingDir = io::dirPath( settingsFile );
+    shell::setWorkingDir( workingDir );
+
+    mainScript->putLocalVar( "main_config_file", settingsFile );
     mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
 
-    InterResult* result2 = interManager->interpretsMainScript( mainScript, consts::DEFAULT_SETTINGS_FILE_NAME, 1 );
+    InterResult* result2 = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
     if ( !result2->isInterpreted() )
-        throw proc_error( result2 );
+        throw st_error( result2 );
 
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
-    cout << "Diretorio corrente: " << wdir << endl;
-
-    if ( mainCMD->countNoOpArgs() == 0 )
-        throw proc_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );
+    cout << "Diretorio corrente: \"" << wdir << "\"" << endl;
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
@@ -53,70 +69,75 @@ void MainProc::proc( CMD* mainCMD, void* mgr ) {
         isCopy = true;
     }
 
+    if ( isCompile || isLink )
+        this->genSourceAndHeaderInfos( mainCMD, manager );
+
     if ( isClean )
         manager->executaTaskProc( tasks::CLEAN, mainCMD );
-
-    if ( isCompile || isLink )
-        compileAndLink( mainCMD, manager, isCompile, isLink );
-
+    if ( isCompile )
+        manager->executaTaskProc( tasks::COMPILE, mainCMD );
+    if ( isLink )
+        manager->executaTaskProc( tasks::LINK, mainCMD );
     if ( isCopy )
         manager->executaTaskProc( tasks::COPY, mainCMD );
 
-    executaNoDefaultTasks( manager );
-    executaCMDs( manager );
+    this->executaNoDefaultTasks( manager );
+    this->executaStatements( manager );
+}
+
+void MainProc::genSourceAndHeaderInfos( CMD* mainCMD, void* mgr ) {
+    ProcManager* manager = (ProcManager*)mgr;
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+
+    MainScript* script = manager->getMainScript();
+
+    string srcDir = script->getPropertyValue( props::SRC_DIR );
+
+    if ( srcDir != "" && !io::fileExists( srcDir ) ) {
+        string src = io::absolutePath( srcDir );
+        stringstream ss;
+        ss << "Diretorio de codigos fonte nao encontrado: \"" << src << "\"" << endl;
+        ss << "Verifique a propriedade \"" << props::SRC_DIR + "\"";
+        throw st_error( mainCMD, ss.str() );
+    }
+
+    srcDir = io::absolutePath( srcDir );
+    cout << "SRC DIR=\"" << srcDir << "\"" << endl;
+
+    bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
+    if ( !ok ) {
+        stringstream ss;
+        ss << "Houve algum erro na leitura dos arquivos de codigo fonte.";
+        throw st_error( mainCMD, ss.str() );
+    }
 }
 
 void MainProc::executaNoDefaultTasks( void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
     vector<string> names = manager->getMainScript()->taskNames();
-    for( string taskName : names )
-        if ( !manager->isDefaultTask( taskName ) )
+    for( string taskName : names ) {
+        if ( !manager->isDefaultTask( taskName ) ) {
+            cout << "\nEXECUTANDO " << taskName << "..." << endl;
             manager->executaTaskIfExists( taskName );
-}
-void MainProc::compileAndLink( CMD* mainCMD, void* mgr, bool isCompile, bool isLink ) {
-    ProcManager* manager = (ProcManager*)mgr;
-    MainScript* script = manager->getMainScript();
-
-    string srcDir = script->getPropertyValue( props::SRC_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
-
-    if ( !io::fileExists( srcDir ) )
-        throw proc_error( mainCMD, "Diretorio de codigos fonte nao encontrado.\nVerifique a propriedade \"" + props::SRC_DIR + "\"" );
-
-    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-
-    bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
-    if ( !ok )
-        throw proc_error( mainCMD, "Houve algum problema de leitura dos arquivos de codigo fonte." );
-
-    vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
-    for( CodeInfo* info : sourceCodeInfos ) {
-        string absFile = io::concatPaths( objDir, info->objFilePath );
-        string dir = io::dirPath( absFile );
-        io::createDirs( dir );
+        }
     }
-
-    if ( isCompile )
-        manager->executaTaskProc( tasks::COMPILEALL, mainCMD );
-    if ( isLink )
-        manager->executaTaskProc( tasks::LINK, mainCMD );
 }
 
-void MainProc::executaCMDs( void* mgr ) {
+void MainProc::executaStatements( void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
 
     MainScript* script = manager->getMainScript();
-    int tam = script->getCMDsLength();
+    int tam = script->getStatementsLength();
 
     if ( tam > 0 )
-        cout << "\nEXECUTANDO COMANDOS" << endl;
+        cout << "\nEXECUTANDO INSTRUCOES" << endl;
 
     for( int i = 0; i < tam; i++ ) {
-        CMD* cmd = script->getCMDByIndex( i );
-        manager->executaCMDProc( cmd );
+        Statement* st = script->getStatementByIndex( i );
+        manager->executaStatement( st );
     }
 
     if ( tam > 0 )
-        cout << "Comandos executados com sucesso." << endl;
+        cout << "Instrucoes executadas com sucesso." << endl;
 }

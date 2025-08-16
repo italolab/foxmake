@@ -111,7 +111,7 @@ namespace io {
             filesystem::path src = makePreferred( srcFile );
             string fname = fileOrDirName( srcFile );
 
-            filesystem::path dest = makePreferred( concatPaths( destDir2, fname ) );
+            filesystem::path dest = makePreferred( destDir2 + fname );
 
             if ( isOverwriteExisting )
                 if ( filesystem::exists( dest ) )
@@ -128,7 +128,10 @@ namespace io {
             string fsrcName = fileOrDirName( srcDir );
 
             string src = makePreferred( srcDir );
-            string dest = makePreferred( concatPaths( destDir, fsrcName ) );
+            string dest = makePreferred( destDir );
+
+            dest = addSeparatorToDirIfNeed( dest );
+            dest += fsrcName;
 
             if ( isOverwriteExisting && filesystem::exists( dest ) )
                 filesystem::remove_all( dest );
@@ -143,9 +146,10 @@ namespace io {
 
     void __copyFile( string file, string dest, string replacePath, bool isOverwriteExisting ) {
         string fname = strutil::replace( file, replacePath, "" );
+
         string dest2 = addSeparatorToDirIfNeed( dest );
         dest2 = dirPath( dest2 );
-        dest2 = concatPaths( dest2, fname );
+        dest2 = dest2 + fname;
 
         createDirs( dirPath( dest2 ) );
 
@@ -195,15 +199,6 @@ namespace io {
         }
     }
 
-    string concatPaths( string p1, string p2 ) {
-        string path = p1;
-        char ch = path[ path.length()-1 ];
-        if ( ch != '/' && ch != '\\' )
-            path += '/';
-        path += p2;
-        return makePreferred( path );
-    }
-
     bool createDir( string path ) {
         string p = makePreferred( path );
         try {
@@ -230,8 +225,11 @@ namespace io {
         string p = makePreferred( path );
 
         size_t i = p.find_last_of( filesystem::path::preferred_separator );
-        if ( i == string::npos )
-            return p;
+        if ( i == string::npos ) {
+            if ( filesystem::is_directory( path ) )
+                return p;
+            return "";
+        }
         return p.substr( 0, i+1 );
     }
 

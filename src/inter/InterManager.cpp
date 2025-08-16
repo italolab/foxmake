@@ -7,6 +7,7 @@ InterManager::InterManager( InterDriver* drv ) {
     this->mainScriptInter = new MainScriptInter();
     this->taskInter = new TaskInter();
     this->cmdInter = new CMDInter();
+    this->shellCMDInter = new ShellCMDInter();
     this->propInter = new PropInter();
     this->varInter = new VarInter();
 }
@@ -15,8 +16,12 @@ InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
     return cmdInter->interpretsMainCMD( argc, argv, this );
 }
 
-InterResult* InterManager::interpretsCMD( Block* parent, string cmdstr, int lineNumber ) {
-    return cmdInter->interprets( parent, cmdstr, lineNumber, this );
+InterResult* InterManager::interpretsCMD( Block* parent, string line, int lineNumber ) {
+    return cmdInter->interprets( parent, line, lineNumber, this );
+}
+
+InterResult* InterManager::interpretsShellCMD( Block* parent, string line, int lineNumber ) {
+    return shellCMDInter->interprets( parent, line, lineNumber, this );
 }
 
 InterResult* InterManager::interpretsVar( Block* parent, string line, int lineNumber ) {

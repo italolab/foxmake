@@ -5,6 +5,7 @@
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "CMDInter.h"
+#include "ShellCMDInter.h"
 #include "PropInter.h"
 #include "VarInter.h"
 #include "InterResult.h"
@@ -18,6 +19,7 @@ class InterManager {
     private:
         MainScriptInter* mainScriptInter;
         CMDInter* cmdInter;
+        ShellCMDInter* shellCMDInter;
         PropInter* propInter;
         VarInter* varInter;
         TaskInter* taskInter;
@@ -29,7 +31,8 @@ class InterManager {
 
         InterResult* interpretsMainCMD( int argc, char* argv[] );
 
-        InterResult* interpretsCMD( Block* parent, string cmdstr, int lineNumber );
+        InterResult* interpretsCMD( Block* parent, string line, int lineNumber );
+        InterResult* interpretsShellCMD( Block* parent, string line, int lineNumber );
         InterResult* interpretsVar( Block* parent, string line, int lineNumber );
         InterResult* interpretsProp( MainScript* parent, string line, int lineNumber );
 

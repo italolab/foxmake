@@ -35,17 +35,18 @@ dll.dirs=
 $project_name=cbuild
 
 compile {
-    echo Compilou!
+    echo Compilou com sucesso ou falha!
 
 }
 
 build {
 
-    echo Buildando....
+    echo Buildou com sucesso ou falha....
 
 }
 
 debug {
+    @dir
     echo Debug executado!
 }
 

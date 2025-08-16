@@ -5,6 +5,7 @@
 #include "Proc.h"
 #include "TaskProc.h"
 #include "main/MainProc.h"
+#include "shcmd/ShellCMDProc.h"
 #include "../darv/MainScript.h"
 #include "../inter/InterDriver.h"
 #include "../inter/InterManager.h"
@@ -26,6 +27,7 @@ class ProcExec : public ProcManager, InterDriver {
         InterManager* interManager;
         map<string, Proc*> procsMap;
         map<string, TaskProc*> taskProcsMap;
+        ShellCMDProc* shellCMDProc;
         SourceCodeManager* sourceCodeManager;
 
     public:
@@ -37,7 +39,7 @@ class ProcExec : public ProcManager, InterDriver {
         vector<string> validPropNames();
         vector<string> registeredTaskProcNames();
 
-        void executaCMDProc( CMD* cmd );
+        void executaStatement( Statement* st );
 
         bool isDefaultTask( string taskName );
         void executaTaskProc( string taskName, CMD* mainCMD );

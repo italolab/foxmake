@@ -48,7 +48,6 @@ namespace io {
     string fileOrDirName( string path );
     string addSeparatorToDirIfNeed( string dir );
     string makePreferred( string path );
-    string concatPaths( string p1, string p2 );
     string extension( string path );
     string removeRecursiveJoker( string path );
     string removeDirContentJoker( string path );

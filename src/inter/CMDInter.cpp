@@ -102,7 +102,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
     }
 
     if ( parent != nullptr )
-        parent->addCMD( cmd );
+        parent->addStatement( cmd );
 
     return new InterResult( cmd, 1, 0 );
 }

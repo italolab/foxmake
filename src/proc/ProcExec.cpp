@@ -1,14 +1,16 @@
 
 #include "ProcExec.h"
+#include "stexcept.h"
 #include "cp/CPProc.h"
 #include "rm/RMProc.h"
 #include "cd/CDProc.h"
 #include "mkdir/MKDirProc.h"
 #include "echo/EchoProc.h"
 #include "main/CleanTaskProc.h"
-#include "main/CompileAllTaskProc.h"
+#include "main/CompileTaskProc.h"
 #include "main/LinkTaskProc.h"
 #include "main/CopyTaskProc.h"
+#include "shcmd/ShellCMDProc.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/io.h"
@@ -16,6 +18,7 @@
 #include "../consts.h"
 
 #include <stdexcept>
+#include <typeinfo>
 #include <iostream>
 
 using std::cout;
@@ -40,9 +43,11 @@ ProcExec::ProcExec() {
     procsMap[ cmds::ECHO ] = new EchoProc();
 
     taskProcsMap[ tasks::CLEAN ] = new CleanTaskProc();
-    taskProcsMap[ tasks::COMPILEALL ] = new CompileAllTaskProc();
+    taskProcsMap[ tasks::COMPILE ] = new CompileTaskProc();
     taskProcsMap[ tasks::LINK ] = new LinkTaskProc();
     taskProcsMap[ tasks::COPY ] = new CopyTaskProc();
+
+    shellCMDProc = new ShellCMDProc();
 }
 
 void ProcExec::exec( int argc, char* argv[] ) {
@@ -54,20 +59,31 @@ void ProcExec::exec( int argc, char* argv[] ) {
         CMD* cmd = (CMD*)result->getStatement();
 
         mainProc->proc( cmd, this );
-    } catch ( const taskproc_error& e ) {
-        cerr << e.message() << endl;
-    } catch ( const proc_error& e ) {
+    } catch ( const st_error& e ) {
         cerr << e.message() << endl;
     } catch ( const exception& e ) {
         cerr << e.what() << endl;
     }
 }
 
-void ProcExec::executaCMDProc( CMD* cmd ) {
-    Proc* proc = procsMap[ cmd->getName() ];
-    if ( proc == nullptr )
-        throw runtime_error( "Procedimento de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
-    proc->proc( cmd, this );
+void ProcExec::executaStatement( Statement* st ) {
+    if ( dynamic_cast<CMD*>( st ) ) {
+        CMD* cmd = (CMD*)st;
+
+        Proc* proc = procsMap[ cmd->getName() ];
+        if ( proc == nullptr )
+            throw runtime_error( "Procedimento de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
+
+        proc->proc( cmd, this );
+    } else if ( dynamic_cast<ShellCMD*>( st ) ) {
+        shellCMDProc->proc( (ShellCMD*)st, this );
+    } else {
+        stringstream ss;
+        ss << "Instrucao de tipo invalido." << endl;
+        ss << "Linha=\"" << st->getLine() << endl;
+        ss << "Tipo=\"" << typeid( st ).name() << "\"" << endl;
+        throw runtime_error( ss.str() );
+    }
 }
 
 void ProcExec::executaTaskProc( string taskName, CMD* mainCMD ) {
@@ -80,12 +96,10 @@ void ProcExec::executaTaskProc( string taskName, CMD* mainCMD ) {
 void ProcExec::executaTaskIfExists( string taskName ) {
     Task* task = mainScript->getTask( taskName );
     if ( task != nullptr ) {
-        cout << endl;
-
-        int len = task->getCMDsLength();
+        int len = task->getStatementsLength();
         for( int i = 0; i < len; i++ ) {
-            CMD* taskCMD = task->getCMDByIndex( i );
-            this->executaCMDProc( taskCMD );
+            Statement* st = task->getStatementByIndex( i );
+            this->executaStatement( st );
         }
     }
 }

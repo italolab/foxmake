@@ -121,15 +121,15 @@ bool SourceCodeManager::interpretsClasse( ifstream& in, string line, string file
     size_t i = 0;
     size_t j = 0;
 
-    char classTokenCHs[] = { 'c', 'l', 'a', 's', 's', '\0' };
-    string classToken( classTokenCHs );
-    if ( strutil::startsWith( line, classToken ) ) {
+    size_t k = line.find( "\"" );
+    if ( k != string::npos )
+        return false;
+
+    if ( strutil::startsWith( line, "class" ) ) {
         i = 0;
         j = 6;
     } else {
-        char classTokenCHs2[] = { ' ', 'c', 'l', 'a', 's', 's', ' ', '0' };
-        string classToken2( classTokenCHs2 );
-        i = line.find( classToken2 );
+        i = line.find( " class " );
         if ( i == string::npos )
             return false;
 
@@ -243,4 +243,8 @@ vector<CodeInfo*> SourceCodeManager::sourceCodeInfos() {
 
 void SourceCodeManager::loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath ) {
     filesToCompileManager->loadFilesToCompile( filesToCompile, allCodeInfosMap, configFilePath );
+}
+
+void SourceCodeManager::saveWritingTimeElapsedInFile( string configFilePath ) {
+    filesToCompileManager->saveWritingTimesElapsedInFile( allCodeInfosMap, configFilePath );
 }

@@ -1,5 +1,6 @@
 
 #include "MKDirProc.h"
+#include "../stexcept.h"
 #include "../../io/io.h"
 
 #include <sstream>
@@ -15,7 +16,7 @@ void MKDirProc::proc( CMD* cmd, void* mgr ) {
     if ( alen < 1 ) {
         stringstream ss;
         ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
-        throw proc_error( cmd, ss.str() );
+        throw st_error( cmd, ss.str() );
     }
 
     string dir = cmd->getNoOpArg( 0 );
@@ -26,7 +27,7 @@ void MKDirProc::proc( CMD* cmd, void* mgr ) {
         try {
             io::createDirs( dir );
         } catch ( const io_error& e ) {
-            throw proc_error( cmd, "Nao foi possivel criar os diretorios do caminho informado." );
+            throw st_error( cmd, "Nao foi possivel criar os diretorios do caminho informado." );
         }
     } else {
         try {
@@ -34,7 +35,7 @@ void MKDirProc::proc( CMD* cmd, void* mgr ) {
             if ( !ok )
                 cerr << "Pasta ja existe: " << dir << endl;
         } catch ( const io_error& e ) {
-            throw proc_error( cmd, "Nao foi possivel criar o diretorio. \nVerifique se o diretorio onde quer criar o novo diretorio existe." );
+            throw st_error( cmd, "Nao foi possivel criar o diretorio. \nVerifique se o diretorio onde quer criar o novo diretorio existe." );
         }
     }
 

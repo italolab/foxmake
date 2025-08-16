@@ -19,6 +19,7 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
             numberOfLines++;
             continue;
         }
+
         if ( strutil::isWhiteSpace( line[ 0 ] ) || line[ 0 ] == '#' ) {
             numberOfLines++;
             continue;
@@ -37,6 +38,8 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
             result = manager->interpretsProp( script, line, currentLineNumber );
         if ( !result->isInterpreted() && !result->isErrorFound())
             result = manager->interpretsTask( script, it, line, currentLineNumber );
+        if ( !result->isInterpreted() && !result->isErrorFound() )
+            result = manager->interpretsShellCMD( script, line, currentLineNumber );
 
         numberOfLines += result->getNumberOfLines();
 

@@ -7,6 +7,8 @@ Statement::Statement( Statement* parent, int lineNumber, string line ) {
     this->line = line;
 }
 
+Statement::~Statement() {}
+
 Statement* Statement::getParent() {
     return parent;
 }

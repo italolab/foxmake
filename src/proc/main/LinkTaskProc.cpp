@@ -1,6 +1,7 @@
 
 #include "LinkTaskProc.h"
 #include "../ProcManager.h"
+#include "../stexcept.h"
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
@@ -23,6 +24,7 @@ using std::endl;
 
 void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
     ProcManager* manager = (ProcManager*)mgr;
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     cout << "\nLINKANDO..." << endl;
 
@@ -47,11 +49,16 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
 
     string defines = script->getPropertyValue( props::DEFINES );
 
+    if ( binDir != "" )
+        binDir = io::addSeparatorToDirIfNeed( binDir );
+    if ( objDir != "" )
+        objDir = io::addSeparatorToDirIfNeed( objDir );
+
     bool isdll = isDll == "true";
 
     if ( exeFileName == "" ) {
         Prop* prop = script->getProperty( props::EXE_FILE_NAME );
-        throw taskproc_error( prop, "A propriedade \"" + props::EXE_FILE_NAME + "\" deve ter valor definido para linkagem." );
+        throw st_error( prop, "A propriedade \"" + props::EXE_FILE_NAME + "\" deve ter valor definido para linkagem." );
     }
 
     stringstream ss;
@@ -65,7 +72,7 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
         ss << " -Wl,--out-implib=" << outImplibFile;
 
     if ( !isdll )
-        ss << " -o " << io::concatPaths( binDir, exeFileName );
+        ss << " -o " << binDir << exeFileName;
 
     if ( isdll ) {
         vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
@@ -84,25 +91,21 @@ void LinkTaskProc::proc( CMD* mainCMD, void* mgr ) {
         ss << libdirParams.str() << dllParams.str();
     }
 
-    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-    vector<string> cppOrCFilePaths = sourceCodeManager->sourceFilePaths();
-
-    for( string filePath : cppOrCFilePaths ) {
-        CodeInfo* sourceCodeInfo = sourceCodeManager->getSourceCodeInfo( filePath );
-        ss << " " << io::concatPaths( objDir, sourceCodeInfo->objFilePath );
-    }
+    vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
+    for( CodeInfo* info : sourceCodeInfos )
+        ss << " " << objDir << info->objFilePath;
 
     if ( isdll )
-        ss << " -o " << io::concatPaths( binDir, dllFileName );
+        ss << " -o " << binDir + dllFileName;
 
     ss << " " << linkerParams;
 
     Shell* shell = new Shell( true );
     shell->pushCommand( ss.str() );
 
-    bool ok = shell->executa();
-    if ( !ok )
-        throw taskproc_error( "Falha na linkagem!" );
+    //int exitCode = shell->executa();
+    //if ( exitCode != 0 )
+    //    throw st_error( "Falha na linkagem!" );
 
     manager->executaTaskIfExists( tasks::LINK );
 

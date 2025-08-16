@@ -1,6 +1,7 @@
 
 #include "CleanTaskProc.h"
 #include "../ProcManager.h"
+#include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
 
@@ -24,17 +25,23 @@ void CleanTaskProc::proc( CMD* mainCMD, void* mgr ) {
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
+    if ( buildDir != "" )
+        buildDir = io::addSeparatorToDirIfNeed( buildDir );
+    if ( binDir != "" )
+        binDir = io::addSeparatorToDirIfNeed( binDir );
+    if ( objDir != "" )
+        objDir = io::addSeparatorToDirIfNeed( objDir );
+
     string propName = ( isDll == "true" ? props::DLL_FILE_NAME : props::EXE_FILE_NAME );
     string fname = script->getPropertyValue( propName );
     if ( fname != "" ) {
-        string file = io::concatPaths( binDir, fname );
+        string file = binDir + fname;
         //appRecursiveDeleteFileOrDirectoryIfExists( file, propName, script );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
-        string fname = io::fileOrDirName( bfile );
-        fname = io::concatPaths( buildDir, fname );
+        string fname = buildDir + io::fileOrDirName( bfile );
         appRecursiveDeleteFileOrDirectoryIfExists( fname, props::BUILD_FILES, script );
     }
 
@@ -50,11 +57,11 @@ void CleanTaskProc::appRecursiveDeleteFileOrDirectoryIfExists( string path, stri
         if ( io::fileExists( path ) ) {
             int count = io::recursiveDeleteFileOrDirectory( path );
             if ( count == 0 )
-                throw taskproc_error( prop, "Arquivo ou pasta nao deletado: \"" + path + "\"" );
+                throw st_error( prop, "Arquivo ou pasta nao deletado: \"" + path + "\"" );
 
             cout << "Deletado: " << path << endl;
         }
     } catch ( const io_error& e ) {
-        throw taskproc_error( prop, "Nao foi possivel deletar o arquivo ou pasta: \"" + path + "\"" );
+        throw st_error( prop, "Nao foi possivel deletar o arquivo ou pasta: \"" + path + "\"" );
     }
 }

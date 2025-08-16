@@ -14,6 +14,7 @@ class Statement {
 
     public:
         Statement( Statement* parent, int lineNumber, string line );
+        virtual ~Statement();
 
         Statement* getParent();
 

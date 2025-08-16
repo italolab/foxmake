@@ -27,7 +27,7 @@ class Shell {
         Shell( bool isPrintOutput = false );
 
         void pushCommand( string command );
-        bool executa();
+        int executa();
 
 };
 
