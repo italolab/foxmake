@@ -37,7 +37,7 @@ class ExecManager : public InterDriver {
         ExecManager();
         virtual ~ExecManager();
 
-        void executor( int argc, char* argv[] );
+        void exec( int argc, char* argv[] );
 
         void executaStatement( Statement* st );
 

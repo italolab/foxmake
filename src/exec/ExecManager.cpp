@@ -66,7 +66,7 @@ ExecManager::~ExecManager() {
     delete shellCMDExec;
 }
 
-void ExecManager::executor( int argc, char* argv[] ) {
+void ExecManager::exec( int argc, char* argv[] ) {
     try {
         InterResult* result = interManager->interpretsMainCMD( argc, argv );
         if ( !result->isInterpreted() )
@@ -88,11 +88,11 @@ void ExecManager::executaStatement( Statement* st ) {
     if ( dynamic_cast<CMD*>( st ) ) {
         CMD* cmd = (CMD*)st;
 
-        Exec* executor = execsMap[ cmd->getName() ];
-        if ( executor == nullptr )
+        Exec* exec = execsMap[ cmd->getName() ];
+        if ( exec == nullptr )
             throw runtime_error( "Procedimento de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
 
-        executor->exec( cmd, this );
+        exec->exec( cmd, this );
     } else if ( dynamic_cast<ShellCMD*>( st ) ) {
         shellCMDExec->exec( (ShellCMD*)st, this );
     } else {
@@ -105,10 +105,10 @@ void ExecManager::executaStatement( Statement* st ) {
 }
 
 void ExecManager::executaTask( string taskName, CMD* mainCMD ) {
-    TaskExec* executor = taskExecsMap[ taskName ];
-    if ( executor == nullptr )
+    TaskExec* exec = taskExecsMap[ taskName ];
+    if ( exec == nullptr )
         throw runtime_error( "Procedimento de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
-    executor->exec( mainCMD, this );
+    exec->exec( mainCMD, this );
 }
 
 void ExecManager::executaTaskIfExists( string taskName ) {
