@@ -75,34 +75,32 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     if ( isdll && outImplibFile != "" )
         ss << " -Wl,--out-implib=" << outImplibFile;
 
-    if ( !isdll )
-        ss << " -o " << binDir << exeFileName;
-
     if ( isdll ) {
-        vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
-        vector<string> dllsVect = strutil::splitWithDoubleQuotes( dllDirs );
-
-        stringstream libdirParams;
-        stringstream dllParams;
-        string token;
-
-        for( string libdir : libdirsVect)
-            libdirParams << " -L" << libdir;
-
-        for( string dll : dllsVect )
-            dllParams << " -l" << dll;
-
-        ss << libdirParams.str() << dllParams.str();
+        ss << " -o " << binDir << dllFileName;
+    } else {
+        ss << " -o " << binDir << exeFileName;
     }
 
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos )
         ss << " " << objDir << info->objFilePath;
 
-    if ( isdll )
-        ss << " -o " << binDir + dllFileName;
-
     ss << " " << linkerParams;
+
+    vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
+    vector<string> dllsVect = strutil::splitWithDoubleQuotes( dllDirs );
+
+    stringstream libdirParams;
+    stringstream dllParams;
+    string token;
+
+    for( string libdir : libdirsVect)
+        libdirParams << " -L" << libdir;
+
+    for( string dll : dllsVect )
+        dllParams << " -l" << dll;
+
+    ss << libdirParams.str() << dllParams.str();
 
     Shell* shell = new Shell();
     shell->pushCommand( ss.str() );

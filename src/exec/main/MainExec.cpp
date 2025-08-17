@@ -73,11 +73,15 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
+    bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isLink = mainCMD->existsArg( tasks::LINK );
     bool isCopy = mainCMD->existsArg( tasks::COPY );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
 
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+
+    if ( isCompileAll )
+        isCompile = true;
 
     if ( isBuild || isBuildAll ) {
         isClean = true;
@@ -133,6 +137,7 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 
     vector<string> names = manager->getMainScript()->taskNames();
     for( string taskName : names ) {
+        cout << "TASK NAME= " << taskName << endl;
         if ( !manager->isDefaultTask( taskName ) ) {
             messagebuilder b( infos::EXECUTING_TASK );
             b << taskName;

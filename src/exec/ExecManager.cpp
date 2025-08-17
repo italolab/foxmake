@@ -112,7 +112,7 @@ void ExecManager::executaTask( string taskName, CMD* mainCMD ) {
 }
 
 void ExecManager::executaTaskIfExists( string taskName ) {
-    Task* task = mainScript->getTask( taskName );
+    Task* task = mainScript->getTask( taskName );    
     if ( task != nullptr ) {
         int len = task->getStatementsLength();
         for( int i = 0; i < len; i++ ) {
@@ -123,7 +123,7 @@ void ExecManager::executaTaskIfExists( string taskName ) {
 }
 
 bool ExecManager::isDefaultTask( string taskName ) {
-    vector<string> defaultTasks = registeredTaskProcNames();
+    vector<string> defaultTasks = tasks::DEFAULT_TASKS;
     for( string name : defaultTasks )
         if ( name == taskName )
             return true;
@@ -133,13 +133,6 @@ bool ExecManager::isDefaultTask( string taskName ) {
 vector<string> ExecManager::validCMDNames() {
     vector<string> names;
     for( const auto& pair : execsMap )
-        names.push_back( pair.first );
-    return names;
-}
-
-vector<string> ExecManager::registeredTaskProcNames() {
-    vector<string> names;
-    for( const auto& pair : taskExecsMap )
         names.push_back( pair.first );
     return names;
 }

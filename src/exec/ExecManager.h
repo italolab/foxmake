@@ -53,7 +53,6 @@ class ExecManager : public InterDriver {
         SourceCodeManager* getSourceCodeManager();
 
         vector<string> validPropNames();
-        vector<string> registeredTaskProcNames();
 
 };
 

@@ -41,7 +41,9 @@ bool Block::existsLocalVar( string varName ) {
 }
 
 Var* Block::getLocalVar( string varName ) {
-    return localVarsMap[ varName ];
+    if ( localVarsMap.find( varName ) != localVarsMap.end() )
+        return localVarsMap[ varName ];
+    return nullptr;
 }
 
 vector<string> Block::localVarNames() {

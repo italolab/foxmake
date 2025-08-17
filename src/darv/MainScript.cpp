@@ -45,7 +45,9 @@ void MainScript::putTask( Task* task ) {
 }
 
 Task* MainScript::getTask( string taskName ) {
-    return tasksMap[ taskName ];
+    if ( tasksMap.find( taskName ) != tasksMap.end() )
+        return tasksMap[ taskName ];
+    return nullptr;
 }
 
 int MainScript::getTasksLength() {

@@ -35,6 +35,16 @@ namespace tasks {
     const string BUILD = "build";
     const string BUILDALL = "buildall";
 
+    const vector<string> DEFAULT_TASKS = { 
+        CLEAN, 
+        COMPILE, 
+        COMPILEALL, 
+        LINK, 
+        COPY, 
+        BUILD, 
+        BUILDALL 
+    };
+
 }
 
 namespace cmds {

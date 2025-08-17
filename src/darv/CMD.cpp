@@ -84,9 +84,8 @@ void CMD::addProperty( Prop* prop ) {
 }
 
 string CMD::getPropertyValue( string name ) {
-    Prop* prop = propertiesMap[ name ];
-    if ( prop != nullptr )
-        return prop->getValue();
+    if ( propertiesMap.find( name ) != propertiesMap.end() )
+        return propertiesMap[ name ]->getValue();
     return "";
 }
 
