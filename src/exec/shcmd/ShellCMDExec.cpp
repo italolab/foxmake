@@ -2,6 +2,10 @@
 #include "ShellCMDExec.h"
 #include "../stexcept.h"
 #include "../../shell/shell.h"
+#include "../../msg/messagebuilder.h"
+
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 
 #include <iostream>
 
@@ -16,15 +20,15 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
 
     int result = shell->executa();
     if ( result != 0 ) {
-        stringstream ss;
-        ss << "Nao foi possivel executar o comando." << endl;
-        ss << "Verifique se ele existe e sua sintaxe!" << endl;
-        ss << "O comando retornou o codigo: " << result;
-        throw st_error( shellCMD, ss.str() );
+        messagebuilder b( errors::SHELL_CMD_NOT_EXECUTED );
+        b << std::to_string( result );
+        throw st_error( shellCMD, b.str() );
     }
 
     delete shell;
 
-    cout << "Executado: " << cmdstr << endl;
+    messagebuilder b( infos::EXECUTED_CMD );
+    b << cmdstr;
+    cout << b.str() << endl;
 
 }

@@ -5,6 +5,10 @@
 #include "../../darv/Var.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
+#include "../../msg/messagebuilder.h"
+
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 
 #include <sstream>
 #include <iostream>
@@ -18,27 +22,30 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
 
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
-        stringstream ss;
-        ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
-        throw st_error( cmd, ss.str() );
+        messagebuilder b;
+        b << "1" << std::to_string( alen );
+        throw st_error( cmd, b.str() );
     }
 
     string newDir = cmd->getNoOpArg( 0 );
 
     if ( !io::fileExists( newDir ) )
-        throw st_error( cmd, "Diretorio nao encontrado." );
+        throw st_error( cmd, errors::DIRECTORY_NOT_FOUND );
 
     if ( !io::isDir( newDir ) )
-        throw st_error( cmd, "O caminho informado nao e um diretorio." );
+        throw st_error( cmd, errors::INFORMED_PATH_IS_NOT_A_DIRECTORY );
 
     bool ok = shell::setWorkingDir( newDir );
     if ( !ok )
-        throw st_error( cmd, "Nao foi possivel alterar o diretorio corrente." );
+        throw st_error( cmd, errors::CURRENT_DIRECTORY_NOT_CHANGED );
 
     Var* var = script->getLocalVar( "working_dir" );
     if ( var == nullptr )
-        throw st_error( cmd, "Nao foi encontrada a variavel de diretorio de trabalho." );
+        throw st_error( cmd, errors::WORKDIR_VAR_NOT_FOUND );
 
     var->setValue( shell::getWorkingDir() );
-    cout << "Novo diretorio corrente: " << var->getValue() << endl;
+
+    messagebuilder b( infos::NEW_CURRENT_DIRECTORY );
+    b << var->getValue();
+    cout << b.str() << endl;
 }

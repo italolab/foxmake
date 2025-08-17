@@ -2,6 +2,9 @@
 #include "PropInter.h"
 #include "InterManager.h"
 #include "../darv/Prop.h"
+#include "../msg/messagebuilder.h"
+
+#include "../error_messages.h"
 
 InterResult* PropInter::interprets( MainScript* parent, string line, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
@@ -13,8 +16,11 @@ InterResult* PropInter::interprets( MainScript* parent, string line, int lineNum
     string name = line.substr( 0, i );
     string value = line.substr( i+1, line.length()-i );
 
-    if ( !manager->isValidProp( name ) )
-        return new InterResult( line, "Propriedade nao reconhecida: \"" + name + "\"" );
+    if ( !manager->isValidProp( name ) ) {
+        messagebuilder b( "Propriedade nao reconhecida: \"$1\"" );
+        b << name;
+        return new InterResult( line, 0, 0, b.str() );
+    }
 
     InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, parent );
     if ( !replaceResult->isInterpreted() )

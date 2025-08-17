@@ -1,7 +1,7 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cexec.exe
+exe.file.name=cbuild2.exe
 
 $target=debug
 

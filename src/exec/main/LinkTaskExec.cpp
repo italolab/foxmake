@@ -7,7 +7,10 @@
 #include "../../io/io.h"
 #include "../../io/SourceCodeManager.h"
 #include "../../util/strutil.h"
+#include "../../msg/messagebuilder.h"
 
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 #include "../../consts.h"
 
 #include <vector>
@@ -26,7 +29,7 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
-    cout << "\nLINKANDO..." << endl;
+    cout << endl << infos::EXECUTING_LINKING << endl;
 
     MainScript* script = manager->getMainScript();
 
@@ -57,8 +60,9 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     bool isdll = isDll == "true";
 
     if ( exeFileName == "" ) {
-        Prop* prop = script->getProperty( props::EXE_FILE_NAME );
-        throw st_error( prop, "A propriedade \"" + props::EXE_FILE_NAME + "\" deve ter valor definido para linkagem." );
+        messagebuilder b( errors::PROPERTY_EXE_FILE_NAME_NOT_DEFINED_FOR_LINKING );
+        b << props::EXE_FILE_NAME;
+        throw st_error( nullptr, b.str() );
     }
 
     stringstream ss;
@@ -103,13 +107,13 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     Shell* shell = new Shell( true );
     shell->pushCommand( ss.str() );
 
-    //int exitCode = shell->executa();
-    //if ( exitCode != 0 )
-    //    throw st_error( "Falha na linkagem!" );
+    int exitCode = shell->executa();
+    if ( exitCode != 0 )
+        throw st_error( nullptr, errors::LINKING_FAILED );
 
     delete shell;
 
     manager->executaTaskIfExists( tasks::LINK );
 
-    cout << "Linkagem executada com sucesso." << endl;
+    cout << infos::SUCCESS_IN_LINKING << endl;
 }

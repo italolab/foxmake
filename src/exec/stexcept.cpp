@@ -6,12 +6,9 @@
 using std::stringstream;
 using std::endl;
 
-st_error::st_error( string msg ) : st_error( nullptr, msg ) {}
-
 st_error::st_error( Statement* st, string msg ) : runtime_error( msg ) {
     this->st = st;
 }
-
 
 st_error::st_error( InterResult* result ) : runtime_error( result->getErrorMsg() ) {
     this->st = result->getStatement();

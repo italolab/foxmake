@@ -5,6 +5,8 @@
 #include "../darv/Prop.h"
 #include "../util/strutil.h"
 
+#include "../error_messages.h"
+
 #include <sstream>
 #include <cstring>
 
@@ -89,7 +91,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
                         if ( stop ) {
                             value = value.substr( 1, len-2 );
                         } else {
-                            return new InterResult( line, 0, 0, "Valor com aspas duplas sem fechar." );
+                            return new InterResult( line, 0, 0, errors::VALUE_IN_QUOTES_NOT_CLOSED );
                         }
                     }
                 }

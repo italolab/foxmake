@@ -2,6 +2,10 @@
 #include "MKDirExec.h"
 #include "../stexcept.h"
 #include "../../io/io.h"
+#include "../../msg/messagebuilder.h"
+
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 
 #include <sstream>
 #include <iostream>
@@ -14,9 +18,9 @@ using std::stringstream;
 void MKDirExec::exec( CMD* cmd, void* mgr ) {
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
-        stringstream ss;
-        ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
-        throw st_error( cmd, ss.str() );
+        messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
+        b << "1" << std::to_string( alen );
+        throw st_error( cmd, b.str() );
     }
 
     string dir = cmd->getNoOpArg( 0 );
@@ -27,17 +31,22 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
         try {
             io::createDirs( dir );
         } catch ( const io_error& e ) {
-            throw st_error( cmd, "Nao foi possivel criar os diretorios do caminho informado." );
+            throw st_error( cmd, errors::DIRECTORIES_NOT_CREATED );
         }
     } else {
         try {
             ok = io::createDir( dir );
-            if ( !ok )
-                cerr << "Pasta ja existe: " << dir << endl;
+            if ( !ok ) {
+                messagebuilder b( errors::FOLDER_ALREADY_EXISTS );
+                b << dir;
+                cerr << b.str() << endl;
+            }
         } catch ( const io_error& e ) {
-            throw st_error( cmd, "Nao foi possivel criar o diretorio. \nVerifique se o diretorio onde quer criar o novo diretorio existe." );
+            throw st_error( cmd, errors::DIRECTORY_NOT_CREATED_2 );
         }
     }
 
-    cout << "MKDIR Executado: " << cmd->getCMDStr() << endl;
+    messagebuilder b( infos::EXECUTED_CMD );
+    b << cmd->getCMDStr();
+    cout << b.str() << endl;
 }

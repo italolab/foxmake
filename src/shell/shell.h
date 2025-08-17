@@ -18,13 +18,10 @@ class Shell {
 
     private:
         vector<string> commands;
-        bool isPrintOutput;
+        bool isPrint;
 
     public:
-        stringstream out;
-        stringstream err;
-
-        Shell( bool isPrintOutput = false );
+        Shell( bool isPrint = true );
 
         void pushCommand( string command );
         int executa();

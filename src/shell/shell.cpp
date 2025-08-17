@@ -9,10 +9,13 @@
     #define __chdir chdir
 #endif
 
+#include "shell.h"
+#include "../msg/messagebuilder.h"
+
+#include "../error_messages.h"
+
 #include <cstring>
 #include <iostream>
-
-#include "shell.h"
 
 using std::cout;
 using std::cerr;
@@ -36,8 +39,8 @@ namespace shell {
 
 }
 
-Shell::Shell( bool isPrintOutput ) {
-    this->isPrintOutput = isPrintOutput;
+Shell::Shell( bool isPrint ) {
+    this->isPrint = isPrint;
 }
 
 void Shell::pushCommand( string command ) {
@@ -51,15 +54,14 @@ int Shell::executa() {
     vector<PROCESS_INFORMATION> vectPIs;
 
     for( string command : commands ) {
+        if ( isPrint )
+            cout << command << endl;
+
         PROCESS_INFORMATION pi;
 
         WINBOOL result = CreateProcess( NULL, const_cast<char*>( command.c_str() ), NULL, NULL, false, 0, NULL, NULL, &si, &pi );
-        if ( result ) {
+        if ( result )
             vectPIs.push_back( pi );
-
-            if ( isPrintOutput )
-                cout << command << endl;
-        }
     }
 
     for( PROCESS_INFORMATION pi : vectPIs )
@@ -77,16 +79,6 @@ int Shell::executa() {
     for( PROCESS_INFORMATION pi : vectPIs ) {
         CloseHandle( pi.hProcess );
         CloseHandle( pi.hThread );
-    }
-
-    if ( exitCode != 0 ) {
-        stringstream ss;
-        ss << "Processo retornou o codigo: " << exitCode << endl;
-
-        if ( isPrintOutput )
-            cerr << ss.str() << endl;
-
-        err << ss.str() << endl;
     }
 
     return exitCode;

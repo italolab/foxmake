@@ -1,10 +1,16 @@
 
 #include "Inter.h"
 #include "../darv/MainScript.h"
+#include "../msg/messagebuilder.h"
+
+#include "../error_messages.h"
 
 #include <sstream>
 
 using std::stringstream;
+
+#include <iostream>
+using namespace std;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
@@ -51,7 +57,9 @@ InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* bl
                                     ss << value;
                                     k = j;
                                 } else {
-                                    return new InterResult( line, 0, "Propriedade ou variavel nao encontrada: $(" + name + ")" );
+                                    messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+                                    b << name;
+                                    return new InterResult( line, 0, 0, b.str() );
                                 }
                             }
                         } else {
@@ -69,5 +77,5 @@ InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* bl
         }
         line = ss.str();
     }
-    return new InterResult( nullptr, 0 );
+    return new InterResult( nullptr, 0, 0 );
 }

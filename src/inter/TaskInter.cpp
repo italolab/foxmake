@@ -5,6 +5,8 @@
 #include "../darv/Task.h"
 #include "../util/strutil.h"
 
+#include "../error_messages.h"
+
 #include <sstream>
 
 using std::stringstream;
@@ -65,7 +67,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
             if ( bracesCount == 0 )
                 for( int j = i+1; j < len; j++ )
                     if ( !strutil::isWhiteSpace( line[ j ] ) )
-                        return new InterResult( line, numberOfLines0, "Fim de bloco de tarefa com caracteres desnecessarios." );
+                        return new InterResult( line, numberOfLines0, 0, errors::END_OF_BLOCK_WITH_UNNECESSARY_CHARACTERS );
         }
 
         if ( bracesCount > 0 )
@@ -117,9 +119,9 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
             string error;
             if ( result->isErrorFound() )
                 error = result->getErrorMsg();
-            else error = "Linha nao reconhecida como comando, propriedade ou variavel.";
+            else error = errors::UNRECOGNIZED_LINE;
 
-            return new InterResult( result->getLine(), numberOfLines, error );
+            return new InterResult( result->getLine(), numberOfLines, 0, error );
         }
 
         delete result;
@@ -128,5 +130,5 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
     numberOfLines++;
 
-    return new InterResult( task, numberOfLines );
+    return new InterResult( task, numberOfLines, 0 );
 }

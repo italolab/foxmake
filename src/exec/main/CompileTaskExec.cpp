@@ -7,7 +7,10 @@
 #include "../../io/io.h"
 #include "../../io/SourceCodeManager.h"
 #include "../../util/strutil.h"
+#include "../../msg/messagebuilder.h"
 
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 #include "../../consts.h"
 
 #include <vector>
@@ -28,7 +31,7 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    cout << "\nCOMPILANDO..." << endl;
+    cout << endl << infos::EXECUTING_COMPILE << endl;
 
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
@@ -61,8 +64,11 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
 
     bool isdll = isDll == "true";
 
-    if ( compiler == "" )
-        throw st_error( mainCMD, "Nenhum compilador informado. \nDefina a propriedade: \"" + props::COMPILER + "\"" );
+    if ( compiler == "" ) {
+        messagebuilder b( errors::COMPILER_NOT_INFORMED );
+        b << props::COMPILER;
+        throw st_error( mainCMD, b.str() );
+    }
 
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos ) {
@@ -110,7 +116,7 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
 
     int exitCode = shell->executa();
     if ( exitCode != 0 )
-        throw st_error( "Falha na compilacao!" );
+        throw st_error( nullptr, errors::COMPILATION_FAILED );
 
     delete shell;
 
@@ -121,15 +127,16 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
     else manager->executaTaskIfExists( tasks::COMPILE );
 
     if ( filesToCompile.empty() )
-        cout << "Nao foi necessario compilar algum arquivo.\nCompilacao atualizada!" << endl;
-    else cout << "Compilacao executada com sucesso!" << endl;
+        cout << infos::COMPILATION_UP_TO_DATE << endl;
+    else cout << infos::SUCCESS_IN_COMPILATION << endl;
 }
 
 void CompileTaskExec::appCreateDirs( CMD* mainCMD, string dirPath ) {
     try {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {
-        string absDirPath = io::absolutePath( dirPath );
-        throw st_error( mainCMD, "Nao foi possivel criar o diretorio: \"" + absDirPath + "\"" );
+        messagebuilder b( errors::DIRECTORY_NOT_CREATED );
+        b << io::absolutePath( dirPath );
+        throw st_error( mainCMD, b.str() );
     }
 }

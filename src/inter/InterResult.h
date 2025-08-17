@@ -12,7 +12,7 @@ class InterResult {
     private:
         bool interpreted;
         bool errorFound;
-        Statement* no;
+        Statement* statement;
         string line;
         string errorMsg;
         int numberOfLines;
@@ -20,11 +20,7 @@ class InterResult {
 
     public:
         InterResult( bool interpreted );
-        InterResult( Statement* no, int numberOfLines );
-        InterResult( Statement* no, int numberOfLines, int numberOfColumns );
-
-        InterResult( string line, string errorMsg );
-        InterResult( string line, int numberOfLines, string errorMsg );
+        InterResult( Statement* statement, int numberOfLines, int numberOfColumns );
         InterResult( string line, int numberOfLines, int numberOfColumns, string errorMsg );
 
         bool isInterpreted();

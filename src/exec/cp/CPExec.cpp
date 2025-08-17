@@ -4,6 +4,10 @@
 #include "../../io/io.h"
 #include "../../io/filter/FileFilter.h"
 #include "../../util/strutil.h"
+#include "../../msg/messagebuilder.h"
+
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 
 #include <sstream>
 #include <iostream>
@@ -14,9 +18,9 @@ using std::stringstream;
 void CPExec::exec( CMD* cmd, void* mgr ) {
     int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {
-        stringstream ss;
-        ss << "Numero de argumentos esperado igual a 2, encontrado " << alen;
-        throw st_error( cmd, ss.str() );
+        messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
+        b << "2" << std::to_string( alen );
+        throw st_error( cmd, b.str() );
     }
     string src = cmd->getNoOpArg( 0 );
     string dest = cmd->getNoOpArg( 1 );
@@ -24,8 +28,11 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
 
-    if ( !io::fileExists( dest ) )
-        throw st_error( cmd, "O diretorio de destino nao existe: \"" + dest + "\"" );
+    if ( !io::fileExists( dest ) ) {
+        messagebuilder b( errors::DEST_DIRECTORY_NOT_EXISTS );
+        b << dest;
+        throw st_error( cmd, b.str() );
+    }
 
     string replacePath = "";
     if ( src.find( '-' ) != string::npos ) {
@@ -65,12 +72,15 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
             }
         } else {
             if ( !isRecursive && io::isDir( src ) && !io::isEmptyDir( src ) )
-                throw st_error( cmd, "Tentativa de copiar nao recursivamente uma pasta nao vazia." );
+                throw st_error( cmd, errors::TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER );
 
             io::copyFileOrDirectory( src, dest, isOverwrite, isRecursive );
         }
     } catch ( const io_error& e ) {
-        throw st_error( cmd, "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, se a copia e recursiva e com ou sem sobrescrita." );
+        throw st_error( cmd, errors::ERROR_IN_FILES_COPY );
     }
-    cout << "CP Executado: \"" << cmd->getCMDStr() << "\"" << endl;
+
+    messagebuilder b ( infos::EXECUTED_CMD );
+    b << cmd->getCMDStr();
+    cout << b.str() << endl;
 }

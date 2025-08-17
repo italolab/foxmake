@@ -8,7 +8,10 @@
 #include "../../util/strutil.h"
 #include "../../io/io.h"
 #include "../../io/SourceCodeManager.h"
+#include "../../msg/messagebuilder.h"
 
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 #include "../../consts.h"
 
 #include <string>
@@ -28,17 +31,23 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     MainScript* mainScript = manager->getMainScript();
 
     if ( mainCMD->countNoOpArgs() == 0 )
-        throw st_error( mainCMD, "E necessario informar ao menos uma tarefa como argumento." );
+        throw st_error( mainCMD, errors::NOTHING_TASK_INFORMED );
 
     string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
     if ( settingsFile == "" )
         settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
 
     settingsFile = io::absolutePath( settingsFile );
-    cout << "Arquivo de configuracao: \"" << settingsFile << endl;
 
-    if ( !io::fileExists( settingsFile ) )
-        throw st_error( mainCMD, "Arquivo de configuracoes nao encontrado." );
+    messagebuilder b( infos::CONFIGURATION_FILE );
+    b << settingsFile;
+    cout << b.str() << endl;
+
+    if ( !io::fileExists( settingsFile ) ) {
+        messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
+        b2 << settingsFile;
+        throw st_error( mainCMD, b2.str() );
+    }
 
     string workingDir = io::dirPath( settingsFile );
     shell::setWorkingDir( workingDir );
@@ -53,7 +62,10 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     delete result;
 
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
-    cout << "Diretorio corrente: \"" << wdir << "\"" << endl;
+
+    messagebuilder b2( infos::CURRENT_DIRECTORY );
+    b2 << wdir;
+    cout << b2.str() << endl;
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
@@ -96,21 +108,21 @@ void MainExec::genSourceAndHeaderInfos( CMD* mainCMD, void* mgr ) {
 
     if ( srcDir != "" && !io::fileExists( srcDir ) ) {
         string src = io::absolutePath( srcDir );
-        stringstream ss;
-        ss << "Diretorio de codigos fonte nao encontrado: \"" << src << "\"" << endl;
-        ss << "Verifique a propriedade \"" << props::SRC_DIR + "\"";
-        throw st_error( mainCMD, ss.str() );
+
+        messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );
+        b2 << src << props::SRC_DIR;
+        throw st_error( mainCMD, b2.str() );
     }
 
     srcDir = io::absolutePath( srcDir );
-    cout << "SRC DIR=\"" << srcDir << "\"" << endl;
+
+    messagebuilder b2( infos::SRC_DIRECTORY );
+    b2 << srcDir;
+    cout << b2.str() << endl;
 
     bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
-    if ( !ok ) {
-        stringstream ss;
-        ss << "Houve algum erro na leitura dos arquivos de codigo fonte.";
-        throw st_error( mainCMD, ss.str() );
-    }
+    if ( !ok )
+        throw st_error( mainCMD, errors::ERROR_IN_READING_SRC_FILES );
 }
 
 void MainExec::executaNoDefaultTasks( void* mgr ) {
@@ -119,7 +131,9 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     vector<string> names = manager->getMainScript()->taskNames();
     for( string taskName : names ) {
         if ( !manager->isDefaultTask( taskName ) ) {
-            cout << "\nEXECUTANDO " << taskName << "..." << endl;
+            messagebuilder b( infos::EXECUTING_TASK );
+            b << taskName;
+            cout << endl << b.str() << endl;
             manager->executaTaskIfExists( taskName );
         }
     }
@@ -132,7 +146,7 @@ void MainExec::executaStatements( void* mgr ) {
     int tam = script->getStatementsLength();
 
     if ( tam > 0 )
-        cout << "\nEXECUTANDO INSTRUCOES" << endl;
+        cout << endl << infos::EXECUTING_STATEMENTS << endl;
 
     for( int i = 0; i < tam; i++ ) {
         Statement* st = script->getStatementByIndex( i );
@@ -140,5 +154,5 @@ void MainExec::executaStatements( void* mgr ) {
     }
 
     if ( tam > 0 )
-        cout << "Instrucoes executadas com sucesso." << endl;
+        cout << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;
 }

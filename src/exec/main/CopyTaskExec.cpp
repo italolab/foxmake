@@ -4,6 +4,10 @@
 #include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
+#include "../../msg/messagebuilder.h"
+
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 
 #include "../../consts.h"
 
@@ -19,7 +23,7 @@ using std::endl;
 void CopyTaskExec::exec( CMD* mainCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    cout << "\nCOPIANDO ARQUIVOS DE BUILD..." << endl;
+    cout << endl << infos::EXECUTING_COPY << endl;
 
     MainScript* script = manager->getMainScript();
 
@@ -54,23 +58,30 @@ void CopyTaskExec::exec( CMD* mainCMD, void* mgr ) {
 
     manager->executaTaskIfExists( tasks::COPY );
 
-    cout << "Arquivos de build copiados com sucesso!" << endl;
+    cout << infos::SUCCESS_IN_COPY << endl;
 }
 
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script ) {
     Prop* prop = script->getProperty( propName );
 
-    if ( !io::fileExists( path ) )
-        throw st_error( prop, "O arquivo ou pasta: \"" + path + "\" nao existe." );
+    if ( !io::fileExists( path ) ) {
+        messagebuilder b ( errors::FILE_OR_FOLDER_NOT_FOUND );
+        b << path;
+        throw st_error( prop, b.str() );
+    }
 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
         io::createDirs( bdir );
         io::copyFileOrDirectory( path, bdir, true, true );
 
-        cout << "Copiado: " << path << endl;
+        messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
+        b << path;
+        cout << b.str() << endl;
     } catch ( const io_error& e ) {
-        throw st_error( prop, "Nao foi possivel copiar o arquivo ou pasta: \"" + path + "\" para a pasta de build." );
+        messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );
+        b << path;
+        throw st_error( prop, b.str() );
     }
 }
 
@@ -78,7 +89,8 @@ void CopyTaskExec::appCreateDirs( CMD* mainCMD, string dirPath ) {
     try {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {
-        string absDirPath = io::absolutePath( dirPath );
-        throw st_error( mainCMD, "Nao foi possivel criar o diretorio: \"" + absDirPath + "\"" );
+        messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_CREATED );
+        b << io::absolutePath( dirPath );
+        throw st_error( mainCMD, b.str() );
     }
 }

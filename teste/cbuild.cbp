@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="cbuild" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/cexec" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="build" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/cexec" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="build" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="src/exec" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="settings-dll.txt" />
+		<Unit filename="settings.txt" />
+		<Unit filename="src/consts.h" />
+		<Unit filename="src/darv/Block.cpp" />
+		<Unit filename="src/darv/Block.h" />
+		<Unit filename="src/darv/CMD.cpp" />
+		<Unit filename="src/darv/CMD.h" />
+		<Unit filename="src/darv/MainScript.cpp" />
+		<Unit filename="src/darv/MainScript.h" />
+		<Unit filename="src/darv/Prop.cpp" />
+		<Unit filename="src/darv/Prop.h" />
+		<Unit filename="src/darv/ShellCMD.cpp" />
+		<Unit filename="src/darv/ShellCMD.h" />
+		<Unit filename="src/darv/Statement.cpp" />
+		<Unit filename="src/darv/Statement.h" />
+		<Unit filename="src/darv/Task.cpp" />
+		<Unit filename="src/darv/Task.h" />
+		<Unit filename="src/darv/Var.cpp" />
+		<Unit filename="src/darv/Var.h" />
+		<Unit filename="src/exec/Exec.cpp" />
+		<Unit filename="src/exec/Exec.h" />
+		<Unit filename="src/exec/ExecManager.cpp" />
+		<Unit filename="src/exec/ExecManager.h" />
+		<Unit filename="src/exec/TaskExec.cpp" />
+		<Unit filename="src/exec/TaskExec.h" />
+		<Unit filename="src/exec/cd/CDExec.cpp" />
+		<Unit filename="src/exec/cd/CDExec.h" />
+		<Unit filename="src/exec/cp/CPExec.cpp" />
+		<Unit filename="src/exec/cp/CPExec.h" />
+		<Unit filename="src/exec/echo/EchoExec.cpp" />
+		<Unit filename="src/exec/echo/EchoExec.h" />
+		<Unit filename="src/exec/main/CleanTaskExec.cpp" />
+		<Unit filename="src/exec/main/CleanTaskExec.h" />
+		<Unit filename="src/exec/main/CompileTaskExec.cpp" />
+		<Unit filename="src/exec/main/CompileTaskExec.h" />
+		<Unit filename="src/exec/main/CopyTaskExec.cpp" />
+		<Unit filename="src/exec/main/CopyTaskExec.h" />
+		<Unit filename="src/exec/main/LinkTaskExec.cpp" />
+		<Unit filename="src/exec/main/LinkTaskExec.h" />
+		<Unit filename="src/exec/main/MainExec.cpp" />
+		<Unit filename="src/exec/main/MainExec.h" />
+		<Unit filename="src/exec/mkdir/MKDirExec.cpp" />
+		<Unit filename="src/exec/mkdir/MKDirExec.h" />
+		<Unit filename="src/exec/rm/RMExec.cpp" />
+		<Unit filename="src/exec/rm/RMExec.h" />
+		<Unit filename="src/exec/shcmd/ShellCMDExec.cpp" />
+		<Unit filename="src/exec/shcmd/ShellCMDExec.h" />
+		<Unit filename="src/exec/stexcept.cpp" />
+		<Unit filename="src/exec/stexcept.h" />
+		<Unit filename="src/exec/stexcept.ipp" />
+		<Unit filename="src/exec/stexcept.tpp">
+			<Option compile="1" />
+			<Option link="1" />
+		</Unit>
+		<Unit filename="src/inter/CMDInter.cpp" />
+		<Unit filename="src/inter/CMDInter.h" />
+		<Unit filename="src/inter/Inter.cpp" />
+		<Unit filename="src/inter/Inter.h" />
+		<Unit filename="src/inter/InterDriver.h" />
+		<Unit filename="src/inter/InterManager.cpp" />
+		<Unit filename="src/inter/InterManager.h" />
+		<Unit filename="src/inter/InterResult.cpp" />
+		<Unit filename="src/inter/InterResult.h" />
+		<Unit filename="src/inter/MainScriptInter.cpp" />
+		<Unit filename="src/inter/MainScriptInter.h" />
+		<Unit filename="src/inter/PropInter.cpp" />
+		<Unit filename="src/inter/PropInter.h" />
+		<Unit filename="src/inter/ShellCMDInter.cpp" />
+		<Unit filename="src/inter/ShellCMDInter.h" />
+		<Unit filename="src/inter/TaskInter.cpp" />
+		<Unit filename="src/inter/TaskInter.h" />
+		<Unit filename="src/inter/VarInter.cpp" />
+		<Unit filename="src/inter/VarInter.h" />
+		<Unit filename="src/inter/it/BlockIterator.h" />
+		<Unit filename="src/inter/it/FileIterator.cpp" />
+		<Unit filename="src/inter/it/FileIterator.h" />
+		<Unit filename="src/inter/it/StringIterator.cpp" />
+		<Unit filename="src/inter/it/StringIterator.h" />
+		<Unit filename="src/io/CodeInfo.h" />
+		<Unit filename="src/io/FilesToCompileManager.cpp" />
+		<Unit filename="src/io/FilesToCompileManager.h" />
+		<Unit filename="src/io/SourceCodeManager.cpp" />
+		<Unit filename="src/io/SourceCodeManager.h" />
+		<Unit filename="src/io/filter/AllFileFilter.cpp" />
+		<Unit filename="src/io/filter/AllFileFilter.h" />
+		<Unit filename="src/io/filter/ByExtFileFilter.cpp" />
+		<Unit filename="src/io/filter/ByExtFileFilter.h" />
+		<Unit filename="src/io/filter/FileFilter.h" />
+		<Unit filename="src/io/io.cpp" />
+		<Unit filename="src/io/io.h" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/shell/shell.cpp" />
+		<Unit filename="src/shell/shell.h" />
+		<Unit filename="src/util/strutil.cpp" />
+		<Unit filename="src/util/strutil.h" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

@@ -3,6 +3,10 @@
 #include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
+#include "../../msg/messagebuilder.h"
+
+#include "../../error_messages.h"
+#include "../../info_messages.h"
 
 #include <sstream>
 #include <iostream>
@@ -14,9 +18,9 @@ using std::stringstream;
 void RMExec::exec( CMD* cmd, void* mgr ) {
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
-        stringstream ss;
-        ss << "Numero de argumentos esperado igual a 1, encontrado " << alen;
-        throw st_error( cmd, ss.str() );
+        messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
+        b << "1" << std::to_string( alen );
+        throw st_error( cmd, b.str() );
     }
 
     string file = cmd->getNoOpArg( 0 );
@@ -50,19 +54,21 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
             }
 
             if ( count == 0 )
-                throw st_error( cmd, "Arquivo ou pasta nao existe." );
+                throw st_error( cmd, errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
         } catch ( const io_error& e ) {
-            throw st_error( cmd, "Houve um erro na delecao do arquivo ou pasta." );
+            throw st_error( cmd, errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
         }
     } else {
         try {
             bool deleted = io::deleteFileOrDirectory( file );
             if ( !deleted )
-                throw st_error( cmd, "Verifique se o arquivo ou pasta existe." );
+                throw st_error( cmd, errors::FILE_OR_FOLDER_NOT_DELETED );
         } catch ( const io_error& e ) {
-            throw st_error( cmd, "Se o arquivo e um diretorio, verifique se esta vasio ou tente remover recursivamente." );
+            throw st_error( cmd, errors::FILE_OR_FOLDER_NOT_DELETED );
         }
     }
 
-    cout << "RM Executado: " << cmd->getCMDStr() << endl;
+    messagebuilder b( infos::EXECUTED_CMD );
+    b << cmd->getCMDStr();
+    cout << b.str() << endl;
 }

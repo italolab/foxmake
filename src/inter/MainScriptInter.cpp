@@ -5,6 +5,8 @@
 #include "../darv/MainScript.h"
 #include "../util/strutil.h"
 
+#include "../error_messages.h"
+
 InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
@@ -47,13 +49,13 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
             string error;
             if ( result->isErrorFound() )
                 error = result->getErrorMsg();
-            else error = "Linha nao reconhecida como instrucao valida.";
+            else error = errors::UNRECOGNIZED_LINE;
 
-            return new InterResult( result->getLine(), lineNumber + numberOfLines, error );
+            return new InterResult( result->getLine(), lineNumber + numberOfLines, 0, error );
         }
 
         delete result;
     }
 
-    return new InterResult( script, numberOfLines );
+    return new InterResult( script, numberOfLines, 0 );
 }
