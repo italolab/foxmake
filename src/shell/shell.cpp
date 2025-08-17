@@ -4,6 +4,7 @@
     #define __getcwd _getcwd
     #define __chdir _chdir
 #else
+    #include <thread>
     #include <unistd.h>
     #define __getcwd getcwd
     #define __chdir chdir
@@ -48,6 +49,7 @@ void Shell::pushCommand( string command ) {
 }
 
 #ifdef _WIN32
+
 int Shell::executa() {
     STARTUPINFO si = { sizeof( si ) };
 
@@ -84,7 +86,50 @@ int Shell::executa() {
     return exitCode;
 }
 #else
-bool Shell::executa() {
-    return false;
+
+typedef struct TThreadPipe {
+    FILE* pipe;
+    std::thread* thread;
+} ThreadPipe;
+
+void runCMDThread( string command, ThreadPipe* threadPipe ) {
+    FILE* pipe = popen( command.c_str(), "r" );
+    if ( pipe ) {
+        char buffer[ 128 ];
+        while( fgets( buffer, sizeof( buffer ), pipe ) )
+            cout << buffer;
+
+        threadPipe->pipe = pipe;
+    } else {
+        threadPipe->pipe = nullptr;
+    }
+
 }
+
+int Shell::executa() {
+    vector<ThreadPipe*> threadPipeVect;
+
+    for( string command : commands ) {
+        ThreadPipe* threadPipe = new ThreadPipe;
+        threadPipe->thread = new std::thread( runCMDThread, command, threadPipe );
+        threadPipeVect.push_back( threadPipe );
+    }
+
+    for( ThreadPipe* tp : threadPipeVect )
+        tp->thread->join();
+
+    int resultCode = 0;
+    for( ThreadPipe* tp : threadPipeVect ) {
+        if ( tp->pipe == nullptr )
+            resultCode = -1;            
+        else {
+            int code = pclose( tp->pipe );
+            if ( resultCode == 0 )
+                resultCode = code;
+        }
+    }
+
+    return resultCode;
+}
+
 #endif
