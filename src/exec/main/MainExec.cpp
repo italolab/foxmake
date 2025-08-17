@@ -12,6 +12,7 @@
 
 #include "../../error_messages.h"
 #include "../../info_messages.h"
+#include "../../help_messages.h"
 #include "../../consts.h"
 
 #include <string>
@@ -30,8 +31,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
 
-    if ( mainCMD->countNoOpArgs() == 0 )
-        throw st_error( mainCMD, errors::NOTHING_TASK_INFORMED );
+    bool isShowHelp = mainCMD->existsArg( "-h" );
+    if ( mainCMD->countNoOpArgs() == 0 || isShowHelp ) {
+        this->showHelp( mainCMD, mgr );
+        return;
+    }
 
     string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
     if ( settingsFile == "" )
@@ -155,4 +159,30 @@ void MainExec::executaStatements( void* mgr ) {
 
     if ( tam > 0 )
         cout << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;
+}
+
+void MainExec::showHelp( CMD* mainCMD, void* mgr ) {
+    int count = mainCMD->countNoOpArgs();
+    if ( count == 0 ) {
+        cout << helpmessage::helpMessage();
+    } else if ( count > 0 ) {
+        string taskName = mainCMD->getNoOpArg( 0 );
+        if ( taskName == tasks::CLEAN ) {
+            cout << helpmessage::cleanHelpMessage();
+        } else if ( taskName == tasks::COMPILE ) {
+            cout << helpmessage::compileHelpMessage();
+        } else if ( taskName == tasks::COMPILEALL ) {
+            cout << helpmessage::compileAllHelpMessage();
+        } else if ( taskName == tasks::LINK ) {
+            cout << helpmessage::linkHelpMessage();
+        } else if ( taskName == tasks::COPY ) {
+            cout << helpmessage::copyHelpMessage();
+        } else if ( taskName == tasks::BUILD ) {
+            cout << helpmessage::buildHelpMessage();
+        } else if ( taskName == tasks::BUILDALL ) {
+            cout << helpmessage::buildAllHelpMessage();
+        } else {
+            cout << errors::TASK_NOT_RECOGNIZED << endl;
+        }
+    }
 }

@@ -51,6 +51,8 @@ namespace errors {
 
     const string SHELL_CMD_NOT_EXECUTED = "Nao foi possivel executar o comando.\nVerifique se ele existe e sua sintaxe!\nO comando retornou o codigo: $1";
 
+    const string TASK_NOT_RECOGNIZED = "Tarefa nao reconhecida.";
+
 }
 
 #endif

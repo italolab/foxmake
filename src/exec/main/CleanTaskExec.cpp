@@ -39,7 +39,7 @@ void CleanTaskExec::exec( CMD* mainCMD, void* mgr ) {
     string fname = script->getPropertyValue( propName );
     if ( fname != "" ) {
         string file = binDir + fname;
-        //appRecursiveDeleteFileOrDirectoryIfExists( file, propName, script );
+        appRecursiveDeleteFileOrDirectoryIfExists( file, propName, script );
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );

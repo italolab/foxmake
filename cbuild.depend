@@ -119,7 +119,7 @@
 1755366415 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\taskexec.h
 	"../darv/CMD.h"
 
-1755344609 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\mainexec.h
+1755429215 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\mainexec.h
 	"../Exec.h"
 	"../../darv/MainScript.h"
 
@@ -295,15 +295,15 @@
 1755344698 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\linktaskexec.h
 	"../TaskExec.h"
 
-1755344698 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.h
+1755425334 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.h
 	"../TaskExec.h"
 	"../../darv/MainScript.h"
 
-1755277382 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
+1755426187 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
 	<string>
 	<vector>
 
-1755424371 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\cleantaskexec.cpp
+1755425160 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\cleantaskexec.cpp
 	"CleanTaskExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -334,7 +334,7 @@
 	<stdexcept>
 	<iostream>
 
-1755424637 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.cpp
+1755425341 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.cpp
 	"CopyTaskExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -367,7 +367,7 @@
 	<stdexcept>
 	<iostream>
 
-1755421498 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\mainexec.cpp
+1755431306 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\mainexec.cpp
 	"MainExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -380,6 +380,7 @@
 	"../../msg/messagebuilder.h"
 	"../../error_messages.h"
 	"../../info_messages.h"
+	"../../help_messages.h"
 	"../../consts.h"
 	<string>
 	<sstream>
@@ -407,13 +408,14 @@
 	<sstream>
 	<iostream>
 
-1755422903 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\shcmd\shellcmdexec.cpp
+1755426205 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\shcmd\shellcmdexec.cpp
 	"ShellCMDExec.h"
 	"../stexcept.h"
 	"../../shell/shell.h"
 	"../../msg/messagebuilder.h"
 	"../../error_messages.h"
 	"../../info_messages.h"
+	"../../consts.h"
 	<iostream>
 
 1755366399 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\taskexec.cpp
@@ -549,7 +551,7 @@
 	<vector>
 	<sstream>
 
-1755424791 c:\users\italo\workspace-cpp\dlls\cbuild\src\error_messages.h
+1755429626 c:\users\italo\workspace-cpp\dlls\cbuild\src\error_messages.h
 	<string>
 
 1755416507 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\msg\messagebuilder.cpp
@@ -562,5 +564,8 @@
 	<sstream>
 
 1755424351 c:\users\italo\workspace-cpp\dlls\cbuild\src\info_messages.h
+	<string>
+
+1755432566 c:\users\italo\workspace-cpp\dlls\cbuild\src\help_messages.h
 	<string>
 

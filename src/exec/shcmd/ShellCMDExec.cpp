@@ -6,6 +6,7 @@
 
 #include "../../error_messages.h"
 #include "../../info_messages.h"
+#include "../../consts.h"
 
 #include <iostream>
 
@@ -16,7 +17,7 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     string cmdstr = shellCMD->getCMDStr();
 
     Shell* shell = new Shell( true );
-    shell->pushCommand( "cmd.exe /c "+cmdstr );
+    shell->pushCommand( consts::SHELL_EXE + " " + cmdstr );
 
     int result = shell->executa();
     if ( result != 0 ) {

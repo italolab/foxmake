@@ -44,30 +44,28 @@ void CopyTaskExec::exec( CMD* mainCMD, void* mgr ) {
         if ( isDll == "true" ) {
             string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
             string fname = binDir + dllFileName;
-            appCopyFileOrDirectoryToBuild( fname, buildDir, props::DLL_FILE_NAME, script );
+            appCopyFileOrDirectoryToBuild( fname, buildDir, script );
         } else {
             string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
             string fname = binDir + exeFileName;
-            appCopyFileOrDirectoryToBuild( fname, buildDir, props::EXE_FILE_NAME, script );
+            appCopyFileOrDirectoryToBuild( fname, buildDir, script );
         }
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles )
-        appCopyFileOrDirectoryToBuild( bfile, buildDir, props::BUILD_FILES, script );
+        appCopyFileOrDirectoryToBuild( bfile, buildDir, script );
 
     manager->executaTaskIfExists( tasks::COPY );
 
     cout << infos::SUCCESS_IN_COPY << endl;
 }
 
-void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script ) {
-    Prop* prop = script->getProperty( propName );
-
+void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, MainScript* script ) {
     if ( !io::fileExists( path ) ) {
         messagebuilder b ( errors::FILE_OR_FOLDER_NOT_FOUND );
         b << path;
-        throw st_error( prop, b.str() );
+        throw st_error( nullptr, b.str() );
     }
 
     try {
@@ -81,7 +79,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
     } catch ( const io_error& e ) {
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );
         b << path;
-        throw st_error( prop, b.str() );
+        throw st_error( nullptr, b.str() );
     }
 }
 
@@ -91,6 +89,6 @@ void CopyTaskExec::appCreateDirs( CMD* mainCMD, string dirPath ) {
     } catch ( const io_error& e ) {
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_CREATED );
         b << io::absolutePath( dirPath );
-        throw st_error( mainCMD, b.str() );
+        throw st_error( nullptr, b.str() );
     }
 }
