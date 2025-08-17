@@ -17,21 +17,25 @@
 
 #include <cstring>
 #include <iostream>
+#include <stdexcept>
 
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::memset;
+using std::runtime_error;
 
 namespace shell {
 
     string getWorkingDir() {
-        const int BUFSIZE = 4096;
-        char buf[ BUFSIZE ];
-        memset( buf, 0, BUFSIZE );
-        __getcwd( buf, BUFSIZE-1 );
-        string wdir( buf );
-        return wdir;
+        char buffer[ 4096 ];
+        memset( buffer, 0, sizeof( buffer ) );
+        char* result = __getcwd( buffer, sizeof( buffer ) );
+        if ( result != nullptr ) {
+            string wdir( buffer );
+            return wdir;
+        }
+        throw runtime_error( errors::CURRENT_DIRECTORY_NOT_GET );
     }
 
     bool setWorkingDir( string wdir ) {
@@ -96,7 +100,7 @@ void runCMDThread( string command, ThreadPipe* threadPipe ) {
     FILE* pipe = popen( command.c_str(), "r" );
     if ( pipe ) {
         char buffer[ 128 ];
-        while( fgets( buffer, sizeof( buffer ), pipe ) )
+        while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
             cout << buffer;
 
         threadPipe->pipe = pipe;
@@ -110,6 +114,9 @@ int Shell::executa() {
     vector<ThreadPipe*> threadPipeVect;
 
     for( string command : commands ) {
+        if ( isPrint )
+            cout << command << endl;
+
         ThreadPipe* threadPipe = new ThreadPipe;
         threadPipe->thread = new std::thread( runCMDThread, command, threadPipe );
         threadPipeVect.push_back( threadPipe );

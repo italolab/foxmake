@@ -104,7 +104,7 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
 
     ss << " " << linkerParams;
 
-    Shell* shell = new Shell( true );
+    Shell* shell = new Shell();
     shell->pushCommand( ss.str() );
 
     int exitCode = shell->executa();

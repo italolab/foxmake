@@ -10,13 +10,14 @@ namespace errors {
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     const string END_OF_BLOCK_WITH_UNNECESSARY_CHARACTERS = "Fim de bloco de tarefa com caracteres desnecessarios.";
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variavel nao encontrada: $($1).";
-    const string UNRECOGNIZED_LINE = "Linha não reconhecida como instrucao valida.";
+    const string UNRECOGNIZED_LINE = "Linha nï¿½o reconhecida como instrucao valida.";
 
     const string INVALID_NUMBER_OF_ARGS = "Numero de argumentos esperado igual a $1, encontrado $2.";
 
     const string WORKDIR_VAR_NOT_FOUND = "Nao foi encontrada a variavel de diretorio de trabalho.";
     const string INFORMED_PATH_IS_NOT_A_DIRECTORY = "O caminho informado nao e um diretorio.";
     const string CURRENT_DIRECTORY_NOT_CHANGED = "Nao foi possivel alterar o diretorio corrente.";
+    const string CURRENT_DIRECTORY_NOT_GET = "Nao foi possivel capturar o diretorio corrente.";
 
     const string DIRECTORY_NOT_FOUND = "Diretorio nao encontrado.";
     const string DIRECTORY_NOT_CREATED = "Nao foi possivel criar o diretorio: \"$1\"";

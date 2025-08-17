@@ -84,7 +84,7 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::WRITING_TIME_ELAPSED_FILE );
     }
 
-    Shell* shell = new Shell( true );
+    Shell* shell = new Shell();
 
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
         stringstream ss;

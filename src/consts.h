@@ -63,7 +63,6 @@ namespace props {
     const string BIN_DIR = "bin.dir";
     const string BUILD_DIR = "build.dir";
 
-    const string INCLUDE_FILES = "include.files";
     const string BUILD_FILES = "build.files";
 
     const string LIB_DIRS = "lib.dirs";
@@ -90,7 +89,6 @@ namespace props {
         BIN_DIR,
         BUILD_DIR,
 
-        INCLUDE_FILES,
         BUILD_FILES,
 
         LIB_DIRS,

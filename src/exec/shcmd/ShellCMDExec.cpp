@@ -16,7 +16,7 @@ using std::endl;
 void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     string cmdstr = shellCMD->getCMDStr();
 
-    Shell* shell = new Shell( true );
+    Shell* shell = new Shell();
     shell->pushCommand( consts::SHELL_EXE + " " + cmdstr );
 
     int result = shell->executa();

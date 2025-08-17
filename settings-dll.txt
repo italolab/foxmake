@@ -22,7 +22,6 @@ linker.params=$($(target).linker.params)
 src.dir=src
 build.dir=build
 
-#include.files=../Utils/src
 #build.files="../Utils/bin/Debug/Utils.dll"
 
 #lib.dirs=

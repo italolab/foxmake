@@ -1,0 +1,16 @@
+#!/bin/bash
+
+SRC_DIR="src"
+OBJ_DIR="obj/Debug"
+BIN_DIR="bin/Debug"
+
+find $SRC_DIR -type f -name "*.cpp" -printf '%p\n' | while read -r file; do
+    cpp_file_path="$file"
+    obj_file_path=$(echo "$cpp_file_path" | awk '{gsub(".cpp", ".o", $0); print $0}')
+
+    obj_file_path2="$OBJ_DIR/$obj_file_path"
+
+    obj_dir2=$(dirname "$obj_file_path2")
+
+    mkdir -p $obj_dir2
+done

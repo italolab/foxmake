@@ -53,18 +53,28 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
                 count = io::recursiveDeleteFileOrDirectory( file );
             }
 
-            if ( count == 0 )
-                throw st_error( cmd, errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
+            if ( count == 0 ) {
+                messagebuilder b( errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
+                b << file;
+                throw st_error( cmd, b.str() );
+            }
         } catch ( const io_error& e ) {
-            throw st_error( cmd, errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
+            messagebuilder b( errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
+            b << file;
+            throw st_error( cmd, b.str() );
         }
     } else {
         try {
             bool deleted = io::deleteFileOrDirectory( file );
-            if ( !deleted )
-                throw st_error( cmd, errors::FILE_OR_FOLDER_NOT_DELETED );
+            if ( !deleted ) {
+                messagebuilder b( errors::FILE_OR_FOLDER_NOT_DELETED );
+                b << file;
+                throw st_error( cmd, b.str() );
+            }
         } catch ( const io_error& e ) {
-            throw st_error( cmd, errors::FILE_OR_FOLDER_NOT_DELETED );
+            messagebuilder b( errors::FILE_OR_FOLDER_NOT_DELETED );
+            b << file;
+            throw st_error( cmd, b.str() );
         }
     }
 

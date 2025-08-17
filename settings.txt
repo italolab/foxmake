@@ -1,18 +1,18 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cbuild2.exe
+exe.file.name=cbuild2
 
-$target=debug
+$target=release
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
-$debug_compiler_params=-Wall -fexceptions -g
+$debug_compiler_params=-Wall -fexceptions -g -std=c++17
 $debug_linker_params=
 
 $release_bin_dir=bin/Release
 $release_obj_dir=obj/Release
-$release_compiler_params=-Wall -fexceptions -O2
+$release_compiler_params=-Wall -fexceptions -O2 -std=c++17
 $release_linker_params=-s
 
 
@@ -24,7 +24,6 @@ linker.params=$($(target)_linker_params)
 src.dir=src
 build.dir=build
 
-include.files=
 build.files=settings.txt settings-dll.txt obj
 
 lib.dirs=
@@ -59,14 +58,14 @@ cp $(obj.dir)/src/io/* $(build.dir)/objects
 
 mkdir -p $(build.dir)/a/b/c
 
-cp ../TestesUnit/bin/Debug/TestesUnit.dll $(build.dir)
+cp ../italo-xadrez-cpp-linux/italo-xadrez $(build.dir)
 
-cd ../TestesUnit
-cp -r $(src.dir) ../$(project_name)/$(build.dir)
+#cd ../italo-xadrez-cpp-linux
+#cp -r Src ../$(project_name)/$(build.dir)
 
 cd ../$(project_name)
 
-rm $(build.dir)/TestesUnit.dll
+#rm $(build.dir)/italo-xadrez
 #rm -r $(include.dirs)/*
 #rm -r $(obj.dir)
 
