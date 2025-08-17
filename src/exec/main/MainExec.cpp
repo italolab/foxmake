@@ -86,8 +86,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         isCopy = true;
     }
 
-    if ( isCompile || isLink )
-        this->genSourceAndHeaderInfos( mainCMD, manager );
+    this->genSourceAndHeaderInfos( mainCMD, manager );
 
     if ( isClean )
         manager->executaTask( tasks::CLEAN, mainCMD );

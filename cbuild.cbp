@@ -11,7 +11,6 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="build" />
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="src/msg" />
@@ -85,6 +84,7 @@
 		<Unit filename="src/exec/shcmd/ShellCMDExec.h" />
 		<Unit filename="src/exec/stexcept.cpp" />
 		<Unit filename="src/exec/stexcept.h" />
+		<Unit filename="src/help_messages.h" />
 		<Unit filename="src/info_messages.h" />
 		<Unit filename="src/inter/CMDInter.cpp" />
 		<Unit filename="src/inter/CMDInter.h" />

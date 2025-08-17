@@ -27,6 +27,7 @@ namespace infos {
     const string FILE_OR_DIRECTORY_DELETED = "Deleted: \"$1\"";
     const string FILE_OR_DIRECTORY_COPIED = "Copiado: \"$1\"";
 
+    const string CLEAN_UP_TO_DATE = "Nao foi necessario remover algum arquivo. Limpesa atualizada.";
     const string COMPILATION_UP_TO_DATE = "Nao foi necessario compilar algum arquivo.\nCompilacao atualizada!";
 
     const string CONFIGURATION_FILE = "Arquivo de configuracao: \"$1\"";
