@@ -14,7 +14,9 @@
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/io.h"
+#include "../msg/messagebuilder.h"
 
+#include "../error_messages.h"
 #include "../consts.h"
 
 #include <stdexcept>
@@ -69,8 +71,11 @@ ExecManager::~ExecManager() {
 void ExecManager::exec( int argc, char* argv[] ) {
     try {
         InterResult* result = interManager->interpretsMainCMD( argc, argv );
-        if ( !result->isInterpreted() )
-            throw runtime_error( "Erro em: \"" + result->getLine() + "\"\n" + result->getErrorMsg() );
+        if ( !result->isInterpreted() ) {
+            messagebuilder b( errors::ERROR_IN_MAIN_CMD );
+            b << result->getErrorMsg();
+            throw runtime_error( b.str() );
+        }
 
         CMD* cmd = (CMD*)result->getStatement();
 
@@ -90,7 +95,7 @@ void ExecManager::executaStatement( Statement* st ) {
 
         Exec* exec = execsMap[ cmd->getName() ];
         if ( exec == nullptr )
-            throw runtime_error( "Procedimento de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
+            throw runtime_error( "Executor de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
 
         exec->exec( cmd, this );
     } else if ( dynamic_cast<ShellCMD*>( st ) ) {
@@ -107,7 +112,7 @@ void ExecManager::executaStatement( Statement* st ) {
 void ExecManager::executaTask( string taskName, CMD* mainCMD ) {
     TaskExec* exec = taskExecsMap[ taskName ];
     if ( exec == nullptr )
-        throw runtime_error( "Procedimento de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
+        throw runtime_error( "Executor de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
     exec->exec( mainCMD, this );
 }
 

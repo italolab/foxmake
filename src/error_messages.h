@@ -54,6 +54,8 @@ namespace errors {
 
     const string TASK_NOT_RECOGNIZED = "Tarefa nao reconhecida.";
 
+    const string ERROR_IN_MAIN_CMD = "Erro: $1";
+
 }
 
 #endif

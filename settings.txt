@@ -58,7 +58,7 @@ cp $(obj.dir)/src/io/* $(build.dir)/objects
 
 mkdir -p $(build.dir)/a/b/c
 
-cp ../italo-xadrez-cpp-linux/italo-xadrez $(build.dir)
+#cp ../italo-xadrez-cpp-linux/italo-xadrez $(build.dir)
 
 #cd ../italo-xadrez-cpp-linux
 #cp -r Src ../$(project_name)/$(build.dir)
