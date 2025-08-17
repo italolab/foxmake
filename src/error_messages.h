@@ -10,7 +10,7 @@ namespace errors {
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     const string END_OF_BLOCK_WITH_UNNECESSARY_CHARACTERS = "Fim de bloco de tarefa com caracteres desnecessarios.";
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variavel nao encontrada: $($1).";
-    const string UNRECOGNIZED_LINE = "Linha n�o reconhecida como instrucao valida.";
+    const string UNRECOGNIZED_LINE = "Linha nao reconhecida como instrucao valida.";
 
     const string INVALID_NUMBER_OF_ARGS = "Numero de argumentos esperado igual a $1, encontrado $2.";
 

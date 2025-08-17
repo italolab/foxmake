@@ -7,6 +7,9 @@
 
 #include "../error_messages.h"
 
+#include <iostream>
+using namespace std;
+
 InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
@@ -47,11 +50,16 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
 
         if ( !result->isInterpreted() ) {
             string error;
-            if ( result->isErrorFound() )
+            string resultLine;
+            if ( result->isErrorFound() ) {
                 error = result->getErrorMsg();
-            else error = errors::UNRECOGNIZED_LINE;
+                resultLine = result->getLine();
+            } else {
+                error = errors::UNRECOGNIZED_LINE;
+                resultLine = line;
+            }
 
-            return new InterResult( result->getLine(), lineNumber + numberOfLines, 0, error );
+            return new InterResult( resultLine, lineNumber + numberOfLines, 0, error );
         }
 
         delete result;

@@ -15,7 +15,9 @@ using std::vector;
 class st_error : public runtime_error {
 
     private:
-        Statement* st;
+        int lineNumber;
+        string line;
+        bool isShowLine;
 
     public:
         st_error( Statement*, string );

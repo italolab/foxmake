@@ -24,7 +24,6 @@ linker.params=$($(target)_linker_params)
 src.dir=src
 build.dir=build
 
-include.files=
 build.files=settings.txt settings-dll.txt obj
 
 lib.dirs=
@@ -61,12 +60,12 @@ mkdir -p $(build.dir)/a/b/c
 
 cp ../italo-xadrez-cpp-linux/italo-xadrez $(build.dir)
 
-cd ../italo-xadrez-cpp-linux
-cp -r Src ../$(project_name)/$(build.dir)
+#cd ../italo-xadrez-cpp-linux
+#cp -r Src ../$(project_name)/$(build.dir)
 
 cd ../$(project_name)
 
-rm $(build.dir)/italo-xadrez
+#rm $(build.dir)/italo-xadrez
 #rm -r $(include.dirs)/*
 #rm -r $(obj.dir)
 

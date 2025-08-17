@@ -117,11 +117,16 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
         if ( !result->isInterpreted() ) {
             string error;
-            if ( result->isErrorFound() )
+            string resultLine;
+            if ( result->isErrorFound() ) {
                 error = result->getErrorMsg();
-            else error = errors::UNRECOGNIZED_LINE;
+                resultLine = result->getLine();
+            } else {
+                error = errors::UNRECOGNIZED_LINE;
+                resultLine = line;
+            }
 
-            return new InterResult( result->getLine(), numberOfLines, 0, error );
+            return new InterResult( resultLine, numberOfLines, 0, error );
         }
 
         delete result;
