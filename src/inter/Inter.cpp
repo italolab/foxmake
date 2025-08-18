@@ -2,6 +2,7 @@
 #include "Inter.h"
 #include "../darv/MainScript.h"
 #include "../msg/messagebuilder.h"
+#include "../util/strutil.h"
 
 #include "../error_messages.h"
 
@@ -14,7 +15,7 @@ using namespace std;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
-InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* block ) {
+InterResult* Inter::replacePropsAndVarsAndDollarSigns( string& line, int lineNumber, Block* block ) {
     MainScript* script = (MainScript*)block->getRoot();
 
     size_t i = line.find( '$' );
@@ -26,7 +27,17 @@ InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* bl
 
         int len = line.length();
         for( int k = 0; k < len; k++ ) {
-            if ( line[ k ] == '$' ) {
+            bool isDollarSign = false;
+            if ( k == 0 && line[ k ] == '$' )
+                isDollarSign = true;
+
+            if ( !isDollarSign && line[k] == '$') {
+                if ( k > 0 )
+                    isDollarSign = ( line[ k-1 ] != '\\' );
+                else isDollarSign = true;
+            }
+
+            if ( isDollarSign ) {
                 if ( k+1 < len ) {
                     if ( line[ k+1 ] == '(' ) {
                         parentesisCount++;
@@ -44,7 +55,7 @@ InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* bl
                         }
                         if ( parentesisCount == 0 ) {
                             string name = line.substr( k+2, j-(k+2) );
-                            replacePropsAndVars( name, lineNumber, block );
+                            replacePropsAndVarsAndDollarSigns( name, lineNumber, block );
 
                             if ( script->existsProperty( name ) ) {
                                 string value = script->getPropertyValue( name );
@@ -76,6 +87,7 @@ InterResult* Inter::replacePropsAndVars( string& line, int lineNumber, Block* bl
             }
         }
         line = ss.str();
+        line = strutil::replaceAll( line, "\\$", "$" );
     }
     return new InterResult( nullptr, 0, 0 );
 }

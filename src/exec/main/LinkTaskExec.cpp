@@ -85,8 +85,6 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     for( CodeInfo* info : sourceCodeInfos )
         ss << " " << objDir << info->objFilePath;
 
-    ss << " " << linkerParams;
-
     vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
     vector<string> dllsVect = strutil::splitWithDoubleQuotes( dllDirs );
 
@@ -101,6 +99,8 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
         dllParams << " -l" << dll;
 
     ss << libdirParams.str() << dllParams.str();
+
+    ss << " " << linkerParams;
 
     Shell* shell = new Shell();
     shell->pushCommand( ss.str() );

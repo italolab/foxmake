@@ -116,6 +116,18 @@ namespace strutil {
         return newStr;
     }
 
+    string replaceAll( string str, string replaceStr, string newReplaceStr ) {
+        string newStr = str;
+        int replaceStrLen = replaceStr.length();
+
+        size_t i = newStr.find( replaceStr );
+        while ( i != string::npos ) {
+            newStr.replace( i, replaceStrLen, newReplaceStr );
+            i = newStr.find( replaceStr );
+        }
+        return newStr;
+    }
+
     string removeStartWhiteSpaces( string str ) {
         int len = str.length();
 

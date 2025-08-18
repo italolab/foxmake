@@ -22,7 +22,7 @@ InterResult* PropInter::interprets( MainScript* parent, string line, int lineNum
         return new InterResult( line, 0, 0, b.str() );
     }
 
-    InterResult* replaceResult = Inter::replacePropsAndVars( value, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( value, lineNumber, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 

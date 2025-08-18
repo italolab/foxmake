@@ -28,10 +28,12 @@ namespace errors {
 
     const string FILE_OR_DIRECTORY_NOT_CREATED = "Nao foi possivel criar o diretorio: \"$1\"";
     const string FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER = "Nao foi possivel copiar o arquivo ou pasta: \"$1\" para a pasta de build.";
-    const string FILE_OR_FOLDER_NOT_FOUND = "Arquivo ou diretorio nao encontrado.";
+    const string FILE_OR_FOLDER_NOT_FOUND = "Arquivo ou diretorio nao encontrado: \"$1\"";
     const string FILE_OR_FOLDER_NOT_DELETED = "Arquivo ou pasta nao deletado: \"$1\"\nSe o arquivo e um diretorio, verifique se esta vasio ou tente remover recursivamente.";
     const string FILE_OR_FOLDER_DELETION_IS_NOT_POSSIBLE = "Nao foi possivel deletar o arquivo ou pasta: \"$1\"";
     const string RECURSIVE_FILE_OR_FOLDER_NOT_DELETED = "Arquivo ou pasta nao deletado: \"$1\"";
+
+    const string VERIFY_THE_PROPERTY = "Verifique a propriedade: \"$1\"";
 
     const string DEST_DIRECTORY_NOT_EXISTS = "O diretorio de destino nao existe: \"$1\"";
     const string TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER = "Tentativa de copiar nao recursivamente uma pasta nao vazia.";

@@ -25,6 +25,7 @@ namespace strutil {
     bool isNextToken( string str, int i, string token );
     string trim( string str );
     string replace( string str, string subStr, string newSubStr );
+    string replaceAll( string str, string replaceStr, string newReplaceStr );
 
     bool isWhiteSpace( char ch );
     string removeStartWhiteSpaces( string str );

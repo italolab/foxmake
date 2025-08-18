@@ -20,7 +20,7 @@ InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], void* mgr ) {
 InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, void* mgr ) {
     string cmdstr = line;
 
-    InterResult* replaceResult = Inter::replacePropsAndVars( cmdstr, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( cmdstr, lineNumber, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 

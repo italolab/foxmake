@@ -12,7 +12,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, string line, int lineNumb
     string cmdstr = line.substr( 1, line.length()-1 );
     cmdstr = strutil::removeStartWhiteSpaces( cmdstr );
 
-    InterResult* replaceResult = Inter::replacePropsAndVars( cmdstr, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( cmdstr, lineNumber, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 

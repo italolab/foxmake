@@ -36,7 +36,7 @@ void CopyTaskExec::exec( CMD* mainCMD, void* mgr ) {
         binDir = io::addSeparatorToDirIfNeed( binDir );
 
     if ( buildDir != "" ) {
-        this->appCreateDirs( mainCMD, buildDir );
+        this->appCreateDirs( mainCMD, buildDir, props::BUILD_DIR );
         buildDir = io::addSeparatorToDirIfNeed( buildDir );
     }
 
@@ -44,51 +44,63 @@ void CopyTaskExec::exec( CMD* mainCMD, void* mgr ) {
         if ( isDll == "true" ) {
             string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
             string fname = binDir + dllFileName;
-            appCopyFileOrDirectoryToBuild( fname, buildDir, script );
+            appCopyFileOrDirectoryToBuild( fname, buildDir, props::BIN_DIR, script );
         } else {
             string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
             string fname = binDir + exeFileName;
-            appCopyFileOrDirectoryToBuild( fname, buildDir, script );
+            appCopyFileOrDirectoryToBuild( fname, buildDir, props::BIN_DIR, script );
         }
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles )
-        appCopyFileOrDirectoryToBuild( bfile, buildDir, script );
+        appCopyFileOrDirectoryToBuild( bfile, buildDir, props::BUILD_FILES ,script );
 
     manager->executaTaskIfExists( tasks::COPY );
 
     cout << infos::SUCCESS_IN_COPY << endl;
 }
 
-void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, MainScript* script ) {
+void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script ) {
     if ( !io::fileExists( path ) ) {
-        messagebuilder b ( errors::FILE_OR_FOLDER_NOT_FOUND );
-        b << path;
-        throw st_error( nullptr, b.str() );
+        messagebuilder b1 ( errors::FILE_OR_FOLDER_NOT_FOUND );
+        b1 << path;
+
+        messagebuilder b2 ( errors::VERIFY_THE_PROPERTY );
+        b2 << propName;
+
+        stringstream ss;
+        ss << b1.str() << "\n" << b2.str();
+        throw st_error( nullptr, ss.str() );
     }
 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
         io::createDirs( bdir );
-        io::copyFileOrDirectory( path, bdir, true, true );
+        io::copyFileOrDirectory( path, bdir, true, true );        
 
         messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
         b << path;
         cout << b.str() << endl;
-    } catch ( const io_error& e ) {
+    } catch ( const io_error& e ) {        
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );
         b << path;
         throw st_error( nullptr, b.str() );
     }
 }
 
-void CopyTaskExec::appCreateDirs( CMD* mainCMD, string dirPath ) {
+void CopyTaskExec::appCreateDirs( CMD* mainCMD, string dirPath, string propName ) {
     try {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {
-        messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_CREATED );
-        b << io::absolutePath( dirPath );
-        throw st_error( nullptr, b.str() );
+        messagebuilder b1( errors::FILE_OR_DIRECTORY_NOT_CREATED );
+        b1 << io::absolutePath( dirPath );
+
+        messagebuilder b2( errors::VERIFY_THE_PROPERTY );
+        b2 << propName;
+
+        stringstream ss;
+        ss << b1.str() << "\n" << b2.str();
+        throw st_error( nullptr, ss.str() );
     }
 }

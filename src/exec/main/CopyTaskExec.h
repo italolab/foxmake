@@ -7,9 +7,9 @@
 class CopyTaskExec : public TaskExec {
 
     private:
-        void appCopyFileOrDirectoryToBuild( string path, string buildDir, MainScript* script );
+        void appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, MainScript* script );
 
-        void appCreateDirs( CMD* mainCMD, string dirPath );
+        void appCreateDirs( CMD* mainCMD, string dirPath, string propName );
 
     public:
         void exec( CMD* mainCMD, void* mgr );
