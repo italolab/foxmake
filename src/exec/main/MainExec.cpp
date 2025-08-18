@@ -137,7 +137,6 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 
     vector<string> names = manager->getMainScript()->taskNames();
     for( string taskName : names ) {
-        cout << "TASK NAME= " << taskName << endl;
         if ( !manager->isDefaultTask( taskName ) ) {
             messagebuilder b( infos::EXECUTING_TASK );
             b << taskName;
