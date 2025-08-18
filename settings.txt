@@ -24,7 +24,7 @@ linker.params=$($(target)_linker_params)
 src.dir=src
 build.dir=build
 
-build.files=settings.txt settings-dll.txt obj x
+build.files=settings.txt settings-dll.txt obj
 
 lib.dirs=
 include.dirs=include
