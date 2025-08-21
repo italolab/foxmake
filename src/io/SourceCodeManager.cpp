@@ -5,10 +5,6 @@
 
 #include <filesystem>
 
-
-#include <iostream>
-using namespace std;
-
 using std::getline;
 
 SourceCodeManager::SourceCodeManager( string sourceFileExtensions, string headerFileExtensions ) {
@@ -116,8 +112,6 @@ bool SourceCodeManager::interpretsInclude( string line, string filePath ) {
 
             string dir = io::dirPath( filePath );
             includePath = io::resolvePath( dir, includePath );
-
-            cout << includePath << endl;
 
             if ( allCodeInfosMap.find( includePath ) != allCodeInfosMap.end() )
                 allCodeInfosMap[ includePath ]->dependencies.push_back( filePath );
