@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1755340120 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.cpp
 	"Block.h"
 
 1755340015 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\block.h
@@ -16,7 +16,7 @@
 	"Statement.h"
 	<string>
 
-1755340235 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.cpp
 	"CMD.h"
 
 1755340154 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\cmd.h
@@ -30,7 +30,7 @@
 	"Statement.h"
 	<string>
 
-1755340317 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.cpp
 	"MainScript.h"
 
 1755340262 c:\users\italo\workspace-cpp\dlls\cbuild\src\darv\mainscript.h
@@ -91,7 +91,7 @@
 	"../darv/Statement.h"
 	<string>
 
-1755419103 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\stexcept.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\stexcept.h
 	"../darv/Statement.h"
 	"../inter/InterResult.h"
 	<stdexcept>
@@ -102,7 +102,7 @@
 	"stexcept.h"
 	<sstream>
 
-1755346335 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\execmanager.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\execmanager.h
 	"Exec.h"
 	"TaskExec.h"
 	"main/MainExec.h"
@@ -127,7 +127,7 @@
 	"../../darv/ShellCMD.h"
 	<string>
 
-1755340490 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
+1755777160 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\intermanager.h
 	"InterDriver.h"
 	"MainScriptInter.h"
 	"TaskInter.h"
@@ -149,7 +149,7 @@
 	"it/BlockIterator.h"
 	"../darv/MainScript.h"
 
-1755088053 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\inter.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\inter.h
 	<string>
 	<stdexcept>
 	"InterResult.h"
@@ -239,7 +239,7 @@
 1755344583 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\cp\cpexec.h
 	"../Exec.h"
 
-1755267122 c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.h
 	<string>
 	<vector>
 	<stdexcept>
@@ -256,7 +256,7 @@
 1755343962 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\exec.cpp
 	"Exec.h"
 
-1755346312 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\execmanager.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\execmanager.cpp
 	"ExecManager.h"
 	"stexcept.h"
 	"cp/CPExec.h"
@@ -272,6 +272,8 @@
 	"../inter/InterResult.h"
 	"../shell/shell.h"
 	"../io/io.h"
+	"../msg/messagebuilder.h"
+	"../error_messages.h"
 	"../consts.h"
 	<stdexcept>
 	<typeinfo>
@@ -295,11 +297,11 @@
 1755344698 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\linktaskexec.h
 	"../TaskExec.h"
 
-1755425334 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.h
 	"../TaskExec.h"
 	"../../darv/MainScript.h"
 
-1755426187 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\consts.h
 	<string>
 	<vector>
 
@@ -315,7 +317,7 @@
 	"../../consts.h"
 	<iostream>
 
-1755419902 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\compiletaskexec.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\compiletaskexec.cpp
 	"CompileTaskExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -334,7 +336,7 @@
 	<stdexcept>
 	<iostream>
 
-1755425341 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\copytaskexec.cpp
 	"CopyTaskExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -348,7 +350,7 @@
 	<vector>
 	<iostream>
 
-1755424911 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\linktaskexec.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\linktaskexec.cpp
 	"LinkTaskExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -367,7 +369,7 @@
 	<stdexcept>
 	<iostream>
 
-1755434930 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\mainexec.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\main\mainexec.cpp
 	"MainExec.h"
 	"../ExecManager.h"
 	"../stexcept.h"
@@ -397,7 +399,7 @@
 	<sstream>
 	<iostream>
 
-1755422692 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\rm\rmexec.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\rm\rmexec.cpp
 	"RMExec.h"
 	"../stexcept.h"
 	"../../io/io.h"
@@ -408,7 +410,7 @@
 	<sstream>
 	<iostream>
 
-1755426205 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\shcmd\shellcmdexec.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\shcmd\shellcmdexec.cpp
 	"ShellCMDExec.h"
 	"../stexcept.h"
 	"../../shell/shell.h"
@@ -421,7 +423,7 @@
 1755366399 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\taskexec.cpp
 	"TaskExec.h"
 
-1755416953 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\cmdinter.cpp
 	"CMDInter.h"
 	"InterManager.h"
 	"../darv/CMD.h"
@@ -431,10 +433,11 @@
 	<sstream>
 	<cstring>
 
-1755416953 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\inter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\inter.cpp
 	"Inter.h"
 	"../darv/MainScript.h"
 	"../msg/messagebuilder.h"
+	"../util/strutil.h"
 	"../error_messages.h"
 	<sstream>
 	<iostream>
@@ -459,27 +462,28 @@
 	"BlockIterator.h"
 	<sstream>
 
-1755416953 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\mainscriptinter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\mainscriptinter.cpp
 	"MainScriptInter.h"
 	"InterManager.h"
 	"it/FileIterator.h"
 	"../darv/MainScript.h"
 	"../util/strutil.h"
 	"../error_messages.h"
+	<iostream>
 
-1755416537 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\propinter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\propinter.cpp
 	"PropInter.h"
 	"InterManager.h"
 	"../darv/Prop.h"
 	"../msg/messagebuilder.h"
 	"../error_messages.h"
 
-1755343293 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\shellcmdinter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\shellcmdinter.cpp
 	"ShellCMDInter.h"
 	"../darv/ShellCMD.h"
 	"../util/strutil.h"
 
-1755416954 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\taskinter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\taskinter.cpp
 	"TaskInter.h"
 	"InterManager.h"
 	"it/StringIterator.h"
@@ -488,7 +492,7 @@
 	"../error_messages.h"
 	<sstream>
 
-1755343271 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\varinter.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\inter\varinter.cpp
 	"VarInter.h"
 	"InterManager.h"
 	"../darv/Var.h"
@@ -520,26 +524,29 @@
 	"../util/strutil.h"
 	<filesystem>
 
-1755346312 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\main.cpp
 	"exec/ExecManager.h"
 	"io/io.h"
+	<iostream>
 
-1755423755 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\shell\shell.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\shell\shell.cpp
 	<windows.h>
 	<direct.h>
+	<thread>
 	<unistd.h>
 	"shell.h"
 	"../msg/messagebuilder.h"
 	"../error_messages.h"
 	<cstring>
 	<iostream>
+	<stdexcept>
 
-1755267122 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\util\strutil.cpp
 	"strutil.h"
 	<sstream>
 	<iostream>
 
-1755419101 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\stexcept.cpp
+1755776207 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\exec\stexcept.cpp
 	"stexcept.h"
 	<sstream>
 
@@ -551,7 +558,7 @@
 	<vector>
 	<sstream>
 
-1755429626 c:\users\italo\workspace-cpp\dlls\cbuild\src\error_messages.h
+1755776207 c:\users\italo\workspace-cpp\dlls\cbuild\src\error_messages.h
 	<string>
 
 1755416507 source:c:\users\italo\workspace-cpp\dlls\cbuild\src\msg\messagebuilder.cpp
