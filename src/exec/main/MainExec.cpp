@@ -101,7 +101,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( isCopy )
         manager->executaTask( tasks::COPY, mainCMD );
 
-    this->executaNoDefaultTasks( manager );
+    this->executaNoDefaultTasks( mainCMD, manager );
     this->executaStatements( manager );
 }
 
@@ -132,12 +132,13 @@ void MainExec::genSourceAndHeaderInfos( CMD* mainCMD, void* mgr ) {
         throw st_error( mainCMD, errors::ERROR_IN_READING_SRC_FILES );
 }
 
-void MainExec::executaNoDefaultTasks( void* mgr ) {
+void MainExec::executaNoDefaultTasks( CMD* mainCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     vector<string> names = manager->getMainScript()->taskNames();
     for( string taskName : names ) {
-        if ( !manager->isDefaultTask( taskName ) ) {
+        bool isTaskArg = mainCMD->existsArg( taskName );
+        if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
             messagebuilder b( infos::EXECUTING_TASK );
             b << taskName;
             cout << endl << b.str() << endl;

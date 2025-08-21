@@ -1,7 +1,7 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cbuild2.exe
+exe.file.name=cbuild2
 
 $target=debug
 
@@ -38,6 +38,10 @@ compile {
 
 }
 
+link {
+    #@cp $(bin.dir)/$(exe.file.name) cbuild
+}
+
 build {
 
     echo Buildou com sucesso ou falha....
@@ -68,6 +72,9 @@ cd ../$(project_name)
 #rm $(build.dir)/italo-xadrez
 #rm -r $(include.dirs)/*
 #rm -r $(obj.dir)
+
+#cp $(build.dir)/$(exe.file.name) cbuild
+
 
 build {
     $a=$(src.dir)/abc
