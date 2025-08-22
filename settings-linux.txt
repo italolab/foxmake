@@ -3,7 +3,12 @@ is.dll=false
 compiler=g++
 exe.file.name=cbuild2
 
-$target=debug
+src.dir=src
+build.dir=build
+
+build.files=settings-linux.txt settings-dll.txt
+
+$target=release
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
@@ -21,14 +26,9 @@ obj.dir=$($(target)_obj_dir)
 compiler.params=$($(target)_compiler_params)
 linker.params=$($(target)_linker_params)
 
-src.dir=src
-build.dir=build
-
-build.files=settings.txt settings-dll.txt
-
 lib.dirs=
 include.dirs=include
-dlls=
+libs=
 #defines=
 
 $project_name=cbuild

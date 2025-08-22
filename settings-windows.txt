@@ -24,7 +24,7 @@ linker.params=$($(target)_linker_params)
 src.dir=src
 build.dir=build
 
-build.files=settings.txt settings-dll.txt
+build.files=settings-windows.txt settings-dll.txt
 #resource.file=icon.res
 
 lib.dirs=
