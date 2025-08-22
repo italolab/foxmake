@@ -60,8 +60,7 @@ namespace io {
     bool isEmptyDir( string dir );
     bool fileExists( string path );
 
-    long lastWriteTimeInSeconds( string path );
-    long writingTimeElapsedInMS( string path );
+    long lastWriteTime( string path );
 
 }
 

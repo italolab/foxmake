@@ -65,7 +65,7 @@ bool SourceCodeManager::loadDependencies() {
         CodeInfo* info = pair.second;
         bool ok = this->loadDepencenciesForFile( info->filePath );
         if ( !ok )
-            return false;
+            return false;        
     }
 
     for( const auto& pair : allCodeInfosMap ) {

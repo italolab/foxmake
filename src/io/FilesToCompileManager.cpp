@@ -30,8 +30,8 @@ void FilesToCompileManager::loadFilesToCompile(
             if ( timesElapsedMap.find( filePath ) != timesElapsedMap.end() ) {
                 long savedWritingTimeElapsed = timesElapsedMap[ filePath ];
 
-                long currentWritingTimeElapsed = io::writingTimeElapsedInMS( filePath );
-                if ( currentWritingTimeElapsed < savedWritingTimeElapsed )
+                long currentWritingTimeElapsed = io::lastWriteTime( filePath );
+                if ( currentWritingTimeElapsed > savedWritingTimeElapsed )
                     this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );
             } else {
                 this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );
@@ -66,7 +66,7 @@ void FilesToCompileManager::recursiveLoadDependencies(
         return;
 
     filesToCompile.push_back( allSourceInfosMap[ filePath ] );
-
+                    
     vector<string>& deps = allSourceInfosMap[ filePath ]->dependencies;
     for( string fpath : deps ) {
         if ( !this->containsToCompileFile( filesToCompile, fpath ) )
@@ -123,7 +123,7 @@ bool FilesToCompileManager::saveWritingTimesElapsedInFile( map<string, CodeInfo*
     for( const auto& pair : allSourceInfosMap ) {
         string filePath = pair.second->filePath;
 
-        long lastWriteTime = io::writingTimeElapsedInMS( filePath );
+        long lastWriteTime = io::lastWriteTime( filePath );
         out << filePath << "=" << lastWriteTime << "\n";
     }
 

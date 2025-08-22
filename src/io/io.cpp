@@ -4,10 +4,13 @@
 
 #include <fstream>
 #include <filesystem>
-#include <chrono>
+
+#include <sys/stat.h>
 
 namespace filesystem = std::filesystem;
-namespace chrono = std::chrono;
+
+#include <iostream>
+using namespace std;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
 joker_error::joker_error( string msg ) : io_error( msg ) {}
@@ -310,20 +313,14 @@ namespace io {
                 p = p.substr( 0, p.length()-1 );
 
             size_t i = p.find_last_of( filesystem::path::preferred_separator );
-            if ( i != string::npos ) {
-                size_t j = ( i == 0 ? string::npos : p.find_last_of( filesystem::path::preferred_separator, i-1 ) );
-                if ( j == string::npos ) {
-                    if ( filesystem::path::preferred_separator == '/' ) {
-                        p = "/";
-                    } else {
-                        p = p.substr( 0, i );
-                        p += filesystem::path::preferred_separator;
-                    }
+            if ( i != string::npos ) {                
+                if ( i == 0 ) {
+                    p = "/";
                 } else {
                     p = p.substr( 0, i );
-                }
+                }                
             } else {
-                p = "";
+                p = "";                
             }
         }
         return p;
@@ -415,23 +412,13 @@ namespace io {
         return resolvedPath.replace( 0, k, dir );
     }
 
-    long lastWriteTimeInSeconds( string path ) {
-        auto ftime = filesystem::last_write_time(path);
+    long lastWriteTime( string path ) {
+        struct stat fileStat;
+        int result = stat( path.c_str(), &fileStat );
+        if ( result != 0 )
+            return -1;
 
-        auto sctp = chrono::time_point_cast<std::chrono::system_clock::duration>(
-            ftime - filesystem::file_time_type::clock::now() + std::chrono::system_clock::now()
-        );
-
-        auto duration = chrono::duration_cast<chrono::seconds>( sctp.time_since_epoch() );
-        return duration.count();
-    }
-
-    long writingTimeElapsedInMS( string path ) {
-        filesystem::file_time_type fileTime = filesystem::last_write_time( path );
-        chrono::time_point now = filesystem::file_time_type::clock::now();
-        chrono::duration elapsed = now - fileTime;
-        chrono::duration durationMS = chrono::duration_cast<chrono::milliseconds>( elapsed );
-        return durationMS.count();
+        return fileStat.st_mtime;
     }
 
 }

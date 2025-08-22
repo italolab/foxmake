@@ -20,7 +20,7 @@ namespace consts {
 #ifdef _WIN32
     const string SHELL_EXE = "cmd.exe /c";
 #else
-    const string SHELL_EXE = "sh -c";
+    const string SHELL_EXE = "";
 #endif
 
 }
