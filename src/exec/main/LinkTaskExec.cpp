@@ -44,8 +44,10 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
 
+    string resourceFile = script->getPropertyValue( props::RESOURCE_FILE );
+
     string libDirs = script->getPropertyValue( props::LIB_DIRS );
-    string dllDirs = script->getPropertyValue( props::DLL_DIRS );
+    string libs = script->getPropertyValue( props::LIBS );
 
     string outputDefFile = script->getPropertyValue( props::OUTPUT_DEF_FILE );
     string outImplibFile = script->getPropertyValue( props::OUT_IMPLIB_FILE );
@@ -63,6 +65,14 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
         messagebuilder b( errors::PROPERTY_EXE_FILE_NAME_NOT_DEFINED_FOR_LINKING );
         b << props::EXE_FILE_NAME;
         throw st_error( nullptr, b.str() );
+    }
+
+    if ( resourceFile != "" ) {
+        if ( !io::fileExists( resourceFile ) ) {
+            messagebuilder b( errors::RESOURCE_FILE_NOT_EXISTS );
+            b << resourceFile;
+            throw st_error( nullptr, b.str() );
+        }
     }
 
     stringstream ss;
@@ -85,20 +95,23 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     for( CodeInfo* info : sourceCodeInfos )
         ss << " " << objDir << info->objFilePath;
 
+    if ( resourceFile != "" )
+        ss << " " << resourceFile;
+
     vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
-    vector<string> dllsVect = strutil::splitWithDoubleQuotes( dllDirs );
+    vector<string> libsVect = strutil::splitWithDoubleQuotes( libs );
 
     stringstream libdirParams;
-    stringstream dllParams;
+    stringstream libParams;
     string token;
 
     for( string libdir : libdirsVect)
         libdirParams << " -L" << libdir;
 
-    for( string dll : dllsVect )
-        dllParams << " -l" << dll;
+    for( string lib : libsVect )
+        libParams << " -l" << lib;
 
-    ss << libdirParams.str() << dllParams.str();
+    ss << libdirParams.str() << libParams.str();
 
     ss << " " << linkerParams;
 

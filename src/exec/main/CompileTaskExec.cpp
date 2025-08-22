@@ -99,6 +99,15 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
             ss << defParams.str();
         }
 
+        if ( includeDirs != "" ) {
+            vector<string> includeDirsVect = strutil::splitWithDoubleQuotes( includeDirs );
+
+            stringstream incDirsParams;
+            for( string incDir : includeDirsVect )
+                incDirsParams << " -I" << incDir;
+            ss << incDirsParams.str();
+        }
+
         if ( isdll ) {
             vector<string> incdirsVect = strutil::splitWithDoubleQuotes( includeDirs );
 

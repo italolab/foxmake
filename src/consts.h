@@ -35,14 +35,14 @@ namespace tasks {
     const string BUILD = "build";
     const string BUILDALL = "buildall";
 
-    const vector<string> DEFAULT_TASKS = { 
-        CLEAN, 
-        COMPILE, 
-        COMPILEALL, 
-        LINK, 
-        COPY, 
-        BUILD, 
-        BUILDALL 
+    const vector<string> DEFAULT_TASKS = {
+        CLEAN,
+        COMPILE,
+        COMPILEALL,
+        LINK,
+        COPY,
+        BUILD,
+        BUILDALL
     };
 
 }
@@ -74,10 +74,11 @@ namespace props {
     const string BUILD_DIR = "build.dir";
 
     const string BUILD_FILES = "build.files";
+    const string RESOURCE_FILE = "resource.file";
 
     const string LIB_DIRS = "lib.dirs";
     const string INCLUDE_DIRS = "include.dirs";
-    const string DLL_DIRS = "dll.dirs";
+    const string LIBS = "libs";
 
     const string DEFINES = "defines";
 
@@ -100,10 +101,11 @@ namespace props {
         BUILD_DIR,
 
         BUILD_FILES,
+        RESOURCE_FILE,
 
         LIB_DIRS,
         INCLUDE_DIRS,
-        DLL_DIRS,
+        LIBS,
 
         DEFINES,
 

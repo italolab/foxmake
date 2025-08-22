@@ -14,7 +14,6 @@
 				<Option parameters="build" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="src/msg" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,12 +21,13 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="buildall" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add directory="src/msg" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static" />
 				</Linker>
 			</Target>
 		</Build>

@@ -1,7 +1,7 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cbuild2.exe
+exe.file.name=cbuild2
 
 $target=debug
 
@@ -25,11 +25,10 @@ src.dir=src
 build.dir=build
 
 build.files=settings.txt settings-dll.txt
-#resource.file=icon.res
 
 lib.dirs=
 include.dirs=include
-libs=
+dlls=
 #defines=
 
 $project_name=cbuild
