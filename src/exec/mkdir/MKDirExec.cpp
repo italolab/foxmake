@@ -1,5 +1,6 @@
 
 #include "MKDirExec.h"
+#include "../ExecManager.h"
 #include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../msg/messagebuilder.h"
@@ -16,6 +17,8 @@ using std::endl;
 using std::stringstream;
 
 void MKDirExec::exec( CMD* cmd, void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
@@ -36,7 +39,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
     } else {
         try {
             ok = io::createDir( dir );
-            if ( !ok ) {
+            if ( !ok && manager->isVerbose() ) {
                 messagebuilder b( errors::FOLDER_ALREADY_EXISTS );
                 b << dir;
                 cerr << b.str() << endl;
@@ -46,7 +49,9 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
         }
     }
 
-    messagebuilder b( infos::EXECUTED_CMD );
-    b << cmd->getCMDStr();
-    cout << b.str() << endl;
+    if ( manager->isVerbose() ) {
+        messagebuilder b( infos::EXECUTED_CMD );
+        b << cmd->getCMDStr();
+        cout << b.str() << endl;
+    }
 }

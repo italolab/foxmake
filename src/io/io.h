@@ -54,6 +54,8 @@ namespace io {
     char fileSeparator();
 
     string resolvePath( string currDir, string path );
+    string resolvedPath( string path );
+    string absoluteResolvedPath( string path );
 
     bool isJokerInPath( string path );
     bool isDir( string path );

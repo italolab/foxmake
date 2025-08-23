@@ -6,7 +6,7 @@
 class LinkTaskExec : public TaskExec {
 
     public:
-        void exec( CMD* mainCMD, void* mgr );
+        void exec( void* mgr );
 
 };
 

@@ -1,5 +1,6 @@
 
 #include "CPExec.h"
+#include "../ExecManager.h"
 #include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../io/filter/FileFilter.h"
@@ -16,6 +17,8 @@ using std::string;
 using std::stringstream;
 
 void CPExec::exec( CMD* cmd, void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+
     int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
@@ -80,7 +83,9 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
         throw st_error( cmd, errors::ERROR_IN_FILES_COPY );
     }
 
-    messagebuilder b ( infos::EXECUTED_CMD );
-    b << cmd->getCMDStr();
-    cout << b.str() << endl;
+    if ( manager->isVerbose() ) {
+        messagebuilder b ( infos::EXECUTED_CMD );
+        b << cmd->getCMDStr();
+        cout << b.str() << endl;
+    }
 }

@@ -3,13 +3,17 @@
 
 #include "../TaskExec.h"
 
+#include <string>
+
+using std::string;
+
 class CompileTaskExec : public TaskExec {
 
     private:
-        void appCreateDirs( CMD* mainCMD, string dir );
+        void appCreateDirs( string dir, void* mgr );
 
     public:
-        void exec( CMD* mainCMD, void* mgr );
+        void exec( void* mgr );
 
 };
 

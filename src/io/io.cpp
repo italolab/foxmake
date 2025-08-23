@@ -9,9 +9,6 @@
 
 namespace filesystem = std::filesystem;
 
-#include <iostream>
-using namespace std;
-
 io_error::io_error( string msg ) : runtime_error( msg ) {}
 joker_error::joker_error( string msg ) : io_error( msg ) {}
 
@@ -383,6 +380,51 @@ namespace io {
             if ( p[ p.length()-1 ] == '*' )
                 return p.substr( 0, p.length()-2 );
         return p;
+    }
+
+    string absoluteResolvedPath( string path ) {
+        return resolvedPath( absolutePath( path ) );
+    }
+
+    string resolvedPath( string path ) {
+        string sep = "";
+        sep += filesystem::path::preferred_separator;
+
+        string rpath = makePreferred( path );
+        if ( strutil::startsWith( rpath, "."+sep ) )
+            rpath = strutil::replace( rpath, "."+sep, "" );
+
+        size_t len = rpath.length();
+
+        size_t i = rpath.find( ".."+sep );
+        size_t j = i;
+        size_t k = i;
+        int count = 0;
+        bool isContinue = i != string::npos;
+        while ( isContinue ) {
+            count++;
+            j = k+3;
+            k += 3;
+            if ( k+2 < len ) {
+                isContinue = rpath[ k ] == '.';
+                isContinue &= rpath[ k+1 ] == '.';
+                isContinue &= rpath[ k+2 ] == filesystem::path::preferred_separator;
+            } else {
+                isContinue = false;
+            }
+        }
+
+        if( count == 0 )
+            return rpath;
+        
+        string basePath = rpath.substr( 0, i );
+        string relativePath = rpath.substr( i, len-i ).replace( 0, j-i, "" );
+
+        for( int k = 0; k < count; k++ )
+            basePath = parentDirPath( basePath );        
+        basePath = addSeparatorToDirIfNeed( basePath );
+        
+        return basePath + relativePath;
     }
 
     string resolvePath( string currDir, string path ) {

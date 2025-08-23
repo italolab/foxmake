@@ -7,10 +7,10 @@
 class CleanTaskExec : public TaskExec {
 
     private:
-        bool appRecursiveDeleteFileOrDirectoryIfExists( string path, MainScript* script );
+        bool appRecursiveDeleteFileOrDirectoryIfExists( string path, void* mgr );
 
     public:
-        void exec( CMD* mainCMD, void* mgr );
+        void exec( void* mgr );
 
 };
 

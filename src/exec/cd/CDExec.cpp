@@ -18,7 +18,8 @@ using std::cout;
 using std::endl;
 
 void CDExec::exec( CMD* cmd, void* mgr ) {
-    MainScript* script = ((ExecManager*)mgr)->getMainScript();
+    ExecManager* manager = (ExecManager*)mgr;
+    MainScript* script = manager->getMainScript();
 
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
@@ -45,7 +46,9 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
 
     var->setValue( shell::getWorkingDir() );
 
-    messagebuilder b( infos::NEW_CURRENT_DIRECTORY );
-    b << var->getValue();
-    cout << b.str() << endl;
+    if ( manager->isVerbose() ) {
+        messagebuilder b( infos::NEW_CURRENT_DIRECTORY );
+        b << var->getValue();
+        cout << b.str() << endl;
+    }
 }

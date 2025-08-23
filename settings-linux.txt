@@ -8,7 +8,7 @@ build.dir=build
 
 build.files=settings-linux.txt settings-dll.txt
 
-$target=release
+$target=debug
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
@@ -30,56 +30,3 @@ lib.dirs=
 include.dirs=include
 libs=
 #defines=
-
-$project_name=cbuild
-
-compile {
-    echo Compilou com sucesso ou falha!
-
-}
-
-link {
-    #@cp $(bin.dir)/$(exe.file.name) cbuild
-}
-
-build {
-
-    echo Buildou com sucesso ou falha....
-
-}
-
-debug {
-    @dir
-    echo Debug executado!
-}
-
-mkdir $(include.dirs)
-
-cp $(src.dir)/-/inter/*.h $(include.dirs)
-cp $(src.dir)/*.cpp $(build.dir)
-mkdir $(build.dir)/objects
-cp $(obj.dir)/src/io/* $(build.dir)/objects
-
-mkdir -p $(build.dir)/a/b/c
-
-#cp ../italo-xadrez-cpp-linux/italo-xadrez $(build.dir)
-
-#cd ../italo-xadrez-cpp-linux
-#cp -r Src ../$(project_name)/$(build.dir)
-
-cd ../$(project_name)
-
-#rm $(build.dir)/italo-xadrez
-#rm -r $(include.dirs)/*
-#rm -r $(obj.dir)
-
-#cp $(build.dir)/$(exe.file.name) cbuild
-
-
-build {
-    $a=$(src.dir)/abc
-
-    echo $(a) diretorio
-    echo $(working_dir)
-    echo Build completo!
-}

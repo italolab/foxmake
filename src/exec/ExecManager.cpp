@@ -31,6 +31,7 @@ using std::runtime_error;
 using std::exception;
 
 ExecManager::ExecManager() {
+    mainCMD = nullptr;
     mainScript = new MainScript();
     interManager = new InterManager( this );
 
@@ -77,11 +78,11 @@ void ExecManager::exec( int argc, char* argv[] ) {
             throw runtime_error( b.str() );
         }
 
-        CMD* cmd = (CMD*)result->getStatement();
+        mainCMD = (CMD*)result->getStatement();
 
         delete result;
 
-        mainExec->exec( cmd, this );
+        mainExec->exec( mainCMD, this );
     } catch ( const st_error& e ) {
         cerr << e.message() << endl;
     } catch ( const exception& e ) {
@@ -109,15 +110,15 @@ void ExecManager::executaStatement( Statement* st ) {
     }
 }
 
-void ExecManager::executaTask( string taskName, CMD* mainCMD ) {
+void ExecManager::executaTask( string taskName ) {
     TaskExec* exec = taskExecsMap[ taskName ];
     if ( exec == nullptr )
         throw runtime_error( "Executor de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
-    exec->exec( mainCMD, this );
+    exec->exec( this );
 }
 
-void ExecManager::executaTaskIfExists( string taskName ) {
-    Task* task = mainScript->getTask( taskName );    
+void ExecManager::executaUserTask( string taskName ) {
+    Task* task = mainScript->getTask( taskName );
     if ( task != nullptr ) {
         int len = task->getStatementsLength();
         for( int i = 0; i < len; i++ ) {
@@ -133,6 +134,26 @@ bool ExecManager::isDefaultTask( string taskName ) {
         if ( name == taskName )
             return true;
     return false;
+}
+
+bool ExecManager::isHelp() {
+    if ( mainCMD == nullptr )
+        return false;
+        
+    bool isShowHelp = mainCMD->existsArg( "-h" );
+    if ( !isShowHelp )
+        isShowHelp = mainCMD->existsArg( "--help" );
+    return isShowHelp;
+}
+
+bool ExecManager::isVerbose() {
+    if ( mainCMD == nullptr )
+        return false;
+        
+    bool isVerbose = mainCMD->existsArg( "-v" );
+    if ( !isVerbose )
+        isVerbose = mainCMD->existsArg( "--verbose" );
+    return isVerbose;
 }
 
 vector<string> ExecManager::validCMDNames() {
@@ -152,6 +173,10 @@ MainExec* ExecManager::getMainExec() {
 
 MainScript* ExecManager::getMainScript() {
     return mainScript;
+}
+
+CMD* ExecManager::getMainCMD() {
+    return mainCMD;
 }
 
 SourceCodeManager* ExecManager::getSourceCodeManager() {

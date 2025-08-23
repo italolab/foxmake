@@ -7,6 +7,7 @@
 #include "shcmd/ShellCMDExec.h"
 #include "../darv/Statement.h"
 #include "../darv/MainScript.h"
+#include "../darv/CMD.h"
 #include "../inter/InterManager.h"
 #include "../inter/InterDriver.h"
 #include "../io/SourceCodeManager.h"
@@ -23,6 +24,7 @@ class ExecManager : public InterDriver {
 
     private:
         MainScript* mainScript;
+        CMD* mainCMD;
 
         InterManager* interManager;
         SourceCodeManager* sourceCodeManager;
@@ -42,17 +44,21 @@ class ExecManager : public InterDriver {
         void executaStatement( Statement* st );
 
         bool isDefaultTask( string taskName );
-        void executaTask( string taskName, CMD* mainCMD );
-        void executaTaskIfExists( string taskName );
+        void executaTask( string taskName );
+        void executaUserTask( string taskName );
 
         vector<string> validCMDNames();
+        vector<string> validPropNames();
+
+        bool isHelp();
+        bool isVerbose();
 
         MainExec* getMainExec();
         MainScript* getMainScript();
+        CMD* getMainCMD();
         InterManager* getInterManager();
         SourceCodeManager* getSourceCodeManager();
 
-        vector<string> validPropNames();
 
 };
 

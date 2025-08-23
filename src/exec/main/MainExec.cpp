@@ -31,9 +31,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
 
-    bool isShowHelp = mainCMD->existsArg( "-h" );
+    bool isShowHelp = manager->isHelp();
+    bool isVerbose = manager->isVerbose();
+
     if ( mainCMD->countNoOpArgs() == 0 || isShowHelp ) {
-        this->showHelp( mainCMD, mgr );
+        this->showHelp( mgr );
         return;
     }
 
@@ -43,9 +45,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     settingsFile = io::absolutePath( settingsFile );
 
-    messagebuilder b( infos::CONFIGURATION_FILE );
-    b << settingsFile;
-    cout << b.str() << endl;
+    if ( isVerbose ) {
+        messagebuilder b( infos::CONFIGURATION_FILE );
+        b << settingsFile;
+        cout << b.str() << endl;
+    }
 
     if ( !io::fileExists( settingsFile ) ) {
         messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
@@ -67,9 +71,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
 
-    messagebuilder b2( infos::CURRENT_DIRECTORY );
-    b2 << wdir;
-    cout << b2.str() << endl;
+    if ( isVerbose ) {
+        messagebuilder b2( infos::CURRENT_DIRECTORY );
+        b2 << wdir;
+        cout << b2.str() << endl;
+    }
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
@@ -90,59 +96,75 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         isCopy = true;
     }
 
-    this->genSourceAndHeaderInfos( mainCMD, manager );
+    this->genSourceAndHeaderInfos( manager );
 
     if ( isClean )
-        manager->executaTask( tasks::CLEAN, mainCMD );
+        manager->executaTask( tasks::CLEAN );
     if ( isCompile )
-        manager->executaTask( tasks::COMPILE, mainCMD );
+        manager->executaTask( tasks::COMPILE );
     if ( isLink )
-        manager->executaTask( tasks::LINK, mainCMD );
+        manager->executaTask( tasks::LINK );
     if ( isCopy )
-        manager->executaTask( tasks::COPY, mainCMD );
+        manager->executaTask( tasks::COPY );
 
-    this->executaNoDefaultTasks( mainCMD, manager );
+    if ( isBuild )
+        manager->executaUserTask( tasks::BUILD );
+    if ( isBuildAll )
+        manager->executaUserTask( tasks::BUILDALL );
+
+    this->executaNoDefaultTasks( manager );
     this->executaStatements( manager );
+
+    if ( manager->isVerbose() )
+        cout << endl;
+    cout << infos::FINISH << endl;
 }
 
-void MainExec::genSourceAndHeaderInfos( CMD* mainCMD, void* mgr ) {
+void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();    
 
     MainScript* script = manager->getMainScript();
+    CMD* mainCMD = manager->getMainCMD();
 
     string srcDir = script->getPropertyValue( props::SRC_DIR );
 
     if ( srcDir != "" && !io::fileExists( srcDir ) ) {
         string src = io::absolutePath( srcDir );
-
+        
         messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );
         b2 << src << props::SRC_DIR;
         throw st_error( mainCMD, b2.str() );
     }
 
-    srcDir = io::absolutePath( srcDir );
+    srcDir = io::absoluteResolvedPath( srcDir );
 
-    messagebuilder b2( infos::SRC_DIRECTORY );
-    b2 << srcDir;
-    cout << b2.str() << endl;
+    if ( manager->isVerbose() ) {
+        messagebuilder b2( infos::SRC_DIRECTORY );
+        b2 << srcDir;
+        cout << b2.str() << endl;
+    }
 
     bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
     if ( !ok )
         throw st_error( mainCMD, errors::ERROR_IN_READING_SRC_FILES );
 }
 
-void MainExec::executaNoDefaultTasks( CMD* mainCMD, void* mgr ) {
+void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    CMD* mainCMD = manager->getMainCMD();
 
     vector<string> names = manager->getMainScript()->taskNames();
     for( string taskName : names ) {
         bool isTaskArg = mainCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
-            messagebuilder b( infos::EXECUTING_TASK );
-            b << taskName;
-            cout << endl << b.str() << endl;
-            manager->executaTaskIfExists( taskName );
+            if ( manager->isVerbose() ) {
+                stringstream ss;
+                ss << infos::EXECUTING << " " << taskName << "..." << endl;                
+                cout << endl << ss.str() << endl;
+            }
+
+            manager->executaUserTask( taskName );
         }
     }
 }
@@ -153,19 +175,25 @@ void MainExec::executaStatements( void* mgr ) {
     MainScript* script = manager->getMainScript();
     int tam = script->getStatementsLength();
 
-    if ( tam > 0 )
-        cout << endl << infos::EXECUTING_STATEMENTS << endl;
+    if ( tam > 0 ) {
+        if( manager->isVerbose() )
+            cout << endl;
+        cout << infos::EXECUTING_STATEMENTS << endl;
+    }
 
     for( int i = 0; i < tam; i++ ) {
         Statement* st = script->getStatementByIndex( i );
         manager->executaStatement( st );
     }
 
-    if ( tam > 0 )
+    if ( tam > 0 && manager->isVerbose() )
         cout << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;
 }
 
-void MainExec::showHelp( CMD* mainCMD, void* mgr ) {
+void MainExec::showHelp( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    CMD* mainCMD = manager->getMainCMD();
+
     int count = mainCMD->countNoOpArgs();
     if ( count == 0 ) {
         cout << helpmessage::helpMessage();

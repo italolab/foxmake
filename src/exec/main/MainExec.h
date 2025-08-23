@@ -7,11 +7,11 @@
 class MainExec : public Exec {
 
     private:
-        void genSourceAndHeaderInfos( CMD* mainCMD, void* mgr );
-        void executaNoDefaultTasks( CMD* mainCMD, void* mgr );
+        void genSourceAndHeaderInfos( void* mgr );
+        void executaNoDefaultTasks( void* mgr );
         void executaStatements( void* mgr );
 
-        void showHelp( CMD* mainCMD, void* mgr );
+        void showHelp( void* mgr );
 
     public:
         void exec( CMD* cmd, void* mgr );

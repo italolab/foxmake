@@ -7,18 +7,16 @@ using std::string;
 
 namespace infos {
 
-    const string EXECUTING_CLEAN = "EXECUTANDO LIMPESA...";
-    const string EXECUTING_COMPILE = "COMPILANDO...";
-    const string EXECUTING_LINKING = "LINKANDO...";
-    const string EXECUTING_COPY = "COPIANDO ARQUIVOS DE BUILD...";
-    const string EXECUTING_STATEMENTS = "EXECUTANDO INSTRUCOES...";
-    const string EXECUTING_TASK = "EXECUTANDO $1...";
+    const string EXECUTING = "Executando";
+    const string EXECUTING_STATEMENTS = "Executando instrucoes...";
 
     const string SUCCESS_IN_CLEAN = "Limpesa efetuada com sucesso.";
     const string SUCCESS_IN_COMPILATION = "Compilacao executada com sucesso.";
     const string SUCCESS_IN_LINKING = "Linkagem efetuada com sucesso.";
     const string SUCCESS_IN_COPY = "Copia dos arquivos de build efetuada com sucesso.";
     const string SUCCESS_IN_EXECUTING_STATEMENTS = "Instrucoes executadas com sucesso.";
+
+    const string FINISH = "Concluido!";
 
     const string CURRENT_DIRECTORY = "Diretorio corrente: \"$1\"";
     const string NEW_CURRENT_DIRECTORY = "Novo diretorio corrente: \"$1\".";

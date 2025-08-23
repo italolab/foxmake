@@ -25,11 +25,14 @@ using std::stringstream;
 using std::cout;
 using std::endl;
 
-void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
+void LinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
-    cout << endl << infos::EXECUTING_LINKING << endl;
+    bool isVerbose = manager->isVerbose();
+    if ( isVerbose )
+        cout << endl;
+    cout << infos::EXECUTING << " " << tasks::LINK << "..." << endl;
 
     MainScript* script = manager->getMainScript();
 
@@ -53,6 +56,9 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     string outImplibFile = script->getPropertyValue( props::OUT_IMPLIB_FILE );
 
     string defines = script->getPropertyValue( props::DEFINES );
+
+    binDir = io::absoluteResolvedPath( binDir );
+    objDir = io::absoluteResolvedPath( objDir );
 
     if ( binDir != "" )
         binDir = io::addSeparatorToDirIfNeed( binDir );
@@ -118,13 +124,14 @@ void LinkTaskExec::exec( CMD* mainCMD, void* mgr ) {
     Shell* shell = new Shell();
     shell->pushCommand( ss.str() );
 
-    int exitCode = shell->executa();
+    int exitCode = shell->executa( isVerbose );
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::LINKING_FAILED );
 
     delete shell;
 
-    manager->executaTaskIfExists( tasks::LINK );
+    manager->executaUserTask( tasks::LINK );
 
-    cout << infos::SUCCESS_IN_LINKING << endl;
+    if ( isVerbose )
+        cout << infos::SUCCESS_IN_LINKING << endl;
 }

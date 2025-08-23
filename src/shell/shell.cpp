@@ -44,23 +44,19 @@ namespace shell {
 
 }
 
-Shell::Shell( bool isPrint ) {
-    this->isPrint = isPrint;
-}
-
 void Shell::pushCommand( string command ) {
     commands.push_back( command );
 }
 
 #ifdef _WIN32
 
-int Shell::executa() {
+int Shell::executa( bool isVerbose ) {
     STARTUPINFO si = { sizeof( si ) };
 
     vector<PROCESS_INFORMATION> vectPIs;
 
     for( string command : commands ) {
-        if ( isPrint )
+        if ( isVerbose )
             cout << command << endl;
 
         PROCESS_INFORMATION pi;
@@ -110,11 +106,11 @@ void runCMDThread( string command, ThreadPipe* threadPipe ) {
 
 }
 
-int Shell::executa() {
+int Shell::executa( bool isVerbose ) {
     vector<ThreadPipe*> threadPipeVect;
 
     for( string command : commands ) {
-        if ( isPrint )
+        if ( isVerbose )
             cout << command << endl;
 
         ThreadPipe* threadPipe = new ThreadPipe;

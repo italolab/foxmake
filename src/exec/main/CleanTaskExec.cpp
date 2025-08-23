@@ -15,10 +15,12 @@
 using std::cout;
 using std::endl;
 
-void CleanTaskExec::exec( CMD* mainCMD, void* mgr ) {
+void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    cout << endl << infos::EXECUTING_CLEAN << endl;
+    if ( manager->isVerbose() )
+        cout << endl;
+    cout << infos::EXECUTING << " " << tasks::CLEAN << "..." << endl;
 
     MainScript* script = manager->getMainScript();
 
@@ -27,6 +29,10 @@ void CleanTaskExec::exec( CMD* mainCMD, void* mgr ) {
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
+
+    buildDir = io::absoluteResolvedPath( buildDir );
+    binDir = io::absoluteResolvedPath( binDir );
+    objDir = io::absoluteResolvedPath( objDir );
 
     if ( buildDir != "" )
         buildDir = io::addSeparatorToDirIfNeed( buildDir );
@@ -54,15 +60,18 @@ void CleanTaskExec::exec( CMD* mainCMD, void* mgr ) {
             removedSome = true;
     }
 
-    manager->executaTaskIfExists( tasks::CLEAN );
+    manager->executaUserTask( tasks::CLEAN );
 
-    if ( removedSome )
-        cout << infos::SUCCESS_IN_CLEAN << endl;
-    else cout << infos::CLEAN_UP_TO_DATE << endl;
+    if ( manager->isVerbose() ) {
+        if ( removedSome )
+            cout << infos::SUCCESS_IN_CLEAN << endl;
+        else cout << infos::CLEAN_UP_TO_DATE << endl;
+    }
 }
 
-bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, MainScript* script ) {
-
+bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    
     try {
         if ( io::fileExists( path ) ) {
             int count = io::recursiveDeleteFileOrDirectory( path );
@@ -72,9 +81,11 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, Main
                 throw st_error( nullptr, b.str() );
             }
 
-            messagebuilder b( infos::FILE_OR_DIRECTORY_DELETED );
-            b << path;
-            cout << b.str() << endl;
+            if ( manager->isVerbose() ) {
+                messagebuilder b( infos::FILE_OR_DIRECTORY_DELETED );
+                b << path;
+                cout << b.str() << endl;
+            }
             return true;
         }
         return false;

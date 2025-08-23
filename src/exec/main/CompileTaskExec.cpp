@@ -14,27 +14,32 @@
 #include "../../consts.h"
 
 #include <vector>
-#include <string>
 #include <sstream>
 #include <stdexcept>
 #include <iostream>
 
-using std::string;
 using std::vector;
 using std::stringstream;
 using std::cout;
 using std::endl;
 
-void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
+void CompileTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     MainScript* script = manager->getMainScript();
+    CMD* mainCMD = manager->getMainCMD();
 
-    cout << endl << infos::EXECUTING_COMPILE << endl;
-
+    bool isVerbose = manager->isVerbose();
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+
+    if ( isVerbose )
+        cout << endl;
+        
+    if ( isCompileAll || isBuildAll )
+        cout << infos::EXECUTING << " " << tasks::COMPILEALL << "..." << endl;
+    else cout << infos::EXECUTING << " " << tasks::COMPILE << "..." << endl;
 
     string isDll = script->getPropertyValue( props::IS_DLL );
 
@@ -52,10 +57,13 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
 
     string defines = script->getPropertyValue( props::DEFINES );
 
+    binDir = io::absoluteResolvedPath( binDir );
+    objDir = io::absoluteResolvedPath( objDir );
+
     if ( binDir != "" )
-        this->appCreateDirs( mainCMD, binDir );
+        this->appCreateDirs( binDir, manager );
     if ( objDir != "" )
-        this->appCreateDirs( mainCMD, objDir );
+        this->appCreateDirs( objDir, manager );
 
     if ( binDir != "" )
         binDir = io::addSeparatorToDirIfNeed( binDir );
@@ -74,7 +82,7 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
     for( CodeInfo* info : sourceCodeInfos ) {
         string dir = io::dirPath( objDir + info->objFilePath );
         if ( dir != "" )
-            this->appCreateDirs( mainCMD, dir );
+            this->appCreateDirs( dir, manager );
     }
 
     vector<CodeInfo*> filesToCompile;
@@ -123,7 +131,7 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
         shell->pushCommand( ss.str() );
     }
 
-    int exitCode = shell->executa();
+    int exitCode = shell->executa( isVerbose );
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::COMPILATION_FAILED );
 
@@ -132,15 +140,20 @@ void CompileTaskExec::exec( CMD* mainCMD, void* mgr ) {
     sourceCodeManager->saveWritingTimeElapsedInFile( consts::WRITING_TIME_ELAPSED_FILE );
 
     if ( isCompileAll || isBuildAll )
-        manager->executaTaskIfExists( tasks::COMPILEALL );
-    else manager->executaTaskIfExists( tasks::COMPILE );
+        manager->executaUserTask( tasks::COMPILEALL );
+    else manager->executaUserTask( tasks::COMPILE );
 
-    if ( filesToCompile.empty() )
-        cout << infos::COMPILATION_UP_TO_DATE << endl;
-    else cout << infos::SUCCESS_IN_COMPILATION << endl;
+    if ( isVerbose ) {
+        if ( filesToCompile.empty() )
+            cout << infos::COMPILATION_UP_TO_DATE << endl;
+        else cout << infos::SUCCESS_IN_COMPILATION << endl;
+    }
 }
 
-void CompileTaskExec::appCreateDirs( CMD* mainCMD, string dirPath ) {
+void CompileTaskExec::appCreateDirs( string dirPath, void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    CMD* mainCMD = manager->getMainCMD();
+
     try {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {
