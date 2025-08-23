@@ -60,8 +60,6 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     settingsFile = io::absoluteResolvedPath( settingsFile );
 
-    cout << settingsFile << endl;
-
     if ( isVerbose ) {
         messagebuilder b( infos::CONFIGURATION_FILE );
         b << settingsFile;
