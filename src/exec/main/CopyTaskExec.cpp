@@ -38,13 +38,10 @@ void CopyTaskExec::exec( void* mgr ) {
     buildDir = io::absoluteResolvedPath( buildDir );
     binDir = io::absoluteResolvedPath( binDir );
    
-    if ( binDir != "" )
-        binDir = io::addSeparatorToDirIfNeed( binDir );
-
-    if ( buildDir != "" ) {
-        this->appCreateDirs( mainCMD, buildDir, props::BUILD_DIR );
-        buildDir = io::addSeparatorToDirIfNeed( buildDir );
-    }
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+    buildDir = io::addSeparatorToDirIfNeed( buildDir );
+        
+    this->appCreateDirs( mainCMD, buildDir, props::BUILD_DIR );
 
     if ( binDir != buildDir ) {
         if ( isDll == "true" ) {

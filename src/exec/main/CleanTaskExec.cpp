@@ -34,12 +34,9 @@ void CleanTaskExec::exec( void* mgr ) {
     binDir = io::absoluteResolvedPath( binDir );
     objDir = io::absoluteResolvedPath( objDir );
 
-    if ( buildDir != "" )
-        buildDir = io::addSeparatorToDirIfNeed( buildDir );
-    if ( binDir != "" )
-        binDir = io::addSeparatorToDirIfNeed( binDir );
-    if ( objDir != "" )
-        objDir = io::addSeparatorToDirIfNeed( objDir );
+    buildDir = io::addSeparatorToDirIfNeed( buildDir );
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+    objDir = io::addSeparatorToDirIfNeed( objDir );
 
     bool removedSome = false;
 

@@ -40,7 +40,7 @@ namespace io {
     string currentPath();
     string absolutePath( string path );
     string relativePath( string path );
-    string parentDirPath( string path );
+    string parentPath( string path );
     string recursiveDirPath( string path );
     string recursiveFileOrDirName( string path );
     string recursiveDirPathToReplace( string path );

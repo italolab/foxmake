@@ -1,12 +1,12 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cbuild2
+exe.file.name=cbuild
 
 src.dir=../src
 build.dir=build
 
-build.files=settings-linux.txt settings-dll.txt
+build.files=settings.txt ../settings-linux.txt
 
 $target=debug
 
@@ -46,24 +46,22 @@ build {
 
 }
 
-mkdir $(include.dirs)
+mkdir include
 
-cp $(src.dir)/-/inter/*.h $(include.dirs)
+cp $(src.dir)/-/inter/*.h include
 cp $(src.dir)/*.cpp $(build.dir)
 mkdir $(build.dir)/objects
 cp $(obj.dir)/src/io/* $(build.dir)/objects
 
 mkdir -p $(build.dir)/a/b/c
 
-#cp ../italo-xadrez-cpp-linux/italo-xadrez $(build.dir)
+#cp ../../italo-xadrez/italo-xadrez $(build.dir)
 
-#cd ../italo-xadrez-cpp-linux
+#cd ../../italo-xadrez
 #cp -r Src ../$(project_name)/$(build.dir)
 
-cd ../$(project_name)
+#cd ../$(project_name)/run
 
 #rm $(build.dir)/italo-xadrez
 #rm -r $(include.dirs)/*
 #rm -r $(obj.dir)
-
-#cp $(build.dir)/$(exe.file.name) cbuild

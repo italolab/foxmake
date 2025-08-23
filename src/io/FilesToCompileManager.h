@@ -17,7 +17,7 @@ class FilesToCompileManager {
         string sourceFileExtensions;
         string headerFileExtensions;
 
-        bool loadWritingTimesElapsedFile( map<string, long>& writingTimesElapsedMap, string configFileName );
+        bool loadLastWriteTimesFromFile( map<string, long>& writingTimesElapsedMap, string configFileName );
 
         void addDependenciesToCompile( vector<CodeInfo*>& filesToCompile, map<string, CodeInfo*>& allSourceInfosMap, string filePath );
         void recursiveLoadDependencies( vector<CodeInfo*>& filesToCompile, map<string, CodeInfo*>& allSourceInfosMap, string filePath );
@@ -32,7 +32,7 @@ class FilesToCompileManager {
                     map<string, CodeInfo*>& allSourceInfosMap,
                     string configFilePath );
 
-        bool saveWritingTimesElapsedInFile(  map<string, CodeInfo*>& allSourceInfosMap, string configFileName );
+        bool saveLastWriteTimesInFile(  map<string, CodeInfo*>& allSourceInfosMap, string configFileName );
 
 };
 

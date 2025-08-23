@@ -303,7 +303,7 @@ namespace io {
         return d;
     }
 
-    string parentDirPath( string path ) {
+    string parentPath( string path ) {
         string p = makePreferred( path );
         if ( p.length() > 0 ) {
             if ( p[ p.length()-1 ] == filesystem::path::preferred_separator )
@@ -421,7 +421,7 @@ namespace io {
         string relativePath = rpath.substr( i, len-i ).replace( 0, j-i, "" );
 
         for( int k = 0; k < count; k++ )
-            basePath = parentDirPath( basePath );        
+            basePath = parentPath( basePath );        
         basePath = addSeparatorToDirIfNeed( basePath );
         
         return basePath + relativePath;
@@ -439,7 +439,7 @@ namespace io {
         bool isRepeat = i != string::npos;
         string dir = addSeparatorToDirIfNeed( currDir );
         while( isRepeat ) {
-            dir = parentDirPath( dir );
+            dir = parentPath( dir );
             dir = addSeparatorToDirIfNeed( dir );
 
             size_t j = resolvedPath.find( ".."+sep, i+3 );

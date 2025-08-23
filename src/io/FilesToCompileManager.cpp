@@ -21,7 +21,7 @@ void FilesToCompileManager::loadFilesToCompile(
     map<string, long> timesElapsedMap;
 
     if ( io::fileExists( configFilePath ) )
-        this->loadWritingTimesElapsedFile( timesElapsedMap, configFilePath );
+        this->loadLastWriteTimesFromFile( timesElapsedMap, configFilePath );
 
     for( const auto& pair : allSourceInfosMap ) {
         string filePath = pair.second->filePath;
@@ -93,7 +93,7 @@ void FilesToCompileManager::removeHeaderFiles( vector<CodeInfo*>& filesToCompile
     }
 }
 
-bool FilesToCompileManager::loadWritingTimesElapsedFile( map<string, long>& writingTimesElapsedMap, string configFilePath ) {
+bool FilesToCompileManager::loadLastWriteTimesFromFile( map<string, long>& writingTimesElapsedMap, string configFilePath ) {
     ifstream in( configFilePath );
     if ( !in.is_open() )
         return false;
@@ -115,7 +115,7 @@ bool FilesToCompileManager::loadWritingTimesElapsedFile( map<string, long>& writ
     return true;
 }
 
-bool FilesToCompileManager::saveWritingTimesElapsedInFile( map<string, CodeInfo*>& allSourceInfosMap, string configFileName ) {
+bool FilesToCompileManager::saveLastWriteTimesInFile( map<string, CodeInfo*>& allSourceInfosMap, string configFileName ) {
     ofstream out( configFileName );
     if ( !out.is_open() )
         return false;

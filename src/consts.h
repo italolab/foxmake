@@ -12,7 +12,7 @@ namespace consts {
 
     const string DEFAULT_SETTINGS_FILE_NAME = "settings.txt";
 
-    const string WRITING_TIME_ELAPSED_FILE = "wt_elapsed.txt";
+    const string WRITING_TIME_ELAPSED_FILE = "lwtimes.txt";
 
     const string SOURCE_FILE_EXTENSIONS = ".c .cpp .cc";
     const string HEADER_FILE_EXTENSIONS = ".h .hpp .tpp .ipp";

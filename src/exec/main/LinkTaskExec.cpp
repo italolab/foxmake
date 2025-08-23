@@ -60,10 +60,8 @@ void LinkTaskExec::exec( void* mgr ) {
     binDir = io::absoluteResolvedPath( binDir );
     objDir = io::absoluteResolvedPath( objDir );
 
-    if ( binDir != "" )
-        binDir = io::addSeparatorToDirIfNeed( binDir );
-    if ( objDir != "" )
-        objDir = io::addSeparatorToDirIfNeed( objDir );
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+    objDir = io::addSeparatorToDirIfNeed( objDir );
 
     bool isdll = isDll == "true";
 
@@ -99,7 +97,7 @@ void LinkTaskExec::exec( void* mgr ) {
 
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos )
-        ss << " " << objDir << info->objFilePath;
+        ss << " " << objDir << info->objFilePath;    
 
     if ( resourceFile != "" )
         ss << " " << resourceFile;

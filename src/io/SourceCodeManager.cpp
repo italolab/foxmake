@@ -19,19 +19,25 @@ SourceCodeManager::~SourceCodeManager() {
         delete pair.second;
 }
 
-bool SourceCodeManager::recursiveProcFiles( string basedir ) {
+#include <iostream>
+using namespace std;
+
+bool SourceCodeManager::recursiveProcFiles( string srcDir ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();
     classToIncludeMap.clear();
 
-    string prefBaseDir = io::makePreferred( basedir );
+    string src = io::makePreferred( srcDir );
+    src = io::addSeparatorToDirIfNeed( src );
+
     try {
-        for( const auto& entry : filesystem::recursive_directory_iterator( prefBaseDir ) ) {
-            string filePath = io::relativePath( entry.path().string() );
+        for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
+            string filePath = entry.path().string();
             filePath = io::makePreferred( filePath );
-            if ( !filesystem::is_directory( filePath ) ) {
+            if ( !filesystem::is_directory( filePath ) ) {                
                 string ext = io::extension( filePath );
-                string objFilePath = strutil::replace( filePath, ext, "o" );
+                string objFilePath = strutil::replace( filePath, src, "" );
+                objFilePath = strutil::replace( objFilePath, ext, "o" );
 
                 vector<string> dependencies;
                 vector<string> extendedClasses;
@@ -251,6 +257,6 @@ void SourceCodeManager::loadFilesToCompile( vector<CodeInfo*>& filesToCompile, s
     filesToCompileManager->loadFilesToCompile( filesToCompile, allCodeInfosMap, configFilePath );
 }
 
-void SourceCodeManager::saveWritingTimeElapsedInFile( string configFilePath ) {
-    filesToCompileManager->saveWritingTimesElapsedInFile( allCodeInfosMap, configFilePath );
+void SourceCodeManager::saveLastWriteTimesInFile( string configFilePath ) {
+    filesToCompileManager->saveLastWriteTimesInFile( allCodeInfosMap, configFilePath );
 }

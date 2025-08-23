@@ -60,15 +60,11 @@ void CompileTaskExec::exec( void* mgr ) {
     binDir = io::absoluteResolvedPath( binDir );
     objDir = io::absoluteResolvedPath( objDir );
 
-    if ( binDir != "" )
-        this->appCreateDirs( binDir, manager );
-    if ( objDir != "" )
-        this->appCreateDirs( objDir, manager );
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+    objDir = io::addSeparatorToDirIfNeed( objDir );
 
-    if ( binDir != "" )
-        binDir = io::addSeparatorToDirIfNeed( binDir );
-    if ( objDir != "" )
-        objDir = io::addSeparatorToDirIfNeed( objDir );
+    this->appCreateDirs( binDir, manager );
+    this->appCreateDirs( objDir, manager );
 
     bool isdll = isDll == "true";
 
@@ -95,6 +91,7 @@ void CompileTaskExec::exec( void* mgr ) {
     Shell* shell = new Shell();
 
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
+
         stringstream ss;
         ss << compiler << " " << compilerParams;
 
@@ -137,7 +134,7 @@ void CompileTaskExec::exec( void* mgr ) {
 
     delete shell;
 
-    sourceCodeManager->saveWritingTimeElapsedInFile( consts::WRITING_TIME_ELAPSED_FILE );
+    sourceCodeManager->saveLastWriteTimesInFile( consts::WRITING_TIME_ELAPSED_FILE );
 
     if ( isCompileAll || isBuildAll )
         manager->executaUserTask( tasks::COMPILEALL );
