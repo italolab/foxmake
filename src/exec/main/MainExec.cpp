@@ -39,11 +39,28 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         return;
     }
 
+    string workingDir = mainCMD->getPropertyValue( "--working-dir" );
     string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
+
+    if ( workingDir != "" ) {
+        workingDir = io::absoluteResolvedPath( workingDir );
+        shell::setWorkingDir( workingDir );
+    } else {
+        if ( settingsFile != "" ) {
+            workingDir = io::dirPath( io::absoluteResolvedPath( settingsFile ) );
+            settingsFile = io::fileOrDirName( settingsFile );
+            shell::setWorkingDir( workingDir );
+        } else {
+            workingDir = shell::getWorkingDir();
+        }
+    }
+
     if ( settingsFile == "" )
         settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
 
-    settingsFile = io::absolutePath( settingsFile );
+    settingsFile = io::absoluteResolvedPath( settingsFile );
+
+    cout << settingsFile << endl;
 
     if ( isVerbose ) {
         messagebuilder b( infos::CONFIGURATION_FILE );
@@ -57,11 +74,8 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         throw st_error( mainCMD, b2.str() );
     }
 
-    string workingDir = io::dirPath( settingsFile );
-    shell::setWorkingDir( workingDir );
-
     mainScript->putLocalVar( "main_config_file", settingsFile );
-    mainScript->putLocalVar( "working_dir", shell::getWorkingDir() );
+    mainScript->putLocalVar( "working_dir", workingDir );
 
     InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
     if ( !result->isInterpreted() )

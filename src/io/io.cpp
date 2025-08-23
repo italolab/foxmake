@@ -7,6 +7,9 @@
 
 #include <sys/stat.h>
 
+#include <iostream>
+using namespace std;
+
 namespace filesystem = std::filesystem;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
@@ -324,12 +327,15 @@ namespace io {
     }
 
     string absolutePath( string path ) {
+        if ( path == "." )
+            return currentPath();
+            
         filesystem::path p( path );
         if ( p.is_absolute() ) {
             return makePreferred( path );
         } else {
             string pp = currentPath();
-            pp += filesystem::path::preferred_separator;
+            pp = addSeparatorToDirIfNeed( pp );
             pp += path;
             return makePreferred( pp );
         }
