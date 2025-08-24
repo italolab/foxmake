@@ -12,6 +12,7 @@ class InterDriver {
     public:
         virtual vector<string> validCMDNames() = 0;
         virtual vector<string> validPropNames() = 0;
+        virtual vector<string> validDefaultTaskNames() = 0;
 };
 
 #endif

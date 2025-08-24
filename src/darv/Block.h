@@ -22,8 +22,6 @@ class Block : public Statement {
         Block( Statement* parent, int lineNumber, string line );
         virtual ~Block();
 
-        Statement* getRoot();
-
         void addStatement( Statement* cmd );
         int getStatementsLength();
         Statement* getStatementByIndex( int i );

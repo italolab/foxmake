@@ -18,9 +18,12 @@ using std::endl;
 void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    if ( manager->isVerbose() )
+    bool isVerbose = manager->isVerbose( tasks::CLEAN );
+    bool isNoResume = manager->isNoResume();
+
+    if ( isVerbose )
         cout << endl;
-    if ( !manager->isNoResume() )
+    if ( !isNoResume || isVerbose )
         cout << infos::EXECUTING << " " << tasks::CLEAN << "..." << endl;
 
     manager->executaUserTaskIfExists( tasks::CLEAN, Task::BEFORE );
@@ -62,7 +65,7 @@ void CleanTaskExec::exec( void* mgr ) {
 
     manager->executaUserTaskIfExists( tasks::CLEAN, Task::AFTER );
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         if ( removedSome )
             cout << infos::SUCCESS_IN_CLEAN << endl;
         else cout << infos::CLEAN_UP_TO_DATE << endl;
@@ -71,6 +74,8 @@ void CleanTaskExec::exec( void* mgr ) {
 
 bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+
+    bool isVerbose = manager->isVerbose( tasks::CLEAN );
     
     try {
         if ( io::fileExists( path ) ) {
@@ -81,7 +86,7 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void
                 throw st_error( nullptr, b.str() );
             }
 
-            if ( manager->isVerbose() ) {
+            if ( isVerbose ) {
                 messagebuilder b( infos::FILE_OR_DIRECTORY_DELETED );
                 b << path;
                 cout << b.str() << endl;

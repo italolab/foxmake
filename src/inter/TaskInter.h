@@ -13,13 +13,12 @@ using std::vector;
 class TaskInter : public Inter {
 
     private:
+        const string BEFORE = "before";
+        const string AFTER = "after";
+
         vector<string> VALID_FLAGS = {
-            "before", 
-            "after", 
-            "verbose", 
-            "noverbose", 
-            "showoutput", 
-            "noshowoutput" 
+            BEFORE,
+            AFTER
         };
     
         void setFlags( Task* task, vector<string>& flags );

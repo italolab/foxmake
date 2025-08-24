@@ -11,6 +11,9 @@
 #include "main/LinkTaskExec.h"
 #include "main/CopyTaskExec.h"
 #include "shcmd/ShellCMDExec.h"
+#include "../darv/DefaultTaskConfig.h"
+#include "../darv/Task.h"
+#include "../darv/GenericCMD.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/io.h"
@@ -163,6 +166,40 @@ bool ExecManager::isNoResume() {
     return mainCMD->existsArg( "--no-resume" );
 }
 
+bool ExecManager::isVerbose( GenericCMD* cmd ) {
+    Statement* task = cmd->getTask();    
+    if ( task == nullptr )
+        return this->isVerbose();
+    return this->isVerbose( ((Task*)task)->getName() );
+}
+
+bool ExecManager::isShowCMDOutput( GenericCMD* cmd ) {
+    Statement* task = cmd->getTask();
+    if ( task == nullptr )
+        return consts::DEFAULT_SHOW_CMD_OUTPUT;
+    return this->isShowCMDOutput( ((Task*)task)->getName() );
+}
+
+bool ExecManager::isVerbose( string taskName ) {
+    if ( mainScript == nullptr )
+        return this->isVerbose();
+
+    DefaultTaskConfig* defaultTaskConfig = mainScript->getDefaultTaskConfig( taskName );    
+    if ( defaultTaskConfig != nullptr )
+        return defaultTaskConfig->isVerbose();
+    return this->isVerbose();
+}
+
+bool ExecManager::isShowCMDOutput( string taskName ) {
+    if ( mainScript == nullptr )
+        return consts::DEFAULT_SHOW_CMD_OUTPUT;
+
+    DefaultTaskConfig* defaultTaskConfig = mainScript->getDefaultTaskConfig( taskName );    
+    if ( defaultTaskConfig != nullptr )
+        return defaultTaskConfig->isShowCMDOutput();
+    return consts::DEFAULT_SHOW_CMD_OUTPUT;
+}
+
 vector<string> ExecManager::validCMDNames() {
     vector<string> names;
     for( const auto& pair : execsMap )
@@ -172,6 +209,10 @@ vector<string> ExecManager::validCMDNames() {
 
 vector<string> ExecManager::validPropNames() {
     return props::VALID_NAMES;
+}
+
+vector<string> ExecManager::validDefaultTaskNames() {
+    return tasks::DEFAULT_TASKS;
 }
 
 MainExec* ExecManager::getMainExec() {

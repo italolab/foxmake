@@ -49,10 +49,16 @@ class ExecManager : public InterDriver {
 
         vector<string> validCMDNames();
         vector<string> validPropNames();
+        vector<string> validDefaultTaskNames();
 
         bool isHelp();
         bool isVerbose();
         bool isNoResume();
+
+        bool isVerbose( string taskName );
+        bool isVerbose( GenericCMD* cmd );
+        bool isShowCMDOutput( string taskName );
+        bool isShowCMDOutput( GenericCMD* cmd );
 
         MainExec* getMainExec();
         MainScript* getMainScript();

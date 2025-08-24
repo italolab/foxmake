@@ -30,14 +30,20 @@ void CompileTaskExec::exec( void* mgr ) {
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
-    bool isVerbose = manager->isVerbose();
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+
+    bool isVerbose;
+    if ( isCompileAll || isBuildAll )
+        isVerbose = manager->isVerbose( tasks::COMPILEALL );
+    else isVerbose = manager->isVerbose( tasks::COMPILE );
+
+    bool isNoResume = manager->isNoResume();
 
     if ( isVerbose )
         cout << endl;
         
-    if ( !manager->isNoResume() ) {
+    if ( !isNoResume || isVerbose ) {
         if ( isCompileAll || isBuildAll )
             cout << infos::EXECUTING << " " << tasks::COMPILEALL << "..." << endl;
         else cout << infos::EXECUTING << " " << tasks::COMPILE << "..." << endl;

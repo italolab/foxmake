@@ -1,7 +1,7 @@
 #ifndef CMD_H
 #define CMD_H
 
-#include "Statement.h"
+#include "GenericCMD.h"
 #include "Prop.h"
 
 #include <string>
@@ -12,7 +12,7 @@ using std::string;
 using std::vector;
 using std::map;
 
-class CMD : public Statement {
+class CMD : public GenericCMD {
 
     private:
         string name;
@@ -48,6 +48,8 @@ class CMD : public Statement {
         void setName( string name );
         void setCMDStr( string cmdstr );
         void setLineNumber( int lineNumber );
+
+        Statement* getTask();
 
 };
 

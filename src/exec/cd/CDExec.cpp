@@ -7,6 +7,7 @@
 #include "../../io/io.h"
 #include "../../msg/messagebuilder.h"
 
+#include "../../consts.h"
 #include "../../error_messages.h"
 #include "../../info_messages.h"
 
@@ -21,6 +22,8 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
 
+    bool isVerbose = manager->isVerbose( cmd );
+    
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
         messagebuilder b;
@@ -46,7 +49,7 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
 
     var->setValue( shell::getWorkingDir() );
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b( infos::NEW_CURRENT_DIRECTORY );
         b << var->getValue();
         cout << b.str() << endl;

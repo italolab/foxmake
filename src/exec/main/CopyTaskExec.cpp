@@ -23,6 +23,14 @@ using std::endl;
 void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    bool isVerbose = manager->isVerbose( tasks::COPY );
+    bool isNoResume = manager->isNoResume();
+
+    if ( isVerbose )
+        cout << endl;
+    if ( !isNoResume || isVerbose )
+        cout << infos::EXECUTING << " " << tasks::COPY << "..." << endl;
+
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
@@ -30,11 +38,6 @@ void CopyTaskExec::exec( void* mgr ) {
     string buildDir = script->getPropertyValue( props::BUILD_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
-
-    if ( manager->isVerbose() )
-        cout << endl;
-    if ( !manager->isNoResume() )
-        cout << infos::EXECUTING << " " << tasks::COPY << "..." << endl;
 
     manager->executaUserTaskIfExists( tasks::COPY, Task::BEFORE );
 
@@ -64,12 +67,14 @@ void CopyTaskExec::exec( void* mgr ) {
 
     manager->executaUserTaskIfExists( tasks::COPY, Task::AFTER );
 
-    if ( manager->isVerbose() )
+    if ( isVerbose )
         cout << infos::SUCCESS_IN_COPY << endl;
 }
 
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+
+    bool isVerbose = manager->isVerbose( tasks::COPY );
 
     if ( !io::fileExists( path ) ) {
         messagebuilder b1 ( errors::FILE_OR_FOLDER_NOT_FOUND );
@@ -88,7 +93,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
         io::createDirs( bdir );
         io::copyFileOrDirectory( path, bdir, true, true );        
 
-        if ( manager->isVerbose() ) {
+        if ( isVerbose ) {
             messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
             b << path;
             cout << b.str() << endl;

@@ -57,6 +57,7 @@ class InterManager {
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );
+        bool isValidDefaultTask( string taskName );
 };
 
 #endif

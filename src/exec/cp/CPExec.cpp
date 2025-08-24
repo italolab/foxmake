@@ -19,6 +19,8 @@ using std::stringstream;
 void CPExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    bool isVerbose = manager->isVerbose( cmd );
+
     int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
@@ -75,7 +77,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
         throw st_error( cmd, errors::ERROR_IN_FILES_COPY );
     }
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b ( infos::EXECUTED_CMD );
         b << cmd->getCMDStr();
         cout << b.str() << endl;

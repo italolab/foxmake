@@ -17,6 +17,8 @@ namespace consts {
     const string SOURCE_FILE_EXTENSIONS = ".c .cpp .cc";
     const string HEADER_FILE_EXTENSIONS = ".h .hpp .tpp .ipp";
 
+    const bool DEFAULT_SHOW_CMD_OUTPUT = true;
+
 #ifdef _WIN32
     const string SHELL_EXE = "cmd.exe /c";
 #else

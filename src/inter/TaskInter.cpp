@@ -150,18 +150,10 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
 void TaskInter::setFlags( Task* task, vector<string>& flags ) {
     for( string flag : flags ) {
-        if ( flag == "before" ) {
+        if ( flag == BEFORE ) {
             task->setBefore( true );
-        } else if ( flag == "after" ) {
+        } else if ( flag == AFTER ) {
             task->setBefore( false );
-        } else if ( flag == "verbose" ) {
-            task->setVerbose( true );
-        } else if ( flag == "noverbose" ) {
-            task->setVerbose( false );
-        } else if ( flag == "showoutput" ) {
-            task->setShowOutput( true );
-        } else if ( flag == "noshowoutput" ) {
-            task->setShowOutput( false );
         }
     }
 }

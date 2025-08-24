@@ -1,5 +1,6 @@
 
 #include "ShellCMDExec.h"
+#include "../ExecManager.h"
 #include "../stexcept.h"
 #include "../../shell/shell.h"
 #include "../../msg/messagebuilder.h"
@@ -14,12 +15,16 @@ using std::cout;
 using std::endl;
 
 void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+
     string cmdstr = shellCMD->getCMDStr();
+    bool isVerbose = manager->isVerbose( shellCMD );
+    bool isShowCMDOutput = manager->isShowCMDOutput( shellCMD );
 
     Shell* shell = new Shell();
     shell->pushCommand( consts::SHELL_EXE + " " + cmdstr );
 
-    int result = shell->executa();
+    int result = shell->executa( isShowCMDOutput );
     if ( result != 0 ) {
         messagebuilder b( errors::SHELL_CMD_NOT_EXECUTED );
         b << std::to_string( result );
@@ -28,8 +33,9 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
 
     delete shell;
 
-    messagebuilder b( infos::EXECUTED_CMD );
-    b << cmdstr;
-    cout << b.str() << endl;
-
+    if ( isVerbose ) {
+        messagebuilder b( infos::EXECUTED_CMD );
+        b << cmdstr;
+        cout << b.str() << endl;
+    }
 }

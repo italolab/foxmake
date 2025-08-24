@@ -1,7 +1,7 @@
 
 #include "CMD.h"
 
-CMD::CMD( Statement* parent, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {
+CMD::CMD( Statement* parent, int lineNumber, string line ) : GenericCMD( parent, lineNumber, line ) {
     this->lineNumber = 0;
 }
 
@@ -122,4 +122,8 @@ void CMD::setCMDStr( string cmdstr ) {
 
 void CMD::setLineNumber( int lineNumber ) {
     this->lineNumber = lineNumber;
+}
+
+Statement* CMD::getTask() {
+    return Statement::getTask();
 }

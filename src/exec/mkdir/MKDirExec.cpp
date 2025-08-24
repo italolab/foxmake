@@ -19,6 +19,8 @@ using std::stringstream;
 void MKDirExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    bool isVerbose = manager->isVerbose( cmd );
+
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
@@ -39,7 +41,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
     } else {
         try {
             ok = io::createDir( dir );
-            if ( !ok && manager->isVerbose() ) {
+            if ( !ok && isVerbose ) {
                 messagebuilder b( errors::FOLDER_ALREADY_EXISTS );
                 b << dir;
                 cerr << b.str() << endl;
@@ -49,7 +51,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
         }
     }
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b( infos::EXECUTED_CMD );
         b << cmd->getCMDStr();
         cout << b.str() << endl;

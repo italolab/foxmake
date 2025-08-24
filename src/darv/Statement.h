@@ -16,7 +16,9 @@ class Statement {
         Statement( Statement* parent, int lineNumber, string line );
         virtual ~Statement();
 
+        Statement* getRoot();
         Statement* getParent();
+        Statement* getTask();
 
         int getLineNumber();
         string getLine();

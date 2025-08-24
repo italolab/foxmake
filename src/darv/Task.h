@@ -13,7 +13,7 @@ class Task : public Block {
         string name;
         bool beforeFlag;
         bool verboseFlag;
-        bool showOutputFlag;
+        bool showCMDOutputFlag;
 
     public:
         static const bool BEFORE = true;
@@ -23,13 +23,9 @@ class Task : public Block {
 
         string getName();
         bool isBefore();
-        bool isVerbose();
-        bool isShowOutput();
 
         void setName( string name );
         void setBefore( bool flag );
-        void setVerbose( bool flag );
-        void setShowOutput( bool flag );
 
 };
 

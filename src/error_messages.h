@@ -13,6 +13,7 @@ namespace errors {
     const string UNRECOGNIZED_LINE = "Linha nao reconhecida como instrucao valida.";
 
     const string INVALID_TASK_FLAG = "Flag de tarefa invalido: \"$1\"";
+    const string IS_NOT_A_DEFAULT_TASK = "A tarefa \"$1\" nao e uma tarefa default. Logo, nao pode ser configurada assim.";
 
     const string INVALID_NUMBER_OF_ARGS = "Numero de argumentos esperado igual a $1, encontrado $2.";
 

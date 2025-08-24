@@ -1,10 +1,11 @@
 
 #include "DefaultTaskConfig.h"
+#include "../consts.h"
 
 DefaultTaskConfig::DefaultTaskConfig( Statement* parent, string name, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {
     this->name = name;
     this->verboseFlag = false;
-    this->showOutputFlag = true;
+    this->showCMDOutputFlag = consts::DEFAULT_SHOW_CMD_OUTPUT;
 }
 
 string DefaultTaskConfig::getName() {
@@ -15,8 +16,8 @@ bool DefaultTaskConfig::isVerbose() {
     return verboseFlag;
 }
 
-bool DefaultTaskConfig::isShowOutput() {
-    return showOutputFlag;
+bool DefaultTaskConfig::isShowCMDOutput() {
+    return showCMDOutputFlag;
 }
 
 void DefaultTaskConfig::setName( string name ) {
@@ -27,6 +28,6 @@ void DefaultTaskConfig::setVerbose( bool flag ) {
     this->verboseFlag = flag;
 }
 
-void DefaultTaskConfig::setShowOutput( bool flag ) {
-    this->showOutputFlag = flag;
+void DefaultTaskConfig::setShowCMDOutput( bool flag ) {
+    this->showCMDOutputFlag = flag;
 }

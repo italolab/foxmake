@@ -24,6 +24,12 @@ InterResult* DefaultTaskConfigInter::interprets( MainScript* parent, string curr
     manager->interpretsTaskConfig( taskName, flags, status, errorFlag, validFlagsVect, currentLine, finalizer );
 
     if ( status == TaskConfigInter::OK ) {
+        if ( !manager->isValidDefaultTask( taskName ) ) {
+            messagebuilder b( errors::IS_NOT_A_DEFAULT_TASK );
+            b << taskName;
+            return new InterResult( currentLine, 0, 0, b.str() );
+        }
+
         DefaultTaskConfig* config = parent->getDefaultTaskConfig( taskName );
         if ( config == nullptr )
             config = new DefaultTaskConfig( parent, taskName, lineNumber, currentLine );
@@ -50,14 +56,14 @@ InterResult* DefaultTaskConfigInter::interprets( MainScript* parent, string curr
 
 void DefaultTaskConfigInter::setFlags( DefaultTaskConfig* config, vector<string>& flags ) {
     for( string flag : flags ) {
-        if ( flag == "verbose" ) {
+        if ( flag == VERBOSE ) {
             config->setVerbose( true );
-        } else if ( flag == "noverbose" ) {
+        } else if ( flag == NOVERBOSE ) {
             config->setVerbose( false );
-        } else if ( flag == "showoutput" ) {
-            config->setShowOutput( true );
-        } else if ( flag == "noshowoutput" ) {
-            config->setShowOutput( false );
+        } else if ( flag == SHOWOUTPUT ) {
+            config->setShowCMDOutput( true );
+        } else if ( flag == NOSHOWOUTPUT ) {
+            config->setShowCMDOutput( false );
         }
     }
 }

@@ -29,10 +29,12 @@ void LinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
-    bool isVerbose = manager->isVerbose();
+    bool isVerbose = manager->isVerbose( tasks::LINK );
+    bool isNoResume = manager->isNoResume();
+
     if ( isVerbose )
         cout << endl;
-    if ( !manager->isNoResume() )
+    if ( !isNoResume || isVerbose )
         cout << infos::EXECUTING << " " << tasks::LINK << "..." << endl;
 
     manager->executaUserTaskIfExists( tasks::LINK, Task::BEFORE );

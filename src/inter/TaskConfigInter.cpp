@@ -1,6 +1,5 @@
 
 #include "TaskConfigInter.h"
-#include "InterManager.h"
 
 #include <sstream>
 
@@ -44,7 +43,10 @@ void TaskConfigInter::interpretsConfig(
         }
     }
 
-    if( !finalizerFound && iis.peek() == EOF ) {
+    if ( finalizerFound ) {
+        status = OK;
+        return;
+    } else if( iis.peek() == EOF ) {
         status = NO_CONFIG;
         return;
     }

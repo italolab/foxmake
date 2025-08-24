@@ -20,6 +20,8 @@ using std::stringstream;
 void RMExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    bool isVerbose = manager->isVerbose( cmd );
+
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
@@ -64,7 +66,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         }
     }
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b( infos::EXECUTED_CMD );
         b << cmd->getCMDStr();
         cout << b.str() << endl;

@@ -10,12 +10,6 @@ Block::~Block() {
         delete st;
 }
 
-Statement* Block::getRoot() {
-    if ( Statement::getParent() == nullptr )
-        return this;
-    return ((Block*)Statement::getParent())->getRoot();
-}
-
 Var* Block::getVar( string varName ) {
     Var* var = this->getLocalVar( varName );
     if ( var != nullptr )

@@ -11,11 +11,16 @@ using std::string;
 class DefaultTaskConfigInter {
 
     private:
+        const string VERBOSE = "verbose";
+        const string NOVERBOSE = "noverbose";
+        const string SHOWOUTPUT = "showoutput";
+        const string NOSHOWOUTPUT = "noshowoutput";
+
         vector<string> VALID_FLAGS = {
-            "verbose",
-            "noverbose",
-            "showoutput",
-            "noshowoutput"
+            VERBOSE,
+            NOVERBOSE,
+            SHOWOUTPUT,
+            NOSHOWOUTPUT
         };
 
         void setFlags( DefaultTaskConfig* task, vector<string>& flags );

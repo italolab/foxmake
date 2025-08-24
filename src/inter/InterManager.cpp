@@ -75,9 +75,17 @@ bool InterManager::isValidCMD( string line ) {
 }
 
 bool InterManager::isValidProp( string propName ) {
-    vector<string> validProps = drv->validPropNames();
+    const vector<string>& validProps = drv->validPropNames();
     for( string vprop : validProps )
         if ( vprop == propName )
+            return true;
+    return false;
+}
+
+bool InterManager::isValidDefaultTask( string taskName ) {
+    const vector<string>& validDefaultTasks = drv->validDefaultTaskNames();
+    for( string vname : validDefaultTasks )
+        if ( vname == taskName )
             return true;
     return false;
 }
