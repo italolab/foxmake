@@ -45,13 +45,14 @@ class ExecManager : public InterDriver {
 
         bool isDefaultTask( string taskName );
         void executaTask( string taskName );
-        void executaUserTask( string taskName );
+        void executaUserTaskIfExists( string taskName, bool beforeFlag );
 
         vector<string> validCMDNames();
         vector<string> validPropNames();
 
         bool isHelp();
         bool isVerbose();
+        bool isNoResume();
 
         MainExec* getMainExec();
         MainScript* getMainScript();

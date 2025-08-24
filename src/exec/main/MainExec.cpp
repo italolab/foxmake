@@ -32,7 +32,6 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     MainScript* mainScript = manager->getMainScript();
 
     bool isShowHelp = manager->isHelp();
-    bool isVerbose = manager->isVerbose();
 
     if ( mainCMD->countNoOpArgs() == 0 || isShowHelp ) {
         this->showHelp( mgr );
@@ -60,7 +59,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     settingsFile = io::absoluteResolvePath( settingsFile );
 
-    if ( isVerbose ) {
+    if ( manager->isVerbose() ) {
         messagebuilder b( infos::CONFIGURATION_FILE );
         b << settingsFile;
         cout << b.str() << endl;
@@ -83,7 +82,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
 
-    if ( isVerbose ) {
+    if ( manager->isVerbose() ) {
         messagebuilder b2( infos::CURRENT_DIRECTORY );
         b2 << wdir;
         cout << b2.str() << endl;
@@ -110,6 +109,13 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->genSourceAndHeaderInfos( manager );
 
+    manager->executaUserTaskIfExists( tasks::INIT, Task::AFTER );
+
+    if ( isBuild )
+        manager->executaUserTaskIfExists( tasks::BUILD, Task::BEFORE );
+    if ( isBuildAll )
+        manager->executaUserTaskIfExists( tasks::BUILDALL, Task::BEFORE );
+
     if ( isClean )
         manager->executaTask( tasks::CLEAN );
     if ( isCompile )
@@ -120,16 +126,20 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         manager->executaTask( tasks::COPY );
 
     if ( isBuild )
-        manager->executaUserTask( tasks::BUILD );
+        manager->executaUserTaskIfExists( tasks::BUILD, Task::AFTER );
     if ( isBuildAll )
-        manager->executaUserTask( tasks::BUILDALL );
+        manager->executaUserTaskIfExists( tasks::BUILDALL, Task::AFTER );
 
     this->executaNoDefaultTasks( manager );
     this->executaStatements( manager );
 
+    manager->executaUserTaskIfExists( tasks::FINISH, Task::AFTER );
+
     if ( manager->isVerbose() )
         cout << endl;
-    cout << infos::FINISH << endl;
+
+    if ( !manager->isNoResume() )
+        cout << infos::FINISH << endl;
 }
 
 void MainExec::genSourceAndHeaderInfos( void* mgr ) {
@@ -163,8 +173,10 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
-    vector<string> names = manager->getMainScript()->taskNames();
-    for( string taskName : names ) {
+    vector<Task*> tasks = manager->getMainScript()->tasks();
+    for( Task* task : tasks ) {
+        string taskName = task->getName();
+
         bool isTaskArg = mainCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
             if ( manager->isVerbose() ) {
@@ -173,7 +185,8 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
                 cout << endl << ss.str() << endl;
             }
 
-            manager->executaUserTask( taskName );
+            manager->executaUserTaskIfExists( taskName, Task::BEFORE );
+            manager->executaUserTaskIfExists( taskName, Task::AFTER );
         }
     }
 }
@@ -187,7 +200,8 @@ void MainExec::executaStatements( void* mgr ) {
     if ( tam > 0 ) {
         if( manager->isVerbose() )
             cout << endl;
-        cout << infos::EXECUTING_STATEMENTS << endl;
+        if ( !manager->isNoResume() )
+            cout << infos::EXECUTING_STATEMENTS << endl;
     }
 
     for( int i = 0; i < tam; i++ ) {

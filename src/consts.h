@@ -27,6 +27,8 @@ namespace consts {
 
 namespace tasks {
 
+    const string INIT = "init";
+    const string FINISH = "finish";
     const string CLEAN = "clean";
     const string COMPILE = "compile";
     const string COMPILEALL = "compileall";
@@ -36,6 +38,8 @@ namespace tasks {
     const string BUILDALL = "buildall";
 
     const vector<string> DEFAULT_TASKS = {
+        INIT,
+        FINISH,
         CLEAN,
         COMPILE,
         COMPILEALL,

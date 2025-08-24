@@ -20,7 +20,10 @@ void CleanTaskExec::exec( void* mgr ) {
 
     if ( manager->isVerbose() )
         cout << endl;
-    cout << infos::EXECUTING << " " << tasks::CLEAN << "..." << endl;
+    if ( !manager->isNoResume() )
+        cout << infos::EXECUTING << " " << tasks::CLEAN << "..." << endl;
+
+    manager->executaUserTaskIfExists( tasks::CLEAN, Task::BEFORE );
 
     MainScript* script = manager->getMainScript();
 
@@ -57,7 +60,7 @@ void CleanTaskExec::exec( void* mgr ) {
             removedSome = true;
     }
 
-    manager->executaUserTask( tasks::CLEAN );
+    manager->executaUserTaskIfExists( tasks::CLEAN, Task::AFTER );
 
     if ( manager->isVerbose() ) {
         if ( removedSome )

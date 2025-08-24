@@ -4,6 +4,7 @@
 #include "it/StringIterator.h"
 #include "../darv/Task.h"
 #include "../util/strutil.h"
+#include "../msg/messagebuilder.h"
 
 #include "../error_messages.h"
 
@@ -16,6 +17,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     InterManager* manager = (InterManager*)mgr;
 
     istringstream iis( currentLine );
+    bool bracesFound = false;
 
     if ( iis.peek() == EOF )
         return new InterResult( false );
@@ -23,14 +25,50 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     string taskName;
     iis >> taskName;
 
-    if( iis.peek() == EOF )
+    int len = taskName.length();
+    if ( len > 0 ) {
+        if ( taskName[ len-1 ] == '{' ) {
+            taskName = taskName.substr( 0, len - 1 );
+            bracesFound = true;
+        }
+    }
+
+    if( !bracesFound && iis.peek() == EOF )
         return new InterResult( false );
 
-    string openBraces;
-    iis >> openBraces;
-    openBraces = strutil::trim( openBraces );
+    vector<string> flags;
+    string flag;
 
-    if ( openBraces != "{" || iis.peek() != EOF )
+    while( !bracesFound && iis.peek() != EOF ) {
+        iis >> flag;
+
+        bool isBraces = flag == "{";
+
+        int len = flag.length();
+        if ( len > 0 ) {
+            if ( flag[ len-1 ] == '{' ) {
+                flag = flag.substr( 0, len-1 );
+                bracesFound = true;
+            }
+        }
+
+        if ( !isBraces ) {
+            if ( this->isValidFlag( flag ) ) {
+                flags.push_back( flag );      
+            } else {
+                messagebuilder b( errors::INVALID_TASK_FLAG );
+                b << flag;
+
+                size_t j = currentLine.find( flag );
+                if ( j == string::npos )
+                    j = 0;
+
+                return new InterResult( currentLine, 0, (int)j, b.str() );
+            }  
+        }
+    }
+
+    if ( !bracesFound )
         return new InterResult( false );
 
     stringstream ss;
@@ -76,12 +114,16 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
     string blockStr = ss.str();
 
-    Task* task = parent->getTask( taskName );
+    bool isBefore = this->isBeforeFlag( flags );
+   
+    Task* task = parent->getTask( taskName, isBefore );
     if ( task == nullptr ) {
         task = new Task( parent, lineNumber, currentLine );
         task->setName( taskName );
 
-        parent->putTask( task );
+        this->setFlags( task, flags );
+
+        parent->addTask( task );
     }
 
     StringIterator* it2 = new StringIterator( blockStr );
@@ -136,4 +178,45 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     numberOfLines++;
 
     return new InterResult( task, numberOfLines, 0 );
+}
+
+void TaskInter::setFlags( Task* task, vector<string>& flags ) {
+    for( string flag : flags ) {
+        if ( flag == "before" ) {
+            task->setBefore( true );
+        } else if ( flag == "after" ) {
+            task->setBefore( false );
+        } else if ( flag == "verbose" ) {
+            task->setVerbose( true );
+        } else if ( flag == "noverbose" ) {
+            task->setVerbose( false );
+        } else if ( flag == "showerrors" ) {
+            task->setShowErrors( true );
+        } else if ( flag == "noerrors" ) {
+            task->setShowErrors( false );
+        }
+    }
+}
+
+bool TaskInter::isValidFlag( string flag ) {
+    vector<string> flags = { 
+        "before", 
+        "after", 
+        "verbose", 
+        "noverbose", 
+        "showerrors", 
+        "noerrors" 
+    };
+
+    for( string flag2 : flags )
+        if ( flag2 == flag )
+            return true;
+    return false;
+}
+
+bool TaskInter::isBeforeFlag( vector<string>& flags ) {
+    for( string flag : flags )
+        if ( flag == "before" )
+            return true;
+    return false;
 }

@@ -12,6 +12,8 @@ namespace errors {
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variavel nao encontrada: $($1).";
     const string UNRECOGNIZED_LINE = "Linha nao reconhecida como instrucao valida.";
 
+    const string INVALID_TASK_FLAG = "Flag de tarefa invalido: \"$1\"";
+
     const string INVALID_NUMBER_OF_ARGS = "Numero de argumentos esperado igual a $1, encontrado $2.";
 
     const string WORKDIR_VAR_NOT_FOUND = "Nao foi encontrada a variavel de diretorio de trabalho.";
@@ -38,7 +40,6 @@ namespace errors {
     const string DEST_DIRECTORY_NOT_EXISTS = "O diretorio de destino nao existe: \"$1\"";
     const string TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER = "Tentativa de copiar nao recursivamente uma pasta nao vazia.";
     const string ERROR_IN_FILES_COPY = "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, \nse a copia e recursiva e com ou sem sobrescrita, \ne se tem permissoes necessarias para esta operacao";
-
 
     const string COMPILER_NOT_INFORMED = "Nenhum compilador informado. \nDefina a propriedade: \"$1\"";
     const string COMPILATION_FAILED = "Falha na compilacao!";

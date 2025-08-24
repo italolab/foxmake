@@ -32,7 +32,10 @@ void LinkTaskExec::exec( void* mgr ) {
     bool isVerbose = manager->isVerbose();
     if ( isVerbose )
         cout << endl;
-    cout << infos::EXECUTING << " " << tasks::LINK << "..." << endl;
+    if ( !manager->isNoResume() )
+        cout << infos::EXECUTING << " " << tasks::LINK << "..." << endl;
+
+    manager->executaUserTaskIfExists( tasks::LINK, Task::BEFORE );
 
     MainScript* script = manager->getMainScript();
 
@@ -128,7 +131,7 @@ void LinkTaskExec::exec( void* mgr ) {
 
     delete shell;
 
-    manager->executaUserTask( tasks::LINK );
+    manager->executaUserTaskIfExists( tasks::LINK, Task::AFTER );
 
     if ( isVerbose )
         cout << infos::SUCCESS_IN_LINKING << endl;

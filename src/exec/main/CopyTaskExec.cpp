@@ -33,7 +33,10 @@ void CopyTaskExec::exec( void* mgr ) {
 
     if ( manager->isVerbose() )
         cout << endl;
-    cout << infos::EXECUTING << " " << tasks::COPY << "..." << endl;
+    if ( !manager->isNoResume() )
+        cout << infos::EXECUTING << " " << tasks::COPY << "..." << endl;
+
+    manager->executaUserTaskIfExists( tasks::COPY, Task::BEFORE );
 
     buildDir = io::absoluteResolvePath( buildDir );
     binDir = io::absoluteResolvePath( binDir );
@@ -59,7 +62,7 @@ void CopyTaskExec::exec( void* mgr ) {
     for( string bfile : bfiles )
         appCopyFileOrDirectoryToBuild( bfile, buildDir, props::BUILD_FILES ,manager );
 
-    manager->executaUserTask( tasks::COPY );
+    manager->executaUserTaskIfExists( tasks::COPY, Task::AFTER );
 
     if ( manager->isVerbose() )
         cout << infos::SUCCESS_IN_COPY << endl;

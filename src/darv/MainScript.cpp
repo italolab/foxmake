@@ -6,8 +6,8 @@ MainScript::MainScript() : Block( nullptr, 0, "" ) {}
 MainScript::~MainScript() {
     for( const auto& pair : propertiesMap )
         delete pair.second;
-    for( const auto& pair : tasksMap )
-        delete pair.second;
+    for( Task* task : tasksVect )
+        delete task;
 }
 
 void MainScript::putProperty( Prop* prop ) {
@@ -22,7 +22,9 @@ string MainScript::getPropertyValue( string name ) {
 }
 
 Prop* MainScript::getProperty( string name ) {
-    return propertiesMap[ name ];
+    if ( propertiesMap.find( name ) != propertiesMap.end() )
+        return propertiesMap[ name ];
+    return nullptr;
 }
 
 bool MainScript::existsProperty( string name ) {
@@ -40,23 +42,21 @@ vector<string> MainScript::propertyNames() {
     return names;
 }
 
-void MainScript::putTask( Task* task ) {
-    tasksMap[ task->getName() ] = task;
+void MainScript::addTask( Task* task ) {
+    tasksVect.push_back( task );
 }
 
-Task* MainScript::getTask( string taskName ) {
-    if ( tasksMap.find( taskName ) != tasksMap.end() )
-        return tasksMap[ taskName ];
+Task* MainScript::getTask( string taskName, bool beforeFlag ) {
+    for( Task* task : tasksVect )
+        if ( task->getName() == taskName && task->isBefore() == beforeFlag )
+            return task;
     return nullptr;
 }
 
 int MainScript::getTasksLength() {
-    return tasksMap.size();
+    return tasksVect.size();
 }
 
-vector<string> MainScript::taskNames() {
-    vector<string> names;
-    for( const auto& pair : tasksMap )
-        names.push_back( pair.first );
-    return names;
+vector<Task*>& MainScript::tasks() {
+    return tasksVect;
 }

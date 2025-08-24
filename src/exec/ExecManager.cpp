@@ -117,8 +117,8 @@ void ExecManager::executaTask( string taskName ) {
     exec->exec( this );
 }
 
-void ExecManager::executaUserTask( string taskName ) {
-    Task* task = mainScript->getTask( taskName );
+void ExecManager::executaUserTaskIfExists( string taskName, bool beforeFlag ) {
+    Task* task = mainScript->getTask( taskName, beforeFlag );
     if ( task != nullptr ) {
         int len = task->getStatementsLength();
         for( int i = 0; i < len; i++ ) {
@@ -154,6 +154,13 @@ bool ExecManager::isVerbose() {
     if ( !isVerbose )
         isVerbose = mainCMD->existsArg( "--verbose" );
     return isVerbose;
+}
+
+bool ExecManager::isNoResume() {
+    if ( mainCMD == nullptr )
+        return false;
+        
+    return mainCMD->existsArg( "--no-resume" );
 }
 
 vector<string> ExecManager::validCMDNames() {

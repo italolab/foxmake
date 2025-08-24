@@ -37,9 +37,15 @@ void CompileTaskExec::exec( void* mgr ) {
     if ( isVerbose )
         cout << endl;
         
+    if ( !manager->isNoResume() ) {
+        if ( isCompileAll || isBuildAll )
+            cout << infos::EXECUTING << " " << tasks::COMPILEALL << "..." << endl;
+        else cout << infos::EXECUTING << " " << tasks::COMPILE << "..." << endl;
+    }
+
     if ( isCompileAll || isBuildAll )
-        cout << infos::EXECUTING << " " << tasks::COMPILEALL << "..." << endl;
-    else cout << infos::EXECUTING << " " << tasks::COMPILE << "..." << endl;
+        manager->executaUserTaskIfExists( tasks::COMPILEALL, Task::BEFORE );
+    else manager->executaUserTaskIfExists( tasks::COMPILE, Task::BEFORE );
 
     string isDll = script->getPropertyValue( props::IS_DLL );
 
@@ -137,8 +143,8 @@ void CompileTaskExec::exec( void* mgr ) {
     sourceCodeManager->saveLastWriteTimesInFile( consts::WRITING_TIME_ELAPSED_FILE );
 
     if ( isCompileAll || isBuildAll )
-        manager->executaUserTask( tasks::COMPILEALL );
-    else manager->executaUserTask( tasks::COMPILE );
+        manager->executaUserTaskIfExists( tasks::COMPILEALL, Task::AFTER );
+    else manager->executaUserTaskIfExists( tasks::COMPILE, Task::AFTER );
 
     if ( isVerbose ) {
         if ( filesToCompile.empty() )

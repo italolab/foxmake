@@ -33,17 +33,9 @@ libs=
 
 $project_name=cbuild
 
-link {
-    #@cp $(bin.dir)/$(exe.file.name) cbuild
-}
-
-debug {
+debug after noerrors verbose before {
     @dir
     echo Debug executado!
-}
-
-build {
-
 }
 
 mkdir include

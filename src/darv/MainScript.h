@@ -19,7 +19,7 @@ class MainScript : public Block {
 
     private:
         map<string, Prop*> propertiesMap;
-        map<string, Task*> tasksMap;
+        vector<Task*> tasksVect;
 
     public:
         MainScript();
@@ -32,10 +32,10 @@ class MainScript : public Block {
         int getPropertiesLength();
         vector<string> propertyNames();
 
-        void putTask( Task* task );
-        Task* getTask( string taskName );
+        void addTask( Task* task );
+        Task* getTask( string taskName, bool beforeFlag );
         int getTasksLength();
-        vector<string> taskNames();
+        vector<Task*>& tasks();
 
 };
 
