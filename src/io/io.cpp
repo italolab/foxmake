@@ -401,30 +401,29 @@ namespace io {
         return p;
     }
 
-    string absoluteResolvePath( string path ) {
-        return resolvePath( absolutePath( path ) );
-    }
-
-    string relativeResolvePath( string path ) {
+    void countTwoDotsAndSlash( string path, int index, size_t& count, size_t& i, size_t& j, size_t& k ) {
         string sep = "";
         sep += filesystem::path::preferred_separator;
 
-        string rpath = makePreferred( path );
+        string rpath = path.substr( index, path.length()-index );
+        rpath = makePreferred( rpath );
+
         size_t len = rpath.length();
 
-        size_t k;
-
-        int count;
         if ( rpath == ".." ) {
             k = 2;
+            i = index;
+            j = index+2;
             count = 1;
         } else {
-            size_t i = rpath.find( ".."+sep );
-            k = i;
+            i = rpath.find( ".."+sep, index );
+            j = ( i != string::npos ? i : index );
+            k = ( i != string::npos ? i : index );
             count = 0;
             bool isContinue = i != string::npos;
             while( isContinue ) {
                 count++;
+                j = k+3;
                 k += 3;
                 if ( k+2 < len ) {
                     isContinue = rpath[ k ] == '.';
@@ -435,26 +434,32 @@ namespace io {
                 }
             }
         }
+    }
 
-        string currPath = currentPath();
+    string removeInitTwoDotsAndSlash( string relativePath ) {
+        if ( relativePath == "." )
+            return "";
 
-        string relativePath = rpath.substr( k, len-k );
+        string sep = "";
+        sep += filesystem::path::preferred_separator;
 
-        string subPath = currPath;
-        for( int k = 0; k < count; k++ )
-            subPath = parentPath( subPath );
-        subPath = addSeparatorToDirIfNeed( subPath );
+        string rpath = makePreferred( relativePath );
+        if ( strutil::startsWith( rpath, "."+sep ) )
+            rpath = strutil::replace( rpath, "."+sep, "" );
         
-        string resolvedPath = strutil::replace( currPath, subPath, "" );
-        if ( relativePath != "" ) {
-            resolvedPath = addSeparatorToDirIfNeed( resolvedPath );
-            resolvedPath += relativePath;
-        }
+        size_t count, i, j, k;    
+        countTwoDotsAndSlash( rpath, 0, count, i, j, k );
+        return rpath.substr( k, rpath.length()-k );
+    }
 
-        return resolvePath( resolvedPath );
+    string absoluteResolvePath( string path ) {
+        return resolvePath( absolutePath( path ) );
     }
 
     string resolvePath( string path ) {
+        if ( path == "." )
+            return "";
+
         string sep = "";
         sep += filesystem::path::preferred_separator;
 
@@ -462,33 +467,16 @@ namespace io {
         if ( strutil::startsWith( rpath, "."+sep ) )
             rpath = strutil::replace( rpath, "."+sep, "" );
 
-        size_t len = rpath.length();
-
-        size_t i = rpath.find( ".." );
-        size_t j = i;
-        size_t k = i;
-        int count = 0;
-        bool isContinue = i != string::npos;
-        while ( isContinue ) {
-            count++;
-            j = k+3;
-            k += 3;
-            if ( k+2 < len ) {
-                isContinue = rpath[ k ] == '.';
-                isContinue &= rpath[ k+1 ] == '.';
-                isContinue &= rpath[ k+2 ] == filesystem::path::preferred_separator;
-            } else {
-                isContinue = false;
-            }
-        }
+        size_t count, i, j, k;
+        countTwoDotsAndSlash( rpath, 0, count, i, j, k );
 
         if( count == 0 )
             return rpath;
         
         string basePath = rpath.substr( 0, i );
-        string relativePath = rpath.substr( i, len-i ).replace( 0, j-i, "" );
+        string relativePath = rpath.substr( i, rpath.length()-i ).replace( 0, j-i, "" );
 
-        for( int k = 0; k < count; k++ )
+        for( size_t l = 0; l < count; l++ )
             basePath = parentPath( basePath );        
         basePath = addSeparatorToDirIfNeed( basePath );
         

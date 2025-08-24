@@ -31,11 +31,10 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
 
-    src = io::relativeResolvePath( src );
-    cout << src << endl;
-
     string src2 = io::absoluteResolvePath( src );
     string dest2 = io::absoluteResolvePath( dest );
+
+    string withoutInitTwoDotsAndSlashSrc = io::removeInitTwoDotsAndSlash( src );    
 
     if ( !io::fileExists( dest2 ) ) {
         messagebuilder b( errors::DEST_DIRECTORY_NOT_EXISTS );
@@ -47,7 +46,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     if ( src2.find( "**" ) != string::npos ) {
         replacePath = io::recursiveDirPathToReplace( src2 );
     } else {
-        replacePath = strutil::replace( src2, src, "" );
+        replacePath = io::dirPath( src2 );
     }
     replacePath = io::addSeparatorToDirIfNeed( replacePath );
 

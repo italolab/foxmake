@@ -54,11 +54,11 @@ namespace io {
     string extension( string path );
     string removeRecursiveJoker( string path );
     string removeDirContentJoker( string path );
+    string removeInitTwoDotsAndSlash( string relativePath );
     char fileSeparator();
 
     string resolvePath( string currDir, string path );
     string resolvePath( string path );
-    string relativeResolvePath( string path );
     string absoluteResolvePath( string path );
 
     bool isJokerInPath( string path );

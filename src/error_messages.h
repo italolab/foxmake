@@ -37,7 +37,7 @@ namespace errors {
 
     const string DEST_DIRECTORY_NOT_EXISTS = "O diretorio de destino nao existe: \"$1\"";
     const string TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER = "Tentativa de copiar nao recursivamente uma pasta nao vazia.";
-    const string ERROR_IN_FILES_COPY = "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, se a copia e recursiva e com ou sem sobrescrita.";
+    const string ERROR_IN_FILES_COPY = "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, \nse a copia e recursiva e com ou sem sobrescrita, \ne se tem permissoes necessarias para esta operacao";
 
 
     const string COMPILER_NOT_INFORMED = "Nenhum compilador informado. \nDefina a propriedade: \"$1\"";
