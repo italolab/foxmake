@@ -48,7 +48,7 @@ build {
 
 mkdir include
 
-cp $(src.dir)/-/inter/*.h include
+cp $(src.dir)/**/inter/*.h include
 cp $(src.dir)/*.cpp $(build.dir)
 mkdir $(build.dir)/objects
 cp $(obj.dir)/io/* $(build.dir)/objects

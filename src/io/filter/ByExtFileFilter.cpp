@@ -4,7 +4,7 @@
 
 ByExtFileFilter::ByExtFileFilter( string extension ) : ext( extension ) {}
 
-bool ByExtFileFilter::isFilter( string file ) {
+bool ByExtFileFilter::match( string file ) {
     return strutil::endsWith( file, "." + ext );
 }
 

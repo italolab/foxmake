@@ -21,6 +21,10 @@ namespace io {
         return new ByExtFileFilter( ext );
     }
 
+    ByNameFileFilter* by_name_file_filter( string file ) {
+        return new ByNameFileFilter( file );
+    }
+
     AllFileFilter* all_file_filter() {
         return new AllFileFilter();
     }
@@ -42,7 +46,7 @@ namespace io {
                 string file = makePreferred( entry.path().string() );
 
                 if ( filter != nullptr )
-                    if ( !filter->isFilter( file ) )
+                    if ( !filter->match( file ) )
                         continue;
 
                 if ( !filesystem::is_directory( file ) ) {
@@ -168,7 +172,7 @@ namespace io {
 
                 bool isCopyFile = true;
                 if ( filter != nullptr )
-                    isCopyFile = filter->isFilter( file );
+                    isCopyFile = filter->match( file );
 
                 if ( isCopyFile && !filesystem::is_directory( file ) )
                     __copyFile( file, dest, replacePath, isOverwriteExisting );
@@ -188,7 +192,7 @@ namespace io {
 
                 bool isCopyFile = true;
                 if ( filter != nullptr )
-                    isCopyFile = filter->isFilter( file );
+                    isCopyFile = filter->match( file );
 
                 if ( isCopyFile && !filesystem::is_directory( file ) )
                     __copyFile( file, dest, replacePath, isOverwriteExisting );
@@ -240,7 +244,7 @@ namespace io {
 
     string recursiveDirPathToReplace( string path ) {
         string p = makePreferred( path );
-        size_t i = p.find( "-" );
+        size_t i = p.find( "**" );
         if ( i == string::npos ) {
             return "";
         } else {
@@ -269,6 +273,15 @@ namespace io {
             return p.substr( k, j-i-1 );
         }
         return p.substr( i+1, p.length()-i );
+    }
+
+    string fileNameWithoutExtension( string pathOrName ) {
+        string fileName = fileOrDirName( makePreferred( pathOrName ) );
+
+        size_t i = fileName.find( '.' );
+        if ( i == string::npos )
+            return fileName;
+        return fileName.substr( 0, i );
     }
 
     string recursiveFileOrDirName( string path ) {
@@ -375,7 +388,7 @@ namespace io {
 
     string removeRecursiveJoker( string path ) {
         string p = makePreferred( path );
-        string replaceStr = "-";
+        string replaceStr = "**";
         replaceStr += filesystem::path::preferred_separator;
         return strutil::replace( p, replaceStr, "" );
     }
@@ -388,11 +401,60 @@ namespace io {
         return p;
     }
 
-    string absoluteResolvedPath( string path ) {
-        return resolvedPath( absolutePath( path ) );
+    string absoluteResolvePath( string path ) {
+        return resolvePath( absolutePath( path ) );
     }
 
-    string resolvedPath( string path ) {
+    string relativeResolvePath( string path ) {
+        string sep = "";
+        sep += filesystem::path::preferred_separator;
+
+        string rpath = makePreferred( path );
+        size_t len = rpath.length();
+
+        size_t k;
+
+        int count;
+        if ( rpath == ".." ) {
+            k = 2;
+            count = 1;
+        } else {
+            size_t i = rpath.find( ".."+sep );
+            k = i;
+            count = 0;
+            bool isContinue = i != string::npos;
+            while( isContinue ) {
+                count++;
+                k += 3;
+                if ( k+2 < len ) {
+                    isContinue = rpath[ k ] == '.';
+                    isContinue &= rpath[ k+1 ] == '.';
+                    isContinue &= rpath[ k+2 ] == filesystem::path::preferred_separator;
+                } else {
+                    isContinue = false;
+                }
+            }
+        }
+
+        string currPath = currentPath();
+
+        string relativePath = rpath.substr( k, len-k );
+
+        string subPath = currPath;
+        for( int k = 0; k < count; k++ )
+            subPath = parentPath( subPath );
+        subPath = addSeparatorToDirIfNeed( subPath );
+        
+        string resolvedPath = strutil::replace( currPath, subPath, "" );
+        if ( relativePath != "" ) {
+            resolvedPath = addSeparatorToDirIfNeed( resolvedPath );
+            resolvedPath += relativePath;
+        }
+
+        return resolvePath( resolvedPath );
+    }
+
+    string resolvePath( string path ) {
         string sep = "";
         sep += filesystem::path::preferred_separator;
 
@@ -402,7 +464,7 @@ namespace io {
 
         size_t len = rpath.length();
 
-        size_t i = rpath.find( ".."+sep );
+        size_t i = rpath.find( ".." );
         size_t j = i;
         size_t k = i;
         int count = 0;

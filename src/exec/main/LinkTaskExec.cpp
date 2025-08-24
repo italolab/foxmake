@@ -57,8 +57,8 @@ void LinkTaskExec::exec( void* mgr ) {
 
     string defines = script->getPropertyValue( props::DEFINES );
 
-    binDir = io::absoluteResolvedPath( binDir );
-    objDir = io::absoluteResolvedPath( objDir );
+    binDir = io::absoluteResolvePath( binDir );
+    objDir = io::absoluteResolvePath( objDir );
 
     binDir = io::addSeparatorToDirIfNeed( binDir );
     objDir = io::addSeparatorToDirIfNeed( objDir );

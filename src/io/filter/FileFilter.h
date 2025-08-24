@@ -3,11 +3,13 @@
 
 #include <string>
 
+using std::string;
+
 class FileFilter {
 
     public:
-        virtual bool isFilter( std::string file ) = 0;
+        virtual bool match( string file ) = 0;
 
 };
 
-#endif // FILE_FILTER_H
+#endif

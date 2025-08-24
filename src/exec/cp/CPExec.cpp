@@ -31,53 +31,46 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
 
-    if ( !io::fileExists( dest ) ) {
+    src = io::relativeResolvePath( src );
+    cout << src << endl;
+
+    string src2 = io::absoluteResolvePath( src );
+    string dest2 = io::absoluteResolvePath( dest );
+
+    if ( !io::fileExists( dest2 ) ) {
         messagebuilder b( errors::DEST_DIRECTORY_NOT_EXISTS );
-        b << dest;
+        b << dest2;
         throw st_error( cmd, b.str() );
     }
 
     string replacePath = "";
-    if ( src.find( '-' ) != string::npos ) {
-        replacePath = io::recursiveDirPathToReplace( src );
-        replacePath = io::addSeparatorToDirIfNeed( replacePath );
+    if ( src2.find( "**" ) != string::npos ) {
+        replacePath = io::recursiveDirPathToReplace( src2 );
+    } else {
+        replacePath = strutil::replace( src2, src, "" );
     }
+    replacePath = io::addSeparatorToDirIfNeed( replacePath );
 
     try {
-        string fileName = io::fileOrDirName( src );
+        string fileName = io::fileOrDirName( src2 );
 
-        bool isCopyAllFiles = false;
-        bool isCopyByExt = false;
-        if ( fileName.length() > 0 ) {
-            isCopyAllFiles = ( fileName[ 0 ] == '*' );
-            if ( isCopyAllFiles && fileName.length() > 1 )
-                isCopyByExt = ( fileName[ 1 ] == '.' );
-        }
+        string srcDir = io::removeRecursiveJoker( src2 );
+        srcDir = io::dirPath( srcDir );
+                
+        FileFilter* filter = io::by_name_file_filter( fileName );
 
-        if ( isCopyAllFiles ) {
-            string srcDir = io::removeRecursiveJoker( src );
-            srcDir = io::dirPath( srcDir );
-
-            if ( isCopyByExt ) {
-                string ext = io::extension( src );
-                if ( isRecursive ) {
-                    io::recursiveCopyFiles( srcDir, dest, replacePath, io::by_ext_file_filter( ext ), isOverwrite );
-                } else {
-                    io::copyFiles( srcDir, dest, replacePath, io::by_ext_file_filter( ext ), isOverwrite );
-                }
+        size_t i = fileName.find( '*' );
+        if ( i != string::npos ) {
+            if ( isRecursive ) {
+                io::recursiveCopyFiles( srcDir, dest2, replacePath, filter, isOverwrite );
             } else {
-                if ( isRecursive ) {
-                    io::recursiveCopyFiles( srcDir, dest, replacePath, io::all_file_filter(), isOverwrite );
-                } else {
-                    io::copyFiles( srcDir, dest, replacePath, io::all_file_filter(), isOverwrite );
-                }
-
-            }
+                io::copyFiles( srcDir, dest2, replacePath, filter, isOverwrite );
+            }            
         } else {
-            if ( !isRecursive && io::isDir( src ) && !io::isEmptyDir( src ) )
+            if ( !isRecursive && io::isDir( src2 ) && !io::isEmptyDir( src2 ) )
                 throw st_error( cmd, errors::TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER );
 
-            io::copyFileOrDirectory( src, dest, isOverwrite, isRecursive );
+            io::copyFileOrDirectory( src2, dest2, isOverwrite, isRecursive );
         }
     } catch ( const io_error& e ) {
         throw st_error( cmd, errors::ERROR_IN_FILES_COPY );

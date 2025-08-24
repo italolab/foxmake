@@ -14,7 +14,7 @@ class ByExtFileFilter : public FileFilter {
     public:
         ByExtFileFilter( string ext );
 
-        bool isFilter( string file );
+        bool match( string file );
 
 };
 

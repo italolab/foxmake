@@ -35,8 +35,8 @@ void CopyTaskExec::exec( void* mgr ) {
         cout << endl;
     cout << infos::EXECUTING << " " << tasks::COPY << "..." << endl;
 
-    buildDir = io::absoluteResolvedPath( buildDir );
-    binDir = io::absoluteResolvedPath( binDir );
+    buildDir = io::absoluteResolvePath( buildDir );
+    binDir = io::absoluteResolvePath( binDir );
    
     binDir = io::addSeparatorToDirIfNeed( binDir );
     buildDir = io::addSeparatorToDirIfNeed( buildDir );

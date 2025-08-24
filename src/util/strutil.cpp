@@ -127,7 +127,7 @@ namespace strutil {
         }
         return newStr;
     }
-
+    
     string removeStartWhiteSpaces( string str ) {
         int len = str.length();
 

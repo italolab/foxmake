@@ -2,6 +2,7 @@
 #define IO_UTIL_H
 
 #include "filter/FileFilter.h"
+#include "filter/ByNameFileFilter.h"
 #include "filter/ByExtFileFilter.h"
 #include "filter/AllFileFilter.h"
 
@@ -21,6 +22,7 @@ class joker_error : public io_error {
 
 namespace io {
 
+    ByNameFileFilter* by_name_file_filter( string file );
     ByExtFileFilter* by_ext_file_filter( string ext );
     AllFileFilter* all_file_filter();
 
@@ -46,6 +48,7 @@ namespace io {
     string recursiveDirPathToReplace( string path );
     string dirPath( string path );
     string fileOrDirName( string path );
+    string fileNameWithoutExtension( string pathOrName );
     string addSeparatorToDirIfNeed( string dir );
     string makePreferred( string path );
     string extension( string path );
@@ -54,8 +57,9 @@ namespace io {
     char fileSeparator();
 
     string resolvePath( string currDir, string path );
-    string resolvedPath( string path );
-    string absoluteResolvedPath( string path );
+    string resolvePath( string path );
+    string relativeResolvePath( string path );
+    string absoluteResolvePath( string path );
 
     bool isJokerInPath( string path );
     bool isDir( string path );

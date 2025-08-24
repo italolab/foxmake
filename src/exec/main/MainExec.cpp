@@ -43,11 +43,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
 
     if ( workingDir != "" ) {
-        workingDir = io::absoluteResolvedPath( workingDir );
+        workingDir = io::absoluteResolvePath( workingDir );
         shell::setWorkingDir( workingDir );
     } else {
         if ( settingsFile != "" ) {
-            workingDir = io::dirPath( io::absoluteResolvedPath( settingsFile ) );
+            workingDir = io::dirPath( io::absoluteResolvePath( settingsFile ) );
             settingsFile = io::fileOrDirName( settingsFile );
             shell::setWorkingDir( workingDir );
         } else {
@@ -58,7 +58,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( settingsFile == "" )
         settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
 
-    settingsFile = io::absoluteResolvedPath( settingsFile );
+    settingsFile = io::absoluteResolvePath( settingsFile );
 
     if ( isVerbose ) {
         messagebuilder b( infos::CONFIGURATION_FILE );
@@ -140,7 +140,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     CMD* mainCMD = manager->getMainCMD();
 
     string srcDir = script->getPropertyValue( props::SRC_DIR );
-    srcDir = io::absoluteResolvedPath( srcDir );
+    srcDir = io::absoluteResolvePath( srcDir );
 
     if ( !io::fileExists( srcDir ) ) {        
         messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );

@@ -8,7 +8,7 @@
 class AllFileFilter : public FileFilter {
 
     public:
-        bool isFilter( std::string file );
+        bool match( std::string file );
 
 };
 

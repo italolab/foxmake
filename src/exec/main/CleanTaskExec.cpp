@@ -30,9 +30,9 @@ void CleanTaskExec::exec( void* mgr ) {
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    buildDir = io::absoluteResolvedPath( buildDir );
-    binDir = io::absoluteResolvedPath( binDir );
-    objDir = io::absoluteResolvedPath( objDir );
+    buildDir = io::absoluteResolvePath( buildDir );
+    binDir = io::absoluteResolvePath( binDir );
+    objDir = io::absoluteResolvePath( objDir );
 
     buildDir = io::addSeparatorToDirIfNeed( buildDir );
     binDir = io::addSeparatorToDirIfNeed( binDir );
