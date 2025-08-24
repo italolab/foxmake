@@ -12,9 +12,9 @@ bool ByNameFileFilter::match( string file2 ) {
     bool isNamesMatch = false;
     bool isExtsMatch = false;
 
-    string name1 = io::fileNameWithoutExtension( file1 );
-    string name2 = io::fileNameWithoutExtension( file2 );
-
+    string name1 = io::fileOrDirNameWithoutExtension( file1 );
+    string name2 = io::fileOrDirNameWithoutExtension( file2 );
+               
     size_t i = name1.find( '*' );
     if ( i != string::npos ) {
         if ( name1 == "*" ) {
@@ -22,7 +22,7 @@ bool ByNameFileFilter::match( string file2 ) {
         } else {
             string startName = name1.substr( 0, i );
             string endName = name1.substr( i+1, name1.length()-i+1 );
-            
+    
             isNamesMatch = strutil::startsWith( name2, startName ) && strutil::endsWith( name2, endName );
         }
     } else {
@@ -38,6 +38,6 @@ bool ByNameFileFilter::match( string file2 ) {
     } else {
         isExtsMatch = ( ext1 == ext2 );
     }
-
+    
     return ( isNamesMatch && isExtsMatch );
 }

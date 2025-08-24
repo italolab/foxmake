@@ -34,9 +34,10 @@ namespace io {
     void copyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     bool deleteFileOrDirectory( string path );
+    int deleteFiles( string path, FileFilter* filter );
+    int recursiveDeleteFiles( string dir, FileFilter* filter );
     int recursiveDeleteDirectory( string path );
     int recursiveDeleteFileOrDirectory( string path );
-    int recursiveDeleteFilesOnly( string dir, FileFilter* filter );
     int recursiveDeleteDirectoryContent( string dir );
 
     string currentPath();
@@ -48,12 +49,11 @@ namespace io {
     string recursiveDirPathToReplace( string path );
     string dirPath( string path );
     string fileOrDirName( string path );
-    string fileNameWithoutExtension( string pathOrName );
+    string fileOrDirNameWithoutExtension( string pathOrName );
     string addSeparatorToDirIfNeed( string dir );
     string makePreferred( string path );
     string extension( string path );
     string removeRecursiveJoker( string path );
-    string removeDirContentJoker( string path );
     string removeInitTwoDotsAndSlash( string relativePath );
     char fileSeparator();
 

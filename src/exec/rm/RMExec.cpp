@@ -3,6 +3,7 @@
 #include "../ExecManager.h"
 #include "../stexcept.h"
 #include "../../io/io.h"
+#include "../../io/filter/FileFilter.h"
 #include "../../util/strutil.h"
 #include "../../msg/messagebuilder.h"
 
@@ -31,35 +32,18 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
 
     string fileName = io::fileOrDirName( file );
 
+    FileFilter* filter = io::by_name_file_filter( fileName );
+
+    int count;
+
     if ( isRecursive ) {
-        try {
-            bool isDeleteAllFiles = false;
-            bool isDeleteByExt = false;
-            if ( fileName.length() > 0 ) {
-                isDeleteAllFiles = ( fileName[ 0 ] == '*' );
-                if ( isDeleteAllFiles && fileName.length() > 1 )
-                    isDeleteByExt = ( fileName[ 1 ] == '.' );
-            }
-
-            file = io::removeDirContentJoker( file );
-
-            int count;
-            if ( isDeleteAllFiles ) {
+        try {            
+            size_t i = fileName.find( '*' );
+            if ( i != string::npos ) {                
                 string dir = io::dirPath( file );
-                if ( isDeleteByExt ) {
-                    string ext = io::extension( fileName );
-                    count = io::recursiveDeleteFilesOnly( dir, io::by_ext_file_filter( ext ) );
-                } else {
-                    count = io::recursiveDeleteDirectoryContent( dir );
-                }
+                count = io::recursiveDeleteFiles( dir, filter );         
             } else {
                 count = io::recursiveDeleteFileOrDirectory( file );
-            }
-
-            if ( count == 0 ) {
-                messagebuilder b( errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
-                b << file;
-                throw st_error( cmd, b.str() );
             }
         } catch ( const io_error& e ) {
             messagebuilder b( errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
@@ -68,12 +52,11 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         }
     } else {
         try {
-            bool deleted = io::deleteFileOrDirectory( file );
-            if ( !deleted ) {
-                messagebuilder b( errors::FILE_OR_FOLDER_NOT_DELETED );
-                b << file;
-                throw st_error( cmd, b.str() );
-            }
+            string dir = io::dirPath( file );
+
+            bool deleted = io::deleteFiles( dir, filter );
+            if ( deleted )
+                count = 1;            
         } catch ( const io_error& e ) {
             messagebuilder b( errors::FILE_OR_FOLDER_NOT_DELETED );
             b << file;
@@ -85,5 +68,9 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         messagebuilder b( infos::EXECUTED_CMD );
         b << cmd->getCMDStr();
         cout << b.str() << endl;
+
+        messagebuilder b2( infos::FILES_AND_FOLDERS_DELETED );
+        b2 << std::to_string( count );
+        cout << b2.str() << endl;
     }
 }

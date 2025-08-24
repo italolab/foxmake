@@ -48,7 +48,7 @@ build {
 
 mkdir include
 
-cp $(src.dir)/**/inter/*.h include
+cp -r $(src.dir)/**/io/*.h include
 cp $(src.dir)/*.cpp $(build.dir)
 mkdir $(build.dir)/objects
 cp $(obj.dir)/io/* $(build.dir)/objects
@@ -62,6 +62,9 @@ mkdir -p $(build.dir)/a/b/c
 
 #cd ../$(project_name)/run
 
-#rm $(build.dir)/italo-xadrez
-#rm -r $(include.dirs)/*
-#rm -r $(obj.dir)
+rm $(build.dir)/objects/io.o
+rm $(build.dir)/ma*n.*
+rm $(build.dir)/sett*.*
+
+rm -r $(include.dirs)/io/fi*r
+rm -r $(bin.dir)

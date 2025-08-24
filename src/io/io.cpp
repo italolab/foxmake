@@ -29,6 +29,21 @@ namespace io {
         return new AllFileFilter();
     }
 
+    int recursiveCountFilesInDir( string dir ) {
+        try {
+            string dirpath = makePreferred( dir );
+            int count = 0;
+            for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) ) {
+                string file = entry.path().string();
+                if ( !filesystem::is_directory( file ) )
+                    count++;            
+            }
+            return count;
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+    }
+
     bool deleteFileOrDirectory( string path ) {
         string p = makePreferred( path );
         try {
@@ -38,21 +53,40 @@ namespace io {
         }
     }
 
-    int recursiveDeleteFilesOnly( string dir, FileFilter* filter ) {
+    int deleteFiles( string dir, FileFilter* filter ) {
         int removedCount = 0;
         try {
             string dirpath = makePreferred( dir );
-            for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) ) {
+            for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
                 string file = makePreferred( entry.path().string() );
 
                 if ( filter != nullptr )
                     if ( !filter->match( file ) )
                         continue;
+                
+                removedCount += recursiveDeleteFileOrDirectory( file );
+            }            
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+        return removedCount;
+    }
 
-                if ( !filesystem::is_directory( file ) ) {
-                    deleteFileOrDirectory( file );
-                    removedCount++;
-                }
+    int recursiveDeleteFiles( string dir, FileFilter* filter ) {
+        int removedCount = 0;
+        try {
+            string dirpath = makePreferred( dir );
+            for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
+                string file = makePreferred( entry.path().string() );
+
+                if ( filesystem::is_directory( file ) )
+                    removedCount += recursiveDeleteFiles( file, filter );                
+
+                if ( filter != nullptr )
+                    if ( !filter->match( file ) )
+                        continue;
+
+                removedCount += recursiveDeleteFileOrDirectory( file );                                
             }
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
@@ -81,7 +115,7 @@ namespace io {
         } else {
             bool deleted = deleteFileOrDirectory( p );
             if ( deleted )
-                return 1;
+                return 1;            
             return 0;
         }
     }
@@ -267,21 +301,24 @@ namespace io {
         if ( i == string::npos )
             return p;
 
-        if ( filesystem::is_directory( p ) ) {
-            size_t j = p.find_last_of( filesystem::path::preferred_separator, i-1 );
-            size_t k = ( j == string::npos ? 0 : j+1 );
-            return p.substr( k, j-i-1 );
+        if ( p.length() > 0 ) {
+            if ( p[ p.length()-1 ] == filesystem::path::preferred_separator ) {
+                size_t j = p.find_last_of( filesystem::path::preferred_separator, i-1 );
+                size_t k = ( j == string::npos ? 0 : j+1 );
+                return p.substr( k, p.length()-k-1 );
+            }
         }
+
         return p.substr( i+1, p.length()-i );
     }
 
-    string fileNameWithoutExtension( string pathOrName ) {
-        string fileName = fileOrDirName( makePreferred( pathOrName ) );
+    string fileOrDirNameWithoutExtension( string pathOrName ) {
+        string name = fileOrDirName( makePreferred( pathOrName ) );
 
-        size_t i = fileName.find( '.' );
+        size_t i = name.find( '.' );
         if ( i == string::npos )
-            return fileName;
-        return fileName.substr( 0, i );
+            return name;
+        return name.substr( 0, i );
     }
 
     string recursiveFileOrDirName( string path ) {
@@ -372,10 +409,11 @@ namespace io {
     }
 
     string extension( string path ) {
-        size_t i = path.find( '.' );
+        string name = fileOrDirName( path );
+        size_t i = name.find( '.' );
         if ( i == string::npos )
             return "";
-        return path.substr( i+1, path.length()-i );
+        return name.substr( i+1, name.length()-i );
     }
 
     bool isDir( string path ) {
@@ -391,14 +429,6 @@ namespace io {
         string replaceStr = "**";
         replaceStr += filesystem::path::preferred_separator;
         return strutil::replace( p, replaceStr, "" );
-    }
-
-    string removeDirContentJoker( string path ) {
-        string p = makePreferred( path );
-        if ( p.length() > 0 )
-            if ( p[ p.length()-1 ] == '*' )
-                return p.substr( 0, p.length()-2 );
-        return p;
     }
 
     void countTwoDotsAndSlash( string path, int index, size_t& count, size_t& i, size_t& j, size_t& k ) {
