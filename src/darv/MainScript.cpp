@@ -53,10 +53,21 @@ Task* MainScript::getTask( string taskName, bool beforeFlag ) {
     return nullptr;
 }
 
-int MainScript::getTasksLength() {
-    return tasksVect.size();
-}
-
 vector<Task*>& MainScript::tasks() {
     return tasksVect;
+}
+
+void MainScript::addDefaultTaskConfig( DefaultTaskConfig* config ) {
+    defaultTaskConfigsVect.push_back( config );
+}
+
+DefaultTaskConfig* MainScript::getDefaultTaskConfig( string taskName ) {
+    for( DefaultTaskConfig* config : defaultTaskConfigsVect )
+        if ( config->getName() == taskName )
+            return config;
+    return nullptr;
+}
+
+vector<DefaultTaskConfig*>& MainScript::defaultTaskConfigs() {
+    return defaultTaskConfigsVect;
 }

@@ -45,7 +45,9 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
             result = manager->interpretsTask( script, it, line, currentLineNumber );
         if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsShellCMD( script, line, currentLineNumber );
-
+        if ( !result->isInterpreted() && !result->isErrorFound() )
+            result = manager->interpretsDefaultTaskConfig( script, line, currentLineNumber );
+            
         numberOfLines += result->getNumberOfLines();
 
         if ( !result->isInterpreted() ) {

@@ -5,6 +5,7 @@
 #include "CMD.h"
 #include "Var.h"
 #include "Task.h"
+#include "DefaultTaskConfig.h"
 #include "Prop.h"
 
 #include <string>
@@ -20,6 +21,7 @@ class MainScript : public Block {
     private:
         map<string, Prop*> propertiesMap;
         vector<Task*> tasksVect;
+        vector<DefaultTaskConfig*> defaultTaskConfigsVect;
 
     public:
         MainScript();
@@ -34,8 +36,11 @@ class MainScript : public Block {
 
         void addTask( Task* task );
         Task* getTask( string taskName, bool beforeFlag );
-        int getTasksLength();
         vector<Task*>& tasks();
+
+        void addDefaultTaskConfig( DefaultTaskConfig* config );
+        DefaultTaskConfig* getDefaultTaskConfig( string taskName );
+        vector<DefaultTaskConfig*>& defaultTaskConfigs();
 
 };
 

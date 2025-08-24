@@ -6,6 +6,8 @@ InterManager::InterManager( InterDriver* drv ) {
 
     this->mainScriptInter = new MainScriptInter();
     this->taskInter = new TaskInter();
+    this->taskConfigInter = new TaskConfigInter();
+    this->defaultTaskConfigInter = new DefaultTaskConfigInter();
     this->cmdInter = new CMDInter();
     this->shellCMDInter = new ShellCMDInter();
     this->propInter = new PropInter();
@@ -15,6 +17,8 @@ InterManager::InterManager( InterDriver* drv ) {
 InterManager::~InterManager() {
     delete mainScriptInter;
     delete taskInter;
+    delete taskConfigInter;
+    delete defaultTaskConfigInter;
     delete cmdInter;
     delete shellCMDInter;
     delete propInter;
@@ -47,6 +51,22 @@ InterResult* InterManager::interpretsMainScript( MainScript* script, string file
 
 InterResult* InterManager::interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber ) {
     return taskInter->interprets( parent, it, currentLine, lineNumber, this );
+}
+
+InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, string currentLine, int lineNumber ) {
+    return defaultTaskConfigInter->interprets( script, currentLine, lineNumber, this );
+}
+
+void InterManager::interpretsTaskConfig(
+                    string& taskName, 
+                    vector<string>& flags, 
+                    int& status, 
+                    string& errorFlag,
+                    vector<string>& validFlags,
+                    string currentLine,
+                    char finalizer ) {
+
+    taskConfigInter->interpretsConfig( taskName, flags, status, errorFlag, validFlags, currentLine, finalizer, this );
 }
 
 bool InterManager::isValidCMD( string line ) {

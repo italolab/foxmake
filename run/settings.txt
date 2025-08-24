@@ -33,7 +33,9 @@ libs=
 
 $project_name=cbuild
 
-debug after noerrors verbose before {
+compile verbose noshowoutput;
+
+debug after noshowoutput verbose before {
     @dir
     echo Debug executado!
 }

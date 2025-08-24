@@ -5,7 +5,7 @@ Task::Task( Statement* parent, int lineNumber, string line ) : Block( parent, li
     this->name = "";
     this->beforeFlag = false;
     this->verboseFlag = false;
-    this->showErrorsFlag = false;    
+    this->showOutputFlag = false;    
 }
 
 string Task::getName() {
@@ -20,8 +20,8 @@ bool Task::isVerbose() {
     return verboseFlag;
 }
 
-bool Task::isShowErrors() {
-    return showErrorsFlag;
+bool Task::isShowOutput() {
+    return showOutputFlag;
 }
 
 void Task::setName( string name ) {
@@ -36,6 +36,6 @@ void Task::setVerbose( bool flag ) {
     this->verboseFlag = flag;
 }
 
-void Task::setShowErrors( bool flag ) {
-    this->showErrorsFlag = flag;
+void Task::setShowOutput( bool flag ) {
+    this->showOutputFlag = flag;
 }

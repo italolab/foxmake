@@ -1,33 +1,27 @@
-#ifndef TASK_H
-#define TASK_H
+#ifndef DEFAULT_TASK_H
+#define DEFAULT_TASK_H
 
-#include "Block.h"
+#include "Statement.h"
 
 #include <string>
 
 using std::string;
 
-class Task : public Block {
+class DefaultTaskConfig : public Statement {
 
     private:
         string name;
-        bool beforeFlag;
         bool verboseFlag;
         bool showOutputFlag;
 
     public:
-        static const bool BEFORE = true;
-        static const bool AFTER = false;
-
-        Task( Statement* parent, int lineNumber, string line );
+        DefaultTaskConfig( Statement* parent, string name, int lineNumber, string line );
 
         string getName();
-        bool isBefore();
         bool isVerbose();
         bool isShowOutput();
 
         void setName( string name );
-        void setBefore( bool flag );
         void setVerbose( bool flag );
         void setShowOutput( bool flag );
 

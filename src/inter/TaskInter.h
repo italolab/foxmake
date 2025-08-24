@@ -13,9 +13,17 @@ using std::vector;
 class TaskInter : public Inter {
 
     private:
+        vector<string> VALID_FLAGS = {
+            "before", 
+            "after", 
+            "verbose", 
+            "noverbose", 
+            "showoutput", 
+            "noshowoutput" 
+        };
+    
         void setFlags( Task* task, vector<string>& flags );
         bool isBeforeFlag( vector<string>& flags );
-        bool isValidFlag( string flag );
 
     public:
         InterResult* interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr );

@@ -4,6 +4,8 @@
 #include "InterDriver.h"
 #include "MainScriptInter.h"
 #include "TaskInter.h"
+#include "DefaultTaskConfigInter.h"
+#include "TaskConfigInter.h"
 #include "CMDInter.h"
 #include "ShellCMDInter.h"
 #include "PropInter.h"
@@ -23,6 +25,8 @@ class InterManager {
         PropInter* propInter;
         VarInter* varInter;
         TaskInter* taskInter;
+        DefaultTaskConfigInter* defaultTaskConfigInter;
+        TaskConfigInter* taskConfigInter;
 
         InterDriver* drv;
 
@@ -39,6 +43,17 @@ class InterManager {
 
         InterResult* interpretsMainScript( MainScript* script, string file, int lineNumber );
         InterResult* interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber );
+
+        InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int lineNumber );
+
+        void interpretsTaskConfig(
+                    string& taskName, 
+                    vector<string>& flags, 
+                    int& status, 
+                    string& errorFlag,
+                    vector<string>& validFlags,
+                    string currentLine,
+                    char finalizer );
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );
