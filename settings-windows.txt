@@ -3,7 +3,7 @@ is.dll=false
 compiler=g++
 exe.file.name=cbuild.exe
 
-$target=release
+$target=debug
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug

@@ -155,7 +155,6 @@ void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputT
             outputThread->doNotRun();
         }
         
-
         threadPile->exitCode = pclose( pipe );
     } else {
         threadPipe->exitCode = -1;
@@ -171,8 +170,6 @@ void runOutputControllerThread( OutputController* outputController ) {
 int Shell::executa() {
     vector<ThreadPipe*> threadPipes;
     OutputController* outputController = new OutputController();
-
-    std::thread outputControllerThread( runOutputControllerThread, outputController );
 
     int threadNumber = 1;
     for( string command : commands ) {
@@ -193,6 +190,8 @@ int Shell::executa() {
         threadNumber++;
     }
 
+    std::thread outputControllerThread( runOutputControllerThread, outputController );
+
     DWORD exitCode = 0;
     int len = threadPipes.size();
     for( int i = 0; i < len; i++ ) {
@@ -202,7 +201,6 @@ int Shell::executa() {
             exitCode = threadPipes[ i ]->exitCode;
     }
 
-    outputController->finish();
     outputControllerThread.join();
 
     return exitCode;
