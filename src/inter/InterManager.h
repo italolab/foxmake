@@ -5,7 +5,8 @@
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "DefaultTaskConfigInter.h"
-#include "TaskConfigInter.h"
+#include "taskconfig/TaskConfigInter.h"
+#include "taskconfig/TaskConfigResult.h"
 #include "CMDInter.h"
 #include "ShellCMDInter.h"
 #include "PropInter.h"
@@ -37,7 +38,7 @@ class InterManager {
         InterResult* interpretsMainCMD( int argc, char* argv[] );
 
         InterResult* interpretsCMD( Block* parent, string line, int lineNumber );
-        InterResult* interpretsShellCMD( Block* parent, string line, int lineNumber );
+        InterResult* interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int lineNumber );
         InterResult* interpretsVar( Block* parent, string line, int lineNumber );
         InterResult* interpretsProp( MainScript* parent, string line, int lineNumber );
 
@@ -46,14 +47,7 @@ class InterManager {
 
         InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int lineNumber );
 
-        void interpretsTaskConfig(
-                    string& taskName, 
-                    vector<string>& flags, 
-                    int& status, 
-                    string& errorFlag,
-                    vector<string>& validFlags,
-                    string currentLine,
-                    char finalizer );
+        TaskConfigResult* interpretsTaskConfig( string currentLine );
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );

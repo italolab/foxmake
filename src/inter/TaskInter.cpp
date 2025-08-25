@@ -2,6 +2,7 @@
 #include "TaskInter.h"
 #include "InterManager.h"
 #include "it/StringIterator.h"
+#include "taskconfig/TaskConfigResult.h"
 #include "../darv/Task.h"
 #include "../util/strutil.h"
 #include "../msg/messagebuilder.h"
@@ -16,74 +17,36 @@ using std::istringstream;
 InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
-    int status = TaskConfigInter::NO_CONFIG;
-    string taskName;
-    string errorFlag;
-    vector<string> flags;
-    char finalizer = '{';
+    TaskConfigResult* result = manager->interpretsTaskConfig( currentLine );
 
-    vector<string>& validFlagsVect = VALID_FLAGS;
-
-    manager->interpretsTaskConfig( taskName, flags, status, errorFlag, validFlagsVect, currentLine, finalizer );
-
-    if ( status == TaskConfigInter::ERROR ) {
-        messagebuilder b( errors::INVALID_TASK_FLAG );
-        b << errorFlag;
-
-        size_t j = currentLine.find( errorFlag );
-        if ( j == string::npos )
-            j = 0;
-
-        return new InterResult( currentLine, 0, (int)j, b.str() );            
-    } else if ( status == TaskConfigInter::NO_CONFIG ) {
+    int status = result->getStatus();
+    if ( status == TaskConfigResult::NO_CONFIG ) {
         return new InterResult( false );
+    } else if ( status == TaskConfigResult::ERROR ) {
+        return new InterResult( currentLine, 0, 0, result->getErrorMsg() );        
+    } 
+    
+    if ( status != TaskConfigResult::OK )
+        throw runtime_error( errors::runtime::INVALID_STATUS_OF_TASK_CONFIG_INTER );    
+
+    if ( result->isFinish() )
+        return new InterResult( false );
+
+    string taskName = result->getTaskName();
+    vector<string>& flags = result->getFlags();
+
+    for( string flag: flags ) {
+        if ( !this->isValidFlag( flag ) ) {
+            messagebuilder b( errors::INVALID_TASK_FLAG );
+            b << flag;
+            
+            size_t j = currentLine.find_last_of( flag );
+            return new InterResult( currentLine, 0, j, b.str() );
+        }
     }
-
-    stringstream ss;
-    int numberOfLines0 = 0;
-
-    int bracesCount = 1;
-    while( it->hasNextLine() && bracesCount > 0 ) {
-        string line = it->nextLine();
-        string line2 = strutil::removeStartWhiteSpaces( line );
-
-        numberOfLines0++;
-
-        if ( line2.length() == 0 ) {
-            ss << "\n";
-            continue;
-        }
-
-        if ( line2[ 0 ] == '#' ) {
-            ss << line << "\n";
-            continue;
-        }
-
-        int len = line.length();
-        for( int i = 0; bracesCount > 0 && i < len; i++ ) {
-            switch( line[ i ] ) {
-                case '{':
-                    bracesCount++;
-                    break;
-                case '}':
-                    bracesCount--;
-                    break;
-            }
-
-            if ( bracesCount == 0 )
-                for( int j = i+1; j < len; j++ )
-                    if ( !strutil::isWhiteSpace( line[ j ] ) )
-                        return new InterResult( line, numberOfLines0, 0, errors::END_OF_BLOCK_WITH_UNNECESSARY_CHARACTERS );
-        }
-
-        if ( bracesCount > 0 )
-            ss << line << "\n";
-    }
-
-    string blockStr = ss.str();
 
     bool isBefore = this->isBeforeFlag( flags );
-   
+
     Task* task = parent->getTask( taskName, isBefore );
     if ( task == nullptr ) {
         task = new Task( parent, lineNumber, currentLine );
@@ -93,12 +56,11 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
         parent->addTask( task );
     }
-
-    StringIterator* it2 = new StringIterator( blockStr );
-
+   
+    bool taskendFound = false;
     int numberOfLines = 1;
-    while( it2->hasNextLine() ) {
-        string line = it2->nextLine();
+    while( !taskendFound && it->hasNextLine() ) {
+        string line = it->nextLine();
         string line2 = strutil::removeStartWhiteSpaces( line );
 
         if ( line2.length() == 0 ) {
@@ -108,6 +70,12 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
 
         if ( line2[ 0 ] == '#' ) {
             numberOfLines++;
+            continue;
+        }
+
+        if ( strutil::trim( line2 ) == "taskend" ) {
+            numberOfLines++;
+            taskendFound = true;
             continue;
         }
 
@@ -121,7 +89,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
         if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsVar( task, line2, currentLineNumber );
         if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsShellCMD( task, line2, currentLineNumber );
+            result = manager->interpretsShellCMD( task, it, line2, currentLineNumber );
 
         numberOfLines += result->getNumberOfLines();
 
@@ -142,8 +110,8 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
         delete result;
     }
 
-
-    numberOfLines++;
+    if ( !taskendFound )
+        return new InterResult( currentLine, 0, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
 
     return new InterResult( task, numberOfLines, 0 );
 }
@@ -161,6 +129,13 @@ void TaskInter::setFlags( Task* task, vector<string>& flags ) {
 bool TaskInter::isBeforeFlag( vector<string>& flags ) {
     for( string flag : flags )
         if ( flag == "before" )
+            return true;
+    return false;
+}
+
+bool TaskInter::isValidFlag( string flag ) {
+    for( string vflag : VALID_FLAGS )
+        if ( vflag == flag )
             return true;
     return false;
 }

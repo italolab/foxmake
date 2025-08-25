@@ -23,6 +23,7 @@ class TaskInter : public Inter {
     
         void setFlags( Task* task, vector<string>& flags );
         bool isBeforeFlag( vector<string>& flags );
+        bool isValidFlag( string flag );
 
     public:
         InterResult* interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr );

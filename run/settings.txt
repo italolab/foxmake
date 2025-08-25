@@ -33,12 +33,25 @@ libs=
 
 $project_name=cbuild
 
-copy verbose;
+task copy noverbose noshowoutput;
 
-debug after before {
+task copy after
+    echo Copia...
+
+    shellbegin
+        if [ -f "settings.txt" ]; then
+            echo "O arquivo existe...!"
+        else 
+            echo "Arquivo nao existe: settings.txt"
+        fi
+    shellend
+
+taskend
+
+task debug before
     @dir
     echo Debug executado!
-}
+taskend
 
 mkdir include
 

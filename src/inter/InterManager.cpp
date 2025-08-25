@@ -33,8 +33,8 @@ InterResult* InterManager::interpretsCMD( Block* parent, string line, int lineNu
     return cmdInter->interprets( parent, line, lineNumber, this );
 }
 
-InterResult* InterManager::interpretsShellCMD( Block* parent, string line, int lineNumber ) {
-    return shellCMDInter->interprets( parent, line, lineNumber, this );
+InterResult* InterManager::interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int lineNumber ) {
+    return shellCMDInter->interprets( parent, it, currentLine, lineNumber, this );
 }
 
 InterResult* InterManager::interpretsVar( Block* parent, string line, int lineNumber ) {
@@ -57,16 +57,8 @@ InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, stri
     return defaultTaskConfigInter->interprets( script, currentLine, lineNumber, this );
 }
 
-void InterManager::interpretsTaskConfig(
-                    string& taskName, 
-                    vector<string>& flags, 
-                    int& status, 
-                    string& errorFlag,
-                    vector<string>& validFlags,
-                    string currentLine,
-                    char finalizer ) {
-
-    taskConfigInter->interpretsConfig( taskName, flags, status, errorFlag, validFlags, currentLine, finalizer, this );
+TaskConfigResult* InterManager::interpretsTaskConfig( string currentLine ) {
+    return taskConfigInter->interprets( currentLine, this );
 }
 
 bool InterManager::isValidCMD( string line ) {

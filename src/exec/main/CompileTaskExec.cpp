@@ -106,6 +106,8 @@ void CompileTaskExec::exec( void* mgr ) {
     }
 
     Shell* shell = new Shell();
+    shell->setVerbose( isVerbose );
+    shell->setShowOutput( isShowCMDOutput );
 
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
 
@@ -145,7 +147,7 @@ void CompileTaskExec::exec( void* mgr ) {
         shell->pushCommand( ss.str() );
     }
 
-    int exitCode = shell->executa( isShowCMDOutput );
+    int exitCode = shell->executa();
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::COMPILATION_FAILED );
 

@@ -126,9 +126,11 @@ void LinkTaskExec::exec( void* mgr ) {
     ss << " " << linkerParams;
 
     Shell* shell = new Shell();
+    shell->setVerbose( isVerbose );
+    shell->setShowOutput( isShowCMDOutput );
     shell->pushCommand( ss.str() );
 
-    int exitCode = shell->executa( isShowCMDOutput );
+    int exitCode = shell->executa();
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::LINKING_FAILED );
 

@@ -18,10 +18,19 @@ class Shell {
 
     private:
         vector<string> commands;
+        bool verboseFlag;
+        bool showOutputFlag;
 
     public:
+        Shell();
+        
         void pushCommand( string command );
-        int executa( bool isVerbose = true );
+        int executa();
+
+        bool isVerbose();
+        bool isShowOutput();
+        void setVerbose( bool flag );
+        void setShowOutput( bool flag );
 
 };
 

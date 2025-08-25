@@ -8,10 +8,14 @@ using std::string;
 namespace errors {
 
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
-    const string END_OF_BLOCK_WITH_UNNECESSARY_CHARACTERS = "Fim de bloco de tarefa com caracteres desnecessarios.";
+    const string START_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Inicio de bloco com caracter(es) desnecessario(s).";
+    const string END_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Fim de bloco com caracter(es) desnecessario(s).";
+    const string END_OF_SHELL_BLOCK_NOT_FOUND = "Fim de bloco de shell nao encontrado.";
+    const string END_OF_TASK_BLOCK_NOT_FOUND = "Fim de bloco de tarefa nao encontrado.";
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variavel nao encontrada: $($1).";
     const string UNRECOGNIZED_LINE = "Linha nao reconhecida como instrucao valida.";
 
+    const string TASK_NAME_NOT_FOUND = "Nome de tarefa nao encontrado.";
     const string INVALID_TASK_FLAG = "Flag de tarefa invalido: \"$1\"";
     const string IS_NOT_A_DEFAULT_TASK = "A tarefa \"$1\" nao e uma tarefa default. Logo, nao pode ser configurada assim.";
 
@@ -60,6 +64,12 @@ namespace errors {
     const string TASK_NOT_RECOGNIZED = "Tarefa nao reconhecida.";
 
     const string ERROR_IN_MAIN_CMD = "Erro: $1";
+
+    namespace runtime {
+        
+        const string INVALID_STATUS_OF_TASK_CONFIG_INTER = "Status de TaskConfigInter nao reconhecido.";
+
+    }
 
 }
 

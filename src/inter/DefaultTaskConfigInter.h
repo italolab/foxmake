@@ -24,6 +24,7 @@ class DefaultTaskConfigInter {
         };
 
         void setFlags( DefaultTaskConfig* task, vector<string>& flags );
+        bool isValidFlag( string flag );
 
     public:
         InterResult* interprets( MainScript* parent, string currentLine, int lineNumber, void* mgr );

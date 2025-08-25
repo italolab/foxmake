@@ -48,15 +48,20 @@ void Shell::pushCommand( string command ) {
     commands.push_back( command );
 }
 
+Shell::Shell() {
+    this->verboseFlag = true;
+    this->showOutputFlag = true;
+}
+
 #ifdef _WIN32
 
-int Shell::executa( bool isVerbose ) {
+int Shell::executa() {
     STARTUPINFO si = { sizeof( si ) };
 
     vector<PROCESS_INFORMATION> vectPIs;
 
     for( string command : commands ) {
-        if ( isVerbose )
+        if ( verboseFlag )
             cout << command << endl;
 
         PROCESS_INFORMATION pi;
@@ -85,6 +90,7 @@ int Shell::executa( bool isVerbose ) {
 
     return exitCode;
 }
+
 #else
 
 typedef struct TThreadPipe {
@@ -92,13 +98,14 @@ typedef struct TThreadPipe {
     std::thread* thread;
 } ThreadPipe;
 
-void runCMDThread( string command, ThreadPipe* threadPipe ) {
+void runCMDThread( string command, ThreadPipe* threadPipe, bool showOutputFlag ) {
     FILE* pipe = popen( command.c_str(), "r" );
     if ( pipe ) {
-        char buffer[ 128 ];
-        while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
-            cout << buffer;
-
+        if ( showOutputFlag ) {
+            char buffer[ 128 ];
+            while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
+                cout << buffer;
+        }
         threadPipe->pipe = pipe;
     } else {
         threadPipe->pipe = nullptr;
@@ -106,15 +113,15 @@ void runCMDThread( string command, ThreadPipe* threadPipe ) {
 
 }
 
-int Shell::executa( bool isVerbose ) {
+int Shell::executa() {
     vector<ThreadPipe*> threadPipeVect;
 
     for( string command : commands ) {
-        if ( isVerbose )
+        if ( verboseFlag )
             cout << command << endl;
 
         ThreadPipe* threadPipe = new ThreadPipe;
-        threadPipe->thread = new std::thread( runCMDThread, command, threadPipe );
+        threadPipe->thread = new std::thread( runCMDThread, command, threadPipe, showOutputFlag );
         threadPipeVect.push_back( threadPipe );
     }
 
@@ -136,3 +143,19 @@ int Shell::executa( bool isVerbose ) {
 }
 
 #endif
+
+bool Shell::isVerbose() {
+    return verboseFlag;
+}
+
+bool Shell::isShowOutput() {
+    return showOutputFlag;
+}
+
+void Shell::setVerbose( bool flag ) {
+    this->verboseFlag = flag;
+}
+
+void Shell::setShowOutput( bool flag ) {
+    this->showOutputFlag = flag;
+}

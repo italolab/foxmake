@@ -22,9 +22,11 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     bool isShowCMDOutput = manager->isShowCMDOutput( shellCMD );
 
     Shell* shell = new Shell();
+    shell->setVerbose( isVerbose );
+    shell->setShowOutput( isShowCMDOutput );
     shell->pushCommand( consts::SHELL_EXE + " " + cmdstr );
 
-    int result = shell->executa( isShowCMDOutput );
+    int result = shell->executa();
     if ( result != 0 ) {
         messagebuilder b( errors::SHELL_CMD_NOT_EXECUTED );
         b << std::to_string( result );
@@ -33,7 +35,7 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
 
     delete shell;
 
-    if ( isVerbose ) {
+    if ( isVerbose && cmdstr.find( '\n' ) == string::npos ) {
         messagebuilder b( infos::EXECUTED_CMD );
         b << cmdstr;
         cout << b.str() << endl;
