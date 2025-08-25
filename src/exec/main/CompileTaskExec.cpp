@@ -34,9 +34,14 @@ void CompileTaskExec::exec( void* mgr ) {
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
 
     bool isVerbose;
-    if ( isCompileAll || isBuildAll )
+    bool isShowCMDOutput;
+    if ( isCompileAll || isBuildAll ) {
         isVerbose = manager->isVerbose( tasks::COMPILEALL );
-    else isVerbose = manager->isVerbose( tasks::COMPILE );
+        isShowCMDOutput = manager->isShowCMDOutput( tasks::COMPILEALL );
+    } else {
+        isVerbose = manager->isVerbose( tasks::COMPILE );
+        isShowCMDOutput = manager->isShowCMDOutput( tasks::COMPILE );
+    }
 
     bool isNoResume = manager->isNoResume();
 
@@ -140,7 +145,7 @@ void CompileTaskExec::exec( void* mgr ) {
         shell->pushCommand( ss.str() );
     }
 
-    int exitCode = shell->executa( isVerbose );
+    int exitCode = shell->executa( isShowCMDOutput );
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::COMPILATION_FAILED );
 

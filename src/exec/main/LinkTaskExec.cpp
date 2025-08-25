@@ -30,6 +30,7 @@ void LinkTaskExec::exec( void* mgr ) {
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     bool isVerbose = manager->isVerbose( tasks::LINK );
+    bool isShowCMDOutput = manager->isShowCMDOutput( tasks::LINK );
     bool isNoResume = manager->isNoResume();
 
     if ( isVerbose )
@@ -127,7 +128,7 @@ void LinkTaskExec::exec( void* mgr ) {
     Shell* shell = new Shell();
     shell->pushCommand( ss.str() );
 
-    int exitCode = shell->executa( isVerbose );
+    int exitCode = shell->executa( isShowCMDOutput );
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::LINKING_FAILED );
 
