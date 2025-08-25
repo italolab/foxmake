@@ -14,10 +14,13 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
     if ( currentLine.length() == 0 )
         return new InterResult( false );
 
+    int numberOfLines = 0;
+
     string cmdstr;
     if ( currentLine[ 0 ] == '@' ) {
         cmdstr = currentLine.substr( 1, currentLine.length()-1 );
         cmdstr = strutil::removeStartWhiteSpaces( cmdstr );
+        numberOfLines = 1;
     } else {
         string token = strutil::trim( currentLine );
         if ( token != "shellbegin" )
@@ -28,7 +31,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
         bool shellendFound = false;
         bool firstCMD = true;
 
-        int numberOfLines = 1;
+        numberOfLines = 1;
 
         while( !shellendFound && it->hasNextLine() ) {
             string line = it->nextLine();
@@ -89,6 +92,6 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
     if ( parent != nullptr )
         parent->addStatement( shellCMD );
 
-    return new InterResult( nullptr, 1, currentLine.length() );
+    return new InterResult( nullptr, numberOfLines, currentLine.length() );
 
 }

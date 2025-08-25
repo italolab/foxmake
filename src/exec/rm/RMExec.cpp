@@ -22,6 +22,9 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
 
     bool isVerbose = manager->isVerbose( cmd );
 
+    if ( isVerbose )
+        cout << cmd->getCMDStr() << endl;
+
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
@@ -67,10 +70,6 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     }
 
     if ( isVerbose ) {
-        messagebuilder b( infos::EXECUTED_CMD );
-        b << cmd->getCMDStr();
-        cout << b.str() << endl;
-
         messagebuilder b2( infos::FILES_AND_FOLDERS_DELETED );
         b2 << std::to_string( count );
         cout << b2.str() << endl;

@@ -59,8 +59,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
     CMD* cmd = new CMD( parent, lineNumber, line );
     cmd->setName( cmdName );
     cmd->setCMDStr( line );
-
-
+    
     for( int i = 1; i < argc; i++ ) {
         string param( argv[ i ] );
 

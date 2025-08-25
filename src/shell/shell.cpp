@@ -173,8 +173,14 @@ int Shell::executa() {
 
     int threadNumber = 1;
     for( string command : commands ) {
-        if ( verboseFlag )
-            cout << command << endl;
+        if ( verboseFlag ) {
+            string cmdstr = command;
+            size_t i = cmdstr.find( '\n' );
+            if ( i != string::npos )
+                cmdstr = cmdstr.substr( 0, i ) + "...";
+                
+            cout << cmdstr << endl;
+        }
 
         stringstream ss;
         ss << "Thread #" << threadNumber;

@@ -7,6 +7,9 @@ OutputThread::OutputThread( string name ) {
 
 #ifdef _WIN32
 
+#include <iostream>
+using namespace std;
+
 void OutputThread::run( HANDLE hStdOutRead ) {
     const DWORD BUFFER_SIZE = 4096;
     char buffer[ BUFFER_SIZE ];

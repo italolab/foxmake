@@ -34,10 +34,4 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     }
 
     delete shell;
-
-    if ( isVerbose && cmdstr.find( '\n' ) == string::npos ) {
-        messagebuilder b( infos::EXECUTED_CMD );
-        b << cmdstr;
-        cout << b.str() << endl;
-    }
 }

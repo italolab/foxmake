@@ -1,5 +1,6 @@
 
 #include "TaskConfigInter.h"
+#include "../../util/strutil.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"
@@ -32,6 +33,9 @@ TaskConfigResult* TaskConfigInter::interprets( string currentLine, void* mgr ) {
     string flag;
     while( !isFinish && iss.peek() != EOF ) {
         iss >> flag;
+
+        if ( strutil::trim( flag ) == "" )
+            continue;
 
         bool isFinalizer = ( flag == ";" );
 
