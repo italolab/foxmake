@@ -34,7 +34,7 @@ libs=
 $project_name=cbuild
 
 task copy noverbose noshowoutput;
-task compileall verbose;
+task compileall noverbose;
 
 task copy after
     echo Copia...

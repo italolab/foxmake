@@ -44,6 +44,13 @@ void OutputThread::run( FILE* pipe ) {
 
 #endif
 
+void OutputThread::doNotRun() {
+    {
+        std::lock_guard<std::mutex> lock( mtx );
+        finishFlag = true;
+    }
+}
+
 void OutputThread::addOutput( string output ) {
     std::lock_guard<std::mutex> lock( mtx );
 
@@ -62,6 +69,10 @@ string OutputThread::nextOutput(){
     string output = outputQueue.front();
     outputQueue.pop();
     return output;
+}
+
+string OutputThread::getName() {
+    return name;
 }
 
 bool OutputThread::isFinished() {
