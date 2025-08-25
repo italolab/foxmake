@@ -4,7 +4,6 @@
     #define __getcwd _getcwd
     #define __chdir _chdir
 #else
-    #include <thread>
     #include <unistd.h>
     #define __getcwd getcwd
     #define __chdir chdir
@@ -16,8 +15,9 @@
 #include "../error_messages.h"
 
 #include <cstring>
-#include <iostream>
+#include <thread>
 #include <stdexcept>
+#include <iostream>
 
 using std::cout;
 using std::cerr;
@@ -55,37 +55,127 @@ Shell::Shell() {
 
 #ifdef _WIN32
 
-int Shell::executa() {
-    STARTUPINFO si = { sizeof( si ) };
+typedef struct TThreadPipe {
+    DWORD exitCode;
+    std::thread* thread;
+} ThreadPipe;
 
-    vector<PROCESS_INFORMATION> vectPIs;
+void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
+    HANDLE hStdInRead;
+    HANDLE hStdInWrite;
+    HANDLE hStdOutRead;
+    HANDLE hStdOutWrite;
+
+    SECURITY_ATTRIBUTES secAttrs;
+    secAttrs.nLength = sizeof( SECURITY_ATTRIBUTES );
+    secAttrs.bInheritHandle = TRUE;
+    secAttrs.lpSecurityDescriptor = NULL;
+
+    WINBOOL result = CreatePipe( &hStdOutRead, &hStdOutWrite, &secAttrs, 0 );
+    if ( !result ) {
+        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
+        cerr << "Erro na criacao do pile de escrita." << endl;
+        return;
+    }
+    
+    result = SetHandleInformation( hStdOutRead, HANDLE_FLAG_INHERIT, 0 );
+    if ( !result ) {
+        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
+        cerr << "Erro na criacao das informacoes do handle de leitura." << endl;
+        return;
+    }
+
+    result = CreatePipe( &hStdInRead, &hStdInWrite, &secAttrs, 0 );
+    if ( !result ) {
+        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
+            cerr << "Erro na criacao do pile de leitura." << endl;
+        return;
+    }
+    
+    result = SetHandleInformation( hStdInWrite, HANDLE_FLAG_INHERIT, 0 );
+    if ( !result ) {
+        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
+        cerr << "Erro na criacao das informacoes do handle de escrita." << endl;
+        return;
+    }
+
+    STARTUPINFO si;
+    ZeroMemory( &si, sizeof(STARTUPINFO) );
+    si.hStdError = hStdOutWrite;
+    si.hStdOutput = hStdOutWrite;
+    si.hStdInput = hStdInRead;
+    si.dwFlags |= STARTF_USESTDHANDLES;
+
+    PROCESS_INFORMATION pi;
+    ZeroMemory( &pi, sizeof(PROCESS_INFORMATION) );
+
+    result = CreateProcess( 
+                NULL, 
+                const_cast<char*>( command.c_str() ), 
+                NULL, 
+                NULL, 
+                TRUE, 
+                0, 
+                NULL, 
+                NULL, 
+                &si, 
+                &pi );
+
+    if ( !result ) {
+        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
+        cerr << "Erro na criacao do processo." << endl;
+        return;
+    }
+        
+    CloseHandle( hStdInRead );
+    CloseHandle( hStdOutWrite );
+
+    if ( showOutputFlag ) {
+        const DWORD BUFFER_SIZE = 4096;
+        char buffer[ BUFFER_SIZE ];
+        DWORD bytesRead;
+
+        bool isEnd = false;
+        while( !isEnd ) {
+            WINBOOL res = ReadFile( hStdOutRead, buffer, BUFFER_SIZE-1, &bytesRead, NULL );
+            if ( !res || bytesRead == 0 ) {
+                isEnd = true;
+            } else {
+                buffer[ bytesRead ] = '\0';
+                cout << buffer;
+            }
+        }
+    }
+
+    WaitForSingleObject( pi.hProcess, INFINITE );
+
+    GetExitCodeProcess( pi.hProcess, &(tpipe->exitCode) );
+
+    CloseHandle( hStdOutRead );
+    CloseHandle( hStdInWrite );
+    CloseHandle( pi.hProcess );
+    CloseHandle( pi.hThread );
+}
+
+int Shell::executa() {
+    vector<ThreadPipe*> threadPipes;
 
     for( string command : commands ) {
         if ( verboseFlag )
             cout << command << endl;
 
-        PROCESS_INFORMATION pi;
-
-        WINBOOL result = CreateProcess( NULL, const_cast<char*>( command.c_str() ), NULL, NULL, false, 0, NULL, NULL, &si, &pi );
-        if ( result )
-            vectPIs.push_back( pi );
+        ThreadPipe* tpipe = new ThreadPipe;
+        tpipe->thread = new std::thread( runCMDThread, command, tpipe, showOutputFlag );
+        threadPipes.push_back( tpipe );
     }
-
-    for( PROCESS_INFORMATION pi : vectPIs )
-        WaitForSingleObject( pi.hProcess, INFINITE );
 
     DWORD exitCode = 0;
-    int len = vectPIs.size();
-    for( int i = 0; exitCode == 0 && i < len; i++ ) {
-        DWORD exitCode2;
-        GetExitCodeProcess( vectPIs[ i ].hProcess, &exitCode2 );
-        if ( exitCode2 != 0 )
-            exitCode = exitCode2;
-    }
+    int len = threadPipes.size();
+    for( int i = 0; i < len; i++ ) {
+        threadPipes[ i ]->thread->join();
 
-    for( PROCESS_INFORMATION pi : vectPIs ) {
-        CloseHandle( pi.hProcess );
-        CloseHandle( pi.hThread );
+        if ( threadPipes[ i ]->exitCode != 0 )
+            exitCode = threadPipes[ i ]->exitCode;
     }
 
     return exitCode;
@@ -110,7 +200,6 @@ void runCMDThread( string command, ThreadPipe* threadPipe, bool showOutputFlag )
     } else {
         threadPipe->pipe = nullptr;
     }
-
 }
 
 int Shell::executa() {

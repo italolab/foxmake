@@ -15,7 +15,7 @@ InterResult* DefaultTaskConfigInter::interprets( MainScript* parent, string curr
     InterManager* manager = (InterManager*)mgr;
 
     TaskConfigResult* result = manager->interpretsTaskConfig( currentLine );
-
+    
     int status = result->getStatus();
     if ( status == TaskConfigResult::OK ) {  
         if ( !result->isFinish() )

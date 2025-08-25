@@ -10,9 +10,6 @@
 
 using std::stringstream;
 
-#include <iostream>
-using namespace std;
-
 InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
     if ( currentLine.length() == 0 )
         return new InterResult( false );
@@ -23,61 +20,62 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
         cmdstr = strutil::removeStartWhiteSpaces( cmdstr );
     } else {
         string token = strutil::trim( currentLine );
-        if ( token == "shellbegin" ) {
-            stringstream ss;
+        if ( token != "shellbegin" )
+            return new InterResult( false );
 
-            bool shellendFound = false;
-            bool firstCMD = true;
+        stringstream ss;
 
-            int numberOfLines = 1;
+        bool shellendFound = false;
+        bool firstCMD = true;
 
-            while( !shellendFound && it->hasNextLine() ) {
-                string line = it->nextLine();
-                string line2 = strutil::removeStartWhiteSpaces( line );
+        int numberOfLines = 1;
 
-                if ( line2.length() == 0 ) {
-                    numberOfLines++;
-                    continue;
-                }
+        while( !shellendFound && it->hasNextLine() ) {
+            string line = it->nextLine();
+            string line2 = strutil::removeStartWhiteSpaces( line );
 
-                if ( line2[ 0 ] == '#' ) {
-                    numberOfLines++;
-                    continue;
-                }
-
-                istringstream iss( line2 );
-                string token;
-                iss >> token;
-                if ( token == "shellend" ) {
-                    if ( iss.peek() != EOF ) {
-                        iss >> token;
-
-                        size_t j = line.find_last_of( token );
-                        
-                        messagebuilder b( errors::END_OF_BLOCK_WITH_UNNECESSARY_TOKEN );
-                        b << token;
-                        return new InterResult( line, numberOfLines, j, b.str() );
-                    }
-
-                    shellendFound = true;
-                } else {
-                    if ( !firstCMD )
-                        ss << " ";
-                    ss << line2;
-                    ss << "\n";
-                }
-
-                firstCMD = false;
+            if ( line2.length() == 0 ) {
                 numberOfLines++;
+                continue;
             }
 
-            if ( !shellendFound )
-                return new InterResult( currentLine, numberOfLines, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
+            if ( line2[ 0 ] == '#' ) {
+                numberOfLines++;
+                continue;
+            }
 
-            cmdstr = ss.str();
-            if ( cmdstr.length() > 0 )
-                cmdstr = cmdstr.substr( 0, cmdstr.length()-1 );
+            istringstream iss( line2 );
+            string token;
+            iss >> token;
+            if ( token == "shellend" ) {
+                if ( iss.peek() != EOF ) {
+                    iss >> token;
+
+                    size_t j = line.find_last_of( token );
+                    
+                    messagebuilder b( errors::END_OF_BLOCK_WITH_UNNECESSARY_TOKEN );
+                    b << token;
+                    return new InterResult( line, numberOfLines, j, b.str() );
+                }
+
+                shellendFound = true;
+            } else {
+                if ( !firstCMD )
+                    ss << " ";
+                ss << line2;
+                ss << "\n";
+            }
+
+            firstCMD = false;
+            numberOfLines++;
         }
+
+        if ( !shellendFound )
+            return new InterResult( currentLine, numberOfLines, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
+
+        cmdstr = ss.str();
+        if ( cmdstr.length() > 0 )
+            cmdstr = cmdstr.substr( 0, cmdstr.length()-1 );
     }
 
     InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( cmdstr, lineNumber, parent );

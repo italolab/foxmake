@@ -7,9 +7,6 @@
 
 #include "../error_messages.h"
 
-#include <iostream>
-using namespace std;
-
 InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
