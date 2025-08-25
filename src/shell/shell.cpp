@@ -10,6 +10,8 @@
 #endif
 
 #include "shell.h"
+#include "output/OutputController.h"
+#include "output/OutputThread.h"
 #include "../msg/messagebuilder.h"
 
 #include "../error_messages.h"
@@ -24,6 +26,11 @@ using std::cerr;
 using std::endl;
 using std::memset;
 using std::runtime_error;
+
+typedef struct TThreadPipe {
+    DWORD exitCode;
+    std::thread* thread;
+} ThreadPipe;
 
 namespace shell {
 
@@ -55,12 +62,7 @@ Shell::Shell() {
 
 #ifdef _WIN32
 
-typedef struct TThreadPipe {
-    DWORD exitCode;
-    std::thread* thread;
-} ThreadPipe;
-
-void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
+void runCMDThread( string command, string threadName, ThreadPipe* tpipe, OutputController* outputController, bool showOutputFlag ) {
     HANDLE hStdInRead;
     HANDLE hStdInWrite;
     HANDLE hStdOutRead;
@@ -75,6 +77,7 @@ void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
     if ( !result ) {
         cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
         cerr << "Erro na criacao do pile de escrita." << endl;
+        tpipe->exitCode = -1;
         return;
     }
     
@@ -82,13 +85,15 @@ void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
     if ( !result ) {
         cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
         cerr << "Erro na criacao das informacoes do handle de leitura." << endl;
+        tpipe->exitCode = -1;
         return;
     }
 
     result = CreatePipe( &hStdInRead, &hStdInWrite, &secAttrs, 0 );
     if ( !result ) {
         cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
-            cerr << "Erro na criacao do pile de leitura." << endl;
+        cerr << "Erro na criacao do pile de leitura." << endl;
+        tpipe->exitCode = -1;
         return;
     }
     
@@ -96,6 +101,7 @@ void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
     if ( !result ) {
         cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
         cerr << "Erro na criacao das informacoes do handle de escrita." << endl;
+        tpipe->exitCode = -1;
         return;
     }
 
@@ -120,10 +126,11 @@ void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
                 NULL, 
                 &si, 
                 &pi );
-
+                
     if ( !result ) {
         cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
         cerr << "Erro na criacao do processo." << endl;
+        tpipe->exitCode = -1;
         return;
     }
         
@@ -131,20 +138,10 @@ void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
     CloseHandle( hStdOutWrite );
 
     if ( showOutputFlag ) {
-        const DWORD BUFFER_SIZE = 4096;
-        char buffer[ BUFFER_SIZE ];
-        DWORD bytesRead;
+        OutputThread* outputThread = new OutputThread( threadName );
+        outputController->addOutputThread( outputThread );
 
-        bool isEnd = false;
-        while( !isEnd ) {
-            WINBOOL res = ReadFile( hStdOutRead, buffer, BUFFER_SIZE-1, &bytesRead, NULL );
-            if ( !res || bytesRead == 0 ) {
-                isEnd = true;
-            } else {
-                buffer[ bytesRead ] = '\0';
-                cout << buffer;
-            }
-        }
+        outputThread->run( hStdOutRead );
     }
 
     WaitForSingleObject( pi.hProcess, INFINITE );
@@ -157,17 +154,46 @@ void runCMDThread( string command, ThreadPipe* tpipe, bool showOutputFlag ) {
     CloseHandle( pi.hThread );
 }
 
+#else
+
+void runCMDThread( string command, string threadName, ThreadPipe* threadPipe, OutputController* controller, bool showOutputFlag ) {
+    FILE* pipe = popen( command.c_str(), "r" );
+    if ( pipe ) {
+        if ( showOutputFlag ) {
+            OutputThread* outputThread = new OutputThread( threadName );
+            outputController->addOutputThread( outputThread );
+
+            outputThread->run( hStdOutRead );
+        }
+
+        threadPile->exitCode = pclose( pipe );
+    } else {
+        threadPipe->exitCode = -1;
+    }
+}
+
+#endif
+
 int Shell::executa() {
     vector<ThreadPipe*> threadPipes;
+    OutputController* outputController = new OutputController();
 
+    int threadNumber = 1;
     for( string command : commands ) {
         if ( verboseFlag )
             cout << command << endl;
 
+        stringstream ss;
+        ss << "Thread #" << threadNumber;
+
         ThreadPipe* tpipe = new ThreadPipe;
-        tpipe->thread = new std::thread( runCMDThread, command, tpipe, showOutputFlag );
+        tpipe->thread = new std::thread( runCMDThread, command, ss.str(), tpipe, outputController, showOutputFlag );
         threadPipes.push_back( tpipe );
+
+        threadNumber++;
     }
+
+    outputController->run();
 
     DWORD exitCode = 0;
     int len = threadPipes.size();
@@ -180,58 +206,6 @@ int Shell::executa() {
 
     return exitCode;
 }
-
-#else
-
-typedef struct TThreadPipe {
-    FILE* pipe;
-    std::thread* thread;
-} ThreadPipe;
-
-void runCMDThread( string command, ThreadPipe* threadPipe, bool showOutputFlag ) {
-    FILE* pipe = popen( command.c_str(), "r" );
-    if ( pipe ) {
-        if ( showOutputFlag ) {
-            char buffer[ 128 ];
-            while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
-                cout << buffer;
-        }
-        threadPipe->pipe = pipe;
-    } else {
-        threadPipe->pipe = nullptr;
-    }
-}
-
-int Shell::executa() {
-    vector<ThreadPipe*> threadPipeVect;
-
-    for( string command : commands ) {
-        if ( verboseFlag )
-            cout << command << endl;
-
-        ThreadPipe* threadPipe = new ThreadPipe;
-        threadPipe->thread = new std::thread( runCMDThread, command, threadPipe, showOutputFlag );
-        threadPipeVect.push_back( threadPipe );
-    }
-
-    for( ThreadPipe* tp : threadPipeVect )
-        tp->thread->join();
-
-    int resultCode = 0;
-    for( ThreadPipe* tp : threadPipeVect ) {
-        if ( tp->pipe == nullptr )
-            resultCode = -1;            
-        else {
-            int code = pclose( tp->pipe );
-            if ( resultCode == 0 )
-                resultCode = code;
-        }
-    }
-
-    return resultCode;
-}
-
-#endif
 
 bool Shell::isVerbose() {
     return verboseFlag;
