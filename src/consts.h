@@ -70,6 +70,7 @@ namespace props {
     const string EXE_FILE_NAME = "exe.file.name";
     const string DLL_FILE_NAME = "dll.file.name";
 
+    const string BASE_DIR = "base.dir";
     const string SRC_DIR = "src.dir";
     const string OBJ_DIR = "obj.dir";
     const string BIN_DIR = "bin.dir";
@@ -97,6 +98,7 @@ namespace props {
         EXE_FILE_NAME,
         DLL_FILE_NAME,
 
+        BASE_DIR,
         SRC_DIR,
         OBJ_DIR,
         BIN_DIR,

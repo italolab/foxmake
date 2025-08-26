@@ -35,6 +35,8 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     string file = cmd->getNoOpArg( 0 );
     bool isRecursive = cmd->existsArg( "-r" );
 
+    file = io::absoluteResolvePath( file );
+
     string fileName = io::fileOrDirName( file );
 
     FileFilter* filter = io::by_name_file_filter( fileName );

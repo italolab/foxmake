@@ -82,6 +82,12 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     delete result;
 
+    string basedir = mainScript->getPropertyValue( props::BASE_DIR );
+    if ( basedir != "" ) {
+        basedir = io::absoluteResolvePath( basedir );
+        shell::setWorkingDir( basedir );
+    }
+
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
 
     if ( isVerbose ) {
