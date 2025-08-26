@@ -30,7 +30,7 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
 
     #ifdef _WIN32
         if ( cmdstr.find( '\n' ) == string::npos ) {
-            shell->pushCommand( consts::SHELL_EXE + " " + cmdstr );
+            shell->pushCommand( consts::WINDOWS_CMD_EXE + " " + cmdstr );
             result = shell->executa();
         } else {
             shell->setVerbose( false );

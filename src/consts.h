@@ -19,11 +19,7 @@ namespace consts {
 
     const bool DEFAULT_SHOW_CMD_OUTPUT = true;
 
-#ifdef _WIN32
-    const string SHELL_EXE = "cmd.exe /c";
-#else
-    const string SHELL_EXE = "";
-#endif
+    const string WINDOWS_CMD_EXE = "cmd.exe /c";
 
 }
 
