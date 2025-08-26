@@ -29,7 +29,6 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
         stringstream ss;
 
         bool shellendFound = false;
-        bool firstCMD = true;
 
         numberOfLines = 1;
 
@@ -63,13 +62,9 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
 
                 shellendFound = true;
             } else {
-                if ( !firstCMD )
-                    ss << " ";
-                ss << line2;                
-                ss << "\n";
+                ss << line2 << "\n";
             }
 
-            firstCMD = false;
             numberOfLines++;
         }
 

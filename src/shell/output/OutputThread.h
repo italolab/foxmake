@@ -16,11 +16,6 @@
 using std::string;
 using std::queue;
 
-typedef struct TThreadPipe {
-    DWORD exitCode;
-    std::thread* thread;
-} ThreadPipe;
-
 class OutputThread {
 
     private:
@@ -42,7 +37,6 @@ class OutputThread {
         void run( FILE* pipe );
 #endif
 
-        void doNotRun();
         void finish();
         bool hasNextOutput();
         string nextOutput();

@@ -5,11 +5,17 @@
 
 using std::cout;
 
+OutputController::OutputController( bool showOutputFlag ) {
+    this->showOutputFlag = showOutputFlag;
+}
+
 void OutputController::run() {
     for( OutputThread* outputThread : outputThreadVect ) { 
         while( !outputThread->isFinished() || outputThread->hasNextOutput() ) {
             if ( outputThread->hasNextOutput() ) {
-                cout << outputThread->nextOutput();
+                string output = outputThread->nextOutput();
+                if ( showOutputFlag )
+                    cout << output;
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( 30 ) );
             }

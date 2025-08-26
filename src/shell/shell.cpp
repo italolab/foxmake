@@ -27,6 +27,11 @@ using std::endl;
 using std::memset;
 using std::runtime_error;
 
+typedef struct TThreadPipe {
+    int exitCode;
+    std::thread* thread;
+} ThreadPipe;
+
 namespace shell {
 
     string getWorkingDir() {
@@ -53,7 +58,7 @@ Shell::Shell() {
 
 #ifdef _WIN32
 
-void runCMDThread( string command, ThreadPipe* tpipe, OutputThread* outputThread, bool showOutputFlag ) {
+void runCMDThread( string command, ThreadPipe* tpipe, OutputThread* outputThread ) {
     HANDLE hStdInRead;
     HANDLE hStdInWrite;
     HANDLE hStdOutRead;
@@ -128,11 +133,7 @@ void runCMDThread( string command, ThreadPipe* tpipe, OutputThread* outputThread
     CloseHandle( hStdInRead );
     CloseHandle( hStdOutWrite );
 
-    if ( showOutputFlag ) {
-        outputThread->run( hStdOutRead );
-    } else {
-        outputThread->doNotRun();
-    }
+    outputThread->run( hStdOutRead );
 
     WaitForSingleObject( pi.hProcess, INFINITE );
 
@@ -146,16 +147,12 @@ void runCMDThread( string command, ThreadPipe* tpipe, OutputThread* outputThread
 
 #else
 
-void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputThread, bool showOutputFlag ) {
+void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputThread ) {
     FILE* pipe = popen( command.c_str(), "r" );
     if ( pipe ) {
-        if ( showOutputFlag ) {
-            outputThread->run( hStdOutRead );
-        } else {
-            outputThread->doNotRun();
-        }
-        
-        threadPile->exitCode = pclose( pipe );
+        outputThread->run( pipe );
+                
+        threadPipe->exitCode = pclose( pipe );
     } else {
         threadPipe->exitCode = -1;
     }
@@ -169,7 +166,7 @@ void runOutputControllerThread( OutputController* outputController ) {
 
 int Shell::executa() {
     vector<ThreadPipe*> threadPipes;
-    OutputController* outputController = new OutputController();
+    OutputController* outputController = new OutputController( showOutputFlag );
 
     int threadNumber = 1;
     for( string command : commands ) {
@@ -188,7 +185,7 @@ int Shell::executa() {
         OutputThread* outputThread = new OutputThread( ss.str() );
 
         ThreadPipe* tpipe = new ThreadPipe;
-        tpipe->thread = new std::thread( runCMDThread, command, tpipe, outputThread, showOutputFlag );
+        tpipe->thread = new std::thread( runCMDThread, command, tpipe, outputThread );
         threadPipes.push_back( tpipe );
 
         outputController->addOutputThread( outputThread );
@@ -198,7 +195,7 @@ int Shell::executa() {
 
     std::thread outputControllerThread( runOutputControllerThread, outputController );
 
-    DWORD exitCode = 0;
+    int exitCode = 0;
     int len = threadPipes.size();
     for( int i = 0; i < len; i++ ) {
         threadPipes[ i ]->thread->join();

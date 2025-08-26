@@ -33,11 +33,12 @@ libs=
 
 $project_name=cbuild
 
-task copy noverbose noshowoutput;
+task copy noverbose showoutput;
 
 task copy after
     echo Copia...
 
+    @echo "abc"
     shellbegin
         if [ -f "settings.txt" ]; then
             echo "O arquivo existe...!"

@@ -39,10 +39,6 @@ void OutputThread::run( FILE* pipe ) {
 
 #endif
 
-void OutputThread::doNotRun() {
-    this->finish();
-}
-
 void OutputThread::finish() {
     std::lock_guard<std::mutex> lock( mtx );
 
