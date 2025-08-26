@@ -9,20 +9,18 @@
 #include "../../info_messages.h"
 
 #include <sstream>
-#include <iostream>
 
-using std::cout;
-using std::cerr;
-using std::endl;
 using std::stringstream;
 
 void MKDirExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    Output& out = manager->out;
+    Output& err = manager->err;
     bool isVerbose = manager->getArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
-        cout << cmd->getCMDStr() << endl;
+        out << cmd->getCMDStr() << "\n";
 
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
@@ -47,7 +45,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
             if ( !ok && isVerbose ) {
                 messagebuilder b( errors::FOLDER_ALREADY_EXISTS );
                 b << dir;
-                cerr << b.str() << endl;
+                err << b.str() << "\n";
             }
         } catch ( const io_error& e ) {
             throw st_error( cmd, errors::DIRECTORY_NOT_CREATED_2 );

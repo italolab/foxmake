@@ -16,12 +16,9 @@
 #include <vector>
 #include <sstream>
 #include <stdexcept>
-#include <iostream>
 
 using std::vector;
 using std::stringstream;
-using std::cout;
-using std::endl;
 
 void CompileTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -43,15 +40,23 @@ void CompileTaskExec::exec( void* mgr ) {
         isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::COMPILE );
     }
 
+    Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
-        cout << endl;
+        out << "\n";
         
     if ( !isNoResume || isVerbose ) {
-        if ( isCompileAll || isBuildAll )
-            cout << infos::EXECUTING << " " << tasks::COMPILEALL << "..." << endl;
-        else cout << infos::EXECUTING << " " << tasks::COMPILE << "..." << endl;
+        if ( isCompileAll || isBuildAll ) {
+            out << infos::EXECUTING << " ";
+            inf << tasks::COMPILEALL;
+            out << "..." << "\n";
+        } else {
+            out << infos::EXECUTING;
+            inf << " " << tasks::COMPILE;
+            out << "..." << "\n";
+        }
     }
 
     if ( isCompileAll || isBuildAll )
@@ -100,7 +105,7 @@ void CompileTaskExec::exec( void* mgr ) {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     }
 
-    Shell* shell = new Shell();
+    Shell* shell = new Shell( out, inf );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 
@@ -146,8 +151,8 @@ void CompileTaskExec::exec( void* mgr ) {
 
     if ( isVerbose ) {
         if ( filesToCompile.empty() )
-            cout << infos::COMPILATION_UP_TO_DATE << endl;
-        else cout << infos::SUCCESS_IN_COMPILATION << endl;
+            out << infos::COMPILATION_UP_TO_DATE << "\n";
+        else out << infos::SUCCESS_IN_COMPILATION << "\n";
     }
 }
 

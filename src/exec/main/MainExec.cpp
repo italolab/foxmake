@@ -18,12 +18,9 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <iostream>
 
 using std::string;
 using std::vector;
-using std::cout;
-using std::endl;
 using std::stringstream;
 
 void MainExec::exec( CMD* mainCMD, void* mgr ) {
@@ -31,6 +28,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
 
+    Output& out = manager->out;
     bool isShowHelp = manager->getArgManager()->isHelp();
     bool isVerbose = manager->getArgManager()->isVerbose();
     bool isNoResume = manager->getArgManager()->isNoResume();
@@ -64,7 +62,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b( infos::CONFIGURATION_FILE );
         b << settingsFile;
-        cout << b.str() << endl;
+        out << b.str() << "\n";
     }
 
     if ( !io::fileExists( settingsFile ) ) {
@@ -87,6 +85,12 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     string basedir = mainScript->getPropertyValue( props::BASE_DIR );
     if ( basedir != "" ) {
         basedir = io::absoluteResolvePath( basedir );
+        if ( !io::fileExists( basedir ) ) {
+            messagebuilder b( errors::BASE_DIRECTORY_NOT_FOUND );
+            b << basedir << props::BASE_DIR;
+            throw st_error( nullptr, b.str() );
+        }
+        
         shell::setWorkingDir( basedir );
     }
 
@@ -95,7 +99,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::CURRENT_DIRECTORY );
         b2 << wdir;
-        cout << b2.str() << endl;
+        out << b2.str() << "\n";
     }
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
@@ -147,10 +151,10 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     manager->executaUserTaskIfExists( tasks::FINISH, Task::AFTER );
 
     if ( isVerbose )
-        cout << endl;
+        out << "\n";
 
     if ( !isNoResume )
-        cout << infos::FINISH << endl;
+        out << infos::FINISH << "\n";
 }
 
 void MainExec::loadMainCMDVariables( void* mgr ) {
@@ -179,6 +183,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();    
 
+    Output& out = manager->out;
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
@@ -196,7 +201,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::SRC_DIRECTORY );
         b2 << srcDir;
-        cout << b2.str() << endl;
+        out << b2.str() << "\n";
     }
 
     bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
@@ -208,6 +213,8 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
+    Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose();
 
     vector<Task*> tasks = manager->getMainScript()->tasks();
@@ -217,9 +224,9 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
         bool isTaskArg = mainCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
             if ( isVerbose ) {
-                stringstream ss;
-                ss << infos::EXECUTING << " " << taskName << "..." << endl;                
-                cout << endl << ss.str() << endl;
+                out << infos::EXECUTING << " ";
+                inf << taskName;
+                out << "...\n";                
             }
 
             manager->executaUserTaskIfExists( taskName, Task::BEFORE );
@@ -231,7 +238,7 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 void MainExec::executaStatements( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    
+    Output& out = manager->out;
     bool isVerbose = manager->getArgManager()->isVerbose();
     bool isNoResume = manager->getArgManager()->isNoResume();
 
@@ -240,9 +247,9 @@ void MainExec::executaStatements( void* mgr ) {
 
     if ( tam > 0 ) {
         if( isVerbose )
-            cout << endl;
+            out << "\n";
         if ( !isNoResume )
-            cout << infos::EXECUTING_STATEMENTS << endl;
+            out << infos::EXECUTING_STATEMENTS << "\n";
     }
 
     for( int i = 0; i < tam; i++ ) {
@@ -251,34 +258,36 @@ void MainExec::executaStatements( void* mgr ) {
     }
 
     if ( tam > 0 && isVerbose )
-        cout << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;
+        out << infos::SUCCESS_IN_EXECUTING_STATEMENTS << "\n";
 }
 
 void MainExec::showHelp( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
+    Output& out = manager->out;
+    
     int count = mainCMD->countNoOpArgs();
     if ( count == 0 ) {
-        cout << helpmessage::helpMessage();
+        out << helpmessage::helpMessage();
     } else if ( count > 0 ) {
         string taskName = mainCMD->getNoOpArg( 0 );
         if ( taskName == tasks::CLEAN ) {
-            cout << helpmessage::cleanHelpMessage();
+            out << helpmessage::cleanHelpMessage();
         } else if ( taskName == tasks::COMPILE ) {
-            cout << helpmessage::compileHelpMessage();
+            out << helpmessage::compileHelpMessage();
         } else if ( taskName == tasks::COMPILEALL ) {
-            cout << helpmessage::compileAllHelpMessage();
+            out << helpmessage::compileAllHelpMessage();
         } else if ( taskName == tasks::LINK ) {
-            cout << helpmessage::linkHelpMessage();
+            out << helpmessage::linkHelpMessage();
         } else if ( taskName == tasks::COPY ) {
-            cout << helpmessage::copyHelpMessage();
+            out << helpmessage::copyHelpMessage();
         } else if ( taskName == tasks::BUILD ) {
-            cout << helpmessage::buildHelpMessage();
+            out << helpmessage::buildHelpMessage();
         } else if ( taskName == tasks::BUILDALL ) {
-            cout << helpmessage::buildAllHelpMessage();
+            out << helpmessage::buildAllHelpMessage();
         } else {
-            cout << errors::TASK_NOT_RECOGNIZED << endl;
+            out << errors::TASK_NOT_RECOGNIZED << "\n";
         }
     }
 }

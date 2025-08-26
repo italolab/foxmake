@@ -11,7 +11,6 @@
 #include "../../info_messages.h"
 
 #include <sstream>
-#include <iostream>
 
 using std::string;
 using std::stringstream;
@@ -19,10 +18,11 @@ using std::stringstream;
 void CPExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    Output& out = manager->out;
     bool isVerbose = manager->getArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
-        cout << cmd->getCMDStr() << endl;
+        out << cmd->getCMDStr() << "\n";
 
     int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {

@@ -13,23 +13,25 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 using std::string;
 using std::vector;
-using std::cout;
-using std::endl;
 
 void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
-        cout << endl;
-    if ( !isNoResume || isVerbose )
-        cout << infos::EXECUTING << " " << tasks::COPY << "..." << endl;
+        out << "\n";
+    if ( !isNoResume || isVerbose ) {
+        out << infos::EXECUTING << " ";
+        inf << tasks::COPY;
+        out << "..." << "\n";
+    }
 
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
@@ -62,12 +64,13 @@ void CopyTaskExec::exec( void* mgr ) {
     manager->executaUserTaskIfExists( tasks::COPY, Task::AFTER );
 
     if ( isVerbose )
-        cout << infos::SUCCESS_IN_COPY << endl;
+        out << infos::SUCCESS_IN_COPY << "\n";
 }
 
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
 
     if ( !io::fileExists( path ) ) {
@@ -90,7 +93,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
         if ( isVerbose ) {
             messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
             b << path;
-            cout << b.str() << endl;
+            inf << b.str() << "\n";
         }
     } catch ( const io_error& e ) {        
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );

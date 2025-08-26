@@ -10,11 +10,6 @@
 #include "../../info_messages.h"
 #include "../../consts.h"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-
 void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
@@ -22,7 +17,10 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     bool isVerbose = manager->getArgManager()->isVerbose( shellCMD );
     bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( shellCMD );
 
-    Shell* shell = new Shell();
+    Output& out = manager->out;
+    Output& inf = manager->inf;
+    
+    Shell* shell = new Shell( out, inf );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 

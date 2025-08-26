@@ -11,19 +11,18 @@
 #include "../../info_messages.h"
 
 #include <sstream>
-#include <iostream>
 
-using std::cout;
-using std::endl;
 using std::stringstream;
 
 void RMExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
-        cout << cmd->getCMDStr() << endl;
+        out << cmd->getCMDStr() << "\n";
 
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
@@ -74,6 +73,6 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::FILES_AND_FOLDERS_DELETED );
         b2 << std::to_string( count );
-        cout << b2.str() << endl;
+        inf << b2.str() << "\n";
     }
 }

@@ -51,7 +51,9 @@ namespace shell {
 
 }
 
-Shell::Shell() {
+Shell::Shell( Output& out, Output& inf ) {
+    this->out = &out;
+    this->inf = &inf;
     this->verboseFlag = true;
     this->showOutputFlag = true;
 }
@@ -166,7 +168,7 @@ void runOutputControllerThread( OutputController* outputController ) {
 
 int Shell::executa() {
     vector<ThreadPipe*> threadPipes;
-    OutputController* outputController = new OutputController( showOutputFlag );
+    OutputController* outputController = new OutputController( out, inf, showOutputFlag );
 
     int threadNumber = 1;
     for( string command : commands ) {
@@ -176,7 +178,7 @@ int Shell::executa() {
             if ( i != string::npos )
                 cmdstr = cmdstr.substr( 0, i ) + "...";
                 
-            cout << cmdstr << endl;
+            *out << cmdstr << "\n";
         }
 
         stringstream ss;

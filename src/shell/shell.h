@@ -1,6 +1,8 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#include "../output/Output.h"
+
 #include <string>
 #include <sstream>
 #include <vector>
@@ -21,8 +23,11 @@ class Shell {
         bool verboseFlag;
         bool showOutputFlag;
 
+        Output* out;
+        Output* inf;
+
     public:
-        Shell();
+        Shell( Output& out, Output& inf );
         
         void pushCommand( string command );
         int executa();

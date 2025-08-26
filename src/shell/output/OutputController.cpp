@@ -5,7 +5,9 @@
 
 using std::cout;
 
-OutputController::OutputController( bool showOutputFlag ) {
+OutputController::OutputController( Output* out, Output* inf, bool showOutputFlag ) {
+    this->out = out;
+    this->inf = inf;
     this->showOutputFlag = showOutputFlag;
 }
 
@@ -15,7 +17,7 @@ void OutputController::run() {
             if ( outputThread->hasNextOutput() ) {
                 string output = outputThread->nextOutput();
                 if ( showOutputFlag )
-                    cout << output;
+                    *out << output;
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( 30 ) );
             }

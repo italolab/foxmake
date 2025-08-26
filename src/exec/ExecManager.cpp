@@ -88,9 +88,9 @@ void ExecManager::exec( int argc, char* argv[] ) {
 
         mainExec->exec( mainCMD, this );
     } catch ( const st_error& e ) {
-        cerr << e.message() << endl;
+        e.printMessage( out, err );
     } catch ( const exception& e ) {
-        cerr << e.what() << endl;
+        cerr << e.what() << "\n";
     }
 }
 

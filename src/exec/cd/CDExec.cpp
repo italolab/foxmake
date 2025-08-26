@@ -12,16 +12,14 @@
 #include "../../info_messages.h"
 
 #include <sstream>
-#include <iostream>
 
 using std::stringstream;
-using std::cout;
-using std::endl;
 
 void CDExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
 
+    Output& out = manager->out;
     bool isVerbose = manager->getArgManager()->isVerbose( cmd );
     
     int alen = cmd->countNoOpArgs();
@@ -52,6 +50,6 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b( infos::NEW_CURRENT_DIRECTORY );
         b << var->getValue();
-        cout << b.str() << endl;
+        out << b.str() << "\n";
     }
 }

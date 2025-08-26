@@ -7,11 +7,6 @@
 #include "../../consts.h"
 #include "../../info_messages.h"
 
-#include <iostream>
-
-using std::cout;
-using std::endl;
-
 LinkTaskExec::LinkTaskExec() {
     this->exeLinkTaskExec = new ExeLinkTaskExec();
     this->dynamicLibraryLinkTaskExec = new DynamicLibraryLinkTaskExec();
@@ -20,13 +15,18 @@ LinkTaskExec::LinkTaskExec() {
 void LinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
-        cout << endl;
-    if ( !isNoResume || isVerbose )
-        cout << infos::EXECUTING << " " << tasks::LINK << "..." << endl;
+        out << "\n";
+    if ( !isNoResume || isVerbose ) {
+        out << infos::EXECUTING << " ";
+        inf << tasks::LINK;
+        out << "..." << "\n";
+    }
 
     manager->executaUserTaskIfExists( tasks::LINK, Task::BEFORE );
 
@@ -47,5 +47,5 @@ void LinkTaskExec::exec( void* mgr ) {
     manager->executaUserTaskIfExists( tasks::LINK, Task::AFTER );
 
     if ( isVerbose )
-        cout << infos::SUCCESS_IN_LINKING << endl;
+        out << infos::SUCCESS_IN_LINKING << "\n";
 }

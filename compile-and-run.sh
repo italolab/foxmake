@@ -22,5 +22,5 @@ if [ "$#" -gt "1" ]; then
         build=$2
     fi
 
-    ./build/cbuild $build --settings-file=settings-linux-run.txt -var target=debug
+    ./build/cbuild $build --settings-file=settings-linux-run.txt -var target=debug -v
 fi

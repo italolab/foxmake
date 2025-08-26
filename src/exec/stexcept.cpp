@@ -22,12 +22,12 @@ st_error::st_error( InterResult* result ) : runtime_error( result->getErrorMsg()
     this->isShowLine = true;
 }
 
-string st_error::message() const {
-    stringstream ss;
+void st_error::printMessage( Output& out, Output& err ) const {
     if ( isShowLine ) {
-        ss << "Erro na linha(" << lineNumber << "): ";
-        ss << "\"" << line << "\"" << endl;
+        out << "Erro na linha(" << std::to_string( lineNumber ) << "): ";
+        out << "\"";
+        err << line;
+        out << "\"\n";
     }
-    ss << runtime_error::what();
-    return ss.str();
+    err << runtime_error::what() << "\n";
 }

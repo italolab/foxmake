@@ -17,18 +17,17 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
-#include <iostream>
 
 using std::string;
 using std::vector;
 using std::stringstream;
-using std::cout;
-using std::endl;
 
 void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
+    Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
     bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::LINK );
     
@@ -94,7 +93,7 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
 
     ss << " " << linkerParams;
 
-    Shell* shell = new Shell();
+    Shell* shell = new Shell( out, inf );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
     shell->pushCommand( ss.str() );

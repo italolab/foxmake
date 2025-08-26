@@ -59,6 +59,7 @@ namespace errors {
     const string CONFIGURATION_FILE_NOT_FOUND = "Arquivo de configuracao nao encontrado: \"$1\"";
 
     const string SRC_DIRECTORY_NOT_FOUND = "Diretorio de codigos fonte nao encontrado: \"$1\"\nVerifique a propriedade \"$2\"";
+    const string BASE_DIRECTORY_NOT_FOUND = "Diretorio base nao encontrado: \"$1\"\nVerifique a propriedade \"$2\"";
     const string ERROR_IN_READING_SRC_FILES = "Houve algum erro na leitura dos arquivos de codigo fonte.";
 
     const string SHELL_CMD_NOT_EXECUTED = "Nao foi possivel executar o comando.\nVerifique se ele existe e sua sintaxe!\nO comando retornou o codigo: $1";
