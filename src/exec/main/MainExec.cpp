@@ -76,6 +76,8 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     mainScript->putLocalVar( "main_config_file", settingsFile );
     mainScript->putLocalVar( "working_dir", workingDir );
 
+    this->loadMainCMDVariables( mgr );
+
     InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
     if ( !result->isInterpreted() )
         throw st_error( result );
@@ -132,13 +134,14 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         manager->executaTask( tasks::LINK );
     if ( isCopy )
         manager->executaTask( tasks::COPY );
-
+    
     if ( isBuild )
         manager->executaUserTaskIfExists( tasks::BUILD, Task::AFTER );
     if ( isBuildAll )
         manager->executaUserTaskIfExists( tasks::BUILDALL, Task::AFTER );
 
     this->executaNoDefaultTasks( manager );
+
     this->executaStatements( manager );
 
     manager->executaUserTaskIfExists( tasks::FINISH, Task::AFTER );
@@ -148,6 +151,28 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     if ( !isNoResume )
         cout << infos::FINISH << endl;
+}
+
+void MainExec::loadMainCMDVariables( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    CMD* mainCMD = manager->getMainCMD();
+    MainScript* mainScript = manager->getMainScript();
+
+    vector<string> variables = mainCMD->getOpArgValues( "-var" );
+
+    for( string var : variables ) {
+        size_t i = var.find( '=' );
+        if ( i == string::npos ) {
+            messagebuilder b( errors::INVALID_VAR_DEF );
+            b << var;
+            throw st_error( mainCMD, b.str() );
+        }
+
+        string varName = var.substr( 0, i );
+        string varValue = var.substr( i+1, var.length()-i-1 );
+
+        mainScript->putLocalVar( varName, varValue );
+    }
 }
 
 void MainExec::genSourceAndHeaderInfos( void* mgr ) {

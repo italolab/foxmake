@@ -10,8 +10,6 @@ build.dir=build
 
 build.files=settings-linux.txt ../settings-linux.txt
 
-$target=debug
-
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
 $debug_compiler_params=-Wall -fexceptions -g -std=c++17

@@ -7,6 +7,7 @@
 class MainExec : public Exec {
 
     private:
+        void loadMainCMDVariables( void* mgr );
         void genSourceAndHeaderInfos( void* mgr );
         void executaNoDefaultTasks( void* mgr );
         void executaStatements( void* mgr );

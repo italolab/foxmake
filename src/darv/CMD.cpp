@@ -10,6 +10,17 @@ CMD::~CMD() {
         delete pair.second;
 }
 
+vector<string> CMD::getOpArgValues( string op ) {
+    vector<string> values;
+    int len = argsVect.size();
+    for( int i = 0; i < len; i++ ) {
+        if ( argsVect[ i ] == op && i+1 < len )
+            if ( argsVect[ i+1 ] != op )
+                values.push_back( argsVect[ i+1 ] );    
+    }
+    return values;
+}
+
 int CMD::countOpArgs() {
     int count = 0;
     for( string a : argsVect )

@@ -97,9 +97,9 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
             }
 
             cmd->addProperty( new Prop( cmd, name, value, lineNumber, line ) );
-        } else {
-            cmd->addArg( param );
         }
+        
+        cmd->addArg( param );
     }
 
     if ( parent != nullptr )

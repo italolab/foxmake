@@ -41,6 +41,8 @@ class CMD : public GenericCMD {
         string getOpArg( int i );
         string getNoOpArg( int i );
 
+        vector<string> getOpArgValues( string op );
+
         string getName();
         string getCMDStr();
         int getLineNumber();

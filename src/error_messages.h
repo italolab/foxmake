@@ -21,6 +21,8 @@ namespace errors {
 
     const string INVALID_NUMBER_OF_ARGS = "Numero de argumentos esperado igual a $1, encontrado $2.";
 
+    const string INVALID_VAR_DEF = "Definicao de variavel invalida: \"$1\"";
+
     const string WORKDIR_VAR_NOT_FOUND = "Nao foi encontrada a variavel de diretorio de trabalho.";
     const string INFORMED_PATH_IS_NOT_A_DIRECTORY = "O caminho informado nao e um diretorio.";
     const string CURRENT_DIRECTORY_NOT_CHANGED = "Nao foi possivel alterar o diretorio corrente.";
