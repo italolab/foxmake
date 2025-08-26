@@ -391,24 +391,41 @@ namespace io {
     string absolutePath( string path ) {
         if ( path == "." )
             return currentPath();
+
+        string sep = "";
+        sep += filesystem::path::preferred_separator;
+
+        string path2 = path;
+        if ( strutil::startsWith( path2, "."+sep ) )
+            path2 = path2.substr( 2, path2.length()-2 );
             
-        filesystem::path p( path );
+        filesystem::path p( path2 );
         if ( p.is_absolute() ) {
-            return makePreferred( path );
+            return makePreferred( path2 );
         } else {
             string pp = currentPath();
             pp = addSeparatorToDirIfNeed( pp );
-            pp += path;
+            pp += path2;
             return makePreferred( pp );
         }
     }
 
     string relativePath( string path ) {
-        filesystem::path p( path );
+        if ( path == "." )
+            return "";
+
+        string sep = "";
+        sep += filesystem::path::preferred_separator;
+
+        string path2 = path;
+        if ( strutil::startsWith( path2, "."+sep ) )
+            path2 = path2.substr( 2, path2.length()-2 );
+
+        filesystem::path p( path2 );
         if ( p.is_absolute() ) {
-            return filesystem::relative( path, currentPath() ).string();
+            return filesystem::relative( path2, currentPath() ).string();
         } else {
-            return makePreferred( path );
+            return makePreferred( path2 );
         }
     }
 

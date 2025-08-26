@@ -54,25 +54,29 @@ task debug before
     echo Debug executado!
 taskend
 
-mkdir include
+task finish verbose;
+task finish
 
-cp -r $(src.dir)/**/io/*.h include
-cp $(src.dir)/*.cpp $(build.dir)
-mkdir $(build.dir)/objects
-cp $(obj.dir)/io/* $(build.dir)/objects
+    mkdir include
 
-mkdir -p $(build.dir)/a/b/c
+    cp -r $(src.dir)/**/io/*.h include
+    cp $(src.dir)/*.cpp $(build.dir)
+    mkdir $(build.dir)/objects
+    cp $(obj.dir)/io/* $(build.dir)/objects
 
-#cp ../../italo-xadrez/italo-xadrez $(build.dir)
+    mkdir -p $(build.dir)/a/b/c
 
-#cd ../../italo-xadrez
-#cp -r Src ../$(project_name)/$(build.dir)
+    #cp ../../italo-xadrez/italo-xadrez $(build.dir)
 
-#cd ../$(project_name)/run
+    #cd ../../italo-xadrez
+    #cp -r Src ../$(project_name)/$(build.dir)
 
-rm $(build.dir)/objects/io.o
-rm $(build.dir)/ma*n.*
-rm $(build.dir)/sett*.*
+    #cd ../$(project_name)/run
 
-rm -r $(include.dirs)/io/fi*r
-rm -r $(bin.dir)
+    rm $(build.dir)/objects/io.o
+    rm $(build.dir)/ma*n.*
+    rm $(build.dir)/sett*.*
+
+    rm -r $(include.dirs)/io/fi*r
+    rm -r $(bin.dir)
+taskend
