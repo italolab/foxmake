@@ -65,7 +65,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
             } else {
                 if ( !firstCMD )
                     ss << " ";
-                ss << line2;
+                ss << line2;                
                 ss << "\n";
             }
 

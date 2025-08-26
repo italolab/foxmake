@@ -3,6 +3,7 @@
 
 #include "Exec.h"
 #include "TaskExec.h"
+#include "ArgManager.h"
 #include "main/MainExec.h"
 #include "shcmd/ShellCMDExec.h"
 #include "../darv/Statement.h"
@@ -28,6 +29,7 @@ class ExecManager : public InterDriver {
 
         InterManager* interManager;
         SourceCodeManager* sourceCodeManager;
+        ArgManager* argManager;
 
         MainExec* mainExec;
         ShellCMDExec* shellCMDExec;
@@ -51,21 +53,12 @@ class ExecManager : public InterDriver {
         vector<string> validPropNames();
         vector<string> validDefaultTaskNames();
 
-        bool isHelp();
-        bool isVerbose();
-        bool isNoResume();
-
-        bool isVerbose( string taskName );
-        bool isVerbose( GenericCMD* cmd );
-        bool isShowCMDOutput( string taskName );
-        bool isShowCMDOutput( GenericCMD* cmd );
-
         MainExec* getMainExec();
         MainScript* getMainScript();
         CMD* getMainCMD();
         InterManager* getInterManager();
         SourceCodeManager* getSourceCodeManager();
-
+        ArgManager* getArgManager();
 
 };
 

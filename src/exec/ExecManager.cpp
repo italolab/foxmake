@@ -36,8 +36,9 @@ using std::exception;
 ExecManager::ExecManager() {
     mainCMD = nullptr;
     mainScript = new MainScript();
-    interManager = new InterManager( this );
 
+    argManager = new ArgManager( this );
+    interManager = new InterManager( this );
     sourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
 
     mainExec = new MainExec();
@@ -114,10 +115,10 @@ void ExecManager::executaStatement( Statement* st ) {
 }
 
 void ExecManager::executaTask( string taskName ) {
-    TaskExec* exec = taskExecsMap[ taskName ];
-    if ( exec == nullptr )
+    if ( taskExecsMap.find( taskName ) == taskExecsMap.end() )
         throw runtime_error( "Executor de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
-    exec->exec( this );
+    
+    taskExecsMap[ taskName ]->exec( this );
 }
 
 void ExecManager::executaUserTaskIfExists( string taskName, bool beforeFlag ) {
@@ -137,67 +138,6 @@ bool ExecManager::isDefaultTask( string taskName ) {
         if ( name == taskName )
             return true;
     return false;
-}
-
-bool ExecManager::isHelp() {
-    if ( mainCMD == nullptr )
-        return false;
-        
-    bool isShowHelp = mainCMD->existsArg( "-h" );
-    if ( !isShowHelp )
-        isShowHelp = mainCMD->existsArg( "--help" );
-    return isShowHelp;
-}
-
-bool ExecManager::isVerbose() {
-    if ( mainCMD == nullptr )
-        return false;
-        
-    bool isVerbose = mainCMD->existsArg( "-v" );
-    if ( !isVerbose )
-        isVerbose = mainCMD->existsArg( "--verbose" );
-    return isVerbose;
-}
-
-bool ExecManager::isNoResume() {
-    if ( mainCMD == nullptr )
-        return false;
-        
-    return mainCMD->existsArg( "--no-resume" );
-}
-
-bool ExecManager::isVerbose( GenericCMD* cmd ) {
-    Statement* task = cmd->getTask();    
-    if ( task == nullptr )
-        return this->isVerbose();
-    return this->isVerbose( ((Task*)task)->getName() );
-}
-
-bool ExecManager::isShowCMDOutput( GenericCMD* cmd ) {
-    Statement* task = cmd->getTask();
-    if ( task == nullptr )
-        return consts::DEFAULT_SHOW_CMD_OUTPUT;
-    return this->isShowCMDOutput( ((Task*)task)->getName() );
-}
-
-bool ExecManager::isVerbose( string taskName ) {
-    if ( mainScript == nullptr )
-        return this->isVerbose();
-
-    DefaultTaskConfig* defaultTaskConfig = mainScript->getDefaultTaskConfig( taskName );    
-    if ( defaultTaskConfig != nullptr )
-        return defaultTaskConfig->isVerbose();
-    return this->isVerbose();
-}
-
-bool ExecManager::isShowCMDOutput( string taskName ) {
-    if ( mainScript == nullptr )
-        return consts::DEFAULT_SHOW_CMD_OUTPUT;
-
-    DefaultTaskConfig* defaultTaskConfig = mainScript->getDefaultTaskConfig( taskName );    
-    if ( defaultTaskConfig != nullptr )
-        return defaultTaskConfig->isShowCMDOutput();
-    return consts::DEFAULT_SHOW_CMD_OUTPUT;
 }
 
 vector<string> ExecManager::validCMDNames() {
@@ -229,6 +169,10 @@ CMD* ExecManager::getMainCMD() {
 
 SourceCodeManager* ExecManager::getSourceCodeManager() {
     return sourceCodeManager;
+}
+
+ArgManager* ExecManager::getArgManager() {
+    return argManager;
 }
 
 InterManager* ExecManager::getInterManager() {

@@ -22,7 +22,7 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
 
-    bool isVerbose = manager->isVerbose( cmd );
+    bool isVerbose = manager->getArgManager()->isVerbose( cmd );
     
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {

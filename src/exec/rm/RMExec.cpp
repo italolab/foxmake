@@ -20,7 +20,7 @@ using std::stringstream;
 void RMExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    bool isVerbose = manager->isVerbose( cmd );
+    bool isVerbose = manager->getArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
         cout << cmd->getCMDStr() << endl;

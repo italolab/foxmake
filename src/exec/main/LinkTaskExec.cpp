@@ -29,9 +29,9 @@ void LinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
-    bool isVerbose = manager->isVerbose( tasks::LINK );
-    bool isShowCMDOutput = manager->isShowCMDOutput( tasks::LINK );
-    bool isNoResume = manager->isNoResume();
+    bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
+    bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::LINK );
+    bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         cout << endl;

@@ -3,19 +3,20 @@
 
 #include "OutputThread.h"
 
-#include <queue>
+#include <vector>
 #include <thread>
 #include <mutex>
 
-using std::queue;
+using std::vector;
 
 class OutputController {
 
     private:
-        queue<OutputThread*> outputThreadQueue;
+        vector<OutputThread*> outputThreadVect;
 
     public:
         void run();
+        void finish();
         void addOutputThread( OutputThread* outputThread );
 
 };

@@ -36,14 +36,14 @@ void CompileTaskExec::exec( void* mgr ) {
     bool isVerbose;
     bool isShowCMDOutput;
     if ( isCompileAll || isBuildAll ) {
-        isVerbose = manager->isVerbose( tasks::COMPILEALL );
-        isShowCMDOutput = manager->isShowCMDOutput( tasks::COMPILEALL );
+        isVerbose = manager->getArgManager()->isVerbose( tasks::COMPILEALL );
+        isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::COMPILEALL );
     } else {
-        isVerbose = manager->isVerbose( tasks::COMPILE );
-        isShowCMDOutput = manager->isShowCMDOutput( tasks::COMPILE );
+        isVerbose = manager->getArgManager()->isVerbose( tasks::COMPILE );
+        isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::COMPILE );
     }
 
-    bool isNoResume = manager->isNoResume();
+    bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         cout << endl;
@@ -102,7 +102,7 @@ void CompileTaskExec::exec( void* mgr ) {
     if ( isCompileAll || isBuildAll ) {
         filesToCompile = sourceCodeInfos;
     } else {
-        sourceCodeManager->loadFilesToCompile( filesToCompile, consts::WRITING_TIME_ELAPSED_FILE );
+        sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     }
 
     Shell* shell = new Shell();
@@ -153,7 +153,7 @@ void CompileTaskExec::exec( void* mgr ) {
 
     delete shell;
 
-    sourceCodeManager->saveLastWriteTimesInFile( consts::WRITING_TIME_ELAPSED_FILE );
+    sourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE );
 
     if ( isCompileAll || isBuildAll )
         manager->executaUserTaskIfExists( tasks::COMPILEALL, Task::AFTER );

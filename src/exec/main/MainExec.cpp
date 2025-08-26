@@ -31,7 +31,9 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
 
-    bool isShowHelp = manager->isHelp();
+    bool isShowHelp = manager->getArgManager()->isHelp();
+    bool isVerbose = manager->getArgManager()->isVerbose();
+    bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( mainCMD->countNoOpArgs() == 0 || isShowHelp ) {
         this->showHelp( mgr );
@@ -59,7 +61,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     settingsFile = io::absoluteResolvePath( settingsFile );
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b( infos::CONFIGURATION_FILE );
         b << settingsFile;
         cout << b.str() << endl;
@@ -82,7 +84,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b2( infos::CURRENT_DIRECTORY );
         b2 << wdir;
         cout << b2.str() << endl;
@@ -135,10 +137,10 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     manager->executaUserTaskIfExists( tasks::FINISH, Task::AFTER );
 
-    if ( manager->isVerbose() )
+    if ( isVerbose )
         cout << endl;
 
-    if ( !manager->isNoResume() )
+    if ( !isNoResume )
         cout << infos::FINISH << endl;
 }
 
@@ -149,6 +151,8 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
+    bool isVerbose = manager->getArgManager()->isVerbose();
+
     string srcDir = script->getPropertyValue( props::SRC_DIR );
     srcDir = io::absoluteResolvePath( srcDir );
 
@@ -158,7 +162,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
         throw st_error( mainCMD, b2.str() );
     }
 
-    if ( manager->isVerbose() ) {
+    if ( isVerbose ) {
         messagebuilder b2( infos::SRC_DIRECTORY );
         b2 << srcDir;
         cout << b2.str() << endl;
@@ -173,13 +177,15 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
+    bool isVerbose = manager->getArgManager()->isVerbose();
+
     vector<Task*> tasks = manager->getMainScript()->tasks();
     for( Task* task : tasks ) {
         string taskName = task->getName();
 
         bool isTaskArg = mainCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
-            if ( manager->isVerbose() ) {
+            if ( isVerbose ) {
                 stringstream ss;
                 ss << infos::EXECUTING << " " << taskName << "..." << endl;                
                 cout << endl << ss.str() << endl;
@@ -194,13 +200,17 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 void MainExec::executaStatements( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
+    
+    bool isVerbose = manager->getArgManager()->isVerbose();
+    bool isNoResume = manager->getArgManager()->isNoResume();
+
     MainScript* script = manager->getMainScript();
     int tam = script->getStatementsLength();
 
     if ( tam > 0 ) {
-        if( manager->isVerbose() )
+        if( isVerbose )
             cout << endl;
-        if ( !manager->isNoResume() )
+        if ( !isNoResume )
             cout << infos::EXECUTING_STATEMENTS << endl;
     }
 
@@ -209,7 +219,7 @@ void MainExec::executaStatements( void* mgr ) {
         manager->executaStatement( st );
     }
 
-    if ( tam > 0 && manager->isVerbose() )
+    if ( tam > 0 && isVerbose )
         cout << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;
 }
 

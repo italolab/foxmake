@@ -23,8 +23,8 @@ using std::endl;
 void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    bool isVerbose = manager->isVerbose( tasks::COPY );
-    bool isNoResume = manager->isNoResume();
+    bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
+    bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         cout << endl;
@@ -74,7 +74,7 @@ void CopyTaskExec::exec( void* mgr ) {
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    bool isVerbose = manager->isVerbose( tasks::COPY );
+    bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
 
     if ( !io::fileExists( path ) ) {
         messagebuilder b1 ( errors::FILE_OR_FOLDER_NOT_FOUND );

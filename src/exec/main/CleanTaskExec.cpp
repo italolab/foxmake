@@ -18,8 +18,8 @@ using std::endl;
 void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    bool isVerbose = manager->isVerbose( tasks::CLEAN );
-    bool isNoResume = manager->isNoResume();
+    bool isVerbose = manager->getArgManager()->isVerbose( tasks::CLEAN );
+    bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         cout << endl;
@@ -50,7 +50,7 @@ void CleanTaskExec::exec( void* mgr ) {
     string fname = script->getPropertyValue( propName );
     if ( fname != "" ) {
         string file = binDir + fname;
-        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, script );
+        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );
         if ( removed )
             removedSome = true;
     }
@@ -58,7 +58,7 @@ void CleanTaskExec::exec( void* mgr ) {
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
         string fname = buildDir + io::fileOrDirName( bfile );
-        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( fname, script );
+        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( fname, mgr );
         if ( removed )
             removedSome = true;
     }
@@ -75,7 +75,7 @@ void CleanTaskExec::exec( void* mgr ) {
 bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    bool isVerbose = manager->isVerbose( tasks::CLEAN );
+    bool isVerbose = manager->getArgManager()->isVerbose( tasks::CLEAN );
     
     try {
         if ( io::fileExists( path ) ) {

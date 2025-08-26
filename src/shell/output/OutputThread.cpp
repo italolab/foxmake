@@ -3,12 +3,10 @@
 
 OutputThread::OutputThread( string name ) {
     this->name = name;
+    this->finishFlag = false;
 }
 
 #ifdef _WIN32
-
-#include <iostream>
-using namespace std;
 
 void OutputThread::run( HANDLE hStdOutRead ) {
     const DWORD BUFFER_SIZE = 4096;
@@ -26,10 +24,7 @@ void OutputThread::run( HANDLE hStdOutRead ) {
         }
     }
 
-    {
-        std::lock_guard<std::mutex> lock( mtx );
-        finishFlag = true;
-    }
+    this->finish();
 }
 
 #else
@@ -39,19 +34,19 @@ void OutputThread::run( FILE* pipe ) {
     while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
         this->addOutput( buffer );
 
-    {
-        std::lock_guard<std::mutex> lock( mtx );
-        finishFlag = true;
-    }
+    this->finish();
 }
 
 #endif
 
 void OutputThread::doNotRun() {
-    {
-        std::lock_guard<std::mutex> lock( mtx );
-        finishFlag = true;
-    }
+    this->finish();
+}
+
+void OutputThread::finish() {
+    std::lock_guard<std::mutex> lock( mtx );
+
+    finishFlag = true;    
 }
 
 void OutputThread::addOutput( string output ) {

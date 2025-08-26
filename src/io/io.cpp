@@ -3,12 +3,12 @@
 #include "../util/strutil.h"
 
 #include <fstream>
+#include <sstream>
 #include <filesystem>
 
 #include <sys/stat.h>
 
-#include <iostream>
-using namespace std;
+using std::stringstream;
 
 namespace filesystem = std::filesystem;
 
@@ -17,16 +17,28 @@ joker_error::joker_error( string msg ) : io_error( msg ) {}
 
 namespace io {
 
-    ByExtFileFilter* by_ext_file_filter( string ext ) {
-        return new ByExtFileFilter( ext );
-    }
-
     ByNameFileFilter* by_name_file_filter( string file ) {
         return new ByNameFileFilter( file );
     }
 
-    AllFileFilter* all_file_filter() {
-        return new AllFileFilter();
+    void writeInTextFile( string file, string text ) {
+        ofstream ofs( file );
+
+        ofs << text;
+        ofs.close();
+    }
+
+    string readFromTextFile( string file ) {
+        ifstream ifs( file );
+
+        stringstream ss;
+        if ( ifs.is_open() ) {
+            string line;
+            while( getline( ifs, line, '\n' ) )
+                ss << line << "\n";
+        }
+        
+        return ss.str();
     }
 
     int recursiveCountFilesInDir( string dir ) {

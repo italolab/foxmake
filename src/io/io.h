@@ -3,12 +3,12 @@
 
 #include "filter/FileFilter.h"
 #include "filter/ByNameFileFilter.h"
-#include "filter/ByExtFileFilter.h"
-#include "filter/AllFileFilter.h"
 
 #include <string>
 #include <stdexcept>
 #include <vector>
+
+using std::runtime_error;
 
 class io_error : public runtime_error {
     public:
@@ -23,8 +23,6 @@ class joker_error : public io_error {
 namespace io {
 
     ByNameFileFilter* by_name_file_filter( string file );
-    ByExtFileFilter* by_ext_file_filter( string ext );
-    AllFileFilter* all_file_filter();
 
     bool createDir( string path );
     bool createDirs( string path );
@@ -39,6 +37,9 @@ namespace io {
     int recursiveDeleteDirectory( string path );
     int recursiveDeleteFileOrDirectory( string path );
     int recursiveDeleteDirectoryContent( string dir );
+
+    void writeInTextFile( string file, string text );
+    string readFromTextFile( string file );
 
     string currentPath();
     string absolutePath( string path );

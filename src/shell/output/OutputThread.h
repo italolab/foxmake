@@ -43,6 +43,7 @@ class OutputThread {
 #endif
 
         void doNotRun();
+        void finish();
         bool hasNextOutput();
         string nextOutput();
 

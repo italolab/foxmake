@@ -207,6 +207,7 @@ int Shell::executa() {
             exitCode = threadPipes[ i ]->exitCode;
     }
 
+    outputController->finish();
     outputControllerThread.join();
 
     return exitCode;

@@ -33,20 +33,19 @@ libs=
 
 $project_name=cbuild
 
-task copy verbose noshowoutput;
+task copy verbose showoutput;
 task compileall noverbose;
 
 task copy after
     echo Copia...
 
     @echo ABC
-    shellbegin       
+    shellbegin     
         if exist abc.tx (
             echo O arquivo existe...!
-        ) else ( 
-            dir
+        ) else (
             echo Arquivo nao existe: abc.txt!
-        
+        )
     shellend
 
 taskend
