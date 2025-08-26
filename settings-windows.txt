@@ -1,7 +1,7 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cbuild.exe
+output.file.name=cbuild.exe
 
 $target=debug
 

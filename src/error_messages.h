@@ -52,7 +52,7 @@ namespace errors {
     const string COMPILATION_FAILED = "Falha na compilacao!";
     const string LINKING_FAILED = "Falha na linkagem!";
 
-    const string PROPERTY_EXE_FILE_NAME_NOT_DEFINED_FOR_LINKING = "A propriedade \"$1\" deve ter valor definido para linkagem.";
+    const string PROPERTY_NOT_DEFINED_FOR_LINKING = "A propriedade \"$1\" deve ter valor definido para linkagem.";
     const string RESOURCE_FILE_NOT_EXISTS = "O arquivo de recursos de icone: \"$1\" nao foi encontrado.";
 
     const string NOTHING_TASK_INFORMED = "E necessario informar ao menos uma tarefa como argumento.";

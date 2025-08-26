@@ -50,15 +50,9 @@ void CopyTaskExec::exec( void* mgr ) {
     this->appCreateDirs( mainCMD, buildDir, props::BUILD_DIR );
 
     if ( binDir != buildDir ) {
-        if ( isDll == "true" ) {
-            string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
-            string fname = binDir + dllFileName;
-            appCopyFileOrDirectoryToBuild( fname, buildDir, props::BIN_DIR, manager );
-        } else {
-            string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
-            string fname = binDir + exeFileName;
-            appCopyFileOrDirectoryToBuild( fname, buildDir, props::BIN_DIR, manager );
-        }
+        string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+        string fname = binDir + outputFileName;
+        appCopyFileOrDirectoryToBuild( fname, buildDir, props::BIN_DIR, manager );        
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );

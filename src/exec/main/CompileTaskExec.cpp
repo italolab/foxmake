@@ -58,13 +58,10 @@ void CompileTaskExec::exec( void* mgr ) {
         manager->executaUserTaskIfExists( tasks::COMPILEALL, Task::BEFORE );
     else manager->executaUserTaskIfExists( tasks::COMPILE, Task::BEFORE );
 
-    string isDll = script->getPropertyValue( props::IS_DLL );
-
     string compiler = script->getPropertyValue( props::COMPILER );
     string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
 
-    string exeFileName = script->getPropertyValue( props::EXE_FILE_NAME );
-    string dllFileName = script->getPropertyValue( props::DLL_FILE_NAME );
+    string exeFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
@@ -82,8 +79,6 @@ void CompileTaskExec::exec( void* mgr ) {
 
     this->appCreateDirs( binDir, manager );
     this->appCreateDirs( objDir, manager );
-
-    bool isdll = isDll == "true";
 
     if ( compiler == "" ) {
         messagebuilder b( errors::COMPILER_NOT_INFORMED );
@@ -110,7 +105,6 @@ void CompileTaskExec::exec( void* mgr ) {
     shell->setShowOutput( isShowCMDOutput );
 
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
-
         stringstream ss;
         ss << compiler << " " << compilerParams;
 
@@ -130,15 +124,6 @@ void CompileTaskExec::exec( void* mgr ) {
             for( string incDir : includeDirsVect )
                 incDirsParams << " -I" << incDir;
             ss << incDirsParams.str();
-        }
-
-        if ( isdll ) {
-            vector<string> incdirsVect = strutil::splitWithDoubleQuotes( includeDirs );
-
-            stringstream incdirParams;
-            for( string incdir : incdirsVect )
-                incdirParams << " -I" << incdir;
-            ss << incdirParams.str();
         }
 
         ss << " -o " << objDir << sourceCodeInfo->objFilePath;

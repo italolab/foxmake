@@ -1,8 +1,7 @@
-is.dll=true
 
 target=debug
 compiler=g++
-dll.file.name=cexec.dll
+output.file.name=cexec.dll
 
 debug.bin.dir=bin/Debug
 debug.obj.dir=obj/Debug

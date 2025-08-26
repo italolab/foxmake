@@ -46,7 +46,7 @@ void CleanTaskExec::exec( void* mgr ) {
 
     bool removedSome = false;
 
-    string propName = ( isDll == "true" ? props::DLL_FILE_NAME : props::EXE_FILE_NAME );
+    string propName = props::OUTPUT_FILE_NAME;
     string fname = script->getPropertyValue( propName );
     if ( fname != "" ) {
         string file = binDir + fname;

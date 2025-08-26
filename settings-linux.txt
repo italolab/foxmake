@@ -1,7 +1,7 @@
 is.dll=false
 
 compiler=g++
-exe.file.name=cbuild
+output.file.name=cbuild
 
 src.dir=src
 build.dir=build

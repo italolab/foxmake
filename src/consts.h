@@ -67,8 +67,7 @@ namespace props {
     const string COMPILER_PARAMS = "compiler.params";
     const string LINKER_PARAMS = "linker.params";
 
-    const string EXE_FILE_NAME = "exe.file.name";
-    const string DLL_FILE_NAME = "dll.file.name";
+    const string OUTPUT_FILE_NAME = "output.file.name";
 
     const string BASE_DIR = "base.dir";
     const string SRC_DIR = "src.dir";
@@ -95,8 +94,7 @@ namespace props {
         COMPILER_PARAMS,
         LINKER_PARAMS,
 
-        EXE_FILE_NAME,
-        DLL_FILE_NAME,
+        OUTPUT_FILE_NAME,
 
         BASE_DIR,
         SRC_DIR,
