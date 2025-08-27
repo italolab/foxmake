@@ -25,11 +25,8 @@ using std::stringstream;
 
 void MainExec::exec( CMD* mainCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    InterManager* interManager = manager->getInterManager();
-    MainScript* mainScript = manager->getMainScript();
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isShowHelp = manager->getArgManager()->isHelp();
     bool isVerbose = manager->getArgManager()->isVerbose();
     bool isNoResume = manager->getArgManager()->isNoResume();
@@ -107,7 +104,6 @@ void MainExec::configureCMDArgsAndProps( void* mgr ) {
     Output& out = manager->out;
     Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose();
-    bool isNoResume = manager->getArgManager()->isNoResume();
 
     string workingDir = mainCMD->getPropertyValue( "--working-dir" );
     string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
