@@ -33,6 +33,7 @@ class OutputThread {
 
 #ifdef _WIN32
         void run( HANDLE hStdOutRead );
+        //void run( FILE* pipe );
 #else
         void run( FILE* pipe );
 #endif

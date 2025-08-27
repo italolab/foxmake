@@ -27,6 +27,16 @@ void OutputThread::run( HANDLE hStdOutRead ) {
     this->finish();
 }
 
+/*
+void OutputThread::run( FILE* pipe ) {
+    char buffer[ 128 ];
+    while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
+        this->addOutput( buffer );
+
+    this->finish();
+}
+*/
+
 #else
 
 void OutputThread::run( FILE* pipe ) {

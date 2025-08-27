@@ -139,13 +139,32 @@ void runCMDThread( string command, ThreadPipe* tpipe, OutputThread* outputThread
 
     WaitForSingleObject( pi.hProcess, INFINITE );
 
-    GetExitCodeProcess( pi.hProcess, &(tpipe->exitCode) );
+    DWORD exitCode;
+    GetExitCodeProcess( pi.hProcess, &exitCode );
+
+    tpipe->exitCode = exitCode;
 
     CloseHandle( hStdOutRead );
     CloseHandle( hStdInWrite );
     CloseHandle( pi.hProcess );
     CloseHandle( pi.hThread );
 }
+
+/*
+
+void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputThread ) {
+    FILE* pipe = popen( command.c_str(), "r" );
+    if ( pipe ) {
+        outputThread->run( pipe );
+                
+        threadPipe->exitCode = pclose( pipe );
+    } else {
+        threadPipe->exitCode = -1;
+    }
+}
+
+*/
+
 
 #else
 
@@ -169,6 +188,8 @@ void runOutputControllerThread( OutputController* outputController ) {
 int Shell::executa() {
     vector<ThreadPipe*> threadPipes;
     OutputController* outputController = new OutputController( out, inf, showOutputFlag );
+
+    long ms = time( NULL );
 
     int threadNumber = 1;
     for( string command : commands ) {
@@ -208,6 +229,10 @@ int Shell::executa() {
 
     outputController->finish();
     outputControllerThread.join();
+
+    long dif = time( NULL ) - ms;
+
+    *out << std::to_string( dif ) << "\n";
 
     return exitCode;
 }
