@@ -50,17 +50,13 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     if ( !flagsValid ) 
         return new InterResult( currentLine, 0, 0, errorMsg );
 
-    TaskExecution taskExecution = this->getTaskExecution( flags );
+    Task* task = new Task( parent, lineNumber, currentLine );
+    task->setName( taskName );
 
-    Task* task = parent->getTask( taskName, taskExecution );
-    if ( task == nullptr ) {
-        task = new Task( parent, lineNumber, currentLine );
-        task->setName( taskName );
+    this->setFlags( task, flags );
 
-        this->setFlags( task, flags );
-
+    if ( parent != nullptr )
         parent->addTask( task );
-    }
    
     bool taskendFound = false;
     int numberOfLines = 1;
@@ -174,23 +170,20 @@ bool TaskInter::validateFlags(
 }
 
 void TaskInter::setFlags( Task* task, vector<string>& flags ) {
+    bool isBefore = false;
+    bool isAfter = false;
     for( string flag : flags ) {
         if ( flag == BEFORE ) {
             task->setTaskExecution( TaskExecution::BEFORE );
+            isBefore = true;
         } else if ( flag == AFTER ) {
             task->setTaskExecution( TaskExecution::AFTER );
+            isAfter = true;
         }
     }
-}
 
-TaskExecution TaskInter::getTaskExecution( vector<string>& flags ) {
-    for( string flag : flags ) {
-        if ( flag == BEFORE )
-            return TaskExecution::BEFORE;
-        else if ( flag == AFTER )
-            return TaskExecution::AFTER;
-    }
-    return TaskExecution::NORMAL;
+    if ( !isBefore && !isAfter )
+        task->setTaskExecution( TaskExecution::NORMAL );
 }
 
 bool TaskInter::isValidFlag( string flag ) {

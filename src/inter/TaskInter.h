@@ -29,7 +29,6 @@ class TaskInter : public Inter {
             void* mgr );
         
         void setFlags( Task* task, vector<string>& flags );
-        TaskExecution getTaskExecution( vector<string>& flags );
         bool isValidFlag( string flag );
 
     public:
