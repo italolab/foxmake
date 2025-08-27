@@ -1,5 +1,5 @@
-#ifndef COMPILE_TASK_PROC_H
-#define COMPILE_TASK_PROC_H
+#ifndef COMPILE_TASK_EXEC_H
+#define COMPILE_TASK_EXEC_H
 
 #include "../TaskExec.h"
 

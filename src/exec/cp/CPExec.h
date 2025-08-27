@@ -1,5 +1,5 @@
-#ifndef CP_PROC_H
-#define CP_PROC_H
+#ifndef CP_EXEC_H
+#define CP_EXEC_H
 
 #include "../Exec.h"
 

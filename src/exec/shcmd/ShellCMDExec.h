@@ -1,5 +1,5 @@
-#ifndef SHELL_CMD_PROC_H
-#define SHELL_CMD_PROC_H
+#ifndef SHELL_CMD_EXEC_H
+#define SHELL_CMD_EXEC_H
 
 #include "../../darv/ShellCMD.h"
 

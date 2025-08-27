@@ -1,5 +1,5 @@
-#ifndef PROC_MANAGER_H
-#define PROC_MANAGER_H
+#ifndef EXEC_MANAGER_H
+#define EXEC_MANAGER_H
 
 #include "Exec.h"
 #include "TaskExec.h"

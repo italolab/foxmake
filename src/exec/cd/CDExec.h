@@ -1,5 +1,5 @@
-#ifndef CD_PROC_H
-#define CD_PROC_H
+#ifndef CD_EXEC_H
+#define CD_EXEC_H
 
 #include "../Exec.h"
 

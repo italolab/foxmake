@@ -1,5 +1,5 @@
-#ifndef PROC_H
-#define PROC_H
+#ifndef EXEC_H
+#define EXEC_H
 
 #include "../darv/CMD.h"
 #include "../inter/InterResult.h"

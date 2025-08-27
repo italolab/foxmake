@@ -1,5 +1,5 @@
-#ifndef ECHO_PROC_H
-#define ECHO_PROC_H
+#ifndef ECHO_EXEC_H
+#define ECHO_EXEC_H
 
 #include "../Exec.h"
 

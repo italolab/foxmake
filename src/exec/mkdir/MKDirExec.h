@@ -1,5 +1,5 @@
-#ifndef MKDIR_PROC_H
-#define MKDIR_PROC_H
+#ifndef MKDIR_EXEC_H
+#define MKDIR_EXEC_H
 
 #include "../Exec.h"
 

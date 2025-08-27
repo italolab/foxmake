@@ -1,5 +1,5 @@
-#ifndef TASK_PROC_H
-#define TASK_PROC_H
+#ifndef TASK_EXEC_H
+#define TASK_EXEC_H
 
 class TaskExec {
 

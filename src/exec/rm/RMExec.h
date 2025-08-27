@@ -1,5 +1,5 @@
-#ifndef RM_PROC_H
-#define RM_PROC_H
+#ifndef RM_EXEC_H
+#define RM_EXEC_H
 
 #include "../Exec.h"
 

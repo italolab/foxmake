@@ -1,5 +1,5 @@
-#ifndef LINK_TASK_PROC_H
-#define LINK_TASK_PROC_H
+#ifndef LINK_TASK_EXEC_H
+#define LINK_TASK_EXEC_H
 
 #include "../TaskExec.h"
 #include "ExeLinkTaskExec.h"

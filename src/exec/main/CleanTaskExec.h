@@ -1,5 +1,5 @@
-#ifndef CLEAN_TASK_PROC_H
-#define CLEAN_TASK_PROC_H
+#ifndef CLEAN_TASK_EXEC_H
+#define CLEAN_TASK_EXEC_H
 
 #include "../TaskExec.h"
 #include "../../darv/MainScript.h"
