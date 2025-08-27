@@ -29,6 +29,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     MainScript* mainScript = manager->getMainScript();
 
     Output& out = manager->out;
+    Output& inf = manager->inf;
     bool isShowHelp = manager->getArgManager()->isHelp();
     bool isVerbose = manager->getArgManager()->isVerbose();
     bool isNoResume = manager->getArgManager()->isNoResume();
@@ -65,10 +66,14 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         out << b.str() << "\n";
     }
 
+    bool settingsFileFound = true;
+
     if ( !io::fileExists( settingsFile ) ) {
         messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
         b2 << settingsFile;
-        throw st_error( mainCMD, b2.str() );
+        inf << b2.str() << "\n";
+
+        settingsFileFound = false;
     }
 
     mainScript->putLocalVar( "main_config_file", settingsFile );
@@ -76,11 +81,13 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->loadMainCMDVariables( mgr );
 
-    InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
-    if ( !result->isInterpreted() )
-        throw st_error( result );
+    if ( settingsFileFound ) {
+        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
+        if ( !result->isInterpreted() )
+            throw st_error( result );
 
-    delete result;
+        delete result;
+    }
 
     string basedir = mainScript->getPropertyValue( props::BASE_DIR );
     if ( basedir != "" ) {
