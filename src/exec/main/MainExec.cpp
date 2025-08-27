@@ -39,75 +39,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         return;
     }
 
-    string workingDir = mainCMD->getPropertyValue( "--working-dir" );
-    string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
-
-    if ( workingDir != "" ) {
-        workingDir = io::absoluteResolvePath( workingDir );
-        shell::setWorkingDir( workingDir );
-    } else {
-        if ( settingsFile != "" ) {
-            workingDir = io::dirPath( io::absoluteResolvePath( settingsFile ) );
-            settingsFile = io::fileOrDirName( settingsFile );
-            shell::setWorkingDir( workingDir );
-        } else {
-            workingDir = shell::getWorkingDir();
-        }
-    }
-
-    if ( settingsFile == "" )
-        settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
-
-    settingsFile = io::absoluteResolvePath( settingsFile );
-
-    if ( isVerbose ) {
-        messagebuilder b( infos::CONFIGURATION_FILE );
-        b << settingsFile;
-        out << b.str() << "\n";
-    }
-
-    bool settingsFileFound = true;
-
-    if ( !io::fileExists( settingsFile ) ) {
-        messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
-        b2 << settingsFile;
-        inf << b2.str() << "\n";
-
-        settingsFileFound = false;
-    }
-
-    mainScript->putLocalVar( "main_config_file", settingsFile );
-    mainScript->putLocalVar( "working_dir", workingDir );
-
-    this->loadMainCMDVariables( mgr );
-
-    if ( settingsFileFound ) {
-        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
-        if ( !result->isInterpreted() )
-            throw st_error( result );
-
-        delete result;
-    }
-
-    string basedir = mainScript->getPropertyValue( props::BASE_DIR );
-    if ( basedir != "" ) {
-        basedir = io::absoluteResolvePath( basedir );
-        if ( !io::fileExists( basedir ) ) {
-            messagebuilder b( errors::BASE_DIRECTORY_NOT_FOUND );
-            b << basedir << props::BASE_DIR;
-            throw st_error( nullptr, b.str() );
-        }
-        
-        shell::setWorkingDir( basedir );
-    }
-
-    string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
-
-    if ( isVerbose ) {
-        messagebuilder b2( infos::CURRENT_DIRECTORY );
-        b2 << wdir;
-        out << b2.str() << "\n";
-    }
+    this->configureCMDArgsAndProps( mgr );
 
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
@@ -164,6 +96,97 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     if ( !isNoResume )
         out << infos::FINISH << "\n";
+}
+
+void MainExec::configureCMDArgsAndProps( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    InterManager* interManager = manager->getInterManager();
+    MainScript* mainScript = manager->getMainScript();
+    CMD* mainCMD = manager->getMainCMD();
+
+    Output& out = manager->out;
+    Output& inf = manager->inf;
+    bool isVerbose = manager->getArgManager()->isVerbose();
+    bool isNoResume = manager->getArgManager()->isNoResume();
+
+    string workingDir = mainCMD->getPropertyValue( "--working-dir" );
+    string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
+
+    bool workingDirFound;
+
+    if ( workingDir != "" ) {
+        workingDir = io::absoluteResolvePath( workingDir );
+        shell::setWorkingDir( workingDir );
+
+        workingDirFound = true;
+    } else {
+        if ( settingsFile != "" ) {
+            workingDir = io::dirPath( io::absoluteResolvePath( settingsFile ) );
+            settingsFile = io::fileOrDirName( settingsFile );
+            shell::setWorkingDir( workingDir );
+        } else {
+            workingDir = shell::getWorkingDir();
+        }
+
+        workingDirFound = false;
+    }
+
+    if ( settingsFile == "" )
+        settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
+
+    settingsFile = io::absoluteResolvePath( settingsFile );
+
+    if ( isVerbose ) {
+        messagebuilder b( infos::CONFIGURATION_FILE );
+        b << settingsFile;
+        out << b.str() << "\n";
+    }
+
+    bool settingsFileFound = true;
+
+    if ( !io::fileExists( settingsFile ) ) {
+        messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
+        b2 << settingsFile;
+        inf << b2.str() << "\n";
+
+        if ( !workingDirFound )
+            throw st_error( nullptr, errors::NO_SETTINGS_AND_NO_WORKING_DIR );
+
+        settingsFileFound = false;
+    }
+
+    mainScript->putLocalVar( "main_config_file", settingsFile );
+    mainScript->putLocalVar( "working_dir", workingDir );
+
+    this->loadMainCMDVariables( mgr );
+
+    if ( settingsFileFound ) {
+        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
+        if ( !result->isInterpreted() )
+            throw st_error( result );
+
+        delete result;
+    }
+
+    string basedir = mainScript->getPropertyValue( props::BASE_DIR );
+    if ( basedir != "" ) {
+        basedir = io::absoluteResolvePath( basedir );
+        if ( !io::fileExists( basedir ) ) {
+            messagebuilder b( errors::BASE_DIRECTORY_NOT_FOUND );
+            b << basedir << props::BASE_DIR;
+            throw st_error( nullptr, b.str() );
+        }
+        
+        shell::setWorkingDir( basedir );
+    }
+
+    string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
+
+    if ( isVerbose ) {
+        messagebuilder b2( infos::CURRENT_DIRECTORY );
+        b2 << wdir;
+        out << b2.str() << "\n";
+    }
 }
 
 void MainExec::loadMainCMDVariables( void* mgr ) {
