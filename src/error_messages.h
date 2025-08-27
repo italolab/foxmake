@@ -59,7 +59,7 @@ namespace errors {
 
     const string SRC_DIRECTORY_NOT_FOUND = "Diretório de códigos fonte não encontrado: \"$1\"\nVerifique a propriedade \"$2\"";
     const string BASE_DIRECTORY_NOT_FOUND = "Diretório base não encontrado: \"$1\"\nVerifique a propriedade \"$2\"";
-    const string NO_SETTINGS_AND_NO_WORKING_DIR = "Como o arquivo de settings não foi encontrado, é necessario definir o argumento --working-dir";
+    const string NO_SETTINGS_AND_NO_WORKING_DIR = "Como o arquivo de settings não foi encontrado ou informado, é necessario definir o argumento --working-dir";
     const string ERROR_IN_READING_SRC_FILES = "Houve algum erro na leitura dos arquivos de código fonte.";
 
     const string SHELL_CMD_NOT_EXECUTED = "Não foi possível executar o comando.\nVerifique se ele existe e sua sintáxe!\nO comando retornou o código: $1";
