@@ -13,6 +13,12 @@ LinkTaskExec::LinkTaskExec() {
     this->dynamicLibraryLinkTaskExec = new DynamicLibraryLinkTaskExec();
 }
 
+LinkTaskExec::~LinkTaskExec() {
+    delete exeLinkTaskExec;
+    delete staticLibraryLinkTaskExec;
+    delete dynamicLibraryLinkTaskExec;
+}
+
 void LinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 

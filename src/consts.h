@@ -67,6 +67,7 @@ namespace props {
     const string ARCHIVER = "archiver";
     const string COMPILER_PARAMS = "compiler.params";
     const string LINKER_PARAMS = "linker.params";
+    const string ARCHIVER_PARAMS = "archiver.params";
 
     const string OUTPUT_FILE_NAME = "output.file.name";
 
@@ -91,8 +92,10 @@ namespace props {
     const vector<string> VALID_NAMES = {
         COMPILER,
         ARCHIVER,
+
         COMPILER_PARAMS,
         LINKER_PARAMS,
+        ARCHIVER_PARAMS,
 
         OUTPUT_FILE_NAME,
 

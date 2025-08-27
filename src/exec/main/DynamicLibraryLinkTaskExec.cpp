@@ -2,6 +2,7 @@
 #include "DynamicLibraryLinkTaskExec.h"
 #include "../ExecManager.h"
 #include "../stexcept.h"
+#include "../../compiler/DynamicLibraryLinker.h"
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
@@ -57,57 +58,36 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     if ( compiler == "" )
         compiler = consts::DEFAULT_COMPILER;    
 
+    string outputFile;
     if ( outputFileName == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_LINKING );
         b << props::OUTPUT_FILE_NAME;
         throw st_error( nullptr, b.str() );
     }
 
-    stringstream ss;
-    ss << compiler;
-
-    ss << " -shared";
-    if ( outputDefFile != "" )
-        ss << " -Wl,--output-def=" << outputDefFile;
-    if ( outImplibFile != "" )
-        ss << " -Wl,--out-implib=" << outImplibFile;
-
-    if ( defines != "" ) {
-        vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );
-
-        stringstream defParams;
-        for( string define : definesVect )
-            defParams << " -D" << define;
-        ss << defParams.str();
-    }
-
-    ss << " -o " << binDir << outputFileName;
-    
+    vector<string> objectCodeFiles;
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos )
-        ss << " " << objDir << info->objFilePath;    
+        objectCodeFiles.push_back( objDir + info->objFilePath );
 
-    vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
-    vector<string> libsVect = strutil::splitWithDoubleQuotes( libs );
+    DynamicLibraryLinker* linker = new DynamicLibraryLinker();
+    linker->setCompiler( compiler );
+    linker->setLinkerParams( linkerParams );
+    linker->setDefines( defines );
+    linker->setLibraryDirs( libDirs );
+    linker->setLibraries( libs );
+    linker->setObjectCodeFiles( objectCodeFiles );
+    linker->setOutputDefFile( outputDefFile );
+    linker->setOutImplibFile( outImplibFile );
+    linker->setOutputFile( binDir + outputFileName );
+    string cmdline = linker->buildCMDLine();
 
-    stringstream libdirParams;
-    stringstream libParams;
-    string token;
-
-    for( string libdir : libdirsVect)
-        libdirParams << " -L" << libdir;
-
-    for( string lib : libsVect )
-        libParams << " -l" << lib;
-
-    ss << libdirParams.str() << libParams.str();
-
-    ss << " " << linkerParams;
+    delete linker;
 
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
-    shell->pushCommand( ss.str() );
+    shell->pushCommand( cmdline );
 
     int exitCode = shell->executa();
     if ( exitCode != 0 )

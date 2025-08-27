@@ -15,6 +15,7 @@ class LinkTaskExec : public TaskExec {
 
     public:
         LinkTaskExec();
+        virtual ~LinkTaskExec();
 
         void exec( void* mgr );
 

@@ -2,6 +2,7 @@
 #include "StaticLibraryLinkTaskExec.h"
 #include "../ExecManager.h"
 #include "../stexcept.h"
+#include "../../compiler/Archiver.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
@@ -21,7 +22,7 @@ void StaticLibraryLinkTaskExec::exec( void* mgr ) {
     MainScript* script = manager->getMainScript();
 
     string archiver = script->getPropertyValue( props::ARCHIVER );
-    string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
+    string archiverParams = script->getPropertyValue( props::ARCHIVER_PARAMS );
 
     string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
@@ -48,45 +49,27 @@ void StaticLibraryLinkTaskExec::exec( void* mgr ) {
         throw st_error( nullptr, b.str() );
     }
 
-    stringstream ss;
-    ss << archiver << " rcs ";
-
-    if ( defines != "" ) {
-        vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );
-
-        stringstream defParams;
-        for( string define : definesVect )
-            defParams << " -D" << define;
-        ss << defParams.str();
-    }
-
-    ss << binDir << outputFileName;
-    
+    vector<string> objectCodeFiles;
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos )
-        ss << " " << objDir << info->objFilePath;    
+        objectCodeFiles.push_back( objDir + info->objFilePath );
 
-    vector<string> libdirsVect = strutil::splitWithDoubleQuotes( libDirs );
-    vector<string> libsVect = strutil::splitWithDoubleQuotes( libs );
+    Archiver* arcr = new Archiver();
+    arcr->setArchiver( archiver );
+    arcr->setArchiverParams( archiverParams );
+    arcr->setDefines( defines );
+    arcr->setLibraryDirs( libDirs );
+    arcr->setLibraries( libs );
+    arcr->setObjectCodeFiles( objectCodeFiles );
+    arcr->setOutputFile( binDir + outputFileName );
+    string cmdline = arcr->buildCMDLine();    
 
-    stringstream libdirParams;
-    stringstream libParams;
-    string token;
-
-    for( string libdir : libdirsVect)
-        libdirParams << " -L" << libdir;
-
-    for( string lib : libsVect )
-        libParams << " -l" << lib;
-
-    ss << libdirParams.str() << libParams.str();
-
-    ss << " " << linkerParams;
+    delete arcr;
 
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
-    shell->pushCommand( ss.str() );
+    shell->pushCommand( cmdline );
 
     int exitCode = shell->executa();
     if ( exitCode != 0 )

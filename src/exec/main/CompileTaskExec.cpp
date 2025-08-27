@@ -2,6 +2,7 @@
 #include "CompileTaskExec.h"
 #include "../ExecManager.h"
 #include "../stexcept.h"
+#include "../../compiler/Compiler.h"
 #include "../../darv/MainScript.h"
 #include "../../shell/shell.h"
 #include "../../io/io.h"
@@ -107,31 +108,19 @@ void CompileTaskExec::exec( void* mgr ) {
     shell->setShowOutput( isShowCMDOutput );
 
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
-        stringstream ss;
-        ss << compiler << " " << compilerParams;
+        Compiler* comp = new Compiler();
+        comp->setCompiler( compiler );
+        comp->setCompilerParams( compilerParams );
+        comp->setDefines( defines );
+        comp->setIncludeDirs( includeDirs );
+        comp->setObjectCodeFile( objDir + sourceCodeInfo->objFilePath );
+        comp->setSourceCodeFile( sourceCodeInfo->filePath );
 
-        if ( defines != "" ) {
-            vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );
+        string cmdline = comp->buildCMDLine();
 
-            stringstream defParams;
-            for( string define : definesVect )
-                defParams << " -D" << define;
-            ss << defParams.str();
-        }
+        delete comp;
 
-        if ( includeDirs != "" ) {
-            vector<string> includeDirsVect = strutil::splitWithDoubleQuotes( includeDirs );
-
-            stringstream incDirsParams;
-            for( string incDir : includeDirsVect )
-                incDirsParams << " -I" << incDir;
-            ss << incDirsParams.str();
-        }
-
-        ss << " -o " << objDir << sourceCodeInfo->objFilePath;
-        ss << " -c " << sourceCodeInfo->filePath;
-
-        shell->pushCommand( ss.str() );
+        shell->pushCommand( cmdline );
     }
 
     int exitCode = shell->executa();
