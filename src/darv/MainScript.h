@@ -35,7 +35,7 @@ class MainScript : public Block {
         vector<string> propertyNames();
 
         void addTask( Task* task );
-        Task* getTask( string taskName, bool beforeFlag );
+        Task* getTask( string taskName, TaskExecution taskExecution );
         vector<Task*>& tasks();
 
         void addDefaultTaskConfig( DefaultTaskConfig* config );

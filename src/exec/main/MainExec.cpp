@@ -123,12 +123,13 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->genSourceAndHeaderInfos( manager );
 
-    manager->executaUserTaskIfExists( tasks::INIT, Task::AFTER );
+    manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
 
     if ( isBuild )
-        manager->executaUserTaskIfExists( tasks::BUILD, Task::BEFORE );
+        manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
     if ( isBuildAll )
-        manager->executaUserTaskIfExists( tasks::BUILDALL, Task::BEFORE );
+        manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
 
     if ( isClean )
         manager->executaTask( tasks::CLEAN );
@@ -140,15 +141,16 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         manager->executaTask( tasks::COPY );
     
     if ( isBuild )
-        manager->executaUserTaskIfExists( tasks::BUILD, Task::AFTER );
+        manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
     if ( isBuildAll )
-        manager->executaUserTaskIfExists( tasks::BUILDALL, Task::AFTER );
+        manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
 
     this->executaNoDefaultTasks( manager );
 
     this->executaStatements( manager );
 
-    manager->executaUserTaskIfExists( tasks::FINISH, Task::AFTER );
+    manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::AFTER );
 
     if ( isVerbose )
         out << "\n";
@@ -229,8 +231,9 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
                 out << "...\n";                
             }
 
-            manager->executaUserTaskIfExists( taskName, Task::BEFORE );
-            manager->executaUserTaskIfExists( taskName, Task::AFTER );
+            manager->executaUserTaskIfExists( taskName, TaskExecution::BEFORE );
+            manager->executaUserTaskIfExists( taskName, TaskExecution::NORMAL );
+            manager->executaUserTaskIfExists( taskName, TaskExecution::AFTER );
         }
     }
 }

@@ -7,25 +7,29 @@
 
 using std::string;
 
+enum class TaskExecution : unsigned int {
+    NORMAL = 0,
+    BEFORE = 1,
+    AFTER = 2
+};
+
 class Task : public Block {
 
     private:
         string name;
-        bool beforeFlag;
         bool verboseFlag;
         bool showCMDOutputFlag;
 
-    public:
-        static const bool BEFORE = true;
-        static const bool AFTER = false;
+        TaskExecution taskExecution;
 
+    public:
         Task( Statement* parent, int lineNumber, string line );
 
         string getName();
-        bool isBefore();
+        TaskExecution getTaskExecution();
 
         void setName( string name );
-        void setBefore( bool flag );
+        void setTaskExecution( TaskExecution taskExecution );
 
 };
 

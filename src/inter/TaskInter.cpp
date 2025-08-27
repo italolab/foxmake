@@ -45,9 +45,14 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
         }
     }
 
-    bool isBefore = this->isBeforeFlag( flags );
+    string errorMsg;
+    bool flagsValid = this->validateFlags( parent, taskName, flags, errorMsg, mgr );
+    if ( !flagsValid ) 
+        return new InterResult( currentLine, 0, 0, errorMsg );
 
-    Task* task = parent->getTask( taskName, isBefore );
+    TaskExecution taskExecution = this->getTaskExecution( flags );
+
+    Task* task = parent->getTask( taskName, taskExecution );
     if ( task == nullptr ) {
         task = new Task( parent, lineNumber, currentLine );
         task->setName( taskName );
@@ -116,21 +121,76 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     return new InterResult( task, numberOfLines, 0 );
 }
 
+bool TaskInter::validateFlags( 
+            MainScript* script, 
+            string taskName, 
+            vector<string>& flags, 
+            string& errorMsg, 
+            void* mgr ) {
+
+    InterManager* manager = (InterManager*)mgr;
+
+    bool isBefore = false;
+    bool isAfter = false;
+    for( string flag : flags ) {
+        if ( flag == BEFORE ) {
+            Task* task = script->getTask( taskName, TaskExecution::BEFORE );
+            if ( task != nullptr ) {
+                messagebuilder b( errors::TASK_BEFORE_ALREADY_DEFINED );
+                b << taskName;
+                errorMsg = b.str();
+                return false;
+            }
+
+            isBefore = true;
+        } else if ( flag == AFTER ) {
+            Task* task = script->getTask( taskName, TaskExecution::AFTER );
+            if ( task != nullptr ) {
+                messagebuilder b( errors::TASK_AFTER_ALREADY_DEFINED );
+                b << taskName;
+                errorMsg = b.str();
+                return false;
+            }
+
+            isAfter = true;
+        }
+    }
+
+    if ( isBefore && isAfter ) {
+        messagebuilder b( errors::BEFORE_AND_AFTER_TASK );
+        b << taskName;
+        errorMsg = b.str();
+        return false;            
+    }
+
+    if ( !isBefore && !isAfter && manager->isValidDefaultTask( taskName ) ) {
+        messagebuilder b( errors::DEFAULT_USER_TASK_DEFINED_HOW_NORMAL );
+        b << taskName;
+        errorMsg = b.str();
+        return false;
+    }
+
+    return true;
+}
+
 void TaskInter::setFlags( Task* task, vector<string>& flags ) {
     for( string flag : flags ) {
         if ( flag == BEFORE ) {
-            task->setBefore( true );
+            task->setTaskExecution( TaskExecution::BEFORE );
         } else if ( flag == AFTER ) {
-            task->setBefore( false );
+            task->setTaskExecution( TaskExecution::AFTER );
         }
     }
 }
 
-bool TaskInter::isBeforeFlag( vector<string>& flags ) {
-    for( string flag : flags )
-        if ( flag == "before" )
-            return true;
-    return false;
+TaskExecution TaskInter::getTaskExecution( vector<string>& flags ) {
+    for( string flag : flags ) {
+        if ( flag == BEFORE )
+            return TaskExecution::BEFORE;
+        else if ( flag == AFTER )
+            return TaskExecution::AFTER;
+    }
+    return TaskExecution::NORMAL;
 }
 
 bool TaskInter::isValidFlag( string flag ) {

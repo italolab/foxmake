@@ -8,6 +8,7 @@
 #include "shcmd/ShellCMDExec.h"
 #include "../darv/Statement.h"
 #include "../darv/MainScript.h"
+#include "../darv/Task.h"
 #include "../darv/CMD.h"
 #include "../inter/InterManager.h"
 #include "../inter/InterDriver.h"
@@ -55,7 +56,7 @@ class ExecManager : public InterDriver {
 
         bool isDefaultTask( string taskName );
         void executaTask( string taskName );
-        void executaUserTaskIfExists( string taskName, bool beforeFlag );
+        void executaUserTaskIfExists( string taskName, TaskExecution taskExecution );
 
         vector<string> validCMDNames();
         vector<string> validPropNames();

@@ -65,6 +65,10 @@ namespace errors {
     const string SHELL_CMD_NOT_EXECUTED = "Nao foi possivel executar o comando.\nVerifique se ele existe e sua sintaxe!\nO comando retornou o codigo: $1";
 
     const string TASK_NOT_RECOGNIZED = "Tarefa nao reconhecida.";
+    const string TASK_BEFORE_ALREADY_DEFINED = "Ja foi definida antes a tarefa \"$1\" como before.";
+    const string TASK_AFTER_ALREADY_DEFINED = "Ja foi definida antes a tarefa \"$1\" como after.";
+    const string BEFORE_AND_AFTER_TASK = "A tarefa \"$1\" esta sendo definida como before e after.";
+    const string DEFAULT_USER_TASK_DEFINED_HOW_NORMAL = "A tarefa \"$1\" e default. Por isso, nao pode ser definida sem before ou after";
 
     const string ERROR_IN_MAIN_CMD = "Erro: $1";
 

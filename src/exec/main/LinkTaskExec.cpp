@@ -28,7 +28,7 @@ void LinkTaskExec::exec( void* mgr ) {
         out << "..." << "\n";
     }
 
-    manager->executaUserTaskIfExists( tasks::LINK, Task::BEFORE );
+    manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
 
     MainScript* script = manager->getMainScript();
 
@@ -44,7 +44,7 @@ void LinkTaskExec::exec( void* mgr ) {
         exeLinkTaskExec->exec( mgr );
     }
 
-    manager->executaUserTaskIfExists( tasks::LINK, Task::AFTER );
+    manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
 
     if ( isVerbose )
         out << infos::SUCCESS_IN_LINKING << "\n";

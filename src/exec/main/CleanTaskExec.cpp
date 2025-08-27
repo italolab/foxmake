@@ -27,7 +27,7 @@ void CleanTaskExec::exec( void* mgr ) {
         out << "..." << "\n";
     }
 
-    manager->executaUserTaskIfExists( tasks::CLEAN, Task::BEFORE );
+    manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
     MainScript* script = manager->getMainScript();
 
@@ -64,7 +64,7 @@ void CleanTaskExec::exec( void* mgr ) {
             removedSome = true;
     }
 
-    manager->executaUserTaskIfExists( tasks::CLEAN, Task::AFTER );
+    manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::AFTER );
 
     if ( isVerbose ) {
         if ( removedSome )

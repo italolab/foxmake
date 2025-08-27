@@ -55,7 +55,7 @@ task debug before
 taskend
 
 task finish verbose;
-task finish
+task finish after
 
     mkdir include
 

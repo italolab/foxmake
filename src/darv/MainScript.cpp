@@ -46,9 +46,9 @@ void MainScript::addTask( Task* task ) {
     tasksVect.push_back( task );
 }
 
-Task* MainScript::getTask( string taskName, bool beforeFlag ) {
+Task* MainScript::getTask( string taskName, TaskExecution taskExecution ) {
     for( Task* task : tasksVect )
-        if ( task->getName() == taskName && task->isBefore() == beforeFlag )
+        if ( task->getName() == taskName && task->getTaskExecution() == taskExecution )
             return task;
     return nullptr;
 }

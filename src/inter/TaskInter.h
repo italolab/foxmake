@@ -21,8 +21,15 @@ class TaskInter : public Inter {
             AFTER
         };
     
+        bool validateFlags( 
+            MainScript* script, 
+            string taskName, 
+            vector<string>& flags,
+            string& errorMsg,
+            void* mgr );
+        
         void setFlags( Task* task, vector<string>& flags );
-        bool isBeforeFlag( vector<string>& flags );
+        TaskExecution getTaskExecution( vector<string>& flags );
         bool isValidFlag( string flag );
 
     public:

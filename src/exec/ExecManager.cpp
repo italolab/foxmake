@@ -121,8 +121,8 @@ void ExecManager::executaTask( string taskName ) {
     taskExecsMap[ taskName ]->exec( this );
 }
 
-void ExecManager::executaUserTaskIfExists( string taskName, bool beforeFlag ) {
-    Task* task = mainScript->getTask( taskName, beforeFlag );
+void ExecManager::executaUserTaskIfExists( string taskName, TaskExecution taskExecution ) {
+    Task* task = mainScript->getTask( taskName, taskExecution );
     if ( task != nullptr ) {
         int len = task->getStatementsLength();
         for( int i = 0; i < len; i++ ) {
