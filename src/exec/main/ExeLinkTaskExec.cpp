@@ -27,7 +27,6 @@ void ExeLinkTaskExec::exec( void* mgr ) {
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
     bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::LINK );
 
@@ -97,7 +96,7 @@ void ExeLinkTaskExec::exec( void* mgr ) {
 
     ss << " " << linkerParams;
 
-    Shell* shell = new Shell( out, inf );
+    Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
     shell->pushCommand( ss.str() );

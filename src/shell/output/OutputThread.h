@@ -31,13 +31,7 @@ class OutputThread {
     public:
         OutputThread( string name );
 
-#ifdef _WIN32
-        void run( HANDLE hStdOutRead );
-        //void run( FILE* pipe );
-#else
         void run( FILE* pipe );
-#endif
-
         void finish();
         bool hasNextOutput();
         string nextOutput();

@@ -105,7 +105,7 @@ void CompileTaskExec::exec( void* mgr ) {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     }
 
-    Shell* shell = new Shell( out, inf );
+    Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 

@@ -18,9 +18,8 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( shellCMD );
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     
-    Shell* shell = new Shell( out, inf );
+    Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 

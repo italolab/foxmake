@@ -27,7 +27,7 @@ class Shell {
         Output* inf;
 
     public:
-        Shell( Output& out, Output& inf );
+        Shell( Output& outs );
         
         void pushCommand( string command );
         int executa();

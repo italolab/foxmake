@@ -5,9 +5,8 @@
 
 using std::cout;
 
-OutputController::OutputController( Output* out, Output* inf, bool showOutputFlag ) {
+OutputController::OutputController( Output* out, bool showOutputFlag ) {
     this->out = out;
-    this->inf = inf;
     this->showOutputFlag = showOutputFlag;
 }
 

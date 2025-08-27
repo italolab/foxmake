@@ -17,10 +17,9 @@ class OutputController {
         bool showOutputFlag;
 
         Output* out;
-        Output* inf;
 
     public:
-        OutputController( Output* out, Output* inf, bool showOutputFlag );
+        OutputController( Output* out, bool showOutputFlag );
         void run();
         void finish();
         void addOutputThread( OutputThread* outputThread );

@@ -51,107 +51,12 @@ namespace shell {
 
 }
 
-Shell::Shell( Output& out, Output& inf ) {
+Shell::Shell( Output& out ) {
     this->out = &out;
-    this->inf = &inf;
     this->verboseFlag = true;
     this->showOutputFlag = true;
 }
 
-#ifdef _WIN32
-
-void runCMDThread( string command, ThreadPipe* tpipe, OutputThread* outputThread ) {
-    HANDLE hStdInRead;
-    HANDLE hStdInWrite;
-    HANDLE hStdOutRead;
-    HANDLE hStdOutWrite;
-
-    SECURITY_ATTRIBUTES secAttrs;
-    secAttrs.nLength = sizeof( SECURITY_ATTRIBUTES );
-    secAttrs.bInheritHandle = TRUE;
-    secAttrs.lpSecurityDescriptor = NULL;
-
-    WINBOOL result = CreatePipe( &hStdOutRead, &hStdOutWrite, &secAttrs, 0 );
-    if ( !result ) {
-        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
-        cerr << "Erro na criacao do pile de escrita." << endl;
-        tpipe->exitCode = -1;
-        return;
-    }
-    
-    result = SetHandleInformation( hStdOutRead, HANDLE_FLAG_INHERIT, 0 );
-    if ( !result ) {
-        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
-        cerr << "Erro na criacao das informacoes do handle de leitura." << endl;
-        tpipe->exitCode = -1;
-        return;
-    }
-
-    result = CreatePipe( &hStdInRead, &hStdInWrite, &secAttrs, 0 );
-    if ( !result ) {
-        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
-        cerr << "Erro na criacao do pile de leitura." << endl;
-        tpipe->exitCode = -1;
-        return;
-    }
-    
-    result = SetHandleInformation( hStdInWrite, HANDLE_FLAG_INHERIT, 0 );
-    if ( !result ) {
-        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
-        cerr << "Erro na criacao das informacoes do handle de escrita." << endl;
-        tpipe->exitCode = -1;
-        return;
-    }
-
-    STARTUPINFO si;
-    ZeroMemory( &si, sizeof(STARTUPINFO) );
-    si.hStdError = hStdOutWrite;
-    si.hStdOutput = hStdOutWrite;
-    si.hStdInput = hStdInRead;
-    si.dwFlags |= STARTF_USESTDHANDLES;
-
-    PROCESS_INFORMATION pi;
-    ZeroMemory( &pi, sizeof(PROCESS_INFORMATION) );
-
-    result = CreateProcess( 
-                NULL, 
-                const_cast<char*>( command.c_str() ), 
-                NULL, 
-                NULL, 
-                TRUE, 
-                0, 
-                NULL, 
-                NULL, 
-                &si, 
-                &pi );
-                
-    if ( !result ) {
-        cerr << "Nao foi possivel executar o(s) comando(s) no shell." << endl;
-        cerr << "Erro na criacao do processo." << endl;
-        tpipe->exitCode = -1;
-        return;
-    }
-        
-    CloseHandle( hStdInRead );
-    CloseHandle( hStdOutWrite );
-
-    outputThread->run( hStdOutRead );
-
-    WaitForSingleObject( pi.hProcess, INFINITE );
-
-    DWORD exitCode;
-    GetExitCodeProcess( pi.hProcess, &exitCode );
-
-    tpipe->exitCode = exitCode;
-
-    CloseHandle( hStdOutRead );
-    CloseHandle( hStdInWrite );
-    CloseHandle( pi.hProcess );
-    CloseHandle( pi.hThread );
-}
-
-/*
-
 void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputThread ) {
     FILE* pipe = popen( command.c_str(), "r" );
     if ( pipe ) {
@@ -162,24 +67,6 @@ void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputT
         threadPipe->exitCode = -1;
     }
 }
-
-*/
-
-
-#else
-
-void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputThread ) {
-    FILE* pipe = popen( command.c_str(), "r" );
-    if ( pipe ) {
-        outputThread->run( pipe );
-                
-        threadPipe->exitCode = pclose( pipe );
-    } else {
-        threadPipe->exitCode = -1;
-    }
-}
-
-#endif
 
 void runOutputControllerThread( OutputController* outputController ) {
     outputController->run();
@@ -187,9 +74,7 @@ void runOutputControllerThread( OutputController* outputController ) {
 
 int Shell::executa() {
     vector<ThreadPipe*> threadPipes;
-    OutputController* outputController = new OutputController( out, inf, showOutputFlag );
-
-    long ms = time( NULL );
+    OutputController* outputController = new OutputController( out, showOutputFlag );
 
     int threadNumber = 1;
     for( string command : commands ) {
@@ -229,10 +114,6 @@ int Shell::executa() {
 
     outputController->finish();
     outputControllerThread.join();
-
-    long dif = time( NULL ) - ms;
-
-    *out << std::to_string( dif ) << "\n";
 
     return exitCode;
 }

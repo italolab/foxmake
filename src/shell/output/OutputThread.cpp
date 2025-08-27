@@ -6,28 +6,6 @@ OutputThread::OutputThread( string name ) {
     this->finishFlag = false;
 }
 
-#ifdef _WIN32
-
-void OutputThread::run( HANDLE hStdOutRead ) {
-    const DWORD BUFFER_SIZE = 4096;
-    char buffer[ BUFFER_SIZE ];
-    DWORD bytesRead;
-
-    bool isEnd = false;
-    while( !isEnd ) {
-        WINBOOL res = ReadFile( hStdOutRead, buffer, BUFFER_SIZE-1, &bytesRead, NULL );
-        if ( !res || bytesRead == 0 ) {
-            isEnd = true;
-        } else {
-            buffer[ bytesRead ] = '\0';
-            this->addOutput( buffer );
-        }
-    }
-
-    this->finish();
-}
-
-/*
 void OutputThread::run( FILE* pipe ) {
     char buffer[ 128 ];
     while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
@@ -35,19 +13,6 @@ void OutputThread::run( FILE* pipe ) {
 
     this->finish();
 }
-*/
-
-#else
-
-void OutputThread::run( FILE* pipe ) {
-    char buffer[ 128 ];
-    while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
-        this->addOutput( buffer );
-
-    this->finish();
-}
-
-#endif
 
 void OutputThread::finish() {
     std::lock_guard<std::mutex> lock( mtx );
