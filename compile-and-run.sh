@@ -13,7 +13,7 @@ else
 fi
 
 if [ "$#" -gt "1" ]; then
-    build=build
+    build=""
     if [ "$2" == "all" ]; then
         if [ "$#" -gt "2" ]; then
             build=$3
@@ -22,5 +22,7 @@ if [ "$#" -gt "1" ]; then
         build=$2
     fi
 
-    ./build/cbuild $build --settings-file=settings-linux-run.txt -var target=debug
+    if [ "$build" != "" ]; then
+        ./build/cbuild $build --settings-file=settings-linux-run.txt -var target=debug
+    fi
 fi

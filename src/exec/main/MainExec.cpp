@@ -192,6 +192,8 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     bool isVerbose = manager->getArgManager()->isVerbose();
 
     string srcDir = script->getPropertyValue( props::SRC_DIR );
+    if ( srcDir == "" )
+        srcDir = ".";
     srcDir = io::absoluteResolvePath( srcDir );
 
     if ( !io::fileExists( srcDir ) ) {        

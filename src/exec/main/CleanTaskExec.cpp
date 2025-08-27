@@ -31,7 +31,6 @@ void CleanTaskExec::exec( void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    string isDll = script->getPropertyValue( props::IS_DLL );
     string buildDir = script->getPropertyValue( props::BUILD_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );

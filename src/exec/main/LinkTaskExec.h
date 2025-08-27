@@ -3,12 +3,14 @@
 
 #include "../TaskExec.h"
 #include "ExeLinkTaskExec.h"
+#include "StaticLibraryLinkTaskExec.h"
 #include "DynamicLibraryLinkTaskExec.h"
 
 class LinkTaskExec : public TaskExec {
 
     private:
         ExeLinkTaskExec* exeLinkTaskExec;
+        StaticLibraryLinkTaskExec* staticLibraryLinkTaskExec;
         DynamicLibraryLinkTaskExec* dynamicLibraryLinkTaskExec;
 
     public:

@@ -49,7 +49,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
             istringstream iss( line2 );
             string token;
             iss >> token;
-            if ( token == "shellend" ) {
+            if ( token == "endshell" ) {
                 if ( iss.peek() != EOF ) {
                     iss >> token;
 
@@ -61,6 +61,8 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
                 }
 
                 shellendFound = true;
+            } else if ( token == "endtask" ) {
+                return new InterResult( currentLine, 0, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
             } else {
                 ss << line2 << "\n";
             }
@@ -69,7 +71,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
         }
 
         if ( !shellendFound )
-            return new InterResult( currentLine, numberOfLines, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
+            return new InterResult( currentLine, 0, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
 
         cmdstr = ss.str();
         if ( cmdstr.length() > 0 )

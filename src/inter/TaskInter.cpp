@@ -74,7 +74,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
             continue;
         }
 
-        if ( strutil::trim( line2 ) == "taskend" ) {
+        if ( strutil::trim( line2 ) == "endtask" ) {
             numberOfLines++;
             taskendFound = true;
             continue;

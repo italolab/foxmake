@@ -36,7 +36,6 @@ void CopyTaskExec::exec( void* mgr ) {
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
-    string isDll = script->getPropertyValue( props::IS_DLL );
     string buildDir = script->getPropertyValue( props::BUILD_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );

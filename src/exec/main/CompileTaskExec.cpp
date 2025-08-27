@@ -85,11 +85,8 @@ void CompileTaskExec::exec( void* mgr ) {
     this->appCreateDirs( binDir, manager );
     this->appCreateDirs( objDir, manager );
 
-    if ( compiler == "" ) {
-        messagebuilder b( errors::COMPILER_NOT_INFORMED );
-        b << props::COMPILER;
-        throw st_error( mainCMD, b.str() );
-    }
+    if ( compiler == "" )
+        compiler = consts::DEFAULT_COMPILER;
 
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos ) {

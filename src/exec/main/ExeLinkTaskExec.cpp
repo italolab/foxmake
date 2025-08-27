@@ -53,6 +53,9 @@ void ExeLinkTaskExec::exec( void* mgr ) {
     binDir = io::addSeparatorToDirIfNeed( binDir );
     objDir = io::addSeparatorToDirIfNeed( objDir );
 
+    if ( compiler == "" )
+        compiler = consts::DEFAULT_COMPILER;
+
     if ( outputFileName == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_LINKING );
         b << props::OUTPUT_FILE_NAME;
@@ -71,6 +74,15 @@ void ExeLinkTaskExec::exec( void* mgr ) {
     ss << compiler;
 
     ss << " -o " << binDir << outputFileName;    
+
+    if ( defines != "" ) {
+        vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );
+
+        stringstream defParams;
+        for( string define : definesVect )
+            defParams << " -D" << define;
+        ss << defParams.str();
+    }
 
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos )

@@ -1,4 +1,3 @@
-is.dll=false
 
 compiler=g++
 output.file.name=cbuild

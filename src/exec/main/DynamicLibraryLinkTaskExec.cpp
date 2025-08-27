@@ -54,6 +54,9 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     binDir = io::addSeparatorToDirIfNeed( binDir );
     objDir = io::addSeparatorToDirIfNeed( objDir );
 
+    if ( compiler == "" )
+        compiler = consts::DEFAULT_COMPILER;    
+
     if ( outputFileName == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_LINKING );
         b << props::OUTPUT_FILE_NAME;
@@ -68,6 +71,15 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
         ss << " -Wl,--output-def=" << outputDefFile;
     if ( outImplibFile != "" )
         ss << " -Wl,--out-implib=" << outImplibFile;
+
+    if ( defines != "" ) {
+        vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );
+
+        stringstream defParams;
+        for( string define : definesVect )
+            defParams << " -D" << define;
+        ss << defParams.str();
+    }
 
     ss << " -o " << binDir << outputFileName;
     

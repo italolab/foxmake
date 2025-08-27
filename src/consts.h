@@ -18,6 +18,8 @@ namespace consts {
     const string HEADER_FILE_EXTENSIONS = ".h .hpp .tpp .ipp";
 
     const bool DEFAULT_SHOW_CMD_OUTPUT = true;
+    const string DEFAULT_COMPILER = "g++";
+    const string DEFAULT_ARCHIVER = "ar";
 
     const string WINDOWS_CMD_EXE = "cmd.exe /c";
 
@@ -61,9 +63,8 @@ namespace cmds {
 
 namespace props {
 
-    const string IS_DLL = "is.dll";
-
     const string COMPILER = "compiler";
+    const string ARCHIVER = "archiver";
     const string COMPILER_PARAMS = "compiler.params";
     const string LINKER_PARAMS = "linker.params";
 
@@ -88,9 +89,8 @@ namespace props {
     const string OUT_IMPLIB_FILE = "out.implib.file";
 
     const vector<string> VALID_NAMES = {
-        IS_DLL,
-
         COMPILER,
+        ARCHIVER,
         COMPILER_PARAMS,
         LINKER_PARAMS,
 

@@ -10,8 +10,8 @@ namespace errors {
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     const string START_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Inicio de bloco com caracter(es) desnecessario(s).";
     const string END_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Fim de bloco com caracter(es) desnecessario(s).";
-    const string END_OF_SHELL_BLOCK_NOT_FOUND = "Fim de bloco de shell nao encontrado.";
-    const string END_OF_TASK_BLOCK_NOT_FOUND = "Fim de bloco de tarefa nao encontrado.";
+    const string END_OF_SHELL_BLOCK_NOT_FOUND = "Fim de bloco de shell \"endshell\" nao encontrado.";
+    const string END_OF_TASK_BLOCK_NOT_FOUND = "Fim de bloco de tarefa \"endtask\" nao encontrado.";
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variavel nao encontrada: $($1).";
     const string UNRECOGNIZED_LINE = "Linha nao reconhecida como instrucao valida.";
 
@@ -48,7 +48,6 @@ namespace errors {
     const string TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER = "Tentativa de copiar nao recursivamente uma pasta nao vazia.";
     const string ERROR_IN_FILES_COPY = "Houve erro na copia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, \nse a copia e recursiva e com ou sem sobrescrita, \ne se tem permissoes necessarias para esta operacao";
 
-    const string COMPILER_NOT_INFORMED = "Nenhum compilador informado. \nDefina a propriedade: \"$1\"";
     const string COMPILATION_FAILED = "Falha na compilacao!";
     const string LINKING_FAILED = "Falha na linkagem!";
 

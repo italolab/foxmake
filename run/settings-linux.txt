@@ -1,4 +1,3 @@
-is.dll=false
 
 compiler=g++
 output.file.name=cbuild
@@ -45,14 +44,14 @@ task copy after
         else 
             echo "Arquivo nao existe: settings.txt"
         fi
-    shellend
+    endshell
 
-taskend
+endtask
 
 task debug before
     @dir
     echo Debug executado!
-taskend
+endtask
 
 mkdir include
 

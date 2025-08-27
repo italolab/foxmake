@@ -9,6 +9,7 @@
 
 LinkTaskExec::LinkTaskExec() {
     this->exeLinkTaskExec = new ExeLinkTaskExec();
+    this->staticLibraryLinkTaskExec = new StaticLibraryLinkTaskExec();
     this->dynamicLibraryLinkTaskExec = new DynamicLibraryLinkTaskExec();
 }
 
@@ -39,7 +40,7 @@ void LinkTaskExec::exec( void* mgr ) {
     } else if ( strutil::endsWith( outputFileName, "so" ) ) {
         dynamicLibraryLinkTaskExec->exec( mgr );
     } else if ( strutil::startsWith( outputFileName, "lib" ) ) {
-
+        staticLibraryLinkTaskExec->exec( mgr );
     } else {
         exeLinkTaskExec->exec( mgr );
     }
