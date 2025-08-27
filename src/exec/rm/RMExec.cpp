@@ -5,6 +5,7 @@
 #include "../../io/io.h"
 #include "../../io/filter/FileFilter.h"
 #include "../../util/strutil.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"
@@ -18,7 +19,6 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
@@ -73,6 +73,6 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::FILES_AND_FOLDERS_DELETED );
         b2 << std::to_string( count );
-        inf << b2.str() << "\n";
+        out << output::green( b2.str() ) << "\n";
     }
 }

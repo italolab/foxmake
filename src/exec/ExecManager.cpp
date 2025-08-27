@@ -24,11 +24,6 @@
 
 #include <stdexcept>
 #include <typeinfo>
-#include <iostream>
-
-using std::cout;
-using std::cerr;
-using std::endl;
 
 using std::runtime_error;
 using std::exception;
@@ -88,9 +83,9 @@ void ExecManager::exec( int argc, char* argv[] ) {
 
         mainExec->exec( mainCMD, this );
     } catch ( const st_error& e ) {
-        e.printMessage( out, err );
+        e.printMessage( out );
     } catch ( const exception& e ) {
-        cerr << e.what() << "\n";
+        out << output::red( e.what() ) << "\n";
     }
 }
 
@@ -99,24 +94,29 @@ void ExecManager::executaStatement( Statement* st ) {
         CMD* cmd = (CMD*)st;
 
         Exec* exec = execsMap[ cmd->getName() ];
-        if ( exec == nullptr )
-            throw runtime_error( "Executor de comando nao encontrado pelo nome: \"" + cmd->getName() + "\"" );
+        if ( exec == nullptr ) {
+            messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
+            b << cmd->getName();
+            throw runtime_error( b.str() );
+        }
 
         exec->exec( cmd, this );
     } else if ( dynamic_cast<ShellCMD*>( st ) ) {
         shellCMDExec->exec( (ShellCMD*)st, this );
     } else {
-        stringstream ss;
-        ss << "Instrucao de tipo invalido." << endl;
-        ss << "Linha=\"" << st->getLine() << endl;
-        ss << "Tipo=\"" << typeid( st ).name() << "\"" << endl;
-        throw runtime_error( ss.str() );
+        messagebuilder b( errors::runtime::INVALID_STATEMENT_TYPE );
+        b << st->getLine();
+        b << typeid( st ).name();
+        throw runtime_error( b.str() );
     }
 }
 
 void ExecManager::executaTask( string taskName ) {
-    if ( taskExecsMap.find( taskName ) == taskExecsMap.end() )
-        throw runtime_error( "Executor de tarefa nao encontrado pelo nome: \"" + taskName + "\"" );
+    if ( taskExecsMap.find( taskName ) == taskExecsMap.end() )  {
+        messagebuilder b( errors::runtime::TASK_EXECUTOR_NOT_FOUND );
+        b << taskName;
+        throw runtime_error( b.str() );
+    }
     
     taskExecsMap[ taskName ]->exec( this );
 }

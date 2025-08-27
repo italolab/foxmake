@@ -21,17 +21,13 @@ void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
-    if ( !isNoResume || isVerbose ) {
-        out << infos::EXECUTING << " ";
-        inf << tasks::COPY;
-        out << "..." << "\n";
-    }
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << "\n";    
 
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
@@ -69,7 +65,7 @@ void CopyTaskExec::exec( void* mgr ) {
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    Output& inf = manager->inf;
+    Output& out = manager->out;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
 
     if ( !io::fileExists( path ) ) {
@@ -92,7 +88,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
         if ( isVerbose ) {
             messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
             b << path;
-            inf << b.str() << "\n";
+            out << output::green( b.str() ) << "\n";
         }
     } catch ( const io_error& e ) {        
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );

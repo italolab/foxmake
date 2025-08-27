@@ -16,7 +16,6 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    Output& err = manager->err;
     bool isVerbose = manager->getArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
@@ -45,7 +44,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
             if ( !ok && isVerbose ) {
                 messagebuilder b( errors::FOLDER_ALREADY_EXISTS );
                 b << dir;
-                err << b.str() << "\n";
+                out << output::red( b.str() ) << "\n";
             }
         } catch ( const io_error& e ) {
             throw st_error( cmd, errors::DIRECTORY_NOT_CREATED_2 );

@@ -4,6 +4,7 @@
 #include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../shell/shell.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"

@@ -8,6 +8,7 @@
 #include "../../util/strutil.h"
 #include "../../io/io.h"
 #include "../../io/SourceCodeManager.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"
@@ -102,7 +103,6 @@ void MainExec::configureCMDArgsAndProps( void* mgr ) {
     CMD* mainCMD = manager->getMainCMD();
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose();
 
     string workingDir = mainCMD->getPropertyValue( "--working-dir" );
@@ -143,7 +143,7 @@ void MainExec::configureCMDArgsAndProps( void* mgr ) {
     if ( !io::fileExists( settingsFile ) ) {
         messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
         b2 << settingsFile;
-        inf << b2.str() << "\n";
+        out << output::green( b2.str() ) << "\n";
 
         if ( !workingDirFound )
             throw st_error( nullptr, errors::NO_SETTINGS_AND_NO_WORKING_DIR );
@@ -244,8 +244,8 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     CMD* mainCMD = manager->getMainCMD();
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose();
+    bool isNoResume = manager->getArgManager()->isNoResume();
 
     vector<Task*> tasks = manager->getMainScript()->tasks();
     for( Task* task : tasks ) {
@@ -253,11 +253,8 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 
         bool isTaskArg = mainCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
-            if ( isVerbose ) {
-                out << infos::EXECUTING << " ";
-                inf << taskName;
-                out << "...\n";                
-            }
+            if ( isVerbose && !isNoResume )
+                out << infos::EXECUTING << " " << output::green( taskName ) << "...\n";                            
 
             manager->executaUserTaskIfExists( taskName, TaskExecution::BEFORE );
             manager->executaUserTaskIfExists( taskName, TaskExecution::NORMAL );

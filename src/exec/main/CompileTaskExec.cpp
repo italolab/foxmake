@@ -8,6 +8,7 @@
 #include "../../io/io.h"
 #include "../../io/SourceCodeManager.h"
 #include "../../util/strutil.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"
@@ -42,7 +43,6 @@ void CompileTaskExec::exec( void* mgr ) {
     }
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
@@ -50,13 +50,9 @@ void CompileTaskExec::exec( void* mgr ) {
         
     if ( !isNoResume || isVerbose ) {
         if ( isCompileAll || isBuildAll ) {
-            out << infos::EXECUTING << " ";
-            inf << tasks::COMPILEALL;
-            out << "..." << "\n";
+            out << infos::EXECUTING << " " << output::green( tasks::COMPILEALL ) << "..." << "\n";
         } else {
-            out << infos::EXECUTING;
-            inf << " " << tasks::COMPILE;
-            out << "..." << "\n";
+            out << infos::EXECUTING << " " << output::green( tasks::COMPILE ) << "..." << "\n";
         }
     }
 

@@ -6,6 +6,7 @@
 #include "../../shell/shell.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../consts.h"

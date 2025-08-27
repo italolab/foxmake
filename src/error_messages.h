@@ -75,6 +75,9 @@ namespace errors {
     namespace runtime {
         
         const string INVALID_STATUS_OF_TASK_CONFIG_INTER = "Status de TaskConfigInter não reconhecido.";
+        const string TASK_EXECUTOR_NOT_FOUND = "Executor de tarefa não encontrado pelo nome: \"$1\"";
+        const string CMD_EXECUTOR_NOT_FOUND = "Executor de comando não encontrado pelo nome: \"$1\"";
+        const string INVALID_STATEMENT_TYPE = "Instrução de tipo inválido.\nLinha=\"$1\"\nTipo=\"$2\"";
 
     }
 

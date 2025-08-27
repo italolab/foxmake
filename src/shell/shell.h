@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "../output/Output.h"
+#include "../output/output.h"
 
 #include <string>
 #include <sstream>

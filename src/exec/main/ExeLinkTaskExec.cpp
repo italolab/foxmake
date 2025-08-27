@@ -8,6 +8,7 @@
 #include "../../io/io.h"
 #include "../../io/SourceCodeManager.h"
 #include "../../util/strutil.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"

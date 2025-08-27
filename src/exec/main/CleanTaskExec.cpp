@@ -4,6 +4,7 @@
 #include "../stexcept.h"
 #include "../../io/io.h"
 #include "../../util/strutil.h"
+#include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"
@@ -13,19 +14,14 @@
 void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::CLEAN );
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
-    if ( !isNoResume || isVerbose ) {
-        out << infos::EXECUTING << " ";
-        inf << tasks::CLEAN;
-        out << "..." << "\n";
-    }
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::CLEAN ) << "..." << "\n";    
 
     manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
@@ -75,7 +71,7 @@ void CleanTaskExec::exec( void* mgr ) {
 bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
-    Output& inf = manager->inf;
+    Output& out = manager->out;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::CLEAN );
     
     try {
@@ -90,7 +86,7 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void
             if ( isVerbose ) {
                 messagebuilder b( infos::FILE_OR_DIRECTORY_DELETED );
                 b << path;
-                inf << b.str() << "\n";
+                out << output::green( b.str() ) << "\n";
             }
             return true;
         }

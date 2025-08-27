@@ -13,9 +13,7 @@
 #include "../inter/InterManager.h"
 #include "../inter/InterDriver.h"
 #include "../io/SourceCodeManager.h"
-#include "../output/TextOutput.h"
-#include "../output/InfoOutput.h"
-#include "../output/ErrorOutput.h"
+#include "../output/output.h"
 
 #include <string>
 #include <vector>
@@ -42,9 +40,7 @@ class ExecManager : public InterDriver {
         map<string, TaskExec*> taskExecsMap;
 
     public:
-        TextOutput out;
-        InfoOutput inf;
-        ErrorOutput err;
+        Output out;
 
         ExecManager();
 
@@ -70,6 +66,5 @@ class ExecManager : public InterDriver {
         ArgManager* getArgManager();
 
 };
-
 
 #endif

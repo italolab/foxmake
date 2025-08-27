@@ -3,6 +3,7 @@
 #include "../ExecManager.h"
 #include "../../darv/MainScript.h"
 #include "../../util/strutil.h"
+#include "../../output/output.h"
 
 #include "../../consts.h"
 #include "../../info_messages.h"
@@ -23,17 +24,13 @@ void LinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    Output& inf = manager->inf;
     bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
     bool isNoResume = manager->getArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
-    if ( !isNoResume || isVerbose ) {
-        out << infos::EXECUTING << " ";
-        inf << tasks::LINK;
-        out << "..." << "\n";
-    }
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << "\n";    
 
     manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
 

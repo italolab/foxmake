@@ -3,7 +3,7 @@
 
 #include "../darv/Statement.h"
 #include "../inter/InterResult.h"
-#include "../output/Output.h"
+#include "../output/output.h"
 
 #include <stdexcept>
 #include <string>
@@ -24,7 +24,7 @@ class st_error : public runtime_error {
         st_error( Statement*, string );
         st_error( InterResult* );
 
-        void printMessage( Output& out, Output& err ) const;
+        void printMessage( Output& out ) const;
 
 };
 

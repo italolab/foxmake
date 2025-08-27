@@ -6,10 +6,10 @@ if [ "$#" -gt 1 ]; then
     fi
 fi
 
-if [ "$1" == "debug" ]; then
-    ./cbuild $build --settings-file=settings-linux.txt -var target=debug
+if [ "$1" == "release" ]; then
+    ./cbuild $build --settings-file=settings-linux.txt -var target=release -v
 else
-    ./cbuild $build --settings-file=settings-linux.txt -var target=release
+    ./cbuild $build --settings-file=settings-linux.txt -var target=debug -v
 fi
 
 if [ "$#" -gt "1" ]; then

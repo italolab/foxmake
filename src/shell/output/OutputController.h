@@ -2,7 +2,7 @@
 #define OUTPUT_CONTROLLER_H
 
 #include "OutputThread.h"
-#include "../../output/Output.h"
+#include "../../output/output.h"
 
 #include <vector>
 #include <thread>
