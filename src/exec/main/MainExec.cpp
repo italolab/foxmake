@@ -24,13 +24,27 @@ using std::string;
 using std::vector;
 using std::stringstream;
 
+MainExec::MainExec() {
+    cleanTaskExec = new CleanTaskExec();
+    compileTaskExec = new CompileTaskExec();
+    linkOrArchiveTaskExec = new LinkOrArchiveTaskExec();
+    copyTaskExec = new CopyTaskExec();
+}
+
+MainExec::~MainExec() {
+    delete cleanTaskExec;
+    delete compileTaskExec;
+    delete linkOrArchiveTaskExec;
+    delete copyTaskExec;
+}
+
 void MainExec::exec( CMD* mainCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isShowHelp = manager->getArgManager()->isHelp();
-    bool isVerbose = manager->getArgManager()->isVerbose();
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isShowHelp = manager->getMainCMDArgManager()->isHelp();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( mainCMD->countNoOpArgs() == 0 || isShowHelp ) {
         this->showHelp( mgr );
@@ -39,25 +53,14 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->configureCMDArgsAndProps( mgr );
 
-    bool isClean = mainCMD->existsArg( tasks::CLEAN );
-    bool isCompile = mainCMD->existsArg( tasks::COMPILE );
-    bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
-    bool isLink = mainCMD->existsArg( tasks::LINK );
-    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
-    bool isCopy = mainCMD->existsArg( tasks::COPY );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-
-    if ( isCompileAll )
-        isCompile = true;
-
-    if ( isBuild || isBuildAll ) {
-        isClean = true;
-        isCompile = true;
-        isLink = true;
-        isCopy = true;
-    }
+    bool isClean = manager->getMainCMDArgManager()->isClean();
+    bool isCompile = manager->getMainCMDArgManager()->isCompile();
+    bool isCompileAll = manager->getMainCMDArgManager()->isCompileAll();
+    bool isLink = manager->getMainCMDArgManager()->isLink();
+    bool isArchive = manager->getMainCMDArgManager()->isArchive();
+    bool isCopy = manager->getMainCMDArgManager()->isCopy();
+    bool isBuild = manager->getMainCMDArgManager()->isBuild();
+    bool isBuildAll = manager->getMainCMDArgManager()->isBuildAll();
 
     this->genSourceAndHeaderInfos( manager );
 
@@ -70,15 +73,13 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
 
     if ( isClean )
-        manager->executaTask( tasks::CLEAN );
-    if ( isCompile )
-        manager->executaTask( tasks::COMPILE );
-    if ( isLink )
-        manager->executaTask( tasks::LINK );
-    if ( isArchive )
-        manager->executaTask( tasks::ARCHIVE );
+        cleanTaskExec->exec( mgr );
+    if ( isCompile || isCompileAll )
+        compileTaskExec->exec( mgr );
+    if ( isLink || isArchive )
+        linkOrArchiveTaskExec->exec( mgr );
     if ( isCopy )
-        manager->executaTask( tasks::COPY );
+        copyTaskExec->exec( mgr );
     
     if ( isBuild )
         manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
@@ -106,7 +107,7 @@ void MainExec::configureCMDArgsAndProps( void* mgr ) {
     CMD* mainCMD = manager->getMainCMD();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     string workingDir = mainCMD->getPropertyValue( "--working-dir" );
     string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
@@ -218,7 +219,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
-    bool isVerbose = manager->getArgManager()->isVerbose();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     string srcDir = script->getPropertyValue( props::SRC_DIR );
     if ( srcDir == "" )
@@ -247,8 +248,8 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     CMD* mainCMD = manager->getMainCMD();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose();
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     vector<Task*> tasks = manager->getMainScript()->tasks();
     for( Task* task : tasks ) {
@@ -270,8 +271,8 @@ void MainExec::executaStatements( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose();
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     MainScript* script = manager->getMainScript();
     int tam = script->getStatementsLength();

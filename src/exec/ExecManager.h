@@ -3,7 +3,7 @@
 
 #include "Exec.h"
 #include "TaskExec.h"
-#include "ArgManager.h"
+#include "MainCMDArgManager.h"
 #include "main/MainExec.h"
 #include "shcmd/ShellCMDExec.h"
 #include "../darv/Statement.h"
@@ -31,13 +31,12 @@ class ExecManager : public InterDriver {
 
         InterManager* interManager;
         SourceCodeManager* sourceCodeManager;
-        ArgManager* argManager;
+        MainCMDArgManager* mainCMDArgManager;
 
         MainExec* mainExec;
         ShellCMDExec* shellCMDExec;
 
         map<string, Exec*> execsMap;
-        map<string, TaskExec*> taskExecsMap;
 
     public:
         Output out;
@@ -51,7 +50,6 @@ class ExecManager : public InterDriver {
         void executaStatement( Statement* st );
 
         bool isDefaultTask( string taskName );
-        void executaTask( string taskName );
         void executaUserTaskIfExists( string taskName, TaskExecution taskExecution );
 
         vector<string> validCMDNames();
@@ -63,7 +61,7 @@ class ExecManager : public InterDriver {
         CMD* getMainCMD();
         InterManager* getInterManager();
         SourceCodeManager* getSourceCodeManager();
-        ArgManager* getArgManager();
+        MainCMDArgManager* getMainCMDArgManager();
 
 };
 

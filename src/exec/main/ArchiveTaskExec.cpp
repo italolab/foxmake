@@ -18,9 +18,9 @@ void ArchiveTaskExec::exec( void* mgr ) {
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::ARCHIVE );
-    bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::ARCHIVE );
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::ARCHIVE );
+    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::ARCHIVE );
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
@@ -34,7 +34,7 @@ void ArchiveTaskExec::exec( void* mgr ) {
     string archiver = script->getPropertyValue( props::ARCHIVER );
     string archiverParams = script->getPropertyValue( props::ARCHIVER_PARAMS );
 
-    string archiveOutputFileName = script->getPropertyValue( props::ARCHIVE_OUTPUT_FILE_NAME );
+    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
@@ -53,9 +53,9 @@ void ArchiveTaskExec::exec( void* mgr ) {
     if ( archiver == "" )
         archiver = consts::DEFAULT_ARCHIVER;
 
-    if ( archiveOutputFileName == "" ) {
+    if ( outputFileName == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_ARCHIVING );
-        b << props::ARCHIVE_OUTPUT_FILE_NAME;
+        b << props::OUTPUT_FILE_NAME;
         throw st_error( nullptr, b.str() );
     }
 
@@ -71,7 +71,7 @@ void ArchiveTaskExec::exec( void* mgr ) {
     arcr->setLibraryDirs( libDirs );
     arcr->setLibraries( libs );
     arcr->setObjectCodeFiles( objectCodeFiles );
-    arcr->setOutputFile( binDir + archiveOutputFileName );
+    arcr->setOutputFile( binDir + outputFileName );
     string cmdline = arcr->buildCMDLine();    
 
     delete arcr;

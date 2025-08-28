@@ -27,43 +27,41 @@ void CompileTaskExec::exec( void* mgr ) {
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     MainScript* script = manager->getMainScript();
-    CMD* mainCMD = manager->getMainCMD();
 
-    bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+    bool isCompileAll = manager->getMainCMDArgManager()->isCompileAll();
 
     bool isVerbose;
     bool isShowCMDOutput;
-    if ( isCompileAll || isBuildAll ) {
-        isVerbose = manager->getArgManager()->isVerbose( tasks::COMPILEALL );
-        isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::COMPILEALL );
+    if ( isCompileAll ) {
+        isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COMPILEALL );
+        isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::COMPILEALL );
     } else {
-        isVerbose = manager->getArgManager()->isVerbose( tasks::COMPILE );
-        isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::COMPILE );
+        isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COMPILE );
+        isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::COMPILE );
     }
 
     Output& out = manager->out;
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
         
     if ( !isNoResume || isVerbose ) {
-        if ( isCompileAll || isBuildAll ) {
+        if ( isCompileAll ) {
             out << infos::EXECUTING << " " << output::green( tasks::COMPILEALL ) << "..." << "\n";
         } else {
             out << infos::EXECUTING << " " << output::green( tasks::COMPILE ) << "..." << "\n";
         }
     }
 
-    if ( isCompileAll || isBuildAll )
+    if ( isCompileAll )
         manager->executaUserTaskIfExists( tasks::COMPILEALL, TaskExecution::BEFORE );
     else manager->executaUserTaskIfExists( tasks::COMPILE, TaskExecution::BEFORE );
 
     string compiler = script->getPropertyValue( props::COMPILER );
     string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
 
-    string exeFileName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
+    string exeFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
@@ -93,7 +91,7 @@ void CompileTaskExec::exec( void* mgr ) {
     }
 
     vector<CodeInfo*> filesToCompile;
-    if ( isCompileAll || isBuildAll ) {
+    if ( isCompileAll ) {
         filesToCompile = sourceCodeInfos;
     } else {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
@@ -127,7 +125,7 @@ void CompileTaskExec::exec( void* mgr ) {
 
     sourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE );
 
-    if ( isCompileAll || isBuildAll )
+    if ( isCompileAll )
         manager->executaUserTaskIfExists( tasks::COMPILEALL, TaskExecution::AFTER );
     else manager->executaUserTaskIfExists( tasks::COMPILE, TaskExecution::AFTER );
 

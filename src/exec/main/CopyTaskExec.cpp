@@ -21,8 +21,8 @@ void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COPY );
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
@@ -30,19 +30,12 @@ void CopyTaskExec::exec( void* mgr ) {
         out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << "\n";    
 
     MainScript* script = manager->getMainScript();
-    CMD* mainCMD = manager->getMainCMD();
 
     string buildDir = script->getPropertyValue( props::BUILD_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    bool isLink = mainCMD->existsArg( tasks::LINK );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
-
-    if ( isBuild || isBuildAll )
-        isLink = true;
+    bool isLink = manager->getMainCMDArgManager()->isLink();
 
     manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
 
@@ -52,20 +45,13 @@ void CopyTaskExec::exec( void* mgr ) {
     binDir = io::addSeparatorToDirIfNeed( binDir );
     buildDir = io::addSeparatorToDirIfNeed( buildDir );
         
-    this->appCreateDirs( mainCMD, buildDir, props::BUILD_DIR );
+    this->appCreateDirs( buildDir, props::BUILD_DIR );
 
     if ( binDir != buildDir ) {
-        string linkOutputFileName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
-        string archiveOutputFileName = script->getPropertyValue( props::ARCHIVE_OUTPUT_FILE_NAME );
-
-        if ( isLink && linkOutputFileName != "" ) {
-            string linkOutFName = binDir + linkOutputFileName;
-            appCopyFileOrDirectoryToBuild( linkOutFName, buildDir, props::LINK_OUTPUT_FILE_NAME, manager );        
-        }
-
-        if ( isArchive && archiveOutputFileName != "" ) {
-            string archiveOutFName = binDir + archiveOutputFileName;
-            appCopyFileOrDirectoryToBuild( archiveOutFName, buildDir, props::ARCHIVE_OUTPUT_FILE_NAME, manager );
+        string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+        if ( isLink && outputFileName != "" ) {
+            string linkOutFName = binDir + outputFileName;
+            appCopyFileOrDirectoryToBuild( linkOutFName, buildDir, props::OUTPUT_FILE_NAME, manager );        
         }
     }
 
@@ -83,7 +69,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::COPY );
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COPY );
 
     if ( !io::fileExists( path ) ) {
         messagebuilder b1 ( errors::FILE_OR_FOLDER_NOT_FOUND );
@@ -117,7 +103,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
     }
 }
 
-void CopyTaskExec::appCreateDirs( CMD* mainCMD, string dirPath, string propName ) {
+void CopyTaskExec::appCreateDirs( string dirPath, string propName ) {
     try {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {

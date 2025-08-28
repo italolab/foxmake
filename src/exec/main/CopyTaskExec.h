@@ -9,7 +9,7 @@ class CopyTaskExec : public TaskExec {
     private:
         void appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr );
 
-        void appCreateDirs( CMD* mainCMD, string dirPath, string propName );
+        void appCreateDirs( string dirPath, string propName );
 
     public:
         void exec( void* mgr );

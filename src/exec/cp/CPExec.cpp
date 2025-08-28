@@ -20,7 +20,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( cmd );
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
         out << cmd->getCMDStr() << "\n";

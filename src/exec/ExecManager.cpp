@@ -6,11 +6,6 @@
 #include "cd/CDExec.h"
 #include "mkdir/MKDirExec.h"
 #include "echo/EchoExec.h"
-#include "main/CleanTaskExec.h"
-#include "main/CompileTaskExec.h"
-#include "main/LinkTaskExec.h"
-#include "main/CopyTaskExec.h"
-#include "main/ArchiveTaskExec.h"
 #include "shcmd/ShellCMDExec.h"
 #include "../darv/DefaultTaskConfig.h"
 #include "../darv/Task.h"
@@ -33,7 +28,7 @@ ExecManager::ExecManager() {
     mainCMD = nullptr;
     mainScript = new MainScript();
 
-    argManager = new ArgManager( this );
+    mainCMDArgManager = new MainCMDArgManager( this );
     interManager = new InterManager( this );
     sourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
 
@@ -44,12 +39,6 @@ ExecManager::ExecManager() {
     execsMap[ cmds::CD ] = new CDExec();
     execsMap[ cmds::MKDIR ] = new MKDirExec();
     execsMap[ cmds::ECHO ] = new EchoExec();
-
-    taskExecsMap[ tasks::CLEAN ] = new CleanTaskExec();
-    taskExecsMap[ tasks::COMPILE ] = new CompileTaskExec();
-    taskExecsMap[ tasks::LINK ] = new LinkTaskExec();
-    taskExecsMap[ tasks::ARCHIVE ] = new ArchiveTaskExec();
-    taskExecsMap[ tasks::COPY ] = new CopyTaskExec();
 
     shellCMDExec = new ShellCMDExec();
 }
@@ -63,8 +52,6 @@ ExecManager::~ExecManager() {
     delete mainExec;
 
     for( const auto& pair : execsMap )
-        delete pair.second;
-    for( const auto& pair : taskExecsMap )
         delete pair.second;
 
     delete shellCMDExec;
@@ -111,16 +98,6 @@ void ExecManager::executaStatement( Statement* st ) {
         b << typeid( st ).name();
         throw runtime_error( b.str() );
     }
-}
-
-void ExecManager::executaTask( string taskName ) {
-    if ( taskExecsMap.find( taskName ) == taskExecsMap.end() )  {
-        messagebuilder b( errors::runtime::TASK_EXECUTOR_NOT_FOUND );
-        b << taskName;
-        throw runtime_error( b.str() );
-    }
-    
-    taskExecsMap[ taskName ]->exec( this );
 }
 
 void ExecManager::executaUserTaskIfExists( string taskName, TaskExecution taskExecution ) {
@@ -173,8 +150,8 @@ SourceCodeManager* ExecManager::getSourceCodeManager() {
     return sourceCodeManager;
 }
 
-ArgManager* ExecManager::getArgManager() {
-    return argManager;
+MainCMDArgManager* ExecManager::getMainCMDArgManager() {
+    return mainCMDArgManager;
 }
 
 InterManager* ExecManager::getInterManager() {

@@ -29,15 +29,15 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
-    bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::LINK );
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
+    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
     
     MainScript* script = manager->getMainScript();
 
     string compiler = script->getPropertyValue( props::COMPILER );
     string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
 
-    string outputFileName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
+    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
@@ -62,7 +62,7 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     string outputFile;
     if ( outputFileName == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_LINKING );
-        b << props::LINK_OUTPUT_FILE_NAME;
+        b << props::OUTPUT_FILE_NAME;
         throw st_error( nullptr, b.str() );
     }
 

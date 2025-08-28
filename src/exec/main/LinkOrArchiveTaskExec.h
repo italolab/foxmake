@@ -6,7 +6,7 @@
 #include "DynamicLibraryLinkTaskExec.h"
 #include "ArchiveTaskExec.h"
 
-class LinkTaskExec : public TaskExec {
+class LinkOrArchiveTaskExec : public TaskExec {
 
     private:
         ExeLinkTaskExec* exeLinkTaskExec;
@@ -14,8 +14,8 @@ class LinkTaskExec : public TaskExec {
         DynamicLibraryLinkTaskExec* dynamicLibraryLinkTaskExec;
 
     public:
-        LinkTaskExec();
-        virtual ~LinkTaskExec();
+        LinkOrArchiveTaskExec();
+        virtual ~LinkOrArchiveTaskExec();
 
         void exec( void* mgr );
 

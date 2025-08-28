@@ -71,8 +71,7 @@ namespace props {
     const string LINKER_PARAMS = "linker.params";
     const string ARCHIVER_PARAMS = "archiver.params";
 
-    const string LINK_OUTPUT_FILE_NAME = "link.output.file.name";
-    const string ARCHIVE_OUTPUT_FILE_NAME = "archive.output.file.name";
+    const string OUTPUT_FILE_NAME = "output.file.name";
 
     const string BASE_DIR = "base.dir";
     const string SRC_DIR = "src.dir";
@@ -100,8 +99,7 @@ namespace props {
         LINKER_PARAMS,
         ARCHIVER_PARAMS,
 
-        LINK_OUTPUT_FILE_NAME,
-        ARCHIVE_OUTPUT_FILE_NAME,
+        OUTPUT_FILE_NAME,
 
         BASE_DIR,
         SRC_DIR,

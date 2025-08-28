@@ -1,5 +1,5 @@
 compiler=g++
-link.output.file.name=cbuild
+output.file.name=cbuild
 
 base.dir=run/
 

@@ -15,8 +15,8 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     string cmdstr = shellCMD->getCMDStr();
-    bool isVerbose = manager->getArgManager()->isVerbose( shellCMD );
-    bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( shellCMD );
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( shellCMD );
+    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( shellCMD );
 
     Output& out = manager->out;
     

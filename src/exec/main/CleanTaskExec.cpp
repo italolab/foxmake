@@ -15,8 +15,8 @@ void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::CLEAN );
-    bool isNoResume = manager->getArgManager()->isNoResume();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::CLEAN );
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
         out << "\n";
@@ -26,20 +26,13 @@ void CleanTaskExec::exec( void* mgr ) {
     manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
     MainScript* script = manager->getMainScript();
-    CMD* mainCMD = manager->getMainCMD();
 
     string buildDir = script->getPropertyValue( props::BUILD_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    bool isLink = mainCMD->existsArg( tasks::LINK );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
-
-    if ( isBuild || isBuildAll )
-        isLink = true;
+    bool isLink = manager->getMainCMDArgManager()->isLink();
 
     buildDir = io::absoluteResolvePath( buildDir );
     binDir = io::absoluteResolvePath( binDir );
@@ -51,17 +44,9 @@ void CleanTaskExec::exec( void* mgr ) {
 
     bool removedSome = false;
 
-    string linkOutputFName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
-    if ( isLink && linkOutputFName != "" ) {
-        string file = binDir + linkOutputFName;
-        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );
-        if ( removed )
-            removedSome = true;
-    }
-
-    string archiveOutputFName = script->getPropertyValue( props::ARCHIVE_OUTPUT_FILE_NAME );
-    if ( isArchive && archiveOutputFName != "" ) {
-        string file = binDir + archiveOutputFName;
+    string outputFName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    if ( isLink && outputFName != "" ) {
+        string file = binDir + outputFName;
         bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );
         if ( removed )
             removedSome = true;
@@ -88,7 +73,7 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::CLEAN );
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::CLEAN );
     
     try {
         if ( io::fileExists( path ) ) {
