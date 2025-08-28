@@ -43,6 +43,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isLink = mainCMD->existsArg( tasks::LINK );
+    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
     bool isCopy = mainCMD->existsArg( tasks::COPY );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
 
@@ -74,6 +75,8 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         manager->executaTask( tasks::COMPILE );
     if ( isLink )
         manager->executaTask( tasks::LINK );
+    if ( isArchive )
+        manager->executaTask( tasks::ARCHIVE );
     if ( isCopy )
         manager->executaTask( tasks::COPY );
     

@@ -3,7 +3,7 @@
 
 #include "../TaskExec.h"
 
-class StaticLibraryLinkTaskExec : public TaskExec {
+class ArchiveTaskExec : public TaskExec {
 
     public:
         void exec( void* mgr );

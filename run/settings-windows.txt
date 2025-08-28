@@ -1,6 +1,6 @@
 
 compiler=g++
-output.file.name=cbuild.exe
+link.output.file.name=cbuild.exe
 
 src.dir=../src
 build.dir=build

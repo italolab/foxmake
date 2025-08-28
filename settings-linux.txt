@@ -1,29 +1,31 @@
 
 compiler=g++
-output.file.name=cbuild
+link.output.file.name=cbuild
+archive.output.file.name=libcbuild.a
 
 src.dir=src
 build.dir=build
 
 build.files=settings-linux.txt settings-dll.txt
 
-$target=debug
-
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
 $debug_compiler_params=-Wall -fexceptions -g -std=c++17
 $debug_linker_params=
+$debug_archiver_params=
 
 $release_bin_dir=bin/Release
 $release_obj_dir=obj/Release
-$release_compiler_params=-Wall -fexceptions -O2 -std=c++17
+$release_compiler_params=-Wall -fexceptions -O2 -flto -std=c++17
 $release_linker_params=-s -static
+$release_archiver_params=-s -static
 
 
 bin.dir=$($(target)_bin_dir)
 obj.dir=$($(target)_obj_dir)
 compiler.params=$($(target)_compiler_params)
 linker.params=$($(target)_linker_params)
+archiver.params=$($(target)_archiver_params)
 
 lib.dirs=
 include.dirs=include

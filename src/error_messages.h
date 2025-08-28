@@ -52,6 +52,7 @@ namespace errors {
     const string LINKING_FAILED = "Falha na linkagem!";
 
     const string PROPERTY_NOT_DEFINED_FOR_LINKING = "A propriedade \"$1\" deve ter valor definido para linkagem.";
+    const string PROPERTY_NOT_DEFINED_FOR_ARCHIVING = "A propriedade \"$1\" deve ter valor definido para o empacotamento da biblioteca estática.";
     const string RESOURCE_FILE_NOT_EXISTS = "O arquivo de recursos de ícone: \"$1\" não foi encontrado.";
 
     const string NOTHING_TASK_INFORMED = "E necessario informar ao menos uma tarefa como argumento.";

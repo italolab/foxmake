@@ -1,9 +1,7 @@
 is.dll=false
 
 compiler=g++
-output.file.name=cbuild.exe
-
-$target=debug
+link.output.file.name=cbuild.exe
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug

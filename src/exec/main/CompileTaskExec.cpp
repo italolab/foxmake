@@ -63,7 +63,7 @@ void CompileTaskExec::exec( void* mgr ) {
     string compiler = script->getPropertyValue( props::COMPILER );
     string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
 
-    string exeFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string exeFileName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );

@@ -10,13 +10,13 @@
 
 LinkTaskExec::LinkTaskExec() {
     this->exeLinkTaskExec = new ExeLinkTaskExec();
-    this->staticLibraryLinkTaskExec = new StaticLibraryLinkTaskExec();
+    this->staticLibraryArchiveTaskExec = new ArchiveTaskExec();
     this->dynamicLibraryLinkTaskExec = new DynamicLibraryLinkTaskExec();
 }
 
 LinkTaskExec::~LinkTaskExec() {
     delete exeLinkTaskExec;
-    delete staticLibraryLinkTaskExec;
+    delete staticLibraryArchiveTaskExec;
     delete dynamicLibraryLinkTaskExec;
 }
 
@@ -36,14 +36,14 @@ void LinkTaskExec::exec( void* mgr ) {
 
     MainScript* script = manager->getMainScript();
 
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string linkOutputFileName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
 
-    if ( strutil::endsWith( outputFileName, ".dll" ) ) {
+    if ( strutil::endsWith( linkOutputFileName, ".dll" ) ) {
         dynamicLibraryLinkTaskExec->exec( mgr );
-    } else if ( strutil::endsWith( outputFileName, "so" ) ) {
+    } else if ( strutil::endsWith( linkOutputFileName, "so" ) ) {
         dynamicLibraryLinkTaskExec->exec( mgr );
-    } else if ( strutil::startsWith( outputFileName, "lib" ) ) {
-        staticLibraryLinkTaskExec->exec( mgr );
+    } else if ( strutil::startsWith( linkOutputFileName, "lib" ) ) {
+        staticLibraryArchiveTaskExec->exec( mgr );
     } else {
         exeLinkTaskExec->exec( mgr );
     }

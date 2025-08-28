@@ -10,6 +10,7 @@
 #include "main/CompileTaskExec.h"
 #include "main/LinkTaskExec.h"
 #include "main/CopyTaskExec.h"
+#include "main/ArchiveTaskExec.h"
 #include "shcmd/ShellCMDExec.h"
 #include "../darv/DefaultTaskConfig.h"
 #include "../darv/Task.h"
@@ -47,6 +48,7 @@ ExecManager::ExecManager() {
     taskExecsMap[ tasks::CLEAN ] = new CleanTaskExec();
     taskExecsMap[ tasks::COMPILE ] = new CompileTaskExec();
     taskExecsMap[ tasks::LINK ] = new LinkTaskExec();
+    taskExecsMap[ tasks::ARCHIVE ] = new ArchiveTaskExec();
     taskExecsMap[ tasks::COPY ] = new CopyTaskExec();
 
     shellCMDExec = new ShellCMDExec();

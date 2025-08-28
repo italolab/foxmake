@@ -26,11 +26,20 @@ void CleanTaskExec::exec( void* mgr ) {
     manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
     MainScript* script = manager->getMainScript();
+    CMD* mainCMD = manager->getMainCMD();
 
     string buildDir = script->getPropertyValue( props::BUILD_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
+
+    bool isLink = mainCMD->existsArg( tasks::LINK );
+    bool isBuild = mainCMD->existsArg( tasks::BUILD );
+    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
+
+    if ( isBuild || isBuildAll )
+        isLink = true;
 
     buildDir = io::absoluteResolvePath( buildDir );
     binDir = io::absoluteResolvePath( binDir );
@@ -38,14 +47,21 @@ void CleanTaskExec::exec( void* mgr ) {
 
     buildDir = io::addSeparatorToDirIfNeed( buildDir );
     binDir = io::addSeparatorToDirIfNeed( binDir );
-    objDir = io::addSeparatorToDirIfNeed( objDir );
+    objDir = io::addSeparatorToDirIfNeed( objDir );    
 
     bool removedSome = false;
 
-    string propName = props::OUTPUT_FILE_NAME;
-    string fname = script->getPropertyValue( propName );
-    if ( fname != "" ) {
-        string file = binDir + fname;
+    string linkOutputFName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
+    if ( isLink && linkOutputFName != "" ) {
+        string file = binDir + linkOutputFName;
+        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );
+        if ( removed )
+            removedSome = true;
+    }
+
+    string archiveOutputFName = script->getPropertyValue( props::ARCHIVE_OUTPUT_FILE_NAME );
+    if ( isArchive && archiveOutputFName != "" ) {
+        string file = binDir + archiveOutputFName;
         bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );
         if ( removed )
             removedSome = true;

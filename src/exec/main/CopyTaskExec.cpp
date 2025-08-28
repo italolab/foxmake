@@ -36,6 +36,14 @@ void CopyTaskExec::exec( void* mgr ) {
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
+    bool isLink = mainCMD->existsArg( tasks::LINK );
+    bool isBuild = mainCMD->existsArg( tasks::BUILD );
+    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
+
+    if ( isBuild || isBuildAll )
+        isLink = true;
+
     manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
 
     buildDir = io::absoluteResolvePath( buildDir );
@@ -47,9 +55,18 @@ void CopyTaskExec::exec( void* mgr ) {
     this->appCreateDirs( mainCMD, buildDir, props::BUILD_DIR );
 
     if ( binDir != buildDir ) {
-        string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
-        string fname = binDir + outputFileName;
-        appCopyFileOrDirectoryToBuild( fname, buildDir, props::BIN_DIR, manager );        
+        string linkOutputFileName = script->getPropertyValue( props::LINK_OUTPUT_FILE_NAME );
+        string archiveOutputFileName = script->getPropertyValue( props::ARCHIVE_OUTPUT_FILE_NAME );
+
+        if ( isLink && linkOutputFileName != "" ) {
+            string linkOutFName = binDir + linkOutputFileName;
+            appCopyFileOrDirectoryToBuild( linkOutFName, buildDir, props::LINK_OUTPUT_FILE_NAME, manager );        
+        }
+
+        if ( isArchive && archiveOutputFileName != "" ) {
+            string archiveOutFName = binDir + archiveOutputFileName;
+            appCopyFileOrDirectoryToBuild( archiveOutFName, buildDir, props::ARCHIVE_OUTPUT_FILE_NAME, manager );
+        }
     }
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
@@ -75,8 +92,11 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
         messagebuilder b2 ( errors::VERIFY_THE_PROPERTY );
         b2 << propName;
 
+        messagebuilder b3 ( errors::VERIFY_THE_PROPERTY );
+        b3 << props::BIN_DIR;
+
         stringstream ss;
-        ss << b1.str() << "\n" << b2.str();
+        ss << b1.str() << "\n" << b2.str() << "\n" << b3.str();
         throw st_error( nullptr, ss.str() );
     }
 

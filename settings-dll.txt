@@ -1,7 +1,7 @@
 
 target=debug
 compiler=g++
-output.file.name=cexec.dll
+link.output.file.name=cexec.dll
 
 debug.bin.dir=bin/Debug
 debug.obj.dir=obj/Debug

@@ -1,5 +1,5 @@
 
-#include "StaticLibraryLinkTaskExec.h"
+#include "ArchiveTaskExec.h"
 #include "../ExecManager.h"
 #include "../stexcept.h"
 #include "../../compiler/Archiver.h"
@@ -11,21 +11,30 @@
 
 #include "../../consts.h"
 #include "../../error_messages.h"
+#include "../../info_messages.h"
 
-void StaticLibraryLinkTaskExec::exec( void* mgr ) {
+void ArchiveTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getArgManager()->isVerbose( tasks::LINK );
-    bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::LINK );
+    bool isVerbose = manager->getArgManager()->isVerbose( tasks::ARCHIVE );
+    bool isShowCMDOutput = manager->getArgManager()->isShowCMDOutput( tasks::ARCHIVE );
+    bool isNoResume = manager->getArgManager()->isNoResume();
+
+    if ( isVerbose )
+        out << "\n";
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << "\n";    
+
+    manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
     
     MainScript* script = manager->getMainScript();
 
     string archiver = script->getPropertyValue( props::ARCHIVER );
     string archiverParams = script->getPropertyValue( props::ARCHIVER_PARAMS );
 
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string archiveOutputFileName = script->getPropertyValue( props::ARCHIVE_OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
@@ -44,9 +53,9 @@ void StaticLibraryLinkTaskExec::exec( void* mgr ) {
     if ( archiver == "" )
         archiver = consts::DEFAULT_ARCHIVER;
 
-    if ( outputFileName == "" ) {
-        messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_LINKING );
-        b << props::OUTPUT_FILE_NAME;
+    if ( archiveOutputFileName == "" ) {
+        messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_ARCHIVING );
+        b << props::ARCHIVE_OUTPUT_FILE_NAME;
         throw st_error( nullptr, b.str() );
     }
 
@@ -62,7 +71,7 @@ void StaticLibraryLinkTaskExec::exec( void* mgr ) {
     arcr->setLibraryDirs( libDirs );
     arcr->setLibraries( libs );
     arcr->setObjectCodeFiles( objectCodeFiles );
-    arcr->setOutputFile( binDir + outputFileName );
+    arcr->setOutputFile( binDir + archiveOutputFileName );
     string cmdline = arcr->buildCMDLine();    
 
     delete arcr;
@@ -77,4 +86,9 @@ void StaticLibraryLinkTaskExec::exec( void* mgr ) {
         throw st_error( nullptr, errors::LINKING_FAILED );
 
     delete shell;
+
+    manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
+
+    if ( isVerbose )
+        out << infos::SUCCESS_IN_ARCHIVING << "\n";
 }
