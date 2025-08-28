@@ -51,7 +51,9 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         return;
     }
 
-    this->configureCMDArgsAndProps( mgr );
+    this->validaMainCMD( mgr );
+    
+    this->configureMainCMDArgsAndProps( mgr );
 
     bool isClean = manager->getMainCMDArgManager()->isClean();
     bool isCompile = manager->getMainCMDArgManager()->isCompile();
@@ -100,7 +102,28 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         out << infos::FINISH << "\n";
 }
 
-void MainExec::configureCMDArgsAndProps( void* mgr ) {
+void MainExec::validaMainCMD( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    CMD* mainCMD = manager->getMainCMD();
+
+    vector<string>& args = mainCMD->args();
+    for( string arg : args ) {
+        if ( strutil::startsWith( arg, "-" ) )
+            continue;
+
+        size_t i = arg.find( '=' );
+        if ( i != string::npos )
+            continue;
+
+        if ( !manager->isDefaultTask( arg ) ) {
+            messagebuilder b( errors::CMD_TASK_NOT_FOUND );
+            b << arg;
+            throw st_error( mainCMD, b.str() );
+        }
+    }
+}
+
+void MainExec::configureMainCMDArgsAndProps( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();

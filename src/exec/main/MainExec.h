@@ -16,7 +16,8 @@ class MainExec : public Exec {
         LinkOrArchiveTaskExec* linkOrArchiveTaskExec;
         CopyTaskExec* copyTaskExec;
 
-        void configureCMDArgsAndProps( void* mgr );
+        void validaMainCMD( void* mgr );
+        void configureMainCMDArgsAndProps( void* mgr );
         void loadMainCMDVariables( void* mgr );
         void genSourceAndHeaderInfos( void* mgr );
         void executaNoDefaultTasks( void* mgr );

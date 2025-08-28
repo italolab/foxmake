@@ -71,6 +71,8 @@ namespace errors {
     const string BEFORE_AND_AFTER_TASK = "A tarefa \"$1\" está sendo definida como before e after.";
     const string DEFAULT_USER_TASK_DEFINED_HOW_NORMAL = "A tarefa \"$1\" é default. Por isso, não pode ser definida sem before ou after";
 
+    const string CMD_TASK_NOT_FOUND = "A tarefa \"$1\" não existe. Use a opção \"-h\" ou \"--help\" para obter ajuda.";
+
     const string ERROR_IN_MAIN_CMD = "Erro: $1";
 
     namespace runtime {
