@@ -119,19 +119,20 @@ bool ExecManager::isDefaultTask( string taskName ) {
     return false;
 }
 
-vector<string> ExecManager::validCMDNames() {
+bool ExecManager::isValidProp( string propName ) {
+    vector<string> validProps = props::VALID_NAMES;
+    for( string name : validProps )
+        if ( name == propName )
+            return true;
+    return false;
+}
+
+bool ExecManager::isValidCMD( string cmdName ) {
     vector<string> names;
     for( const auto& pair : execsMap )
-        names.push_back( pair.first );
-    return names;
-}
-
-vector<string> ExecManager::validPropNames() {
-    return props::VALID_NAMES;
-}
-
-vector<string> ExecManager::validDefaultTaskNames() {
-    return tasks::DEFAULT_TASKS;
+        if ( pair.first == cmdName )
+            return true;
+    return false;
 }
 
 MainExec* ExecManager::getMainExec() {

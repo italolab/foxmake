@@ -50,11 +50,10 @@ class ExecManager : public InterDriver {
         void executaStatement( Statement* st );
 
         bool isDefaultTask( string taskName );
-        void executaUserTaskIfExists( string taskName, TaskExecution taskExecution );
+        bool isValidProp( string propName ); 
+        bool isValidCMD( string propName );
 
-        vector<string> validCMDNames();
-        vector<string> validPropNames();
-        vector<string> validDefaultTaskNames();
+        void executaUserTaskIfExists( string taskName, TaskExecution taskExecution );
 
         MainExec* getMainExec();
         MainScript* getMainScript();

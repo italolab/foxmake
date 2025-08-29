@@ -10,9 +10,9 @@ using std::vector;
 class InterDriver {
 
     public:
-        virtual vector<string> validCMDNames() = 0;
-        virtual vector<string> validPropNames() = 0;
-        virtual vector<string> validDefaultTaskNames() = 0;
+        virtual bool isValidCMD( string cmdName ) = 0;
+        virtual bool isValidProp( string propName ) = 0;
+        virtual bool isDefaultTask( string taskName ) = 0;
 };
 
 #endif

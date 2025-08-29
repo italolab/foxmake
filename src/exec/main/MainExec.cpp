@@ -107,14 +107,16 @@ void MainExec::validaMainCMD( void* mgr ) {
     CMD* mainCMD = manager->getMainCMD();
 
     vector<string>& args = mainCMD->args();
-    for( string arg : args ) {
+    int len = args.size();
+    for( int i = 0; i < len; i++ ) {
+        string arg = args[ i ];
         if ( strutil::startsWith( arg, "-" ) )
             continue;
 
-        size_t i = arg.find( '=' );
-        if ( i != string::npos )
-            continue;
-
+        if ( i > 0 )
+            if ( args[ i-1 ] == "-var" || args[ i-1 ] == "-prop" )
+                continue;
+        
         if ( !manager->isDefaultTask( arg ) ) {
             messagebuilder b( errors::CMD_TASK_NOT_FOUND );
             b << arg;
@@ -178,10 +180,11 @@ void MainExec::configureMainCMDArgsAndProps( void* mgr ) {
         settingsFileFound = false;
     }
 
+    this->loadMainCMDProperties( mgr );
+    this->loadMainCMDVariables( mgr );
+
     mainScript->putLocalVar( "main_config_file", settingsFile );
     mainScript->putLocalVar( "working_dir", workingDir );
-
-    this->loadMainCMDVariables( mgr );
 
     if ( settingsFileFound ) {
         InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
@@ -209,6 +212,35 @@ void MainExec::configureMainCMDArgsAndProps( void* mgr ) {
         messagebuilder b2( infos::CURRENT_DIRECTORY );
         b2 << wdir;
         out << b2.str() << "\n";
+    }
+}
+
+
+void MainExec::loadMainCMDProperties( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    CMD* mainCMD = manager->getMainCMD();
+    MainScript* mainScript = manager->getMainScript();
+
+    vector<string> properties = mainCMD->getOpArgValues( "-prop" );
+
+    for( string prop : properties ) {
+        size_t i = prop.find( '=' );
+        if ( i == string::npos ) {
+            messagebuilder b( errors::INVALID_PROP_DEF );
+            b << prop;
+            throw st_error( mainCMD, b.str() );
+        }
+
+        string propName = prop.substr( 0, i );
+        string propValue = prop.substr( i+1, prop.length()-i-1 );
+
+        if ( !manager->isValidProp( propName ) ) {
+            messagebuilder b( errors::IS_NOT_A_VALID_PROP );
+            b << propName;
+            throw st_error( mainCMD, b.str() );
+        }
+
+        mainScript->putProperty( propName, propValue );
     }
 }
 

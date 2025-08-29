@@ -107,16 +107,3 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
 
     return new InterResult( cmd, 1, 0 );
 }
-
-bool CMDInter::isValidCMD( string line, vector<string>& validCMDs ) {
-    string line2 = strutil::removeStartWhiteSpaces( line );
-    size_t i = line2.find( ' ' );
-    if ( i != string::npos ) {
-        string cmd = line2.substr( 0, i );
-        for( string validCMD : validCMDs )
-            if ( validCMD == cmd )
-                return true;
-    }
-
-    return false;
-}

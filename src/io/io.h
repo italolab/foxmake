@@ -64,6 +64,7 @@ namespace io {
 
     bool isJokerInPath( string path );
     bool isDir( string path );
+    bool isFile( string path );
     bool isEmptyDir( string dir );
     bool fileExists( string path );
 

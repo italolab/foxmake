@@ -1,5 +1,6 @@
 
 #include "InterManager.h"
+#include "../util/strutil.h"
 
 InterManager::InterManager( InterDriver* drv ) {
     this->drv = drv;
@@ -62,22 +63,20 @@ TaskConfigResult* InterManager::interpretsTaskConfig( string currentLine ) {
 }
 
 bool InterManager::isValidCMD( string line ) {
-    vector<string> validCMDs = drv->validCMDNames();
-    return cmdInter->isValidCMD( line, validCMDs );
+    string line2 = strutil::removeStartWhiteSpaces( line );
+    size_t i = line2.find( ' ' );
+    if ( i != string::npos ) {
+        string cmd = line2.substr( 0, i );
+        return drv->isValidCMD( cmd );
+    }
+
+    return false;
 }
 
 bool InterManager::isValidProp( string propName ) {
-    const vector<string>& validProps = drv->validPropNames();
-    for( string vprop : validProps )
-        if ( vprop == propName )
-            return true;
-    return false;
+   return drv->isValidProp( propName );
 }
 
 bool InterManager::isValidDefaultTask( string taskName ) {
-    const vector<string>& validDefaultTasks = drv->validDefaultTaskNames();
-    for( string vname : validDefaultTasks )
-        if ( vname == taskName )
-            return true;
-    return false;
+    return drv->isDefaultTask( taskName );
 }

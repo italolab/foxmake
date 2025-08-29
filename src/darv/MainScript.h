@@ -28,6 +28,7 @@ class MainScript : public Block {
         virtual ~MainScript();
 
         void putProperty( Prop* prop );
+        void putProperty( string name, string value );
         Prop* getProperty( string name );
         string getPropertyValue( string name );
         bool existsProperty( string name );

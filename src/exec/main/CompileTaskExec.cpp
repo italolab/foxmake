@@ -119,7 +119,7 @@ void CompileTaskExec::exec( void* mgr ) {
 
     int exitCode = shell->executa();
     if ( exitCode != 0 )
-        throw st_error( nullptr, errors::COMPILATION_FAILED );
+        throw st_error( nullptr, errors::COMPILING_FAILED );
 
     delete shell;
 

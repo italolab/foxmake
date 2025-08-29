@@ -449,6 +449,10 @@ namespace io {
         return filesystem::is_directory( path );
     }
 
+    bool isFile( string path ) {
+        return !filesystem::is_directory( path );
+    }
+
     bool isEmptyDir( string dir ) {
         return filesystem::is_empty( dir );
     }

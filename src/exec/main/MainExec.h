@@ -18,6 +18,7 @@ class MainExec : public Exec {
 
         void validaMainCMD( void* mgr );
         void configureMainCMDArgsAndProps( void* mgr );
+        void loadMainCMDProperties( void* mgr );
         void loadMainCMDVariables( void* mgr );
         void genSourceAndHeaderInfos( void* mgr );
         void executaNoDefaultTasks( void* mgr );

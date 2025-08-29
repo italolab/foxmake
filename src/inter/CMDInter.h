@@ -16,8 +16,6 @@ class CMDInter : public Inter{
         InterResult* interprets( Block* parent, string line, int lineNumber, void* mgr );
         InterResult* interpretsMainCMD( int argc, char* argv[], void* mgr );
 
-        bool isValidCMD( string line, vector<string>& validCMDss );
-
 };
 
 #endif

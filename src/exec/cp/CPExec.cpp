@@ -75,6 +75,9 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
             if ( !isRecursive && io::isDir( src2 ) && !io::isEmptyDir( src2 ) )
                 throw st_error( cmd, errors::TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER );
 
+            if ( io::isFile( dest2 ) )
+                dest2 = io::dirPath( dest2 );
+
             io::copyFileOrDirectory( src2, dest2, isOverwrite, isRecursive );
         }
     } catch ( const io_error& e ) {

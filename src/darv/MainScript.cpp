@@ -14,6 +14,10 @@ void MainScript::putProperty( Prop* prop ) {
     propertiesMap[ prop->getName() ] = prop;
 }
 
+void MainScript::putProperty( string name, string value ) {
+    propertiesMap[ name ] = new Prop( this, name, value, 0, "" ); 
+}
+
 string MainScript::getPropertyValue( string name ) {
     Prop* prop = propertiesMap[ name ];
     if ( prop != nullptr )
