@@ -33,21 +33,18 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
 
     bool isVerbose = ( isLink && isLinkVerbose ) || ( isArchive && isArchiveVerbose );
 
-    if ( isVerbose )
-        out << "\n";
-    if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << "\n";    
-
-    if ( isLink )
-        manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
-    if ( isArchive )
-        manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::BEFORE );
-
     MainScript* script = manager->getMainScript();
 
     string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
     if ( isLink ) {
+        if ( isVerbose )
+            out << "\n";
+        if ( !isNoResume || isVerbose )
+            out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << "\n";    
+
+        manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
+
         if ( strutil::endsWith( outputFileName, ".dll" ) ) {
             dynamicLibraryLinkTaskExec->exec( mgr );
         } else if ( strutil::endsWith( outputFileName, "so" ) ) {
@@ -55,16 +52,26 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         } else {
             exeLinkTaskExec->exec( mgr );
         }
+
+        manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
+        if ( isVerbose )
+            out << infos::SUCCESS_IN_LINKING << "\n";
     }
 
-    if ( isArchive )
+    if ( isArchive ) {
+        if ( isVerbose )
+            out << "\n";
+        if ( !isNoResume || isVerbose )
+            out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << "\n";    
+
+        manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::BEFORE );
+
         staticLibraryArchiveTaskExec->exec( mgr );
         
-    if ( isLink )
-        manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
-    if ( isArchive )
         manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::AFTER );
 
-    if ( isVerbose )
-        out << infos::SUCCESS_IN_LINKING << "\n";
+        if ( isVerbose )
+            out << infos::SUCCESS_IN_ARCHIVING << "\n";
+    }
+    
 }

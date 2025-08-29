@@ -1,4 +1,4 @@
-/home/italo/workspace-cpp/cbuild/src/compiler/Archiver.cpp=1756317438
+/home/italo/workspace-cpp/cbuild/src/compiler/Archiver.cpp=1756447176
 /home/italo/workspace-cpp/cbuild/src/compiler/Archiver.h=1756317440
 /home/italo/workspace-cpp/cbuild/src/compiler/Compiler.cpp=1756316270
 /home/italo/workspace-cpp/cbuild/src/compiler/Compiler.h=1756316257
@@ -27,7 +27,7 @@
 /home/italo/workspace-cpp/cbuild/src/darv/Task.h=1756251290
 /home/italo/workspace-cpp/cbuild/src/darv/Var.cpp=1756038364
 /home/italo/workspace-cpp/cbuild/src/darv/Var.h=1755766993
-/home/italo/workspace-cpp/cbuild/src/error_messages.h=1756444779
+/home/italo/workspace-cpp/cbuild/src/error_messages.h=1756446979
 /home/italo/workspace-cpp/cbuild/src/exec/Exec.cpp=1755766993
 /home/italo/workspace-cpp/cbuild/src/exec/Exec.h=1756291787
 /home/italo/workspace-cpp/cbuild/src/exec/ExecManager.cpp=1756445195
@@ -42,7 +42,7 @@
 /home/italo/workspace-cpp/cbuild/src/exec/cp/CPExec.h=1756291787
 /home/italo/workspace-cpp/cbuild/src/exec/echo/EchoExec.cpp=1756321911
 /home/italo/workspace-cpp/cbuild/src/exec/echo/EchoExec.h=1756291787
-/home/italo/workspace-cpp/cbuild/src/exec/main/ArchiveTaskExec.cpp=1756415596
+/home/italo/workspace-cpp/cbuild/src/exec/main/ArchiveTaskExec.cpp=1756447006
 /home/italo/workspace-cpp/cbuild/src/exec/main/ArchiveTaskExec.h=1756403955
 /home/italo/workspace-cpp/cbuild/src/exec/main/CleanTaskExec.cpp=1756415905
 /home/italo/workspace-cpp/cbuild/src/exec/main/CleanTaskExec.h=1756291787
@@ -54,7 +54,7 @@
 /home/italo/workspace-cpp/cbuild/src/exec/main/DynamicLibraryLinkTaskExec.h=1756282201
 /home/italo/workspace-cpp/cbuild/src/exec/main/ExeLinkTaskExec.cpp=1756415548
 /home/italo/workspace-cpp/cbuild/src/exec/main/ExeLinkTaskExec.h=1756211854
-/home/italo/workspace-cpp/cbuild/src/exec/main/LinkOrArchiveTaskExec.cpp=1756415855
+/home/italo/workspace-cpp/cbuild/src/exec/main/LinkOrArchiveTaskExec.cpp=1756447754
 /home/italo/workspace-cpp/cbuild/src/exec/main/LinkOrArchiveTaskExec.h=1756414472
 /home/italo/workspace-cpp/cbuild/src/exec/main/MainExec.cpp=1756445705
 /home/italo/workspace-cpp/cbuild/src/exec/main/MainExec.h=1756443164

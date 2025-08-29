@@ -7,6 +7,7 @@ using std::string;
 
 namespace errors {
 
+    const string ARCHIVING_FAILED = "Falha no archiving!";
     const string COMPILING_FAILED = "Falha na compilacao!";
     const string LINKING_FAILED = "Falha na linkagem!";
 

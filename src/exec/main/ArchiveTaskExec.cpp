@@ -83,7 +83,7 @@ void ArchiveTaskExec::exec( void* mgr ) {
 
     int exitCode = shell->executa();
     if ( exitCode != 0 )
-        throw st_error( nullptr, errors::LINKING_FAILED );
+        throw st_error( nullptr, errors::ARCHIVING_FAILED );
 
     delete shell;
 
