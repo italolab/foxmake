@@ -87,7 +87,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
     try {
         string bdir = ( buildDir == "" ? "." : buildDir );
         io::createDirs( bdir );
-        io::copyFileOrDirectory( path, bdir, true, true );        
+        io::copyFileOrDirectoryToDir( path, bdir, true, true );        
 
         if ( isVerbose ) {
             messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );

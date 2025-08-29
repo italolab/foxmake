@@ -17,7 +17,7 @@ Archiver::Archiver() {
 
 string Archiver::buildCMDLine() {
     stringstream ss;
-    ss << archiver << " -r -s ";
+    ss << archiver << " rcs ";
 
     if ( defines != "" ) {
         vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );

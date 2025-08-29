@@ -26,11 +26,13 @@ namespace io {
 
     bool createDir( string path );
     bool createDirs( string path );
-    void copyFileOrDirectory( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive );
-    void copyFile( string srcFile, string destDir, bool isOverwriteExisting );
+    void copyFile( string srcFile, string destFile, bool isOverwriteExisting );
     void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive );
-    void copyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
-    void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
+    void copyFileOrDirectoryToDir( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive );
+    void copyFileToDir( string srcFile, string destDir, bool isOverwriteExisting );
+    void copyDirToDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive );
+    void copyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
+    void recursiveCopyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     bool deleteFileOrDirectory( string path );
     int deleteFiles( string path, FileFilter* filter );
     int recursiveDeleteFiles( string dir, FileFilter* filter );

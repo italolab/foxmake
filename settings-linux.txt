@@ -15,7 +15,7 @@ $debug_linker_params=
 $release_bin_dir=bin/Release
 $release_obj_dir=obj/Release
 $release_compiler_params=-Wall -fexceptions -O2 -std=c++17
-$release_linker_params=-s 
+$release_linker_params=-s -static
 
 
 bin.dir=$($(target)_bin_dir)
@@ -32,4 +32,8 @@ task link before
     @./cbuild -v clean compileall copy archive --settings-file=../cbtest/settings-staticlib-linux.txt
     rm lib/libcbtest.a
     cp ../cbtest/build/libcbtest.a lib/
+endtask
+
+task copy after 
+    cp build/cbtest cbtest
 endtask

@@ -40,14 +40,6 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     string src2 = io::absoluteResolvePath( src );
     string dest2 = io::absoluteResolvePath( dest );
 
-    string withoutInitTwoDotsAndSlashSrc = io::removeInitTwoDotsAndSlash( src );    
-
-    if ( !io::fileExists( dest2 ) ) {
-        messagebuilder b( errors::DEST_DIRECTORY_NOT_EXISTS );
-        b << dest2;
-        throw st_error( cmd, b.str() );
-    }
-
     string replacePath = "";
     if ( src2.find( "**" ) != string::npos ) {
         replacePath = io::recursiveDirPathToReplace( src2 );
@@ -59,26 +51,61 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     try {
         string fileName = io::fileOrDirName( src2 );
 
-        string srcDir = io::removeRecursiveJoker( src2 );
-        srcDir = io::dirPath( srcDir );
-                
-        FileFilter* filter = io::by_name_file_filter( fileName );
-
         size_t i = fileName.find( '*' );
         if ( i != string::npos ) {
+            string srcDir = io::removeRecursiveJoker( src2 );
+            srcDir = io::dirPath( srcDir );
+
+            if ( !io::fileExists( srcDir ) ) {
+                messagebuilder b( errors::SRC_DIRECTORY_NOT_EXISTS );
+                b << srcDir;
+                throw st_error( cmd, b.str() );
+            }
+
+            if ( !io::fileExists( dest2 ) || !io::isDir( dest2 ) ) {
+                messagebuilder b( errors::DEST_DIRECTORY_NOT_EXISTS );
+                b << dest2;
+                throw st_error( cmd, b.str() );
+            }
+
+            FileFilter* filter = io::by_name_file_filter( fileName );
             if ( isRecursive ) {
-                io::recursiveCopyFiles( srcDir, dest2, replacePath, filter, isOverwrite );
+                io::recursiveCopyFilesToDir( srcDir, dest2, replacePath, filter, isOverwrite );
             } else {
-                io::copyFiles( srcDir, dest2, replacePath, filter, isOverwrite );
+                io::copyFilesToDir( srcDir, dest2, replacePath, filter, isOverwrite );
             }            
         } else {
-            if ( !isRecursive && io::isDir( src2 ) && !io::isEmptyDir( src2 ) )
-                throw st_error( cmd, errors::TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER );
+            if ( !io::fileExists( src2 ) ) {
+                messagebuilder b( errors::FILE_OR_FOLDER_NOT_FOUND );
+                b << src2;
+                throw st_error( cmd, b.str() );
+            }
 
-            if ( io::isFile( dest2 ) )
-                dest2 = io::dirPath( dest2 );
+            if ( io::isDir( src2 ) ) {
+                if ( !isRecursive && !io::isEmptyDir( src2 ) )
+                    throw st_error( cmd, errors::TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER );
 
-            io::copyFileOrDirectory( src2, dest2, isOverwrite, isRecursive );
+                if ( io::isFile( dest2 ) ) {
+                    messagebuilder b( errors::TRY_COPY_DIR_TO_FILE );
+                    b << src2 << dest2;
+                    throw st_error( cmd, b.str() );
+                }
+
+                if ( !io::isDir( dest2 ) ) {
+                    string fname = io::fileOrDirName( dest2 );
+                    dest2 = io::parentPath( dest2 );
+                    dest2 = io::addSeparatorToDirIfNeed( dest2 );
+                    dest2 += fname;
+                }
+                
+                io::copyDir( src2, dest2, isOverwrite, isRecursive );
+            } else {
+                if ( io::isDir( dest2 ) ) {
+                    io::copyFileOrDirectoryToDir( src2, dest2, isOverwrite, isRecursive );
+                } else {
+                    io::copyFile( src2, dest2, isOverwrite );
+                }
+            }
         }
     } catch ( const io_error& e ) {
         throw st_error( cmd, errors::ERROR_IN_FILES_COPY );

@@ -145,15 +145,47 @@ namespace io {
         }
     }
 
-    void copyFileOrDirectory( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive ) {
-        if ( isDir( srcPath ) ) {
-            copyDir( srcPath, destDir, isOverwriteExisting, isRecursive );
-        } else {
-            copyFile( srcPath, destDir, isOverwriteExisting );
+    void copyFile( string srcPath, string destPath, bool isOverwriteExisting ) {
+        string src = makePreferred( srcPath );
+        string dest = makePreferred( destPath );
+
+        if ( isOverwriteExisting && filesystem::exists( dest ) )
+            filesystem::remove( dest );
+
+        filesystem::copy_file( src, dest );
+    }
+
+    void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive ) {
+        try {
+            string fsrcName = fileOrDirName( srcDir );
+
+            string src = makePreferred( srcDir );
+            string dest = makePreferred( destDir );
+
+            filesystem::copy_options options;
+            if ( isOverwriteExisting )
+                options |= filesystem::copy_options::overwrite_existing;
+
+            if ( isRecursive ) {
+                options |= filesystem::copy_options::recursive;
+                filesystem::copy( src, dest, options );
+            } else {
+                filesystem::copy( src, dest, options );
+            }
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
         }
     }
 
-    void copyFile( string srcFile, string destDir, bool isOverwriteExisting ) {
+    void copyFileOrDirectoryToDir( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive ) {
+        if ( isDir( srcPath ) ) {
+            copyDirToDir( srcPath, destDir, isOverwriteExisting, isRecursive );
+        } else {
+            copyFileToDir( srcPath, destDir, isOverwriteExisting );
+        }
+    }
+
+    void copyFileToDir( string srcFile, string destDir, bool isOverwriteExisting ) {
         try {
             string destDir2 = addSeparatorToDirIfNeed( destDir );
 
@@ -172,7 +204,7 @@ namespace io {
         }
     }
 
-    void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive ) {
+    void copyDirToDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
             string fsrcName = fileOrDirName( srcDir );
 
@@ -208,7 +240,7 @@ namespace io {
         filesystem::copy_file( file, dest2 );
     }
 
-    void copyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
+    void copyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
             string src = makePreferred( srcDir );
             string dest = makePreferred( destDir );
@@ -228,7 +260,7 @@ namespace io {
         }
     }
 
-    void recursiveCopyFiles( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
+    void recursiveCopyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
             string src = makePreferred( srcDir );
             string dest = makePreferred( destDir );
@@ -450,7 +482,7 @@ namespace io {
     }
 
     bool isFile( string path ) {
-        return !filesystem::is_directory( path );
+        return filesystem::is_regular_file( path );
     }
 
     bool isEmptyDir( string dir ) {

@@ -35,8 +35,10 @@ namespace errors {
 
     const string FOLDER_ALREADY_EXISTS = "Pasta já existe: \"$1\"";
     const string TRY_RECURSIVE_COPY_OF_NOT_EMPTY_FOLDER = "Tentativa de cópiar não recursivamente uma pasta não vazia.";
+    const string TRY_COPY_DIR_TO_FILE = "Tentativa de copiar uma pasta para um arquivo.\norigem=\"$1\"\ndestino=\"$2\"";
 
     const string BASE_DIRECTORY_NOT_FOUND = "Diretório base não encontrado: \"$1\"\nVerifique a propriedade \"$2\"";
+    const string SRC_DIRECTORY_NOT_EXISTS = "O diretório de origem não existe: \"$1\"";
     const string DEST_DIRECTORY_NOT_EXISTS = "O diretório de destino não existe: \"$1\"";
     const string DIRECTORY_NOT_FOUND = "Diretório não encontrado.";
     const string DIRECTORY_NOT_CREATED = "Não foi possível criar o diretório: \"$1\"";
