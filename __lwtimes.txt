@@ -6,7 +6,7 @@
 /home/italo/workspace-cpp/cbuild/src/compiler/DynamicLibraryLinker.h=1756315215
 /home/italo/workspace-cpp/cbuild/src/compiler/Linker.cpp=1756315614
 /home/italo/workspace-cpp/cbuild/src/compiler/Linker.h=1756315190
-/home/italo/workspace-cpp/cbuild/src/consts.h=1756415556
+/home/italo/workspace-cpp/cbuild/src/consts.h=1756493577
 /home/italo/workspace-cpp/cbuild/src/darv/Block.cpp=1756063100
 /home/italo/workspace-cpp/cbuild/src/darv/Block.h=1756063097
 /home/italo/workspace-cpp/cbuild/src/darv/CMD.cpp=1756441679
@@ -32,8 +32,8 @@
 /home/italo/workspace-cpp/cbuild/src/exec/Exec.h=1756291787
 /home/italo/workspace-cpp/cbuild/src/exec/ExecManager.cpp=1756445195
 /home/italo/workspace-cpp/cbuild/src/exec/ExecManager.h=1756445183
-/home/italo/workspace-cpp/cbuild/src/exec/MainCMDArgManager.cpp=1756416588
-/home/italo/workspace-cpp/cbuild/src/exec/MainCMDArgManager.h=1756413951
+/home/italo/workspace-cpp/cbuild/src/exec/MainCMDArgManager.cpp=1756493890
+/home/italo/workspace-cpp/cbuild/src/exec/MainCMDArgManager.h=1756493626
 /home/italo/workspace-cpp/cbuild/src/exec/TaskExec.cpp=1755766993
 /home/italo/workspace-cpp/cbuild/src/exec/TaskExec.h=1756291787
 /home/italo/workspace-cpp/cbuild/src/exec/cd/CDExec.cpp=1756413243
@@ -48,7 +48,7 @@
 /home/italo/workspace-cpp/cbuild/src/exec/main/CleanTaskExec.h=1756291787
 /home/italo/workspace-cpp/cbuild/src/exec/main/CompileTaskExec.cpp=1756444445
 /home/italo/workspace-cpp/cbuild/src/exec/main/CompileTaskExec.h=1756316303
-/home/italo/workspace-cpp/cbuild/src/exec/main/CopyTaskExec.cpp=1756468249
+/home/italo/workspace-cpp/cbuild/src/exec/main/CopyTaskExec.cpp=1756468310
 /home/italo/workspace-cpp/cbuild/src/exec/main/CopyTaskExec.h=1756415811
 /home/italo/workspace-cpp/cbuild/src/exec/main/DynamicLibraryLinkTaskExec.cpp=1756415548
 /home/italo/workspace-cpp/cbuild/src/exec/main/DynamicLibraryLinkTaskExec.h=1756282201
@@ -113,9 +113,9 @@
 /home/italo/workspace-cpp/cbuild/src/msg/messagebuilder.h=1755766993
 /home/italo/workspace-cpp/cbuild/src/output/output.cpp=1756449230
 /home/italo/workspace-cpp/cbuild/src/output/output.h=1756449224
-/home/italo/workspace-cpp/cbuild/src/shell/output/OutputController.cpp=1756449234
+/home/italo/workspace-cpp/cbuild/src/shell/output/OutputController.cpp=1756493198
 /home/italo/workspace-cpp/cbuild/src/shell/output/OutputController.h=1756321835
-/home/italo/workspace-cpp/cbuild/src/shell/output/OutputThread.cpp=1756250313
+/home/italo/workspace-cpp/cbuild/src/shell/output/OutputThread.cpp=1756493499
 /home/italo/workspace-cpp/cbuild/src/shell/output/OutputThread.h=1756250313
 /home/italo/workspace-cpp/cbuild/src/shell/shell.cpp=1756250313
 /home/italo/workspace-cpp/cbuild/src/shell/shell.h=1756321810

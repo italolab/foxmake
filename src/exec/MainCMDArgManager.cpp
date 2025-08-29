@@ -84,7 +84,9 @@ bool MainCMDArgManager::isClean() {
     bool isClean = mainCMD->existsArg( tasks::CLEAN );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    return isClean || isBuild || isBuildAll;
+    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );    
+    return isClean || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll;
 }
 
 bool MainCMDArgManager::isCompile() {
@@ -94,7 +96,8 @@ bool MainCMDArgManager::isCompile() {
     
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    return isCompile || isBuild;
+    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
+    return isCompile || isBuild || isArchiveBuild;
 }
 
 bool MainCMDArgManager::isCompileAll() {
@@ -104,7 +107,8 @@ bool MainCMDArgManager::isCompileAll() {
     
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    return isCompileAll || isBuildAll;
+    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    return isCompileAll || isBuildAll || isArchiveBuildAll;
 }
 
 bool MainCMDArgManager::isLink() {
@@ -124,7 +128,9 @@ bool MainCMDArgManager::isArchive() {
         return false;
     
     bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
-    return isArchive;
+    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    return isArchive || isArchiveBuild || isArchiveBuildAll;
 }
 
 bool MainCMDArgManager::isCopy() {
@@ -135,7 +141,9 @@ bool MainCMDArgManager::isCopy() {
     bool isCopy = mainCMD->existsArg( tasks::COPY );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    return isCopy || isBuild || isBuildAll;
+    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    return isCopy || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll;
 }
 
 bool MainCMDArgManager::isBuild() {
@@ -154,4 +162,22 @@ bool MainCMDArgManager::isBuildAll() {
     
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
     return isBuildAll;
+}
+
+bool MainCMDArgManager::isArchiveBuild() {
+    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
+    if ( mainCMD == nullptr )
+        return false;
+    
+    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
+    return isArchiveBuild;
+}
+
+bool MainCMDArgManager::isArchiveBuildAll() {
+    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
+    if ( mainCMD == nullptr )
+        return false;
+    
+    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    return isArchiveBuildAll;
 }

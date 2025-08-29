@@ -34,6 +34,8 @@ namespace tasks {
     const string COMPILEALL = "compileall";
     const string LINK = "link";
     const string ARCHIVE = "archive";
+    const string ARCHIVEBUILD = "archivebuild";
+    const string ARCHIVEBUILDALL = "archivebuildall";
     const string COPY = "copy";
     const string BUILD = "build";
     const string BUILDALL = "buildall";
@@ -46,6 +48,8 @@ namespace tasks {
         COMPILEALL,
         LINK,
         ARCHIVE,
+        ARCHIVEBUILD,
+        ARCHIVEBUILDALL,
         COPY,
         BUILD,
         BUILDALL

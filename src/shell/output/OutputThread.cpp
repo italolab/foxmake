@@ -9,7 +9,7 @@ OutputThread::OutputThread( string name ) {
 void OutputThread::run( FILE* pipe ) {
     char buffer[ 128 ];
     while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
-        this->addOutput( buffer );
+        this->addOutput( buffer );    
 
     this->finish();
 }

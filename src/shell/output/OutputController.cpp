@@ -16,7 +16,7 @@ void OutputController::run() {
             if ( outputThread->hasNextOutput() ) {
                 string output = outputThread->nextOutput();
                 if ( showOutputFlag )
-                    *out << output << std::flush;
+                    *out << output;
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( 30 ) );
             }

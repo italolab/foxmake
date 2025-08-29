@@ -32,10 +32,6 @@ $project_name=cbuild
 
 task copy verbose showoutput;
 
-task copy before
-    echo Antes da copia...
-endtask
-
 task copy after
     echo Copia...
 

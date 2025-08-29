@@ -35,8 +35,10 @@ task link before
 endtask
 
 task finish after
-    cp -r include build
-    cp -r lib build/
-    cd build
-    @./cbuild buildall --settings-file=../settings-linux-run.txt --working-dir=.
+    #cp -r include build
+    #cp -r lib build/
+    #cd build
+    #@./cbuild buildall --settings-file=../settings-linux-run.txt --working-dir=.
+
+    @./build/cbuild test
 endtask

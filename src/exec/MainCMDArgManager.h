@@ -32,6 +32,8 @@ class MainCMDArgManager {
         bool isCopy();
         bool isBuild();
         bool isBuildAll();
+        bool isArchiveBuild();
+        bool isArchiveBuildAll();
 
 };
 
