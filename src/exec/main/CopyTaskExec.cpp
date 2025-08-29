@@ -35,8 +35,6 @@ void CopyTaskExec::exec( void* mgr ) {
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    bool isLink = manager->getMainCMDArgManager()->isLink();
-
     manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
 
     buildDir = io::absoluteResolvePath( buildDir );
@@ -49,7 +47,7 @@ void CopyTaskExec::exec( void* mgr ) {
 
     if ( binDir != buildDir ) {
         string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
-        if ( isLink && outputFileName != "" ) {
+        if ( outputFileName != "" ) {
             string linkOutFName = binDir + outputFileName;
             appCopyFileOrDirectoryToBuild( linkOutFName, buildDir, props::OUTPUT_FILE_NAME, manager );        
         }

@@ -20,14 +20,6 @@ void ArchiveTaskExec::exec( void* mgr ) {
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::ARCHIVE );
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::ARCHIVE );
-    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
-
-    if ( isVerbose )
-        out << "\n";
-    if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << "\n";    
-
-    manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
     
     MainScript* script = manager->getMainScript();
 
@@ -86,9 +78,4 @@ void ArchiveTaskExec::exec( void* mgr ) {
         throw st_error( nullptr, errors::ARCHIVING_FAILED );
 
     delete shell;
-
-    manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
-
-    if ( isVerbose )
-        out << infos::SUCCESS_IN_ARCHIVING << "\n";
 }

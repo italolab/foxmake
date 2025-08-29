@@ -32,8 +32,6 @@ void CleanTaskExec::exec( void* mgr ) {
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    bool isLink = manager->getMainCMDArgManager()->isLink();
-
     buildDir = io::absoluteResolvePath( buildDir );
     binDir = io::absoluteResolvePath( binDir );
     objDir = io::absoluteResolvePath( objDir );
@@ -45,7 +43,7 @@ void CleanTaskExec::exec( void* mgr ) {
     bool removedSome = false;
 
     string outputFName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
-    if ( isLink && outputFName != "" ) {
+    if ( outputFName != "" ) {
         string file = binDir + outputFName;
         bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );
         if ( removed )

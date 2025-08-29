@@ -10,6 +10,11 @@ Output& Output::operator<<( string text ) {
     return *this;
 }
 
+Output& Output::operator<<( std::ostream& (*stream)(std::ostream&) ) {
+    cout << stream;
+    return *this;
+}
+
 namespace output {
     
     string red( string text ) {

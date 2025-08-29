@@ -5,7 +5,6 @@
 #include <iostream>
 
 using std::string;
-using std::ostream;
 
 namespace output {
 
@@ -20,6 +19,7 @@ class Output {
 
     public:
         Output& operator<<( string text );
+        Output& operator<<( std::ostream& (*stream)(std::ostream&) );
 
 };
 
