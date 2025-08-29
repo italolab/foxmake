@@ -50,10 +50,9 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         this->showHelp( mgr );
         return;
     }
-
-    this->validaMainCMD( mgr );
     
-    this->configureMainCMDArgsAndProps( mgr );
+    this->configureEnvironmentAndInterpretsMainScript( mgr );
+    this->validaMainCMD( mgr );
 
     bool isClean = manager->getMainCMDArgManager()->isClean();
     bool isCompile = manager->getMainCMDArgManager()->isCompile();
@@ -104,6 +103,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
 void MainExec::validaMainCMD( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
     vector<string>& args = mainCMD->args();
@@ -117,7 +117,10 @@ void MainExec::validaMainCMD( void* mgr ) {
             if ( args[ i-1 ] == "-var" || args[ i-1 ] == "-prop" )
                 continue;
         
-        if ( !manager->isDefaultTask( arg ) ) {
+        bool isDefaultTask = manager->isDefaultTask( arg );
+        bool isUserTask = script->existsTask( arg );
+
+        if ( !isDefaultTask && !isUserTask ) {
             messagebuilder b( errors::CMD_TASK_NOT_FOUND );
             b << arg;
             throw st_error( mainCMD, b.str() );
@@ -125,7 +128,7 @@ void MainExec::validaMainCMD( void* mgr ) {
     }
 }
 
-void MainExec::configureMainCMDArgsAndProps( void* mgr ) {
+void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();

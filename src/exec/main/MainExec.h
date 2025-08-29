@@ -17,12 +17,13 @@ class MainExec : public Exec {
         CopyTaskExec* copyTaskExec;
 
         void validaMainCMD( void* mgr );
-        void configureMainCMDArgsAndProps( void* mgr );
-        void loadMainCMDProperties( void* mgr );
-        void loadMainCMDVariables( void* mgr );
+        void configureEnvironmentAndInterpretsMainScript( void* mgr );
         void genSourceAndHeaderInfos( void* mgr );
         void executaNoDefaultTasks( void* mgr );
         void executaStatements( void* mgr );
+
+        void loadMainCMDProperties( void* mgr );
+        void loadMainCMDVariables( void* mgr );
 
         void showHelp( void* mgr );
 

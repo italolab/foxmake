@@ -57,6 +57,21 @@ Task* MainScript::getTask( string taskName, TaskExecution taskExecution ) {
     return nullptr;
 }
 
+
+bool MainScript::existsTask( string taskName ) {
+    for( Task* task : tasksVect )
+        if ( task->getName() == taskName )
+            return true;
+    return false;
+}
+
+bool MainScript::existsTask( string taskName, TaskExecution taskExecution ) {
+    for( Task* task : tasksVect )
+        if ( task->getName() == taskName && task->getTaskExecution() == taskExecution )
+            return true;
+    return false;
+}
+
 vector<Task*>& MainScript::tasks() {
     return tasksVect;
 }
