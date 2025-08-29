@@ -1,12 +1,10 @@
 compiler=g++
 output.file.name=cbuild
 
-base.dir=run/
-
 src.dir=../src
 build.dir=build
 
-build.files=settings-linux.txt ../settings-linux.txt
+build.files=
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
@@ -18,6 +16,7 @@ $release_obj_dir=obj/Release
 $release_compiler_params=-Wall -fexceptions -O2 -std=c++17
 $release_linker_params=-s -static
 
+$target=debug
 
 bin.dir=$($(target)_bin_dir)
 obj.dir=$($(target)_obj_dir)
@@ -31,7 +30,11 @@ libs=
 
 $project_name=cbuild
 
-task copy noverbose showoutput;
+task copy verbose showoutput;
+
+task copy before
+    echo Antes da copia...
+endtask
 
 task copy after
     echo Copia...
@@ -54,15 +57,22 @@ endtask
 
 task finish verbose;
 task finish after
+    $lib_dir=$(working_dir)/lib
 
-    mkdir include
+    mkdir build/include
 
-    cp -r $(src.dir)/**/io/*.h include
+    cp -r $(src.dir)/**/io/*.h build/include
     cp $(src.dir)/*.cpp $(build.dir)
     mkdir $(build.dir)/objects
     cp $(obj.dir)/io/* $(build.dir)/objects
 
-    mkdir -p $(build.dir)/a/b/c
+    cp $(lib_dir)/libcbtest.a $(build.dir)/libtest.a
+    cp include/test/cbtest.h $(build.dir)/cbtest.h
+    cp include/test/cbtest.h $(build.dir)/cbtest.h
+
+    cp -r $(src.dir) $(build.dir)/source
+
+    #mkdir -p $(build.dir)/a/b/c
 
     #cp ../../italo-xadrez/italo-xadrez $(build.dir)
 
@@ -71,10 +81,10 @@ task finish after
 
     #cd ../$(project_name)/run
 
-    rm $(build.dir)/objects/io.o
-    rm $(build.dir)/ma*n.*
-    rm $(build.dir)/sett*.*
+    #rm $(build.dir)/objects/io.o
+    #rm $(build.dir)/ma*n.*
+    #rm $(build.dir)/sett*.*
 
-    rm -r $(include.dirs)/io/fi*r
-    rm -r $(bin.dir)
+    #rm -r $(include.dirs)/io/fi*r
+    #rm -r $(bin.dir)
 endtask

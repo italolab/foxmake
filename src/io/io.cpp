@@ -163,15 +163,15 @@ namespace io {
             string dest = makePreferred( destDir );
 
             filesystem::copy_options options;
-            if ( isOverwriteExisting )
-                options |= filesystem::copy_options::overwrite_existing;
-
-            if ( isRecursive ) {
-                options |= filesystem::copy_options::recursive;
-                filesystem::copy( src, dest, options );
-            } else {
-                filesystem::copy( src, dest, options );
-            }
+            if ( isOverwriteExisting && isRecursive )
+                options = filesystem::copy_options::overwrite_existing | filesystem::copy_options::recursive;
+            else if ( isOverwriteExisting )
+                options = filesystem::copy_options::overwrite_existing;
+            else if ( isRecursive )
+                options = filesystem::copy_options::recursive;
+            else options = filesystem::copy_options::none;
+            
+            filesystem::copy( src, dest, options );            
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }

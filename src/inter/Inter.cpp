@@ -15,38 +15,40 @@ using namespace std;
 
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
-InterResult* Inter::replacePropsAndVarsAndDollarSigns( string& line, int lineNumber, Block* block ) {
+InterResult* Inter::replacePropsAndVarsAndDollarSigns( 
+        string line, string& text, int lineNumber, Block* block ) {
+
     MainScript* script = (MainScript*)block->getRoot();
 
-    size_t i = line.find( '$' );
-    size_t j = line.find( '(' );
+    size_t i = text.find( '$' );
+    size_t j = text.find( '(' );
     if ( i != string::npos && j == i+1 ) {
         stringstream ss;
 
         int parentesisCount = 0;
 
-        int len = line.length();
+        int len = text.length();
         for( int k = 0; k < len; k++ ) {
             bool isDollarSign = false;
-            if ( k == 0 && line[ k ] == '$' )
+            if ( k == 0 && text[ k ] == '$' )
                 isDollarSign = true;
 
-            if ( !isDollarSign && line[k] == '$') {
+            if ( !isDollarSign && text[k] == '$') {
                 if ( k > 0 )
-                    isDollarSign = ( line[ k-1 ] != '\\' );
+                    isDollarSign = ( text[ k-1 ] != '\\' );
                 else isDollarSign = true;
             }
 
             if ( isDollarSign ) {
                 if ( k+1 < len ) {
-                    if ( line[ k+1 ] == '(' ) {
+                    if ( text[ k+1 ] == '(' ) {
                         parentesisCount++;
                         int j = k+2;
 
                         while( parentesisCount > 0 && j < len ) {
-                            if ( line[ j ] == '(' ) {
+                            if ( text[ j ] == '(' ) {
                                 parentesisCount++;
-                            } else if ( line[ j ] == ')' ) {
+                            } else if ( text[ j ] == ')' ) {
                                 parentesisCount--;
                             }
 
@@ -54,8 +56,8 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns( string& line, int lineNum
                                 j++;
                         }
                         if ( parentesisCount == 0 ) {
-                            string name = line.substr( k+2, j-(k+2) );
-                            replacePropsAndVarsAndDollarSigns( name, lineNumber, block );
+                            string name = text.substr( k+2, j-(k+2) );
+                            replacePropsAndVarsAndDollarSigns( line, name, lineNumber, block );
 
                             if ( script->existsProperty( name ) ) {
                                 string value = script->getPropertyValue( name );
@@ -74,20 +76,20 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns( string& line, int lineNum
                                 }
                             }
                         } else {
-                            ss << line[ k ];
+                            ss << text[ k ];
                         }
                     } else {
-                        ss << line[ k ];
+                        ss << text[ k ];
                     }
                 } else {
-                    ss << line[ k ];
+                    ss << text[ k ];
                 }
             } else {
-                ss << line[ k ];
+                ss << text[ k ];
             }
         }
-        line = ss.str();
-        line = strutil::replaceAll( line, "\\$", "$" );
+        text = ss.str();
+        text = strutil::replaceAll( text, "\\$", "$" );
     }
     return new InterResult( nullptr, 0, 0 );
 }

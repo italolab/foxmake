@@ -16,7 +16,7 @@ InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, v
     string name = line.substr( 1, i-1 );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( value, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, lineNumber, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 

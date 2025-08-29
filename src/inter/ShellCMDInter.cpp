@@ -78,7 +78,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
             cmdstr = cmdstr.substr( 0, cmdstr.length()-1 );
     }
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( cmdstr, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( currentLine, cmdstr, lineNumber, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 

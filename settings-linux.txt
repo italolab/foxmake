@@ -34,6 +34,9 @@ task link before
     cp ../cbtest/build/libcbtest.a lib/
 endtask
 
-task copy after 
-    cp build/cbtest cbtest
+task finish after
+    cp -r include build
+    cp -r lib build/
+    cd build
+    @./cbuild buildall --settings-file=../settings-linux-run.txt --working-dir=.
 endtask

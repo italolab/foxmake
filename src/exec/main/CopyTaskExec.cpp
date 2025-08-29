@@ -21,6 +21,7 @@ void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     Output& out = manager->out;
+
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COPY );
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
