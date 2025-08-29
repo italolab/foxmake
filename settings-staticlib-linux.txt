@@ -8,5 +8,5 @@ build.dir=build
 
 bin.dir=bin/Release
 obj.dir=obj/Release/archive
-compiler.params=-Wall -fexceptions -O2 -flto -std=c++17
+compiler.params=-Wall -fexceptions -O2 -std=c++17
 archiver.params=
