@@ -1,15 +1,26 @@
 
 #include "OutputThread.h"
 
+#include <cstring>
+#include <iostream>
+
+using namespace std;
+
 OutputThread::OutputThread( string name ) {
     this->name = name;
     this->finishFlag = false;
+    this->bufferLen = 0;
 }
 
 void OutputThread::run( FILE* pipe ) {
-    char buffer[ 128 ];
-    while( fgets( buffer, sizeof( buffer ), pipe ) != nullptr )
-        this->addOutput( buffer );    
+    char ch;
+    while( ( ch = fgetc( pipe ) ) != EOF ) {
+        {
+            std::lock_guard<std::mutex> lock( mtx );
+            buffer << ch;     
+            bufferLen++;
+        }
+    }
 
     this->finish();
 }
@@ -20,24 +31,19 @@ void OutputThread::finish() {
     finishFlag = true;    
 }
 
-void OutputThread::addOutput( string output ) {
-    std::lock_guard<std::mutex> lock( mtx );
-
-    outputQueue.push( output );
-}
-
 bool OutputThread::hasNextOutput() {
     std::lock_guard<std::mutex> lock( mtx );
 
-    return !outputQueue.empty();
+    return bufferLen > 0;
 }
 
 string OutputThread::nextOutput(){
     std::lock_guard<std::mutex> lock( mtx );
 
-    string output = outputQueue.front();
-    outputQueue.pop();
-    return output;
+    string str = buffer.str();
+    buffer.str("");
+    bufferLen = 0;
+    return str;
 }
 
 string OutputThread::getName() {
@@ -45,5 +51,7 @@ string OutputThread::getName() {
 }
 
 bool OutputThread::isFinished() {
+    std::lock_guard<std::mutex> lock( mtx );
+
     return finishFlag;
 }

@@ -29,9 +29,9 @@ libs=cbtest
 #defines=
 
 task link before
-    @./cbuild -v clean compileall copy archive --settings-file=../cbtest/settings-staticlib-linux.txt
-    rm lib/libcbtest.a
-    cp ../cbtest/build/libcbtest.a lib/
+    #@./cbuild -v arquivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
+    #rm lib/libcbtest.a
+    #cp ../cbtest/build/libcbtest.a lib/
 endtask
 
 task finish after

@@ -9,24 +9,26 @@
 
 
 #include <string>
+#include <sstream>
 #include <queue>
 #include <thread>
 #include <mutex>
 
 using std::string;
 using std::queue;
+using std::stringstream;
 
 class OutputThread {
 
     private:
         string name;
-        queue<string> outputQueue;
         std::thread* thread;
         bool finishFlag;
 
-        std::mutex mtx;
+        stringstream buffer;
+        int bufferLen;
 
-        void addOutput( string output );
+        std::mutex mtx;
 
     public:
         OutputThread( string name );
