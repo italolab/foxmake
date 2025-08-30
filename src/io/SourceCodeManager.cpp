@@ -41,16 +41,14 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
                 objFilePath = io::addSeparatorToDirIfNeed( objFilePath );
                 objFilePath += strutil::replace( relativeFilePath, "."+ext, ".o" );
                 
-                string srcFilePath = targetFolder;
-                srcFilePath = io::addSeparatorToDirIfNeed( srcFilePath );
-                srcFilePath += relativeFilePath;
+                string srcFilePath = filePath;
 
                 vector<string> dependencies;
                 vector<string> extendedClasses;
-
+            
                 CodeInfo* info = new CodeInfo;
-                info->filePath = filePath;
-                info->srcFilePath = srcFilePath;
+                info->filePath = filePath;       // REFATORAR
+                info->srcFilePath = srcFilePath; // REFATORAR
                 info->objFilePath = objFilePath;
                 info->dependencies = dependencies;
                 info->extendedClasses = extendedClasses;
@@ -275,6 +273,6 @@ void SourceCodeManager::loadFilesToCompile( vector<CodeInfo*>& filesToCompile, s
     filesToCompileManager->loadFilesToCompile( filesToCompile, allCodeInfosMap, configFilePath );
 }
 
-void SourceCodeManager::saveLastWriteTimesInFile( string configFilePath ) {
-    filesToCompileManager->saveLastWriteTimesInFile( allCodeInfosMap, configFilePath );
+void SourceCodeManager::saveLastWriteTimesInFile( string configFilePath, bool isAppend ) {
+    filesToCompileManager->saveLastWriteTimesInFile( allCodeInfosMap, configFilePath, isAppend );
 }

@@ -13,6 +13,9 @@ FilesToCompileManager::FilesToCompileManager( string sourceFileExtensions, strin
     this->headerFileExtensions = headerFileExtensions;
 }
 
+#include <iostream>
+using namespace std;
+
 void FilesToCompileManager::loadFilesToCompile(
                                     vector<CodeInfo*>& filesToCompile,
                                     map<string, CodeInfo*>& allSourceInfosMap,
@@ -115,8 +118,8 @@ bool FilesToCompileManager::loadLastWriteTimesFromFile( map<string, long>& writi
     return true;
 }
 
-bool FilesToCompileManager::saveLastWriteTimesInFile( map<string, CodeInfo*>& allSourceInfosMap, string configFileName ) {
-    ofstream out( configFileName );
+bool FilesToCompileManager::saveLastWriteTimesInFile( map<string, CodeInfo*>& allSourceInfosMap, string configFileName, bool isAppend ) {
+    ofstream out( configFileName, isAppend ? std::ios::app : std::ios::out );
     if ( !out.is_open() )
         return false;
 

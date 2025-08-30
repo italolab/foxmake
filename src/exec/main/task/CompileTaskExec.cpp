@@ -109,7 +109,8 @@ void CompileTaskExec::exec( void* mgr ) {
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::COMPILING_FAILED );
 
-    sourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE );
+    sourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE, false );
+    testSourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE, true );
 
     if ( isCompileAll )
         manager->executaUserTaskIfExists( tasks::COMPILEALL, TaskExecution::AFTER );

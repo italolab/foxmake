@@ -59,7 +59,6 @@ void ExeLinkTaskExec::exec( void* mgr ) {
 void ExeLinkTaskExec::execLinkage( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-    SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );

@@ -1,23 +1,21 @@
 compiler=g++
 output.file.name=cbuild
 
-src.dir=src
-test.dir=test
-build.dir=build/build
+src.dir=../src
+test.dir=../test
+build.dir=build
 
 build.files=
 
-$debug_bin_dir=build/bin/Debug
-$debug_obj_dir=build/obj/Debug
+$debug_bin_dir=bin/Debug
+$debug_obj_dir=obj/Debug
 $debug_compiler_params=-Wall -fexceptions -g -std=c++17
 $debug_linker_params=
 
-$release_bin_dir=build/bin/Release
-$release_obj_dir=build/obj/Release
+$release_bin_dir=bin/Release
+$release_obj_dir=obj/Release
 $release_compiler_params=-Wall -fexceptions -O2 -std=c++17
 $release_linker_params=-s -static
-
-$target=debug
 
 bin.dir=$($(target)_bin_dir)
 obj.dir=$($(target)_obj_dir)
@@ -25,12 +23,12 @@ compiler.params=$($(target)_compiler_params)
 linker.params=$($(target)_linker_params)
 
 lib.dirs=
-include.dirs=include
+include.dirs=
 libs=
 #defines=
 
-test.include.dirs=include
-test.lib.dirs=lib
+test.include.dirs=../include
+test.lib.dirs=../lib
 test.libs=cbtest
 
 $project_name=cbuild
@@ -56,9 +54,9 @@ task debug before
     echo Debug executado!
 endtask
 
-task link verbose;
+task compile verbose;
+task compileall verbose;
 
-task finish verbose;
 task finish after
     ##
     $lib_dir=$(working_dir)/lib

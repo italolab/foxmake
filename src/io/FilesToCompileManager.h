@@ -32,7 +32,10 @@ class FilesToCompileManager {
                     map<string, CodeInfo*>& allSourceInfosMap,
                     string configFilePath );
 
-        bool saveLastWriteTimesInFile(  map<string, CodeInfo*>& allSourceInfosMap, string configFileName );
+        bool saveLastWriteTimesInFile(  
+                    map<string, CodeInfo*>& allSourceInfosMap, 
+                    string configFileName, 
+                    bool isAppend = false );
 
 };
 

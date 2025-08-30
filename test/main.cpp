@@ -11,12 +11,12 @@ using std::vector;
 using std::runtime_error;
 
 TEST_CASE( startsWith, strutil ) {
-    ASSERT_TRUE( strutil::startsWith( "a", "abc" ), );
-    ASSERT_TRUE( strutil::startsWith( "_", "_abc" ), );
+    ASSERT_TRUE( strutil::startsWith( "abc", "a" ), );
+    ASSERT_TRUE( strutil::startsWith( "_abc", "_" ), );
     ASSERT_TRUE( strutil::startsWith( "(", "(" ), );
 	ASSERT_FALSE( strutil::startsWith( "abc", "bc" ), );
 	ASSERT_FALSE( strutil::startsWith( "", "bc" ), );
-	ASSERT_FALSE( strutil::startsWith( "AB", "" ), )
+	ASSERT_FALSE( strutil::startsWith( "", "AB" ), )
 	ASSERT_TRUE( strutil::startsWith( "", "" ), )
 }
 
