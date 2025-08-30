@@ -17,6 +17,15 @@ namespace consts {
     const string SOURCE_FILE_EXTENSIONS = ".c .cpp .cc";
     const string HEADER_FILE_EXTENSIONS = ".h .hpp .tpp .ipp";
 
+    const string SRC_TARGET_FOLDER = "src";
+    const string TEST_TARGET_FOLDER = "test";
+
+#ifdef _WIN32
+    const string TEST_OUTPUT_FILE_NAME = "__test.exe";
+#else
+    const string TEST_OUTPUT_FILE_NAME = "__test";
+#endif
+
     const bool DEFAULT_SHOW_CMD_OUTPUT = true;
     const string DEFAULT_COMPILER = "g++";
     const string DEFAULT_ARCHIVER = "ar";
@@ -33,6 +42,9 @@ namespace tasks {
     const string COMPILE = "compile";
     const string COMPILEALL = "compileall";
     const string LINK = "link";
+    const string TEST = "test";
+    const string TESTBUILD = "testbuild";
+    const string TESTBUILDALL = "testbuildall";
     const string ARCHIVE = "archive";
     const string ARCHIVEBUILD = "archivebuild";
     const string ARCHIVEBUILDALL = "archivebuildall";
@@ -47,6 +59,9 @@ namespace tasks {
         COMPILE,
         COMPILEALL,
         LINK,
+        TEST,
+        TESTBUILD,
+        TESTBUILDALL,
         ARCHIVE,
         ARCHIVEBUILD,
         ARCHIVEBUILDALL,
@@ -79,6 +94,7 @@ namespace props {
 
     const string BASE_DIR = "base.dir";
     const string SRC_DIR = "src.dir";
+    const string TEST_DIR = "test.dir";
     const string OBJ_DIR = "obj.dir";
     const string BIN_DIR = "bin.dir";
     const string BUILD_DIR = "build.dir";
@@ -107,6 +123,7 @@ namespace props {
 
         BASE_DIR,
         SRC_DIR,
+        TEST_DIR,
         OBJ_DIR,
         BIN_DIR,
         BUILD_DIR,

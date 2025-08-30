@@ -30,7 +30,7 @@ class Shell {
         Shell( Output& outs );
         
         void pushCommand( string command );
-        int executa();
+        int execute();
 
         bool isVerbose();
         bool isShowOutput();

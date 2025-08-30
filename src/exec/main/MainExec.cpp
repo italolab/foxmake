@@ -28,6 +28,7 @@ MainExec::MainExec() {
     cleanTaskExec = new CleanTaskExec();
     compileTaskExec = new CompileTaskExec();
     linkOrArchiveTaskExec = new LinkOrArchiveTaskExec();
+    testTaskExec = new TestTaskExec();
     copyTaskExec = new CopyTaskExec();
 }
 
@@ -35,6 +36,7 @@ MainExec::~MainExec() {
     delete cleanTaskExec;
     delete compileTaskExec;
     delete linkOrArchiveTaskExec;
+    delete testTaskExec;
     delete copyTaskExec;
 }
 
@@ -59,33 +61,38 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     bool isCompileAll = manager->getMainCMDArgManager()->isCompileAll();
     bool isLink = manager->getMainCMDArgManager()->isLink();
     bool isArchive = manager->getMainCMDArgManager()->isArchive();
+    bool isTest = manager->getMainCMDArgManager()->isTest();
     bool isCopy = manager->getMainCMDArgManager()->isCopy();
-    bool isBuild = manager->getMainCMDArgManager()->isBuild();
-    bool isBuildAll = manager->getMainCMDArgManager()->isBuildAll();
 
     this->genSourceAndHeaderInfos( manager );
 
     manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );
     manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
 
-    if ( isBuild )
-        manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
-    if ( isBuildAll )
-        manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
-
+    manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::TESTBUILD, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::BEFORE );
+        
     if ( isClean )
         cleanTaskExec->exec( mgr );
     if ( isCompile || isCompileAll )
         compileTaskExec->exec( mgr );
     if ( isLink || isArchive )
         linkOrArchiveTaskExec->exec( mgr );
+    if ( isTest )
+        testTaskExec->exec( mgr );
     if ( isCopy )
         copyTaskExec->exec( mgr );
     
-    if ( isBuild )
-        manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
-    if ( isBuildAll )
-        manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
+    manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
+    manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
+    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::TESTBUILD, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::BEFORE );
 
     this->executaNoDefaultTasks( manager );
 
@@ -93,7 +100,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::BEFORE );
     manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::AFTER );
-
+    
     if ( isVerbose )
         out << "\n";
 
@@ -272,6 +279,7 @@ void MainExec::loadMainCMDVariables( void* mgr ) {
 void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();    
+    SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
 
     Output& out = manager->out;
     MainScript* script = manager->getMainScript();
@@ -280,9 +288,14 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     string srcDir = script->getPropertyValue( props::SRC_DIR );
+    string testDir = script->getPropertyValue( props::TEST_DIR );
+
     if ( srcDir == "" )
         srcDir = ".";
     srcDir = io::absoluteResolvePath( srcDir );
+
+    if ( testDir != "" )
+        testDir = io::absoluteResolvePath( testDir );
 
     if ( !io::fileExists( srcDir ) ) {        
         messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );
@@ -296,9 +309,15 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
         out << b2.str() << "\n";
     }
 
-    bool ok = sourceCodeManager->recursiveProcFiles( srcDir );
+    bool ok = sourceCodeManager->recursiveProcFiles( srcDir, consts::SRC_TARGET_FOLDER );
     if ( !ok )
         throw st_error( mainCMD, errors::ERROR_IN_READING_SRC_FILES );
+
+    if ( testDir != "" ) {
+        ok = testSourceCodeManager->recursiveProcFiles( testDir, consts::TEST_TARGET_FOLDER );
+        if ( !ok )
+            throw st_error( mainCMD, errors::ERROR_IN_READING_TEST_FILES );
+    }
 }
 
 void MainExec::executaNoDefaultTasks( void* mgr ) {

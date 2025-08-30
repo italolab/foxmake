@@ -1,5 +1,5 @@
-#ifndef STATIC_LIBRARY_LINK_TASK_EXEC_H
-#define STATIC_LIBRARY_LINK_TASK_EXEC_H
+#ifndef ARCHIVE_TASK_EXEC_H
+#define ARCHIVE_TASK_EXEC_H
 
 #include "../TaskExec.h"
 

@@ -29,11 +29,14 @@ class MainCMDArgManager {
         bool isCompileAll();
         bool isLink();
         bool isArchive();
+        bool isTest();
         bool isCopy();
         bool isBuild();
         bool isBuildAll();
         bool isArchiveBuild();
         bool isArchiveBuildAll();
+        bool isTestBuild();
+        bool isTestBuildAll();
 
 };
 

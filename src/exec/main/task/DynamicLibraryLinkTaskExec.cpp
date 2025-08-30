@@ -1,19 +1,19 @@
 
 #include "DynamicLibraryLinkTaskExec.h"
-#include "../ExecManager.h"
-#include "../stexcept.h"
-#include "../../compiler/DynamicLibraryLinker.h"
-#include "../../darv/MainScript.h"
-#include "../../shell/shell.h"
-#include "../../io/io.h"
-#include "../../io/SourceCodeManager.h"
-#include "../../util/strutil.h"
-#include "../../output/output.h"
-#include "../../msg/messagebuilder.h"
+#include "../../ExecManager.h"
+#include "../../stexcept.h"
+#include "../../../compiler/DynamicLibraryLinker.h"
+#include "../../../darv/MainScript.h"
+#include "../../../shell/shell.h"
+#include "../../../io/io.h"
+#include "../../../io/SourceCodeManager.h"
+#include "../../../util/strutil.h"
+#include "../../../output/output.h"
+#include "../../../msg/messagebuilder.h"
 
-#include "../../error_messages.h"
-#include "../../info_messages.h"
-#include "../../consts.h"
+#include "../../../error_messages.h"
+#include "../../../info_messages.h"
+#include "../../../consts.h"
 
 #include <vector>
 #include <string>
@@ -71,28 +71,31 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     for( CodeInfo* info : sourceCodeInfos )
         objectCodeFiles.push_back( objDir + info->objFilePath );
 
-    DynamicLibraryLinker* linker = new DynamicLibraryLinker();
-    linker->setCompiler( compiler );
-    linker->setLinkerParams( linkerParams );
-    linker->setDefines( defines );
-    linker->setLibraryDirs( libDirs );
-    linker->setLibraries( libs );
-    linker->setObjectCodeFiles( objectCodeFiles );
-    linker->setOutputDefFile( outputDefFile );
-    linker->setOutImplibFile( outImplibFile );
-    linker->setOutputFile( binDir + outputFileName );
-    string cmdline = linker->buildCMDLine();
+    if ( objectCodeFiles.empty() ) {
+        out << output::green( infos::NOTHING_TO_LINK ) << "\n";
+    } else {
+        DynamicLibraryLinker* linker = new DynamicLibraryLinker();
+        linker->setCompiler( compiler );
+        linker->setLinkerParams( linkerParams );
+        linker->setDefines( defines );
+        linker->setLibraryDirs( libDirs );
+        linker->setLibraries( libs );
+        linker->setObjectCodeFiles( objectCodeFiles );
+        linker->setOutputDefFile( outputDefFile );
+        linker->setOutImplibFile( outImplibFile );
+        linker->setOutputFile( binDir + outputFileName );
+        string cmdline = linker->buildCMDLine();
 
-    delete linker;
+        delete linker;
 
-    Shell* shell = new Shell( out );
-    shell->setVerbose( isVerbose );
-    shell->setShowOutput( isShowCMDOutput );
-    shell->pushCommand( cmdline );
+        Shell* shell = new Shell( out );
+        shell->setVerbose( isVerbose );
+        shell->setShowOutput( isShowCMDOutput );
+        shell->pushCommand( cmdline );
 
-    int exitCode = shell->executa();
-    if ( exitCode != 0 )
-        throw st_error( nullptr, errors::LINKING_FAILED );
-
-    delete shell;
+        int exitCode = shell->execute();
+        delete shell;
+        if ( exitCode != 0 )
+            throw st_error( nullptr, errors::LINKING_FAILED );
+    }
 }

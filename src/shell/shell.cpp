@@ -71,7 +71,7 @@ void runOutputControllerThread( OutputController* outputController ) {
     outputController->run();
 }
 
-int Shell::executa() {
+int Shell::execute() {
     vector<ThreadPipe*> threadPipes;
     OutputController* outputController = new OutputController( out, showOutputFlag );
 

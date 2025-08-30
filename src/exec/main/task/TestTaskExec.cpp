@@ -1,0 +1,65 @@
+
+#include "TestTaskExec.h"
+#include "../../ExecManager.h"
+#include "../../stexcept.h"
+#include "../../../darv/MainScript.h"
+#include "../../../io/io.h"
+#include "../../../shell/shell.h"
+#include "../../../output/output.h"
+#include "../../../msg/messagebuilder.h"
+
+#include "../../../consts.h"
+#include "../../../error_messages.h"
+#include "../../../info_messages.h"
+
+void TestTaskExec::exec( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    MainScript* script = manager->getMainScript();
+
+    Output& out = manager->out;
+
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::TEST );
+    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::TEST );
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
+
+    if ( isVerbose )
+        out << "\n";
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::TEST ) << "..." << "\n";    
+
+    string testDir = script->getPropertyValue( props::TEST_DIR );
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+
+    if ( testDir == "" ) {
+        messagebuilder b( errors::PROPERTY_NOT_DEFINED );
+        b << props::TEST_DIR;
+        throw st_error( nullptr, b.str() );
+    }
+
+    manager->executaUserTaskIfExists( tasks::TEST, TaskExecution::BEFORE );
+
+    testDir = io::absoluteResolvePath( testDir );
+    binDir = io::absoluteResolvePath( binDir );
+
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+
+    string command = "./";
+    command += binDir + consts::TEST_OUTPUT_FILE_NAME;
+
+    Shell* shell = new Shell( out );
+    shell->setVerbose( isVerbose );
+    shell->setShowOutput( isShowCMDOutput );
+    shell->pushCommand( command );
+
+    int exitCode = shell->execute();
+
+    delete shell;
+
+    if ( exitCode != 0 )
+        throw st_error( nullptr, errors::TESTING_FAILED );
+
+    manager->executaUserTaskIfExists( tasks::TEST, TaskExecution::AFTER );
+
+    if ( isVerbose )
+        out << infos::SUCCESS_IN_TESTING << "\n";
+}

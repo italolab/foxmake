@@ -31,6 +31,7 @@ ExecManager::ExecManager() {
     mainCMDArgManager = new MainCMDArgManager( this );
     interManager = new InterManager( this );
     sourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
+    testSourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
 
     mainExec = new MainExec();
 
@@ -149,6 +150,10 @@ CMD* ExecManager::getMainCMD() {
 
 SourceCodeManager* ExecManager::getSourceCodeManager() {
     return sourceCodeManager;
+}
+
+SourceCodeManager* ExecManager::getTestSourceCodeManager() {
+    return testSourceCodeManager;
 }
 
 MainCMDArgManager* ExecManager::getMainCMDArgManager() {

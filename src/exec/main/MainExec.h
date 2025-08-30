@@ -1,10 +1,11 @@
 #ifndef MAIN_EXEC_H
 #define MAIN_EXEC_H
 
-#include "CleanTaskExec.h"
-#include "CompileTaskExec.h"
-#include "LinkOrArchiveTaskExec.h"
-#include "CopyTaskExec.h"
+#include "task/CleanTaskExec.h"
+#include "task/CompileTaskExec.h"
+#include "task/LinkOrArchiveTaskExec.h"
+#include "task/TestTaskExec.h"
+#include "task/CopyTaskExec.h"
 #include "../Exec.h"
 #include "../../darv/MainScript.h"
 
@@ -14,6 +15,7 @@ class MainExec : public Exec {
         CleanTaskExec* cleanTaskExec;
         CompileTaskExec* compileTaskExec;
         LinkOrArchiveTaskExec* linkOrArchiveTaskExec;
+        TestTaskExec* testTaskExec;
         CopyTaskExec* copyTaskExec;
 
         void validaMainCMD( void* mgr );

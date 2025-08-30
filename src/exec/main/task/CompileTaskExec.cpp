@@ -1,19 +1,19 @@
 
 #include "CompileTaskExec.h"
-#include "../ExecManager.h"
-#include "../stexcept.h"
-#include "../../compiler/Compiler.h"
-#include "../../darv/MainScript.h"
-#include "../../shell/shell.h"
-#include "../../io/io.h"
-#include "../../io/SourceCodeManager.h"
-#include "../../util/strutil.h"
-#include "../../output/output.h"
-#include "../../msg/messagebuilder.h"
+#include "../../ExecManager.h"
+#include "../../stexcept.h"
+#include "../../../compiler/Compiler.h"
+#include "../../../darv/MainScript.h"
+#include "../../../shell/shell.h"
+#include "../../../io/io.h"
+#include "../../../io/SourceCodeManager.h"
+#include "../../../util/strutil.h"
+#include "../../../output/output.h"
+#include "../../../msg/messagebuilder.h"
 
-#include "../../error_messages.h"
-#include "../../info_messages.h"
-#include "../../consts.h"
+#include "../../../error_messages.h"
+#include "../../../info_messages.h"
+#include "../../../consts.h"
 
 #include <vector>
 #include <sstream>
@@ -25,6 +25,7 @@ using std::stringstream;
 void CompileTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
 
     MainScript* script = manager->getMainScript();
 
@@ -65,6 +66,7 @@ void CompileTaskExec::exec( void* mgr ) {
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
+    string testDir = script->getPropertyValue( props::TEST_DIR );
 
     string includeDirs = script->getPropertyValue( props::INCLUDE_DIRS );
     string libDirs = script->getPropertyValue( props::LIB_DIRS );
@@ -97,6 +99,24 @@ void CompileTaskExec::exec( void* mgr ) {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     }
 
+    if ( testDir != "" ) {
+        vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
+        for( CodeInfo* info : testSourceCodeInfos ) {
+            string dir = io::dirPath( objDir + info->objFilePath );
+            if ( dir != "" )
+                this->appCreateDirs( dir, manager );
+        }
+
+        vector<CodeInfo*> testFilesToCompile;
+        if ( isCompileAll ) {
+            testFilesToCompile = testSourceCodeInfos;
+        } else {
+            testSourceCodeManager->loadFilesToCompile( testFilesToCompile, consts::LAST_WRITE_TIMES_FILE );
+        }
+
+        filesToCompile.insert( filesToCompile.end(), testFilesToCompile.begin(), testFilesToCompile.end() );
+    }
+
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
@@ -117,11 +137,11 @@ void CompileTaskExec::exec( void* mgr ) {
         shell->pushCommand( cmdline );
     }
 
-    int exitCode = shell->executa();
+    int exitCode = shell->execute();
+    delete shell;
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::COMPILING_FAILED );
 
-    delete shell;
 
     sourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE );
 

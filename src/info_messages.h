@@ -13,6 +13,7 @@ namespace infos {
     const string SUCCESS_IN_CLEAN = "Limpesa efetuada com sucesso.";
     const string SUCCESS_IN_COMPILATION = "Compilacao executada com sucesso.";
     const string SUCCESS_IN_LINKING = "Linkagem efetuada com sucesso.";
+    const string SUCCESS_IN_TESTING = "Tarefa de teste executada com sucesso.";
     const string SUCCESS_IN_ARCHIVING = "Biblioteca estática criada com sucesso.";
     const string SUCCESS_IN_COPY = "Cópia dos arquivos de build efetuada com sucesso.";
     const string SUCCESS_IN_EXECUTING_STATEMENTS = "Instruções executadas com sucesso.";
@@ -28,6 +29,10 @@ namespace infos {
 
     const string CLEAN_UP_TO_DATE = "Não foi necessário remover algum arquivo. Limpesa atualizada.";
     const string COMPILATION_UP_TO_DATE = "Não foi necessário compilar algum arquivo.\nCompilação atualizada!";
+
+    const string NOTHING_TO_LINK = "Nenhum arquivo de código fonte compilado para linkar.";
+    const string NOTHING_TO_ARCHIVE = "Nenhum arquivo de código fonte compilado para archiving.";
+    const string NOTHING_TO_TEST = "Nenhum arquivo de código fonte compilado para executar testes.";
 
     const string CONFIGURATION_FILE = "Arquivo de configuração: \"$1\"";
     const string SRC_DIRECTORY = "Src dir=\"$1\"";

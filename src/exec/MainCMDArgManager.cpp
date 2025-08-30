@@ -133,6 +133,17 @@ bool MainCMDArgManager::isArchive() {
     return isArchive || isArchiveBuild || isArchiveBuildAll;
 }
 
+bool MainCMDArgManager::isTest() {
+    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
+    if ( mainCMD == nullptr )
+        return false;
+    
+    bool isTest = mainCMD->existsArg( tasks::TEST );
+    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    return isTest || isTestBuild || isTestBuildAll;
+}
+
 bool MainCMDArgManager::isCopy() {
     CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
     if ( mainCMD == nullptr )
@@ -180,4 +191,22 @@ bool MainCMDArgManager::isArchiveBuildAll() {
     
     bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
     return isArchiveBuildAll;
+}
+
+bool MainCMDArgManager::isTestBuild() {
+    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
+    if ( mainCMD == nullptr )
+        return false;
+    
+    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    return isTestBuild;
+}
+
+bool MainCMDArgManager::isTestBuildAll() {
+    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
+    if ( mainCMD == nullptr )
+        return false;
+    
+    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    return isTestBuildAll;
 }

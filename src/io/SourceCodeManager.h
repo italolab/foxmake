@@ -36,11 +36,12 @@ class SourceCodeManager {
         SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );
         virtual ~SourceCodeManager();
 
-        bool recursiveProcFiles( string srcDir );
+        bool recursiveProcFiles( string srcDir, string targetFolder );
         void loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath );
         void saveLastWriteTimesInFile( string configFilePath );
-        
+
         CodeInfo* getSourceCodeInfo( string filePath );
+        vector<string> withHeaderSourceCodeFiles();        
         vector<string> sourceFilePaths();
         vector<CodeInfo*> sourceCodeInfos();
 

@@ -42,7 +42,7 @@ void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
         }
     #else
         shell->pushCommand( cmdstr );
-        result = shell->executa();
+        result = shell->execute();
     #endif
 
     if ( result != 0 ) {

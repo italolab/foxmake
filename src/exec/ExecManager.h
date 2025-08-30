@@ -2,7 +2,6 @@
 #define EXEC_MANAGER_H
 
 #include "Exec.h"
-#include "TaskExec.h"
 #include "MainCMDArgManager.h"
 #include "main/MainExec.h"
 #include "shcmd/ShellCMDExec.h"
@@ -31,6 +30,7 @@ class ExecManager : public InterDriver {
 
         InterManager* interManager;
         SourceCodeManager* sourceCodeManager;
+        SourceCodeManager* testSourceCodeManager;
         MainCMDArgManager* mainCMDArgManager;
 
         MainExec* mainExec;
@@ -60,6 +60,7 @@ class ExecManager : public InterDriver {
         CMD* getMainCMD();
         InterManager* getInterManager();
         SourceCodeManager* getSourceCodeManager();
+        SourceCodeManager* getTestSourceCodeManager();
         MainCMDArgManager* getMainCMDArgManager();
 
 };

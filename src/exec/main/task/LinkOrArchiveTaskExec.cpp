@@ -1,12 +1,12 @@
 
 #include "LinkOrArchiveTaskExec.h"
-#include "../ExecManager.h"
-#include "../../darv/MainScript.h"
-#include "../../util/strutil.h"
-#include "../../output/output.h"
+#include "../../ExecManager.h"
+#include "../../../darv/MainScript.h"
+#include "../../../util/strutil.h"
+#include "../../../output/output.h"
 
-#include "../../consts.h"
-#include "../../info_messages.h"
+#include "../../../consts.h"
+#include "../../../info_messages.h"
 
 LinkOrArchiveTaskExec::LinkOrArchiveTaskExec() {
     this->exeLinkTaskExec = new ExeLinkTaskExec();

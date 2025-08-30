@@ -10,6 +10,8 @@ namespace errors {
     const string ARCHIVING_FAILED = "Falha no archiving!";
     const string COMPILING_FAILED = "Falha na compilacao!";
     const string LINKING_FAILED = "Falha na linkagem!";
+    const string TEST_LINKING_FAILED = "Falha na linkagem do executável de teste!";
+    const string TESTING_FAILED = "Falha na execução da tarefa teste!";
 
     const string NO_SETTINGS_AND_NO_WORKING_DIR = "Como o arquivo de settings não foi encontrado ou informado, é necessario definir o argumento --working-dir";
 
@@ -58,6 +60,7 @@ namespace errors {
     const string TASK_NAME_NOT_FOUND = "Nome de tarefa não encontrado.";
     const string TASK_NOT_RECOGNIZED = "Tarefa não reconhecida.";
     
+    const string PROPERTY_NOT_DEFINED = "A propriedade \"$1\" deve ser definida.";
     const string PROPERTY_NOT_DEFINED_FOR_ARCHIVING = "A propriedade \"$1\" deve ter valor definido para o empacotamento da biblioteca estática.";
     const string PROPERTY_NOT_DEFINED_FOR_LINKING = "A propriedade \"$1\" deve ter valor definido para linkagem.";
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variável não encontrada: $($1).";
@@ -74,6 +77,7 @@ namespace errors {
     const string ERROR_IN_FILES_COPY = "Houve erro na cópia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, \nse a cópia é recursiva e com ou sem sobrescrita, \ne se tem permissoes necessarias para está operacao";
     const string ERROR_IN_MAIN_CMD = "Erro: $1";
     const string ERROR_IN_READING_SRC_FILES = "Houve algum erro na leitura dos arquivos de código fonte.";
+    const string ERROR_IN_READING_TEST_FILES = "Houve algum erro na leitura dos arquivos de código fonte de teste.";
     
     const string SHELL_CMD_NOT_EXECUTED = "Não foi possível executar o comando.\nVerifique se ele existe e sua sintáxe!\nO comando retornou o código: $1";
 
