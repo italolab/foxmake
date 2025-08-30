@@ -66,7 +66,10 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->genSourceAndHeaderInfos( manager );
 
-    manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::INIT ) << "...\n";
+
+    manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );    
     manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
 
     manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
@@ -98,6 +101,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->executaStatements( manager );
 
+    if ( isVerbose )
+        out << "\n";
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::FINISH ) << "...\n";
+        
     manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::BEFORE );
     manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::AFTER );
     
@@ -172,7 +180,7 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     settingsFile = io::absoluteResolvePath( settingsFile );
 
     if ( isVerbose ) {
-        messagebuilder b( infos::CONFIGURATION_FILE );
+        messagebuilder b( infos::SETTINGS_FILE );
         b << settingsFile;
         out << b.str() << "\n";
     }
@@ -180,7 +188,7 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     bool settingsFileFound = true;
 
     if ( !io::fileExists( settingsFile ) ) {
-        messagebuilder b2( errors::CONFIGURATION_FILE_NOT_FOUND );
+        messagebuilder b2( errors::SETTINGS_FILE_NOT_FOUND );
         b2 << settingsFile;
         out << output::green( b2.str() ) << "\n";
 

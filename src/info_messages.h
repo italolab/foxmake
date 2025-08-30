@@ -34,7 +34,7 @@ namespace infos {
     const string NOTHING_TO_ARCHIVE = "Nenhum arquivo de código fonte compilado para archiving.";
     const string NOTHING_TO_TEST = "Nenhum arquivo de código fonte compilado para executar testes.";
 
-    const string CONFIGURATION_FILE = "Arquivo de configuração: \"$1\"";
+    const string SETTINGS_FILE = "Arquivo de configuração: \"$1\"";
     const string SRC_DIRECTORY = "Src dir=\"$1\"";
 
 }

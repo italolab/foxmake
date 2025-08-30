@@ -32,16 +32,18 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
 
     try {
         for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
-            string filePath = targetFolder;
-            filePath = io::addSeparatorToDirIfNeed( filePath );
-            filePath += entry.path().string();
-
+            string filePath = entry.path().string();
             filePath = io::makePreferred( filePath );
 
             if ( !filesystem::is_directory( filePath ) ) {                
                 string ext = io::extension( filePath );
                 string objFilePath = strutil::replace( filePath, src, "" );
                 objFilePath = strutil::replace( objFilePath, ext, "o" );
+
+                string filePath2 = strutil::replace( filePath, src, "" );
+                filePath = targetFolder;
+                filePath = io::addSeparatorToDirIfNeed( filePath );
+                filePath += filePath2;
 
                 vector<string> dependencies;
                 vector<string> extendedClasses;

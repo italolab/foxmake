@@ -1,28 +1,11 @@
 
-build=build
-if [ "$#" -gt 1 ]; then
-    if [ "$2" == "all" ]; then
-        build=buildall
-    fi
-fi
+./cbuild $1 --settings-file=settings-linux.txt -var target=$2
 
-if [ "$1" == "release" ]; then
-    ./cbuild $build --settings-file=settings-linux.txt -var target=release
-else
-    ./cbuild $build --settings-file=settings-linux.txt -var target=debug
-fi
-
-if [ "$#" -gt "1" ]; then
-    build=""
-    if [ "$2" == "all" ]; then
-        if [ "$#" -gt "2" ]; then
-            build=$3
-        fi
-    else
-        build=$2
+if [ "$#" -gt "2" ]; then
+    target="debug"
+    if [ "$#" -gt "3" ]; then
+        target=$4
     fi
 
-    if [ "$build" != "" ]; then
-        ./build/cbuild $build --settings-file=settings-linux-run.txt -var target=debug
-    fi
+    ./build/cbuild $3 --settings-file=settings-linux-run.txt -var target=$target
 fi

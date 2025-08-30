@@ -3,6 +3,7 @@ compiler=g++
 output.file.name=cbuild
 
 src.dir=src
+#test.dir=test
 build.dir=build
 
 build.files=
@@ -29,16 +30,11 @@ libs=cbtest
 #defines=
 
 task link before
-    @./cbuild -v archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
+    @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
     rm lib/libcbtest.a
     cp ../cbtest/build/libcbtest.a lib/
 endtask
 
-task finish after
-    #cp -r include build
-    #cp -r lib build/
-    #cd build
-    #@./cbuild buildall --settings-file=../settings-linux-run.txt --working-dir=.
-
-    @./build/cbuild test
+task finish after    
+    @./build/cbuild buildall --settings-file=settings-linux-run.txt
 endtask

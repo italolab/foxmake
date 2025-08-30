@@ -67,6 +67,7 @@ void CompileTaskExec::exec( void* mgr ) {
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string testDir = script->getPropertyValue( props::TEST_DIR );
+    string srcDir = script->getPropertyValue( props::SRC_DIR );
 
     string includeDirs = script->getPropertyValue( props::INCLUDE_DIRS );
     string libDirs = script->getPropertyValue( props::LIB_DIRS );
@@ -75,6 +76,7 @@ void CompileTaskExec::exec( void* mgr ) {
 
     binDir = io::absoluteResolvePath( binDir );
     objDir = io::absoluteResolvePath( objDir );
+    srcDir = io::absoluteResolvePath( srcDir );
 
     binDir = io::addSeparatorToDirIfNeed( binDir );
     objDir = io::addSeparatorToDirIfNeed( objDir );
@@ -99,6 +101,11 @@ void CompileTaskExec::exec( void* mgr ) {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     }
 
+    vector<string> incDirs;
+    int len = sourceCodeInfos.size();
+    for( int i = 0; i < len; i++ )
+        incDirs.push_back( "" );
+
     if ( testDir != "" ) {
         vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
         for( CodeInfo* info : testSourceCodeInfos ) {
@@ -115,18 +122,23 @@ void CompileTaskExec::exec( void* mgr ) {
         }
 
         filesToCompile.insert( filesToCompile.end(), testFilesToCompile.begin(), testFilesToCompile.end() );
+
+        int len = testSourceCodeInfos.size();
+        for( int i = 0; i < len; i++ )
+            incDirs.push_back( srcDir );
     }
 
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 
+    int i = 0;
     for( CodeInfo* sourceCodeInfo : filesToCompile ) {
         Compiler* comp = new Compiler();
         comp->setCompiler( compiler );
         comp->setCompilerParams( compilerParams );
         comp->setDefines( defines );
-        comp->setIncludeDirs( includeDirs );
+        comp->setIncludeDirs( includeDirs + " " + incDirs[ i ] );
         comp->setObjectCodeFile( objDir + sourceCodeInfo->objFilePath );
         comp->setSourceCodeFile( sourceCodeInfo->filePath );
 
@@ -135,6 +147,8 @@ void CompileTaskExec::exec( void* mgr ) {
         delete comp;
 
         shell->pushCommand( cmdline );
+
+        i++;
     }
 
     int exitCode = shell->execute();

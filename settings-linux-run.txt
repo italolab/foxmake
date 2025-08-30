@@ -1,7 +1,8 @@
 compiler=g++
 output.file.name=cbuild
 
-src.dir=../src
+src.dir=src
+test.dir=test
 build.dir=build
 
 build.files=
@@ -30,7 +31,7 @@ libs=
 
 $project_name=cbuild
 
-task copy verbose showoutput;
+task copy showoutput;
 
 task copy after
     echo Copia...

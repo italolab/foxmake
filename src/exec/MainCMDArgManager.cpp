@@ -86,7 +86,9 @@ bool MainCMDArgManager::isClean() {
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
     bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
     bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );    
-    return isClean || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll;
+    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    return isClean || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isCompile() {
@@ -97,7 +99,8 @@ bool MainCMDArgManager::isCompile() {
     bool isCompile = mainCMD->existsArg( tasks::COMPILE );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
     bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
-    return isCompile || isBuild || isArchiveBuild;
+    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    return isCompile || isBuild || isArchiveBuild || isTestBuild;
 }
 
 bool MainCMDArgManager::isCompileAll() {
@@ -108,7 +111,8 @@ bool MainCMDArgManager::isCompileAll() {
     bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
     bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
-    return isCompileAll || isBuildAll || isArchiveBuildAll;
+    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    return isCompileAll || isBuildAll || isArchiveBuildAll || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isLink() {
@@ -154,7 +158,9 @@ bool MainCMDArgManager::isCopy() {
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
     bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
     bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
-    return isCopy || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll;
+    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    return isCopy || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isBuild() {

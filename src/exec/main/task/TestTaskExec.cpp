@@ -43,8 +43,7 @@ void TestTaskExec::exec( void* mgr ) {
 
     binDir = io::addSeparatorToDirIfNeed( binDir );
 
-    string command = "./";
-    command += binDir + consts::TEST_OUTPUT_FILE_NAME;
+    string command = binDir + consts::TEST_OUTPUT_FILE_NAME;
 
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
