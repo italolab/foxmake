@@ -29,6 +29,10 @@ include.dirs=include
 libs=
 #defines=
 
+test.include.dirs=include
+test.lib.dirs=lib
+test.libs=cbtest
+
 $project_name=cbuild
 
 task copy showoutput;
@@ -51,6 +55,8 @@ task debug before
     @dir
     echo Debug executado!
 endtask
+
+task link verbose;
 
 task finish verbose;
 task finish after

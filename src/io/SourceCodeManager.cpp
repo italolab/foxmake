@@ -19,9 +19,6 @@ SourceCodeManager::~SourceCodeManager() {
         delete pair.second;
 }
 
-#include <iostream>
-using namespace std;
-
 bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();
@@ -39,7 +36,10 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
                 string relativeFilePath = strutil::replace( filePath, src, "" );
 
                 string ext = io::extension( filePath );
-                string objFilePath = strutil::replace( relativeFilePath, ext, "o" );
+
+                string objFilePath = targetFolder;
+                objFilePath = io::addSeparatorToDirIfNeed( objFilePath );
+                objFilePath += strutil::replace( relativeFilePath, "."+ext, ".o" );
                 
                 string srcFilePath = targetFolder;
                 srcFilePath = io::addSeparatorToDirIfNeed( srcFilePath );
@@ -70,22 +70,15 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
     }
 }
 
-vector<string> SourceCodeManager::withHeaderSourceCodeFiles() {
-    vector<string> sourceCodeFiles;
+vector<string> SourceCodeManager::withHeaderObjectCodeFiles() {
+    vector<string> objectCodeFiles;
     for( const auto& pair : allCodeInfosMap ) {
         string file = pair.first;
-        string ext = io::extension( file );
 
-        istringstream iss( sourceFileExtensions );
-        string ext2;
-        while( iss >> ext2 ) {
-            string sourceFile = strutil::replace( file, ext, ext2 );
-            if ( io::fileExists( sourceFile ) ) {
-                sourceCodeFiles.push_back( sourceFile );
-            }
-        }
+        if ( strutil::endsWithSome( file, headerFileExtensions ) )
+            objectCodeFiles.push_back( pair.second->objFilePath );        
     }
-    return sourceCodeFiles;
+    return objectCodeFiles;
 }
 
 bool SourceCodeManager::loadDependencies() {

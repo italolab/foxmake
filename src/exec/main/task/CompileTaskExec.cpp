@@ -58,19 +58,12 @@ void CompileTaskExec::exec( void* mgr ) {
     else manager->executaUserTaskIfExists( tasks::COMPILE, TaskExecution::BEFORE );
 
     string compiler = script->getPropertyValue( props::COMPILER );
-    string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
-
     string exeFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
 
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string testDir = script->getPropertyValue( props::TEST_DIR );
     string srcDir = script->getPropertyValue( props::SRC_DIR );
-
-    string includeDirs = script->getPropertyValue( props::INCLUDE_DIRS );
-    string libDirs = script->getPropertyValue( props::LIB_DIRS );
-
-    string defines = script->getPropertyValue( props::DEFINES );
 
     binDir = io::absoluteResolvePath( binDir );
     objDir = io::absoluteResolvePath( objDir );
@@ -84,24 +77,23 @@ void CompileTaskExec::exec( void* mgr ) {
     if ( compiler == "" )
         compiler = consts::DEFAULT_COMPILER;
 
-    vector<CodeInfo*> filesToCompile;
-    vector<string> incDirs;
+    vector<TCompilation*> filesToCompile;
 
-    this->loadFilesToCompile( filesToCompile, incDirs, mgr );
+    this->loadFilesToCompile( filesToCompile, mgr );
 
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 
     int i = 0;
-    for( CodeInfo* sourceCodeInfo : filesToCompile ) {
+    for( TCompilation* compilation : filesToCompile ) {
         Compiler* comp = new Compiler();
         comp->setCompiler( compiler );
-        comp->setCompilerParams( compilerParams );
-        comp->setDefines( defines );
-        comp->setIncludeDirs( includeDirs + " " + incDirs[ i ] );
-        comp->setObjectCodeFile( objDir + sourceCodeInfo->objFilePath );
-        comp->setSourceCodeFile( sourceCodeInfo->srcFilePath );
+        comp->setCompilerParams( compilation->compilerParams );
+        comp->setDefines( compilation->defines );
+        comp->setIncludeDirs( compilation->includeDirs );
+        comp->setObjectCodeFile( compilation->objFile );
+        comp->setSourceCodeFile( compilation->srcFile );
 
         string cmdline = comp->buildCMDLine();
 
@@ -130,11 +122,7 @@ void CompileTaskExec::exec( void* mgr ) {
     }
 }
 
-void CompileTaskExec::loadFilesToCompile( 
-            vector<CodeInfo*>& filesToCompile, 
-            vector<string>& incDirs,
-            void* mgr ) {
-
+void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
@@ -142,6 +130,15 @@ void CompileTaskExec::loadFilesToCompile(
     bool isCompileAll = manager->getMainCMDArgManager()->isCompileAll();
 
     MainScript* script = manager->getMainScript();
+
+    string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
+    string testCompilerParams = script->getPropertyValue( props::TEST_COMPILER_PARAMS );
+
+    string includeDirs = script->getPropertyValue( props::INCLUDE_DIRS );
+    string defines = script->getPropertyValue( props::DEFINES );
+
+    string testIncludeDirs = script->getPropertyValue( props::TEST_INCLUDE_DIRS );
+    string testDefines = script->getPropertyValue( props::TEST_DEFINES );
 
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string testDir = script->getPropertyValue( props::TEST_DIR );
@@ -151,7 +148,9 @@ void CompileTaskExec::loadFilesToCompile(
     srcDir = io::absoluteResolvePath( srcDir );
 
     objDir = io::addSeparatorToDirIfNeed( objDir );
-    
+
+    testIncludeDirs += " " + srcDir;
+   
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos ) {
         string dir = io::dirPath( objDir + info->objFilePath );
@@ -159,15 +158,23 @@ void CompileTaskExec::loadFilesToCompile(
             this->appCreateDirs( dir, manager );
     }
 
+    vector<CodeInfo*> filesToCompile;
     if ( isCompileAll ) {
         filesToCompile = sourceCodeInfos;
     } else {
         sourceCodeManager->loadFilesToCompile( filesToCompile, consts::LAST_WRITE_TIMES_FILE );
     }
 
-    int len = filesToCompile.size();
-    for( int i = 0; i < len; i++ )
-        incDirs.push_back( "" );
+    for( CodeInfo* sourceCodeInfo : filesToCompile ) {
+        Compilation* comp = new Compilation();
+        comp->compilerParams = compilerParams;
+        comp->includeDirs = includeDirs;
+        comp->defines = defines;
+        comp->objFile = objDir + sourceCodeInfo->objFilePath;
+        comp->srcFile = sourceCodeInfo->srcFilePath;
+
+        compilations.push_back( comp );
+    } 
 
     if ( testDir != "" ) {
         vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
@@ -186,9 +193,15 @@ void CompileTaskExec::loadFilesToCompile(
 
         filesToCompile.insert( filesToCompile.end(), testFilesToCompile.begin(), testFilesToCompile.end() );
 
-        int len = testFilesToCompile.size();
-        for( int i = 0; i < len; i++ )
-            incDirs.push_back( srcDir );
+        for( CodeInfo* sourceCodeInfo : testFilesToCompile ) {
+            Compilation* comp = new Compilation();
+            comp->compilerParams = testCompilerParams;
+            comp->includeDirs = testIncludeDirs;
+            comp->defines = testDefines;
+            comp->objFile = objDir + sourceCodeInfo->objFilePath;
+            comp->srcFile = sourceCodeInfo->srcFilePath;
+            compilations.push_back( comp );
+        }
     }
 }
 

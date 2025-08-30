@@ -6,6 +6,10 @@
 
 class ExeLinkTaskExec : TaskExec {
 
+    private:
+        void execLinkage( void* mgr );
+        void execTestLinkage( void* mgr );
+
     public:
         void exec( void* mgr );
 

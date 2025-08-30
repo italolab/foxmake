@@ -25,36 +25,12 @@ using std::stringstream;
 
 void ExeLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
-    SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
-
-    Output& out = manager->out;
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
-    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
-
     MainScript* script = manager->getMainScript();
 
     string compiler = script->getPropertyValue( props::COMPILER );
-    string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
-
     string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
-
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
-    string testDir = script->getPropertyValue( props::TEST_DIR );
-
     string resourceFile = script->getPropertyValue( props::RESOURCE_FILE );
-
-    string libDirs = script->getPropertyValue( props::LIB_DIRS );
-    string libs = script->getPropertyValue( props::LIBS );
-
-    string defines = script->getPropertyValue( props::DEFINES );
-
-    binDir = io::absoluteResolvePath( binDir );
-    objDir = io::absoluteResolvePath( objDir );
-
-    binDir = io::addSeparatorToDirIfNeed( binDir );
-    objDir = io::addSeparatorToDirIfNeed( objDir );
+    string testDir = script->getPropertyValue( props::TEST_DIR );
 
     if ( compiler == "" )
         compiler = consts::DEFAULT_COMPILER;
@@ -73,71 +49,143 @@ void ExeLinkTaskExec::exec( void* mgr ) {
         }
     }
 
-    if ( outputFileName != "" ) {
-        vector<string> objectCodeFiles;
-        vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
-        for( CodeInfo* info : sourceCodeInfos )
-            objectCodeFiles.push_back( objDir + info->objFilePath );
+    if ( outputFileName != "" )
+        this->execLinkage( mgr );
 
-        if ( objectCodeFiles.empty() ) {
-            out << output::green( infos::NOTHING_TO_LINK ) << "\n";
-        } else {
-            Linker* linker = new Linker();
-            linker->setCompiler( compiler );
-            linker->setLinkerParams( linkerParams );
-            linker->setDefines( defines );
-            linker->setLibraryDirs( libDirs );
-            linker->setLibraries( libs );
-            linker->setObjectCodeFiles( objectCodeFiles );
-            linker->setResourceFile( resourceFile );
-            linker->setOutputFile( binDir + outputFileName );
-            string cmdline = linker->buildCMDLine();
+    if ( testDir != "" )
+        this->execTestLinkage( mgr );
+}
 
-            delete linker;
+void ExeLinkTaskExec::execLinkage( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
 
-            Shell* shell = new Shell( out );
-            shell->setVerbose( isVerbose );
-            shell->setShowOutput( isShowCMDOutput );
-            shell->pushCommand( cmdline );
+    Output& out = manager->out;
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
+    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
 
-            int exitCode = shell->execute();
-            delete shell;
-            if ( exitCode != 0 )
-                throw st_error( nullptr, errors::LINKING_FAILED );
-        }
+    MainScript* script = manager->getMainScript();
+
+    string compiler = script->getPropertyValue( props::COMPILER );
+    string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
+
+    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+    string objDir = script->getPropertyValue( props::OBJ_DIR );
+
+    string resourceFile = script->getPropertyValue( props::RESOURCE_FILE );
+
+    string libDirs = script->getPropertyValue( props::LIB_DIRS );
+    string libs = script->getPropertyValue( props::LIBS );
+    
+    string defines = script->getPropertyValue( props::DEFINES );
+
+    binDir = io::absoluteResolvePath( binDir );
+    objDir = io::absoluteResolvePath( objDir );
+
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+    objDir = io::addSeparatorToDirIfNeed( objDir );
+
+    vector<string> objectCodeFiles;
+    vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
+    for( CodeInfo* info : sourceCodeInfos )        
+        objectCodeFiles.push_back( objDir + info->objFilePath );    
+
+    if ( objectCodeFiles.empty() ) {
+        out << output::green( infos::NOTHING_TO_LINK ) << "\n";
+    } else {
+        Linker* linker = new Linker();
+        linker->setCompiler( compiler );
+        linker->setLinkerParams( linkerParams );
+        linker->setDefines( defines );
+        linker->setLibraryDirs( libDirs );
+        linker->setLibraries( libs );
+        linker->setObjectCodeFiles( objectCodeFiles );
+        linker->setResourceFile( resourceFile );
+        linker->setOutputFile( binDir + outputFileName );
+        string cmdline = linker->buildCMDLine();
+
+        delete linker;
+
+        Shell* shell = new Shell( out );
+        shell->setVerbose( isVerbose );
+        shell->setShowOutput( isShowCMDOutput );
+        shell->pushCommand( cmdline );
+
+        int exitCode = shell->execute();
+        delete shell;
+        if ( exitCode != 0 )
+            throw st_error( nullptr, errors::LINKING_FAILED );
+    }
+}
+
+void ExeLinkTaskExec::execTestLinkage( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
+
+    Output& out = manager->out;
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
+    bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
+
+    MainScript* script = manager->getMainScript();
+
+    string compiler = script->getPropertyValue( props::COMPILER );
+    string testLinkerParams = script->getPropertyValue( props::TEST_LINKER_PARAMS );
+
+    string testLibDirs = script->getPropertyValue( props::TEST_LIB_DIRS );
+    string testLibs = script->getPropertyValue( props::TEST_LIBS );
+
+    string testDefines = script->getPropertyValue( props::TEST_DEFINES );
+
+    string objDir = script->getPropertyValue( props::OBJ_DIR );
+    string binDir = script->getPropertyValue( props::BIN_DIR );
+
+    objDir = io::absoluteResolvePath( objDir );
+    binDir = io::absoluteResolvePath( binDir );
+
+    objDir = io::addSeparatorToDirIfNeed( objDir );
+    binDir = io::addSeparatorToDirIfNeed( binDir );
+
+    vector<string> withHeaderObjFiles = sourceCodeManager->withHeaderObjectCodeFiles();    
+    vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
+        
+    vector<string> objectCodeFiles;
+    
+    for( string objFile : withHeaderObjFiles ) {
+        string ofile = objDir + objFile;
+        if ( io::fileExists( ofile ) )
+            objectCodeFiles.push_back( ofile );
     }
 
-    if ( testDir != "" ) {
-        vector<string> objectCodeFiles = sourceCodeManager->withHeaderSourceCodeFiles();
+    for( CodeInfo* info : testSourceCodeInfos )
+        objectCodeFiles.push_back( objDir + info->objFilePath );
 
-        vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
-        for( CodeInfo* info : testSourceCodeInfos )
-            objectCodeFiles.push_back( objDir + info->objFilePath );
+    if ( objectCodeFiles.empty() ) {
+        out << output::green( infos::NOTHING_TO_TEST ) << "\n";
+    } else {
+        Linker* linker = new Linker();
+        linker->setCompiler( compiler );
+        linker->setLinkerParams( testLinkerParams );
+        linker->setDefines( testDefines );
+        linker->setLibraryDirs( testLibDirs );
+        linker->setLibraries( testLibs );
+        linker->setObjectCodeFiles( objectCodeFiles );
+        linker->setOutputFile( binDir + consts::TEST_OUTPUT_FILE_NAME );
+        string cmdline = linker->buildCMDLine();
 
-        if ( !objectCodeFiles.empty() ) {
-            out << output::green( infos::NOTHING_TO_TEST ) << "\n";
-        } else {
-            Linker* linker = new Linker();
-            linker->setCompiler( compiler );
-            linker->setLinkerParams( linkerParams );
-            linker->setDefines( defines );
-            linker->setLibraryDirs( libDirs );
-            linker->setLibraries( libs );
-            linker->setObjectCodeFiles( objectCodeFiles );
-            linker->setOutputFile( binDir + consts::TEST_OUTPUT_FILE_NAME );
-            string cmdline = linker->buildCMDLine();
+        delete linker;
 
-            delete linker;
+        Shell* shell = new Shell( out );
+        shell->setVerbose( isVerbose );
+        shell->setShowOutput( isShowCMDOutput );
+        shell->pushCommand( cmdline );
 
-            Shell* shell = new Shell( out );
-            shell->setVerbose( isVerbose );
-            shell->setShowOutput( isShowCMDOutput );
-            shell->pushCommand( cmdline );
-
-            int exitCode = shell->execute();
-            delete shell;
-            if ( exitCode != 0 )
-                throw st_error( nullptr, errors::TEST_LINKING_FAILED );            
-        }
+        int exitCode = shell->execute();
+        delete shell;
+        if ( exitCode != 0 )
+            throw st_error( nullptr, errors::TEST_LINKING_FAILED );            
     }
 }

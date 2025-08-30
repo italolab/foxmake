@@ -41,7 +41,7 @@ class SourceCodeManager {
         void saveLastWriteTimesInFile( string configFilePath );
 
         CodeInfo* getSourceCodeInfo( string filePath );
-        vector<string> withHeaderSourceCodeFiles();        
+        vector<string> withHeaderObjectCodeFiles();        
         vector<string> sourceFilePaths();
         vector<CodeInfo*> sourceCodeInfos();
 

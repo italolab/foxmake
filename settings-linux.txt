@@ -3,6 +3,7 @@ compiler=g++
 output.file.name=cbuild
 
 src.dir=src
+#test.dir=test
 build.dir=build
 
 build.files=
@@ -23,10 +24,13 @@ obj.dir=$($(target)_obj_dir)
 compiler.params=$($(target)_compiler_params)
 linker.params=$($(target)_linker_params)
 
-lib.dirs=lib
-include.dirs=include
-libs=cbtest
-#defines=
+lib.dirs=
+include.dirs=
+libs=
+
+#test.lib.dirs=lib
+#test.include.dirs=include
+#test.libs=cbtest
 
 task link before
     @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
@@ -35,5 +39,5 @@ task link before
 endtask
 
 task finish after    
-    @./build/cbuild build --settings-file=settings-linux-run.txt
+    @./build/cbuild testbuild --settings-file=settings-linux-run.txt
 endtask

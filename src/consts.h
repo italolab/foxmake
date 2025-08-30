@@ -108,18 +108,19 @@ namespace props {
 
     const string DEFINES = "defines";
 
+    const string TEST_COMPILER_PARAMS = "test.compiler.params";
+    const string TEST_LINKER_PARAMS = "test.linker.params";
+    const string TEST_LIB_DIRS = "test.lib.dirs";
+    const string TEST_INCLUDE_DIRS = "test.include.dirs";
+    const string TEST_LIBS = "test.libs";
+    const string TEST_DEFINES = "test.defines";
+
     const string OUTPUT_DEF_FILE = "output.def.file";
     const string OUT_IMPLIB_FILE = "out.implib.file";
 
     const vector<string> VALID_NAMES = {
         COMPILER,
         ARCHIVER,
-
-        COMPILER_PARAMS,
-        LINKER_PARAMS,
-        ARCHIVER_PARAMS,
-
-        OUTPUT_FILE_NAME,
 
         BASE_DIR,
         SRC_DIR,
@@ -128,14 +129,26 @@ namespace props {
         BIN_DIR,
         BUILD_DIR,
 
+        OUTPUT_FILE_NAME,
         BUILD_FILES,
         RESOURCE_FILE,
 
+        COMPILER_PARAMS,
+        LINKER_PARAMS,
+        ARCHIVER_PARAMS,
         LIB_DIRS,
         INCLUDE_DIRS,
         LIBS,
 
         DEFINES,
+
+        TEST_COMPILER_PARAMS,
+        TEST_LINKER_PARAMS,
+        TEST_LIB_DIRS,
+        TEST_INCLUDE_DIRS,
+        TEST_LIBS,
+        
+        TEST_DEFINES,
 
         OUTPUT_DEF_FILE,
         OUT_IMPLIB_FILE

@@ -13,10 +13,15 @@ using std::vector;
 class CompileTaskExec : public TaskExec {
 
     private:
-        void loadFilesToCompile( 
-                vector<CodeInfo*>& filesToCompile, 
-                vector<string>& incDirs,
-                void* mgr );
+        typedef struct TCompilation {
+            string srcFile;
+            string objFile;
+            string compilerParams;
+            string includeDirs;
+            string defines;
+        } Compilation;
+
+        void loadFilesToCompile( vector<Compilation*>& compilations, void* mgr );
         
         void appCreateDirs( string dir, void* mgr );
 
