@@ -117,7 +117,7 @@ void ExeLinkTaskExec::exec( void* mgr ) {
         if ( !objectCodeFiles.empty() ) {
             out << output::green( infos::NOTHING_TO_TEST ) << "\n";
         } else {
-        Linker* linker = new Linker();
+            Linker* linker = new Linker();
             linker->setCompiler( compiler );
             linker->setLinkerParams( linkerParams );
             linker->setDefines( defines );
@@ -137,7 +137,7 @@ void ExeLinkTaskExec::exec( void* mgr ) {
             int exitCode = shell->execute();
             delete shell;
             if ( exitCode != 0 )
-                throw st_error( nullptr, errors::TEST_LINKING_FAILED );
+                throw st_error( nullptr, errors::TEST_LINKING_FAILED );            
         }
     }
 }

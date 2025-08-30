@@ -13,6 +13,7 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
     FileIterator* it = new FileIterator( file );
 
     int numberOfLines = 0;
+    bool ignoreFlag = false;
     while( it->hasNextLine() ) {
         string line = it->nextLine();
         line = strutil::removeStartWhiteSpaces( line );
@@ -22,7 +23,17 @@ InterResult* MainScriptInter::interprets( MainScript* script, string file, int l
             continue;
         }
 
-        if ( strutil::isWhiteSpace( line[ 0 ] ) || line[ 0 ] == '#' ) {
+        bool ignoreLineFlag = false;
+
+        string line2 = strutil::trim( line );
+        if ( line2 == "##" ) {
+            ignoreFlag = !ignoreFlag;
+            ignoreLineFlag = true;
+        } else if ( strutil::isWhiteSpace( line[ 0 ] ) || line[ 0 ] == '#' ) {
+            ignoreLineFlag = true;
+        }
+
+        if ( ignoreFlag || ignoreLineFlag ) {
             numberOfLines++;
             continue;
         }

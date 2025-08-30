@@ -123,7 +123,9 @@ bool MainCMDArgManager::isLink() {
     bool isLink = mainCMD->existsArg( tasks::LINK );
     bool isBuild = mainCMD->existsArg( tasks::BUILD );
     bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    return isLink || isBuild || isBuildAll;
+    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    return isLink || isBuild || isBuildAll || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isArchive() {

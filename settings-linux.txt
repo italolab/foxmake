@@ -3,7 +3,6 @@ compiler=g++
 output.file.name=cbuild
 
 src.dir=src
-#test.dir=test
 build.dir=build
 
 build.files=
@@ -36,5 +35,5 @@ task link before
 endtask
 
 task finish after    
-    @./build/cbuild buildall --settings-file=settings-linux-run.txt
+    @./build/cbuild build --settings-file=settings-linux-run.txt
 endtask

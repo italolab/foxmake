@@ -14,6 +14,9 @@
 using std::stringstream;
 using std::istringstream;
 
+#include <iostream>
+using namespace std;
+
 InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
@@ -60,6 +63,7 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
    
     bool taskendFound = false;
     int numberOfLines = 1;
+    bool ignoreFlag = false;
     while( !taskendFound && it->hasNextLine() ) {
         string line = it->nextLine();
         string line2 = strutil::removeStartWhiteSpaces( line );
@@ -69,7 +73,17 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
             continue;
         }
 
-        if ( line2[ 0 ] == '#' ) {
+        bool ignoreLineFlag = false;
+
+        string line3 = strutil::trim( line );
+        if ( line3 == "##" ) {
+            ignoreFlag = !ignoreFlag;
+            ignoreLineFlag = true;
+        } else if ( line2[ 0 ] == '#' ) {
+            ignoreLineFlag = true;
+        }
+
+        if ( ignoreFlag || ignoreLineFlag ) {
             numberOfLines++;
             continue;
         }

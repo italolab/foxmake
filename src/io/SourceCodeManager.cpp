@@ -36,20 +36,21 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
             filePath = io::makePreferred( filePath );
 
             if ( !filesystem::is_directory( filePath ) ) {                
-                string ext = io::extension( filePath );
-                string objFilePath = strutil::replace( filePath, src, "" );
-                objFilePath = strutil::replace( objFilePath, ext, "o" );
+                string relativeFilePath = strutil::replace( filePath, src, "" );
 
-                string filePath2 = strutil::replace( filePath, src, "" );
-                filePath = targetFolder;
-                filePath = io::addSeparatorToDirIfNeed( filePath );
-                filePath += filePath2;
+                string ext = io::extension( filePath );
+                string objFilePath = strutil::replace( relativeFilePath, ext, "o" );
+                
+                string srcFilePath = targetFolder;
+                srcFilePath = io::addSeparatorToDirIfNeed( srcFilePath );
+                srcFilePath += relativeFilePath;
 
                 vector<string> dependencies;
                 vector<string> extendedClasses;
 
                 CodeInfo* info = new CodeInfo;
                 info->filePath = filePath;
+                info->srcFilePath = srcFilePath;
                 info->objFilePath = objFilePath;
                 info->dependencies = dependencies;
                 info->extendedClasses = extendedClasses;
@@ -79,8 +80,9 @@ vector<string> SourceCodeManager::withHeaderSourceCodeFiles() {
         string ext2;
         while( iss >> ext2 ) {
             string sourceFile = strutil::replace( file, ext, ext2 );
-            if ( io::fileExists( sourceFile ) )
+            if ( io::fileExists( sourceFile ) ) {
                 sourceCodeFiles.push_back( sourceFile );
+            }
         }
     }
     return sourceCodeFiles;

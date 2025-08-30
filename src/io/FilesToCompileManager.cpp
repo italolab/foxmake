@@ -32,7 +32,7 @@ void FilesToCompileManager::loadFilesToCompile(
 
                 long currentWritingTimeElapsed = io::lastWriteTime( filePath );
                 if ( currentWritingTimeElapsed > savedWritingTimeElapsed )
-                    this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );
+                    this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );                
             } else {
                 this->addDependenciesToCompile( filesToCompile, allSourceInfosMap, filePath );
             }

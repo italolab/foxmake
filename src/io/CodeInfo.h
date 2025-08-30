@@ -9,6 +9,7 @@ using std::vector;
 
 typedef struct TCodeInfo {
     string filePath;
+    string srcFilePath;
     string objFilePath;
     vector<string> extendedClasses;
     vector<string> dependencies;
