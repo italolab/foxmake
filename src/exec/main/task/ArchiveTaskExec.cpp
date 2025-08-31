@@ -13,6 +13,8 @@
 #include "../../../error_messages.h"
 #include "../../../info_messages.h"
 
+using std::endl;
+
 void ArchiveTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
@@ -57,7 +59,7 @@ void ArchiveTaskExec::exec( void* mgr ) {
         objectCodeFiles.push_back( objDir + info->objFilePath );
 
     if ( objectCodeFiles.empty() ) {
-        out << output::green( infos::NOTHING_TO_ARCHIVE ) << "\n";
+        out << output::green( infos::NOTHING_TO_ARCHIVE ) << endl;
     } else {
         Archiver* arcr = new Archiver();
         arcr->setArchiver( archiver );

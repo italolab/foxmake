@@ -19,6 +19,7 @@
 #include <stdexcept>
 
 using std::stringstream;
+using std::endl;
 
 void CompileTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -43,13 +44,13 @@ void CompileTaskExec::exec( void* mgr ) {
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
-        out << "\n";
+        out << endl;
         
     if ( !isNoResume || isVerbose ) {
         if ( isCompileAll ) {
-            out << infos::EXECUTING << " " << output::green( tasks::COMPILEALL ) << "..." << "\n";
+            out << infos::EXECUTING << " " << output::green( tasks::COMPILEALL ) << "..." << endl;
         } else {
-            out << infos::EXECUTING << " " << output::green( tasks::COMPILE ) << "..." << "\n";
+            out << infos::EXECUTING << " " << output::green( tasks::COMPILE ) << "..." << endl;
         }
     }
 
@@ -118,8 +119,8 @@ void CompileTaskExec::exec( void* mgr ) {
 
     if ( isVerbose ) {
         if ( filesToCompile.empty() )
-            out << infos::COMPILATION_UP_TO_DATE << "\n";
-        else out << infos::SUCCESS_IN_COMPILATION << "\n";
+            out << infos::COMPILATION_UP_TO_DATE << endl;
+        else out << infos::SUCCESS_IN_COMPILATION << endl;
     }
 }
 

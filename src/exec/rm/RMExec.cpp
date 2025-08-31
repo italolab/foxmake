@@ -14,6 +14,7 @@
 #include <sstream>
 
 using std::stringstream;
+using std::endl;
 
 void RMExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -22,7 +23,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
-        out << cmd->getCMDStr() << "\n";
+        out << cmd->getCMDStr() << endl;
 
     int alen = cmd->countNoOpArgs();
     if ( alen < 1 ) {
@@ -73,6 +74,6 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::FILES_AND_FOLDERS_DELETED );
         b2 << std::to_string( count );
-        out << output::green( b2.str() ) << "\n";
+        out << output::green( b2.str() ) << endl;
     }
 }

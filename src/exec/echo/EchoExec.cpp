@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+using std::endl;
+
 void EchoExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     Output& out = manager->out;
@@ -14,5 +16,5 @@ void EchoExec::exec( CMD* cmd, void* mgr ) {
     string text = strutil::replace( cmdstr, cmd->getName(), "" );
     text = strutil::removeStartWhiteSpaces( text );
 
-    out << output::green( text ) << "\n";
+    out << output::green( text ) << endl;
 }

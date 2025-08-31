@@ -8,6 +8,8 @@
 #include "../../../consts.h"
 #include "../../../info_messages.h"
 
+using std::endl;
+
 LinkOrArchiveTaskExec::LinkOrArchiveTaskExec() {
     this->exeLinkTaskExec = new ExeLinkTaskExec();
     this->staticLibraryArchiveTaskExec = new ArchiveTaskExec();
@@ -39,9 +41,9 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
 
     if ( isLink ) {
         if ( isVerbose )
-            out << "\n";
+            out << endl;
         if ( !isNoResume || isVerbose )
-            out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << "\n";    
+            out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << endl;    
 
         manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
 
@@ -55,14 +57,14 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
 
         manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
         if ( isVerbose )
-            out << infos::SUCCESS_IN_LINKING << "\n";
+            out << infos::SUCCESS_IN_LINKING << endl;
     }
 
     if ( isArchive ) {
         if ( isVerbose )
-            out << "\n";
+            out << endl;
         if ( !isNoResume || isVerbose )
-            out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << "\n";    
+            out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << endl;    
 
         manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::BEFORE );
 
@@ -71,7 +73,7 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::AFTER );
 
         if ( isVerbose )
-            out << infos::SUCCESS_IN_ARCHIVING << "\n";
+            out << infos::SUCCESS_IN_ARCHIVING << endl;
     }
     
 }

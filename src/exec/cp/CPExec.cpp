@@ -15,6 +15,7 @@
 
 using std::string;
 using std::stringstream;
+using std::endl;
 
 void CPExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -23,7 +24,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
 
     if ( isVerbose )
-        out << cmd->getCMDStr() << "\n";
+        out << cmd->getCMDStr() << endl;
 
     int alen = cmd->countNoOpArgs();
     if ( alen != 2 ) {

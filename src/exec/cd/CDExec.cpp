@@ -15,6 +15,7 @@
 #include <sstream>
 
 using std::stringstream;
+using std::endl;
 
 void CDExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -51,6 +52,6 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b( infos::NEW_CURRENT_DIRECTORY );
         b << var->getValue();
-        out << b.str() << "\n";
+        out << b.str() << endl;
     }
 }

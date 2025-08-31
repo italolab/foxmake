@@ -12,6 +12,8 @@
 #include "../../../error_messages.h"
 #include "../../../info_messages.h"
 
+using std::endl;
+
 void TestTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
@@ -23,9 +25,9 @@ void TestTaskExec::exec( void* mgr ) {
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
-        out << "\n";
+        out << endl;
     if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::TEST ) << "..." << "\n";    
+        out << infos::EXECUTING << " " << output::green( tasks::TEST ) << "..." << endl;    
 
     string testDir = script->getPropertyValue( props::TEST_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
@@ -60,5 +62,5 @@ void TestTaskExec::exec( void* mgr ) {
     manager->executaUserTaskIfExists( tasks::TEST, TaskExecution::AFTER );
 
     if ( isVerbose )
-        out << infos::SUCCESS_IN_TESTING << "\n";
+        out << infos::SUCCESS_IN_TESTING << endl;
 }

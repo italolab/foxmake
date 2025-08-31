@@ -16,6 +16,7 @@
 
 using std::string;
 using std::vector;
+using std::endl;
 
 void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -26,9 +27,9 @@ void CopyTaskExec::exec( void* mgr ) {
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
-        out << "\n";
+        out << endl;
     if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << "\n";    
+        out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << endl;    
 
     MainScript* script = manager->getMainScript();
 
@@ -61,7 +62,7 @@ void CopyTaskExec::exec( void* mgr ) {
     manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::AFTER );
 
     if ( isVerbose )
-        out << infos::SUCCESS_IN_COPY << "\n";
+        out << infos::SUCCESS_IN_COPY << endl;
 }
 
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr ) {
@@ -93,7 +94,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
         if ( isVerbose ) {
             messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
             b << path;
-            out << output::green( b.str() ) << "\n";
+            out << output::green( b.str() ) << endl;
         }
     } catch ( const io_error& e ) {        
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );

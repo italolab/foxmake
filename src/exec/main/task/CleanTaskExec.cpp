@@ -11,6 +11,8 @@
 #include "../../../info_messages.h"
 #include "../../../consts.h"
 
+using std::endl;
+
 void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
@@ -19,9 +21,9 @@ void CleanTaskExec::exec( void* mgr ) {
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     if ( isVerbose )
-        out << "\n";
+        out << endl;
     if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::CLEAN ) << "..." << "\n";    
+        out << infos::EXECUTING << " " << output::green( tasks::CLEAN ) << "..." << endl;    
 
     manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
@@ -62,8 +64,8 @@ void CleanTaskExec::exec( void* mgr ) {
 
     if ( isVerbose ) {
         if ( removedSome )
-            out << infos::SUCCESS_IN_CLEAN << "\n";
-        else out << infos::CLEAN_UP_TO_DATE << "\n";
+            out << infos::SUCCESS_IN_CLEAN << endl;
+        else out << infos::CLEAN_UP_TO_DATE << endl;
     }
 }
 
@@ -85,7 +87,7 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void
             if ( isVerbose ) {
                 messagebuilder b( infos::FILE_OR_DIRECTORY_DELETED );
                 b << path;
-                out << output::green( b.str() ) << "\n";
+                out << output::green( b.str() ) << endl;
             }
             return true;
         }

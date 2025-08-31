@@ -23,6 +23,7 @@
 using std::string;
 using std::vector;
 using std::stringstream;
+using std::endl;
 
 void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -72,7 +73,7 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
         objectCodeFiles.push_back( objDir + info->objFilePath );
 
     if ( objectCodeFiles.empty() ) {
-        out << output::green( infos::NOTHING_TO_LINK ) << "\n";
+        out << output::green( infos::NOTHING_TO_LINK ) << endl;
     } else {
         DynamicLibraryLinker* linker = new DynamicLibraryLinker();
         linker->setCompiler( compiler );

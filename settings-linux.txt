@@ -30,8 +30,9 @@ libs=
 
 test.lib.dirs=lib
 test.include.dirs=include
-test.libs=cbtest
+#test.libs=cbtest
 
+task link verbose;
 task link before
     rm include/*.a
     rm lib/libcbtest.a

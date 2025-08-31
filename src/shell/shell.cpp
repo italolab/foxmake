@@ -20,8 +20,6 @@
 #include <stdexcept>
 #include <iostream>
 
-using std::cout;
-using std::cerr;
 using std::endl;
 using std::memset;
 using std::runtime_error;
@@ -83,7 +81,7 @@ int Shell::execute() {
             if ( i != string::npos )
                 cmdstr = cmdstr.substr( 0, i ) + "...";
                 
-            *out << cmdstr << "\n";
+            *out << cmdstr << endl;
         }
 
         stringstream ss;

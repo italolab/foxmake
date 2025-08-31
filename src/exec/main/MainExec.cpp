@@ -23,6 +23,7 @@
 using std::string;
 using std::vector;
 using std::stringstream;
+using std::endl;
 
 MainExec::MainExec() {
     cleanTaskExec = new CleanTaskExec();
@@ -67,7 +68,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     this->genSourceAndHeaderInfos( manager );
 
     if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::INIT ) << "...\n";
+        out << infos::EXECUTING << " " << output::green( tasks::INIT ) << "..." << endl;
 
     manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );    
     manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
@@ -102,18 +103,18 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     this->executaStatements( manager );
 
     if ( isVerbose )
-        out << "\n";
+        out << endl;
     if ( !isNoResume || isVerbose )
-        out << infos::EXECUTING << " " << output::green( tasks::FINISH ) << "...\n";
+        out << infos::EXECUTING << " " << output::green( tasks::FINISH ) << "..." << endl;
         
     manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::BEFORE );
     manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::AFTER );
     
     if ( isVerbose )
-        out << "\n";
+        out << endl;
 
     if ( !isNoResume )
-        out << infos::FINISH << "\n";
+        out << infos::FINISH << endl;
 }
 
 void MainExec::validaMainCMD( void* mgr ) {
@@ -182,7 +183,7 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b( infos::SETTINGS_FILE );
         b << settingsFile;
-        out << b.str() << "\n";
+        out << b.str() << endl;
     }
 
     bool settingsFileFound = true;
@@ -190,7 +191,7 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     if ( !io::fileExists( settingsFile ) ) {
         messagebuilder b2( errors::SETTINGS_FILE_NOT_FOUND );
         b2 << settingsFile;
-        out << output::green( b2.str() ) << "\n";
+        out << output::green( b2.str() ) << endl;
 
         if ( !workingDirFound )
             throw st_error( nullptr, errors::NO_SETTINGS_AND_NO_WORKING_DIR );
@@ -229,7 +230,7 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::CURRENT_DIRECTORY );
         b2 << wdir;
-        out << b2.str() << "\n";
+        out << b2.str() << endl;
     }
 }
 
@@ -314,7 +315,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     if ( isVerbose ) {
         messagebuilder b2( infos::SRC_DIRECTORY );
         b2 << srcDir;
-        out << b2.str() << "\n";
+        out << b2.str() << endl;
     }
 
     bool ok = sourceCodeManager->recursiveProcFiles( srcDir, consts::SRC_TARGET_FOLDER );
@@ -343,7 +344,7 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
         bool isTaskArg = mainCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
             if ( isVerbose && !isNoResume )
-                out << infos::EXECUTING << " " << output::green( taskName ) << "...\n";                            
+                out << infos::EXECUTING << " " << output::green( taskName ) << "..." << endl;                            
 
             manager->executaUserTaskIfExists( taskName, TaskExecution::BEFORE );
             manager->executaUserTaskIfExists( taskName, TaskExecution::NORMAL );
@@ -364,9 +365,9 @@ void MainExec::executaStatements( void* mgr ) {
 
     if ( tam > 0 ) {
         if( isVerbose )
-            out << "\n";
+            out << endl;
         if ( !isNoResume )
-            out << infos::EXECUTING_STATEMENTS << "\n";
+            out << infos::EXECUTING_STATEMENTS << endl;
     }
 
     for( int i = 0; i < tam; i++ ) {
@@ -375,7 +376,7 @@ void MainExec::executaStatements( void* mgr ) {
     }
 
     if ( tam > 0 && isVerbose )
-        out << infos::SUCCESS_IN_EXECUTING_STATEMENTS << "\n";
+        out << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;
 }
 
 void MainExec::showHelp( void* mgr ) {
@@ -404,7 +405,7 @@ void MainExec::showHelp( void* mgr ) {
         } else if ( taskName == tasks::BUILDALL ) {
             out << helpmessage::buildAllHelpMessage();
         } else {
-            out << errors::TASK_NOT_RECOGNIZED << "\n";
+            out << errors::TASK_NOT_RECOGNIZED << endl;
         }
     }
 }
