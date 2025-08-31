@@ -14,25 +14,6 @@
 using std::stringstream;
 using std::istringstream;
 
-/*
-Nesta classe é feita, também, a validação das flags da configuração da tarefa. 
-Exemplo:
-    task init a;
-    essa task está sendo configurada com uma flag que não é, nem before e nem after.
-
-    task init;
-    Esta task está sendo configurada como normal com o flag omitido, mas ela é uma 
-    task default e não pode ser definida como normal.
-
-    task compile before after;
-    Tarefa definida como before e after.
-
-    task compile before;
-    task compile before after;
-    A segunda configuração da task compile tem o before que já foi definido na primeira 
-    configuração.
-*/
-
 TaskInter::~TaskInter() {}
 
 InterResult* TaskInter::interpretsLine( 
@@ -128,6 +109,24 @@ InterResult* TaskInter::interprets(
     return new InterResult( task, numberOfLinesReaded, 0 );
 }
 
+/*
+Nesta médodo é feita a validação das flags da configuração da tarefa. 
+Exemplo:
+    task init a;
+    essa task está sendo configurada com uma flag que não é nem before e nem after.
+
+    task init;
+    Esta task está sendo configurada como normal com o flag omitido, mas ela é uma 
+    task default e não pode ser definida como normal.
+
+    task compile before after;
+    Tarefa definida como before e after. Isso não é permitido!
+
+    task compile before;
+    task compile before;
+    A segunda configuração da task compile tem o before que já foi definido na primeira 
+    configuração.
+*/
 bool TaskInter::validateFlags( 
             MainScript* script, 
             string taskName, 
