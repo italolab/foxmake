@@ -7,73 +7,30 @@
 
 #include "../error_messages.h"
 
-InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
+MainScriptInter::~MainScriptInter() {}
+
+InterResult* MainScriptInter::interpretsLine( Block* block, BlockIterator* it, string currentLine, int currentLineNumber, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
+    MainScript* script = (MainScript*)block;
+
+    InterResult* result = manager->interpretsProp( script, currentLine, currentLineNumber );
+    if ( !result->isInterpreted() && !result->isErrorFound())
+        result = manager->interpretsTask( script, it, currentLine, currentLineNumber );
+    if ( !result->isInterpreted() && !result->isErrorFound() )
+        result = manager->interpretsDefaultTaskConfig( script, currentLine, currentLineNumber );
+
+    return result;
+}
+
+InterResult* MainScriptInter::interpretsEnd( Block* block, string currentLine, int currentLineNumber ) {
+    return new InterResult( false );
+}
+
+InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
     FileIterator* it = new FileIterator( file );
 
     int numberOfLines = 0;
-    bool ignoreFlag = false;
-    while( it->hasNextLine() ) {
-        string line = it->nextLine();
-        line = strutil::removeStartWhiteSpaces( line );
-
-        if ( line.length() == 0 ) {
-            numberOfLines++;
-            continue;
-        }
-
-        bool ignoreLineFlag = false;
-
-        string line2 = strutil::trim( line );
-        if ( line2 == "##" ) {
-            ignoreFlag = !ignoreFlag;
-            ignoreLineFlag = true;
-        } else if ( strutil::isWhiteSpace( line[ 0 ] ) || line[ 0 ] == '#' ) {
-            ignoreLineFlag = true;
-        }
-
-        if ( ignoreFlag || ignoreLineFlag ) {
-            numberOfLines++;
-            continue;
-        }
-
-        bool isCmd = manager->isValidCMD( line );
-
-        int currentLineNumber = lineNumber + numberOfLines;
-
-        InterResult* result = new InterResult( false );
-        if ( isCmd )
-            result = manager->interpretsCMD( script, line, currentLineNumber );
-        if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsVar( script, line, currentLineNumber );
-        if ( !result->isInterpreted() && !result->isErrorFound())
-            result = manager->interpretsProp( script, line, currentLineNumber );
-        if ( !result->isInterpreted() && !result->isErrorFound())
-            result = manager->interpretsTask( script, it, line, currentLineNumber );
-        if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsShellCMD( script, it, line, currentLineNumber );
-        if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsDefaultTaskConfig( script, line, currentLineNumber );
-            
-        numberOfLines += result->getNumberOfLines();
-
-        if ( !result->isInterpreted() ) {
-            string error;
-            string resultLine;
-            if ( result->isErrorFound() ) {
-                error = result->getErrorMsg();
-                resultLine = result->getLine();
-            } else {
-                error = errors::UNRECOGNIZED_LINE;
-                resultLine = line;
-            }
-
-            return new InterResult( resultLine, lineNumber + numberOfLines, 0, error );
-        }
-
-        delete result;
-    }
-
-    return new InterResult( script, numberOfLines, 0 );
+    BlockInterResult* result = BlockInter::interpretsBlock( script, it, lineNumber, numberOfLines, mgr );
+    return result->getInterResult();
 }

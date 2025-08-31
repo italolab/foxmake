@@ -58,7 +58,6 @@ task compile verbose;
 task compileall verbose;
 
 task finish after
-    ##
     $lib_dir=$(working_dir)/lib
 
     mkdir build/include
@@ -72,7 +71,7 @@ task finish after
     cp include/test/cbtest.h $(build.dir)/cbtest.h
     cp include/test/cbtest.h $(build.dir)/cbtest.h
 
-    cp -r $(src.dir) $(build.dir)/source
+    acp -r $(src.dir) $(build.dir)/source
 
     #mkdir -p $(build.dir)/a/b/c
 
@@ -89,5 +88,4 @@ task finish after
 
     #rm -r $(include.dirs)/io/fi*r
     #rm -r $(bin.dir)
-    ##
 endtask

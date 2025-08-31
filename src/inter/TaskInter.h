@@ -1,7 +1,7 @@
 #ifndef GOAL_INTER_H
 #define GOAL_INTER_H
 
-#include "Inter.h"
+#include "BlockInter.h"
 #include "it/BlockIterator.h"
 #include "../darv/MainScript.h"
 #include "../darv/Task.h"
@@ -10,7 +10,7 @@
 
 using std::vector;
 
-class TaskInter : public Inter {
+class TaskInter : public BlockInter {
 
     private:
         const string BEFORE = "before";
@@ -26,12 +26,23 @@ class TaskInter : public Inter {
             string taskName, 
             vector<string>& flags,
             string& errorMsg,
+            string currentLine,
             void* mgr );
         
         void setFlags( Task* task, vector<string>& flags );
         bool isValidFlag( string flag );
 
+        InterResult* interpretsLine( 
+            Block* block, 
+            BlockIterator* it, 
+            string currentLine, 
+            int currentLineNumber, 
+            void* mgr );
+
+        InterResult* interpretsEnd( Block* block, string currentLine, int currentLineNumber );
+
     public:
+        virtual ~TaskInter();
         InterResult* interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr );
 
 };

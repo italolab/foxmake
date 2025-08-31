@@ -2,12 +2,24 @@
 #define MAIN_SCRIPT_INTER_H
 
 #include "Inter.h"
+#include "BlockInter.h"
 #include "it/BlockIterator.h"
 #include "../darv/MainScript.h"
 
-class MainScriptInter : public Inter {
+class MainScriptInter : public BlockInter {
+
+    private:
+        InterResult* interpretsLine( 
+            Block* block, 
+            BlockIterator* it, 
+            string currentLine, 
+            int currentLineNumber, 
+            void* mgr );
+        
+        InterResult* interpretsEnd( Block* block, string currentLine, int currentLineNumber );
 
     public:
+        virtual ~MainScriptInter();
         InterResult* interprets( MainScript* script, string file, int lineNumber, void* mgr );
 
 };
