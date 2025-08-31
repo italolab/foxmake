@@ -6,6 +6,7 @@
 #include "../../../darv/MainScript.h"
 #include "../../../shell/shell.h"
 #include "../../../io/io.h"
+#include "../../../sourcecode/SourceCodeManager.h"
 #include "../../../util/strutil.h"
 #include "../../../output/output.h"
 #include "../../../msg/messagebuilder.h"

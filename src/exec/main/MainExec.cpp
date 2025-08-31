@@ -7,7 +7,7 @@
 #include "../../shell/shell.h"
 #include "../../util/strutil.h"
 #include "../../io/io.h"
-#include "../../io/SourceCodeManager.h"
+#include "../../sourcecode/SourceCodeManager.h"
 #include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
 

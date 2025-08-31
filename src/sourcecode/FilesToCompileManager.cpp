@@ -1,6 +1,6 @@
 
 #include "FilesToCompileManager.h"
-#include "io.h"
+#include "../io/io.h"
 #include "../util/strutil.h"
 
 #include <filesystem>
@@ -12,9 +12,6 @@ FilesToCompileManager::FilesToCompileManager( string sourceFileExtensions, strin
     this->sourceFileExtensions = sourceFileExtensions;
     this->headerFileExtensions = headerFileExtensions;
 }
-
-#include <iostream>
-using namespace std;
 
 void FilesToCompileManager::loadFilesToCompile(
                                     vector<CodeInfo*>& filesToCompile,

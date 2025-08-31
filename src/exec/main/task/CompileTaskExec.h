@@ -2,7 +2,7 @@
 #define COMPILE_TASK_EXEC_H
 
 #include "../TaskExec.h"
-#include "../../../io/CodeInfo.h"
+#include "../../../sourcecode/CodeInfo.h"
 
 #include <string>
 #include <vector>
