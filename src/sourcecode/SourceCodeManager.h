@@ -2,6 +2,7 @@
 #define CPP_FILES_MANAGER_H
 
 #include "FilesToCompileManager.h"
+#include "DependenciesSCLoader.h"
 #include "CodeInfo.h"
 
 #include <string>
@@ -25,12 +26,7 @@ class SourceCodeManager {
         string headerFileExtensions;
 
         FilesToCompileManager* filesToCompileManager;
-
-        bool loadDependencies();
-        bool loadDepencenciesForFile( string headerFilePath );
-
-        bool interpretsInclude( string line, string filePath );
-        bool interpretsClasse( ifstream& in, string line, string filePath );
+        DependenciesSCLoader* dependenciesSCLoader;
 
     public:
         SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );
