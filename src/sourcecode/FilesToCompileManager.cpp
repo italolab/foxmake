@@ -16,9 +16,8 @@ devem ser compilados.
 Isto é, os arquivos selecionados para serem compilados são sempre arquivos de código fonte 
 de implementação (.cpp, .c, .cc) e são escolhidos conforme suas dependências.
 
-As dependências de cada arquivo são:
-    - Os paths de arquivos com classes que o incluem.
-    - As classes que são herdadas no arquivo.
+Um arquivo depende de todos os arquivos onde ele é incluído e de todos os arquivos que 
+contêm classe(s) de que uma classe dele herda.
 
 Exemplo:
 
