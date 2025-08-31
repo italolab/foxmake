@@ -173,7 +173,7 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
         comp->includeDirs = includeDirs;
         comp->defines = defines;
         comp->objFile = objDir + sourceCodeInfo->objFilePath;
-        comp->srcFile = sourceCodeInfo->srcFilePath;
+        comp->srcFile = sourceCodeInfo->filePath;
 
         compilations.push_back( comp );
     } 
@@ -201,7 +201,7 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
             comp->includeDirs = testIncludeDirs;
             comp->defines = testDefines;
             comp->objFile = objDir + sourceCodeInfo->objFilePath;
-            comp->srcFile = sourceCodeInfo->srcFilePath;
+            comp->srcFile = sourceCodeInfo->filePath;
             compilations.push_back( comp );
         }
     }

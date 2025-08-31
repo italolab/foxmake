@@ -51,8 +51,7 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
                 vector<string> extendedClasses;
             
                 CodeInfo* info = new CodeInfo;
-                info->filePath = filePath;       // REFATORAR
-                info->srcFilePath = srcFilePath; // REFATORAR
+                info->filePath = srcFilePath;
                 info->objFilePath = objFilePath;
                 info->dependencies = dependencies;
                 info->extendedClasses = extendedClasses;
