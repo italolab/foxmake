@@ -17,18 +17,16 @@
 #include <iostream>
 using std::endl;
 
-MainCMDInterpreter::MainCMDInterpreter() {
-    this->workingDirFound = false;
-    this->settingsFileFound = false;
-}
-
 void MainCMDInterpreter::configureAndInterpretsAndValidate( void* mgr ) {
-    this->configure( mgr );
-    this->interpretsMainScript( mgr );
+    bool workingDirFound = false;
+    bool settingsFileFound = false;
+
+    this->configure( workingDirFound, settingsFileFound, mgr );
+    this->interpretsMainScript( workingDirFound, settingsFileFound, mgr );
     this->validaMainCMD( mgr );
 }
 
-void MainCMDInterpreter::configure( void* mgr ) {
+void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFound, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
@@ -83,7 +81,7 @@ void MainCMDInterpreter::configure( void* mgr ) {
     }
 }
 
-void MainCMDInterpreter::interpretsMainScript( void* mgr ) {
+void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool settingsFileFound,void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
