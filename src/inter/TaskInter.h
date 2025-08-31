@@ -27,7 +27,6 @@ class TaskInter : public BlockInter {
             vector<string>& flags,
             string& errorMsg,
             string currentLine,
-            int numberOfLinesReaded,
             void* mgr );
         
         void setFlags( Task* task, vector<string>& flags );

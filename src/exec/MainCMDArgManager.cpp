@@ -6,6 +6,31 @@
 
 #include "../consts.h"
 
+/*
+Classe responsável por prover métodos para o acesso a propriedades do sistema. 
+Exemplo:
+
+Acessar o valor de showCMDOutput. Isto é, a configuração de tarefas default 
+pode configurar essa propriedade e, caso a propriedade seja definida. Por exemplo, 
+com a instrução: "task compile noshowoutput;", o método retorna valor false. Se definida 
+com "showoutput", o método retorna true e se não houver a definição, é retornado o valor 
+padrão armazenado na constante DEFAULT_SHOW_CMD_OUTPUT.
+
+O mesmo vale para o acesso a propriedade verbose. Se definida como configuração de 
+uma tarefa default, o valor correspondente é retornado, caso contrário, se o comando 
+principal receber a opção "--verbose" ou "-v", retorna true, caso contrário, retorna 
+false.
+
+Essa classe fornece métodos, também, sobre se uma determinada tarefa deve ser executada. 
+Exemplo: 
+    Se no comando principal for informada apenas a tarefa "buildall", então os 
+    métodos: isClean, isCompileAll, isLink, isCopy e isBuildAll retornam true, os demais 
+    retornam false.
+
+    Se for informado "clean" "compile", então os métodos: isClean e isCompile retornam 
+    true e, o restante, retorna false.
+*/
+
 MainCMDArgManager::MainCMDArgManager( void* mgr ) {
     this->mgr = mgr;
 }

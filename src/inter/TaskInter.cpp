@@ -14,6 +14,25 @@
 using std::stringstream;
 using std::istringstream;
 
+/*
+Nesta classe é feita, também, a validação das flags da configuração da tarefa. 
+Exemplo:
+    task init a;
+    essa task está sendo configurada com uma flag que não é, nem before e nem after.
+
+    task init;
+    Esta task está sendo configurada como normal com o flag omitido, mas ela é uma 
+    task default e não pode ser definida como normal.
+
+    task compile before after;
+    Tarefa definida como before e after.
+
+    task compile before;
+    task compile before after;
+    A segunda configuração da task compile tem o before que já foi definido na primeira 
+    configuração.
+*/
+
 TaskInter::~TaskInter() {}
 
 InterResult* TaskInter::interpretsLine( 
@@ -73,8 +92,6 @@ InterResult* TaskInter::interprets(
     if ( result->isFinish() )
         return new InterResult( false );
 
-    numberOfLinesReaded++;
-
     string taskName = result->getTaskName();
     vector<string>& flags = result->getFlags();
 
@@ -86,11 +103,12 @@ InterResult* TaskInter::interprets(
                 flags, 
                 errorMsg, 
                 currentLine, 
-                numberOfLinesReaded, 
                 mgr );
 
     if ( !flagsValid ) 
         return new InterResult( currentLine, numberOfLinesReaded, 0, errorMsg );
+
+    numberOfLinesReaded++;
 
     Task* task = new Task( parent, numberOfLinesReaded, currentLine );
     task->setName( taskName );
@@ -116,7 +134,6 @@ bool TaskInter::validateFlags(
             vector<string>& flags, 
             string& errorMsg, 
             string currentLine,
-            int numberOfLinesReaded,
             void* mgr ) {
 
     InterManager* manager = (InterManager*)mgr;
@@ -126,10 +143,9 @@ bool TaskInter::validateFlags(
     for( string flag : flags ) {
         if ( !this->isValidFlag( flag ) ) {
             messagebuilder b( errors::INVALID_TASK_FLAG );
-            b << flag;
-            
-            size_t j = currentLine.find_last_of( flag );
-            return new InterResult( currentLine, numberOfLinesReaded, j, b.str() );
+            b << flag;            
+            errorMsg = b.str();
+            return false;
         }
 
         if ( flag == BEFORE ) {

@@ -48,6 +48,11 @@ namespace shell {
 
 }
 
+/*
+A classe Shell gerencia um lote de comandos de shell iniciados em processos 
+concorrentemente
+*/
+
 Shell::Shell( Output& out ) {
     this->out = &out;
     this->verboseFlag = true;

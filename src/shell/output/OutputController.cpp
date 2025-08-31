@@ -5,6 +5,13 @@
 
 using std::cout;
 
+/*
+Essa classe gerencia a impressão de texto de todos os processos iniciados 
+concorrentemente. É lida a saída de cada processo em sequência. Porêm, a leitura 
+do buffer da classe OutputThread pode coincidir de acontecer ao mesmo tempo que 
+OutputThread está inserindo caracteres no buffer.
+*/
+
 OutputController::OutputController( Output* out, bool showOutputFlag ) {
     this->out = out;
     this->showOutputFlag = showOutputFlag;

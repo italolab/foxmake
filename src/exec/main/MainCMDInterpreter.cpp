@@ -17,6 +17,23 @@
 #include <iostream>
 using std::endl;
 
+/*
+Classe responsável por ler e setar workingDir e settingsFile, interpretar 
+o script principal, carregando toda a arvore de derivação, carregar as 
+variáveis e propriedades definidas no comando principal com "-var" e "-prop" e 
+validar o comando.
+
+Para validar o comando principal, é verificada cada tarefa informada no comando. Se, após 
+a interpretação do script e geração da arvore de derivação, alguma tarefa informada 
+no comando principal não for, nem tarefa default, nem estiver definida no script, então a 
+validação falha.
+
+Exemplo:
+    Informada a tarefa "executar". Ela não é uma tarefa default executada pelo sistema e, 
+    caso não tenha sido definida no arquivo de settings, também não é uma tarefa de usuário. 
+    Logo, é uma tarefa desconhecida e o sistema informa isso para o usuário.
+*/
+
 void MainCMDInterpreter::configureAndInterpretsAndValidate( void* mgr ) {
     bool workingDirFound = false;
     bool settingsFileFound = false;

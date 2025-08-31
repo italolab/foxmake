@@ -6,6 +6,15 @@
 
 using namespace std;
 
+/*
+Esta classe mantêm um buffer de caracteres onde cada caractere lido do pipe é 
+inserido. Constantemente, (e concorrentemente), o OutputController lê o conteúdo 
+deste buffer e o imprime na saída padrão. 
+
+A cada leitura, o buffer é retornado para OutputController e limpo. Isso de forma 
+sincrona.
+*/
+
 OutputThread::OutputThread( string name ) {
     this->name = name;
     this->finishFlag = false;

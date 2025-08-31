@@ -96,10 +96,10 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     
     manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
     manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
-    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::TESTBUILD, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::BEFORE );
+    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::AFTER );
+    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::AFTER );
+    manager->executaUserTaskIfExists( tasks::TESTBUILD, TaskExecution::AFTER );
+    manager->executaUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::AFTER );
 
     this->executaNoDefaultTasks( manager );
 
