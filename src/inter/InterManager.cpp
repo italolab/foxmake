@@ -64,13 +64,21 @@ TaskConfigResult* InterManager::interpretsTaskConfig( string currentLine ) {
 
 bool InterManager::isValidCMD( string line ) {
     string line2 = strutil::removeStartWhiteSpaces( line );
+    
     size_t i = line2.find( ' ' );
-    if ( i != string::npos ) {
-        string cmd = line2.substr( 0, i );
-        return drv->isValidCMD( cmd );
-    }
+    if ( i == string::npos )
+        i = line2.find( '\n' );
+    if ( i == string::npos )
+        i = line2.find( '\t' );
+    if ( i == string::npos )
+        i = line2.find( '\t' );
 
-    return false;
+    string cmd;
+    if ( i == string::npos )
+        cmd = line2;
+    else cmd = line2.substr( 0, i );
+    
+    return drv->isValidCMD( cmd );
 }
 
 bool InterManager::isValidProp( string propName ) {

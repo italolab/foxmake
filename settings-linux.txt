@@ -33,6 +33,7 @@ test.include.dirs=include
 test.libs=cbtest
 
 task link before
+    echo
     rm include/*.a
     rm lib/libcbtest.a
     
@@ -40,6 +41,7 @@ task link before
     
     cp -r ../cbtest/src/**/*.h include
     cp ../cbtest/build/libcbtest.a lib/
+    echo
 endtask
 
 task finish after    
