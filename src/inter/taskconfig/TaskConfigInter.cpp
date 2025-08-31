@@ -54,5 +54,16 @@ TaskConfigResult* TaskConfigInter::interprets( string currentLine, void* mgr ) {
         }
     }
 
+    if ( isFinish ) {
+        if ( iss.peek() != EOF ) {
+            iss >> token;
+            if ( token != "" ) {
+                messagebuilder b( errors::UNNECESSARY_TOKEN );
+                b << token;
+                return new TaskConfigResult( b.str() );
+            }
+        }
+    }
+
     return new TaskConfigResult( taskName, flags, isFinish );
 }

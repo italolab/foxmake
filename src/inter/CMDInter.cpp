@@ -91,7 +91,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int& n
                         if ( stop ) {
                             value = value.substr( 1, len-2 );
                         } else {
-                            return new InterResult( line, 0, 0, errors::VALUE_IN_QUOTES_NOT_CLOSED );
+                            return new InterResult( line, numberOfLinesReaded, 0, errors::VALUE_IN_QUOTES_NOT_CLOSED );
                         }
                     }
                 }

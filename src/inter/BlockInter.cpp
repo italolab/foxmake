@@ -7,9 +7,6 @@
 
 #include "../error_messages.h"
 
-#include <iostream>
-using namespace std;
-
 BlockInterResult* BlockInter::interpretsBlock( 
             Block* block, 
             BlockIterator* it, 
@@ -43,8 +40,6 @@ BlockInterResult* BlockInter::interpretsBlock(
             numberOfLinesReaded++;
             continue;
         }
-
-        cout << line << "  " << (numberOfLinesReaded+1) << endl;
 
         InterResult* endIResult = this->interpretsEnd( block, line, numberOfLinesReaded );
         if ( endIResult->isInterpreted() ) {

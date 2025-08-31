@@ -68,7 +68,6 @@ namespace errors {
     
     const string START_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Início de bloco com caracter(es) desnecessário(s).";
 
-    const string END_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Fim de bloco com caracter(es) desnecessário(s).";
     const string END_OF_SHELL_BLOCK_NOT_FOUND = "Fim de bloco de shell \"endshell\" não encontrado.";
     const string END_OF_TASK_BLOCK_NOT_FOUND = "Fim de bloco de tarefa \"endtask\" não encontrado.";
 
@@ -83,6 +82,7 @@ namespace errors {
 
     const string UNRECOGNIZED_LINE = "Linha não reconhecida como instrução válida.";
 
+    const string UNNECESSARY_TOKEN = "Token desnecessário: $1";
 
     namespace runtime {
         

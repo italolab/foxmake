@@ -34,7 +34,7 @@ InterResult* DefaultTaskConfigInter::interprets(
         if ( !manager->isValidDefaultTask( taskName ) ) {
             messagebuilder b( errors::IS_NOT_A_DEFAULT_TASK );
             b << taskName;
-            return new InterResult( currentLine, 0, 0, b.str() );
+            return new InterResult( currentLine, numberOfLinesReaded, 0, b.str() );
         }
 
         for( string flag: flags ) {
@@ -43,7 +43,7 @@ InterResult* DefaultTaskConfigInter::interprets(
                 b << flag;
                 
                 size_t j = currentLine.find_last_of( flag );
-                return new InterResult( currentLine, 0, j, b.str() );
+                return new InterResult( currentLine, numberOfLinesReaded, j, b.str() );
             }
         }
 
@@ -59,7 +59,7 @@ InterResult* DefaultTaskConfigInter::interprets(
         return new InterResult( config, numberOfLinesReaded, currentLine.length() );
     } else if ( status == TaskConfigResult::ERROR ) {
         string errorMsg = result->getErrorMsg();
-        return new InterResult( currentLine, 0, 0, errorMsg );        
+        return new InterResult( currentLine, numberOfLinesReaded, 0, errorMsg );        
     } else if ( status == TaskConfigResult::NO_CONFIG ) {
         return new InterResult( false );
     } else {

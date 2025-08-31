@@ -20,7 +20,7 @@ InterResult* PropInter::interprets(
     if ( !manager->isValidProp( name ) ) {
         messagebuilder b( "Propriedade nao reconhecida: \"$1\"" );
         b << name;
-        return new InterResult( line, 0, 0, b.str() );
+        return new InterResult( line, numberOfLinesReaded, 0, b.str() );
     }
 
     InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, numberOfLinesReaded, parent );

@@ -72,7 +72,7 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns(
                                 } else {
                                     messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
                                     b << name;
-                                    return new InterResult( line, 0, 0, b.str() );
+                                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );
                                 }
                             }
                         } else {

@@ -59,14 +59,14 @@ InterResult* ShellCMDInter::interprets(
 
                     size_t j = line.find_last_of( token );
                     
-                    messagebuilder b( errors::END_OF_BLOCK_WITH_UNNECESSARY_TOKEN );
+                    messagebuilder b( errors::UNNECESSARY_TOKEN );
                     b << token;
                     return new InterResult( line, numberOfLinesReaded, j, b.str() );
                 }
 
                 shellendFound = true;
             } else if ( token == "endtask" ) {
-                return new InterResult( currentLine, 0, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
+                return new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
             } else {
                 ss << line2 << "\n";
             }
@@ -75,7 +75,7 @@ InterResult* ShellCMDInter::interprets(
         }
 
         if ( !shellendFound )
-            return new InterResult( currentLine, 0, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
+            return new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_SHELL_BLOCK_NOT_FOUND );
 
         cmdstr = ss.str();
         if ( cmdstr.length() > 0 )

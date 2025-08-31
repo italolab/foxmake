@@ -39,8 +39,11 @@ InterResult* TaskInter::interpretsEnd(
             return new InterResult( true );
 
         iss >> token;
-        if ( strutil::trim( token ) != "" )
-            return new InterResult( currentLine, 0, 0, errors::END_OF_BLOCK_WITH_UNNECESSARY_TOKEN );        
+        if ( token != "" ) {
+            messagebuilder b( errors::UNNECESSARY_TOKEN );
+            b << token;
+            return new InterResult( currentLine, numberOfLinesReaded, 0, b.str() );        
+        }
     };
 
     return new InterResult( false );
@@ -61,7 +64,7 @@ InterResult* TaskInter::interprets(
     if ( status == TaskConfigResult::NO_CONFIG ) {
         return new InterResult( false );
     } else if ( status == TaskConfigResult::ERROR ) {
-        return new InterResult( currentLine, 0, 0, result->getErrorMsg() );        
+        return new InterResult( currentLine, numberOfLinesReaded, 0, result->getErrorMsg() );        
     } 
     
     if ( status != TaskConfigResult::OK )
@@ -76,9 +79,18 @@ InterResult* TaskInter::interprets(
     vector<string>& flags = result->getFlags();
 
     string errorMsg;
-    bool flagsValid = this->validateFlags( parent, taskName, flags, errorMsg, currentLine, mgr );
+
+    bool flagsValid = this->validateFlags( 
+                parent, 
+                taskName, 
+                flags, 
+                errorMsg, 
+                currentLine, 
+                numberOfLinesReaded, 
+                mgr );
+
     if ( !flagsValid ) 
-        return new InterResult( currentLine, 0, 0, errorMsg );
+        return new InterResult( currentLine, numberOfLinesReaded, 0, errorMsg );
 
     Task* task = new Task( parent, numberOfLinesReaded, currentLine );
     task->setName( taskName );
@@ -93,7 +105,7 @@ InterResult* TaskInter::interprets(
     if ( !blockIResult->isEndFound() ) {       
         if ( iresult->isErrorFound() )
             return iresult;
-        return new InterResult( currentLine, 0, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
+        return new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
     }
     return new InterResult( task, numberOfLinesReaded, 0 );
 }
@@ -104,6 +116,7 @@ bool TaskInter::validateFlags(
             vector<string>& flags, 
             string& errorMsg, 
             string currentLine,
+            int numberOfLinesReaded,
             void* mgr ) {
 
     InterManager* manager = (InterManager*)mgr;
@@ -116,7 +129,7 @@ bool TaskInter::validateFlags(
             b << flag;
             
             size_t j = currentLine.find_last_of( flag );
-            return new InterResult( currentLine, 0, j, b.str() );
+            return new InterResult( currentLine, numberOfLinesReaded, j, b.str() );
         }
 
         if ( flag == BEFORE ) {
