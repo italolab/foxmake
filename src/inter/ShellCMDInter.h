@@ -11,7 +11,12 @@ using std::string;
 class ShellCMDInter : public Inter {
 
     public:
-        InterResult* interprets( Block* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr );
+        InterResult* interprets( 
+            Block* parent, 
+            BlockIterator* it, 
+            string currentLine, 
+            int& numberOfLinesReaded, 
+            void* mgr );
 
 };
 

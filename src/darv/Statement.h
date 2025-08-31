@@ -9,7 +9,7 @@ class Statement {
 
     private:
         Statement* parent;
-        int lineNumber;
+        int numberOfLinesReaded;
         string line;
 
     public:
@@ -20,7 +20,7 @@ class Statement {
         Statement* getParent();
         Statement* getTask();
 
-        int getLineNumber();
+        int getNumberOfLinesReaded();
         string getLine();
 };
 

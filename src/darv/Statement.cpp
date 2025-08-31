@@ -5,7 +5,7 @@
 
 Statement::Statement( Statement* parent, int lineNumber, string line ) {
     this->parent = parent;
-    this->lineNumber = lineNumber;
+    this->numberOfLinesReaded = lineNumber;
     this->line = line;
 }
 
@@ -33,8 +33,8 @@ Statement* Statement::getParent() {
     return parent;
 }
 
-int Statement::getLineNumber() {
-    return lineNumber;
+int Statement::getNumberOfLinesReaded() {
+    return numberOfLinesReaded;
 }
 
 string Statement::getLine() {

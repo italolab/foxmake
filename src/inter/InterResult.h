@@ -15,8 +15,8 @@ class InterResult {
         Statement* statement;
         string line;
         string errorMsg;
-        int numberOfLines;
-        int numberOfColumns;
+        int numberOfLinesReaded;
+        int numberOfColumnsReaded;
 
     public:
         InterResult( bool interpreted );
@@ -28,7 +28,8 @@ class InterResult {
         Statement* getStatement();
         string getLine();
         string getErrorMsg();
-        int getNumberOfLines();
+        int getNumberOfLinesReaded();
+        int getNumberOfColumnsReaded();
 
 };
 

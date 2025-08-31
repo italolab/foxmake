@@ -1,7 +1,7 @@
 
 #include "Block.h"
 
-Block::Block( Statement* parent, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {}
+Block::Block( Statement* parent, int numberOfLinesReaded, string line ) : Statement( parent, numberOfLinesReaded, line ) {}
 
 Block::~Block() {
     for( const auto& pair : localVarsMap )

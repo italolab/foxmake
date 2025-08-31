@@ -16,7 +16,7 @@ using std::vector;
 class st_error : public runtime_error {
 
     private:
-        int lineNumber;
+        int numberOfLinesReaded;
         string line;
         bool isShowLine;
 

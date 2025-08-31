@@ -19,7 +19,7 @@ class Block : public Statement {
         vector<Statement*> statementsVect;
 
     public:
-        Block( Statement* parent, int lineNumber, string line );
+        Block( Statement* parent, int numberOfLinesReaded, string line );
         virtual ~Block();
 
         void addStatement( Statement* cmd );

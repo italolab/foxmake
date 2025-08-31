@@ -10,17 +10,21 @@
 
 using std::stringstream;
 
-InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
+InterResult* ShellCMDInter::interprets( 
+            Block* parent, 
+            BlockIterator* it, 
+            string currentLine, 
+            int& numberOfLinesReaded, 
+            void* mgr ) {
+
     if ( currentLine.length() == 0 )
         return new InterResult( false );
-
-    int numberOfLines = 0;
 
     string cmdstr;
     if ( currentLine[ 0 ] == '@' ) {
         cmdstr = currentLine.substr( 1, currentLine.length()-1 );
         cmdstr = strutil::removeStartWhiteSpaces( cmdstr );
-        numberOfLines = 1;
+        numberOfLinesReaded++;
     } else {
         string token = strutil::trim( currentLine );
         if ( token != "shellbegin" )
@@ -30,19 +34,19 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
 
         bool shellendFound = false;
 
-        numberOfLines = 1;
+        numberOfLinesReaded++;
 
         while( !shellendFound && it->hasNextLine() ) {
             string line = it->nextLine();
             string line2 = strutil::removeStartWhiteSpaces( line );
 
             if ( line2.length() == 0 ) {
-                numberOfLines++;
+                numberOfLinesReaded++;
                 continue;
             }
 
             if ( line2[ 0 ] == '#' ) {
-                numberOfLines++;
+                numberOfLinesReaded++;
                 continue;
             }
 
@@ -57,7 +61,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
                     
                     messagebuilder b( errors::END_OF_BLOCK_WITH_UNNECESSARY_TOKEN );
                     b << token;
-                    return new InterResult( line, numberOfLines, j, b.str() );
+                    return new InterResult( line, numberOfLinesReaded, j, b.str() );
                 }
 
                 shellendFound = true;
@@ -67,7 +71,7 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
                 ss << line2 << "\n";
             }
 
-            numberOfLines++;
+            numberOfLinesReaded++;
         }
 
         if ( !shellendFound )
@@ -78,17 +82,17 @@ InterResult* ShellCMDInter::interprets( Block* parent, BlockIterator* it, string
             cmdstr = cmdstr.substr( 0, cmdstr.length()-1 );
     }
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( currentLine, cmdstr, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( currentLine, cmdstr, numberOfLinesReaded, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     delete replaceResult;
 
-    ShellCMD* shellCMD = new ShellCMD( parent, cmdstr, lineNumber, currentLine );
+    ShellCMD* shellCMD = new ShellCMD( parent, cmdstr, numberOfLinesReaded, currentLine );
 
     if ( parent != nullptr )
         parent->addStatement( shellCMD );
 
-    return new InterResult( nullptr, numberOfLines, currentLine.length() );
+    return new InterResult( nullptr, numberOfLinesReaded, currentLine.length() );
 
 }

@@ -36,14 +36,21 @@ class TaskInter : public BlockInter {
             Block* block, 
             BlockIterator* it, 
             string currentLine, 
-            int currentLineNumber, 
+            int& numberOfLinesReaded, 
             void* mgr );
 
-        InterResult* interpretsEnd( Block* block, string currentLine, int currentLineNumber );
+        InterResult* interpretsEnd( 
+            Block* block, string currentLine, int& numberOfLinesReaded );
 
     public:
         virtual ~TaskInter();
-        InterResult* interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr );
+
+        InterResult* interprets( 
+            MainScript* parent, 
+            BlockIterator* it, 
+            string currentLine, 
+            int& numberOfLinesReaded, 
+            void* mgr );
 
 };
 

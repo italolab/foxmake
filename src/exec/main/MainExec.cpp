@@ -160,12 +160,15 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
 
     if ( workingDir != "" ) {
         workingDir = io::absoluteResolvePath( workingDir );
+        workingDir = io::removeSeparatorFromDirIfNeed( workingDir );
         shell::setWorkingDir( workingDir );
 
         workingDirFound = true;
     } else {
         if ( settingsFile != "" ) {
             workingDir = io::dirPath( io::absoluteResolvePath( settingsFile ) );
+            workingDir = io::removeSeparatorFromDirIfNeed( workingDir );
+
             settingsFile = io::fileOrDirName( settingsFile );
             shell::setWorkingDir( workingDir );
         } else {
@@ -206,7 +209,7 @@ void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
     mainScript->putLocalVar( "working_dir", workingDir );
 
     if ( settingsFileFound ) {
-        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile, 1 );
+        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile );
         if ( !result->isInterpreted() )
             throw st_error( result );
 

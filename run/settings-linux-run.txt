@@ -58,20 +58,20 @@ task compile verbose;
 task compileall verbose;
 
 task finish after
-    $lib_dir=$(working_dir)/lib
+    $lib_dir=$(working_dir)/../lib
 
     mkdir build/include
 
     cp -r $(src.dir)/**/io/*.h build/include
     cp $(src.dir)/*.cpp $(build.dir)
     mkdir $(build.dir)/objects
-    cp $(obj.dir)/io/* $(build.dir)/objects
+    cp $(obj.dir)/src/io/* $(build.dir)/objects
 
     cp $(lib_dir)/libcbtest.a $(build.dir)/libtest.a
-    cp include/test/cbtest.h $(build.dir)/cbtest.h
-    cp include/test/cbtest.h $(build.dir)/cbtest.h
+    cp ../include/test/cbtest.h $(build.dir)/cbtest.h
+    cp ../include/test/cbtest.h $(build.dir)/cbtest.h
 
-    acp -r $(src.dir) $(build.dir)/source
+    cp -r $(src.dir) $(build.dir)/source
 
     #mkdir -p $(build.dir)/a/b/c
 

@@ -1,7 +1,7 @@
 
 #include "ShellCMD.h"
 
-ShellCMD::ShellCMD( Statement* parent, string cmdstr, int lineNumber, string line ) : GenericCMD( parent, lineNumber, line ) {
+ShellCMD::ShellCMD( Statement* parent, string cmdstr, int numberOfLinesReaded, string line ) : GenericCMD( parent, numberOfLinesReaded, line ) {
     this->cmdstr = cmdstr;
 }
 

@@ -23,7 +23,7 @@ class Task : public Block {
         TaskExecution taskExecution;
 
     public:
-        Task( Statement* parent, int lineNumber, string line );
+        Task( Statement* parent, int numberOfLinesReaded, string line );
 
         string getName();
         TaskExecution getTaskExecution();

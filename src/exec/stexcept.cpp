@@ -8,7 +8,7 @@ using std::endl;
 
 st_error::st_error( Statement* st, string msg ) : runtime_error( msg ) {
     if ( st != nullptr ) {
-        this->lineNumber = st->getLineNumber();
+        this->numberOfLinesReaded = st->getNumberOfLinesReaded();
         this->line = st->getLine();
         this->isShowLine = true;
     } else {
@@ -17,13 +17,14 @@ st_error::st_error( Statement* st, string msg ) : runtime_error( msg ) {
 }
 
 st_error::st_error( InterResult* result ) : runtime_error( result->getErrorMsg() ) {
-    this->lineNumber = result->getNumberOfLines();
+    this->numberOfLinesReaded = result->getNumberOfLinesReaded();
     this->line = result->getLine();
     this->isShowLine = true;
 }
 
 void st_error::printMessage( Output& out ) const {
     if ( isShowLine ) {
+        int lineNumber = numberOfLinesReaded + 1;
         out << "Erro na linha(" << std::to_string( lineNumber ) << "): ";
         out << "\"";
         out << output::red( line );

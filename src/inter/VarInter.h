@@ -10,7 +10,8 @@ using std::string;
 class VarInter : public Inter {
 
     public:
-        InterResult* interprets( Block* parent, string line, int lineNumber, void* mgr );
+        InterResult* interprets( 
+            Block* parent, string line, int& numberOfLinesReaded, void* mgr );
 
 };
 

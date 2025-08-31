@@ -10,10 +10,20 @@ class InterManager;
 class CMDInter : public Inter{
 
     private:
-        InterResult* interprets( Block* parent, int argc, char* argv[], int lineNumber, void* mgr );
+        InterResult* interprets( 
+                Block* parent, 
+                int argc, 
+                char* argv[], 
+                int& numberOfLinesReaded, 
+                void* mgr );
 
     public:
-        InterResult* interprets( Block* parent, string line, int lineNumber, void* mgr );
+        InterResult* interprets( 
+                Block* parent, 
+                string line, 
+                int& numberOfLinesReaded, 
+                void* mgr );
+                
         InterResult* interpretsMainCMD( int argc, char* argv[], void* mgr );
 
 };

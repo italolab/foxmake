@@ -37,15 +37,15 @@ class InterManager {
 
         InterResult* interpretsMainCMD( int argc, char* argv[] );
 
-        InterResult* interpretsCMD( Block* parent, string line, int lineNumber );
-        InterResult* interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int lineNumber );
-        InterResult* interpretsVar( Block* parent, string line, int lineNumber );
-        InterResult* interpretsProp( MainScript* parent, string line, int lineNumber );
+        InterResult* interpretsCMD( Block* parent, string line, int& numberOfLinesReaded );
+        InterResult* interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded );
+        InterResult* interpretsVar( Block* parent, string line, int& numberOfLinesReaded );
+        InterResult* interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded );
 
-        InterResult* interpretsMainScript( MainScript* script, string file, int lineNumber );
-        InterResult* interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber );
+        InterResult* interpretsMainScript( MainScript* script, string file );
+        InterResult* interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded );
 
-        InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int lineNumber );
+        InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded );
 
         TaskConfigResult* interpretsTaskConfig( string currentLine );
 

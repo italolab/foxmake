@@ -12,7 +12,7 @@ class ShellCMD : public GenericCMD {
         string cmdstr;
 
     public:
-        ShellCMD( Statement* parent, string cmdstr, int lineNumber, string line );
+        ShellCMD( Statement* parent, string cmdstr, int numberOfLinesReaded, string line );
 
         string getCMDStr();
         Statement* getTask();

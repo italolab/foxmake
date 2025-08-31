@@ -30,32 +30,32 @@ InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
     return cmdInter->interpretsMainCMD( argc, argv, this );
 }
 
-InterResult* InterManager::interpretsCMD( Block* parent, string line, int lineNumber ) {
-    return cmdInter->interprets( parent, line, lineNumber, this );
+InterResult* InterManager::interpretsCMD( Block* parent, string line, int& numberOfLinesReaded ) {
+    return cmdInter->interprets( parent, line, numberOfLinesReaded, this );
 }
 
-InterResult* InterManager::interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int lineNumber ) {
-    return shellCMDInter->interprets( parent, it, currentLine, lineNumber, this );
+InterResult* InterManager::interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded ) {
+    return shellCMDInter->interprets( parent, it, currentLine, numberOfLinesReaded, this );
 }
 
-InterResult* InterManager::interpretsVar( Block* parent, string line, int lineNumber ) {
-    return varInter->interprets( parent, line, lineNumber, this );
+InterResult* InterManager::interpretsVar( Block* parent, string line, int& numberOfLinesReaded ) {
+    return varInter->interprets( parent, line, numberOfLinesReaded, this );
 }
 
-InterResult* InterManager::interpretsProp( MainScript* parent, string line, int lineNumber ) {
-    return propInter->interprets( parent, line, lineNumber, this );
+InterResult* InterManager::interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded ) {
+    return propInter->interprets( parent, line, numberOfLinesReaded, this );
 }
 
-InterResult* InterManager::interpretsMainScript( MainScript* script, string file, int lineNumber ) {
-    return mainScriptInter->interprets( script, file, lineNumber, this );
+InterResult* InterManager::interpretsMainScript( MainScript* script, string file ) {
+    return mainScriptInter->interprets( script, file, this );
 }
 
-InterResult* InterManager::interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber ) {
-    return taskInter->interprets( parent, it, currentLine, lineNumber, this );
+InterResult* InterManager::interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded ) {
+    return taskInter->interprets( parent, it, currentLine, numberOfLinesReaded, this );
 }
 
-InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, string currentLine, int lineNumber ) {
-    return defaultTaskConfigInter->interprets( script, currentLine, lineNumber, this );
+InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded ) {
+    return defaultTaskConfigInter->interprets( script, currentLine, numberOfLinesReaded, this );
 }
 
 TaskConfigResult* InterManager::interpretsTaskConfig( string currentLine ) {

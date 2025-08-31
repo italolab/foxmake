@@ -16,7 +16,7 @@ using namespace std;
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
 InterResult* Inter::replacePropsAndVarsAndDollarSigns( 
-        string line, string& text, int lineNumber, Block* block ) {
+        string line, string& text, int& numberOfLinesReaded, Block* block ) {
 
     MainScript* script = (MainScript*)block->getRoot();
 
@@ -57,7 +57,7 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns(
                         }
                         if ( parentesisCount == 0 ) {
                             string name = text.substr( k+2, j-(k+2) );
-                            replacePropsAndVarsAndDollarSigns( line, name, lineNumber, block );
+                            replacePropsAndVarsAndDollarSigns( line, name, numberOfLinesReaded, block );
 
                             if ( script->existsProperty( name ) ) {
                                 string value = script->getPropertyValue( name );

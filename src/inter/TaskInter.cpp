@@ -20,12 +20,14 @@ InterResult* TaskInter::interpretsLine(
             Block* block, 
             BlockIterator* it, 
             string currentLine, 
-            int currentLineNumber, 
+            int& numberOfLinesReaded, 
             void* mgr ) {
     return new InterResult( false );
 }
 
-InterResult* TaskInter::interpretsEnd( Block* block, string currentLine, int currentLineNumber ) {
+InterResult* TaskInter::interpretsEnd( 
+            Block* block, string currentLine, int& numberOfLinesReaded ) {
+
     istringstream iss( currentLine );
     if ( iss.peek() == EOF )
         return new InterResult( false );
@@ -44,7 +46,13 @@ InterResult* TaskInter::interpretsEnd( Block* block, string currentLine, int cur
     return new InterResult( false );
 }
 
-InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, string currentLine, int lineNumber, void* mgr ) {
+InterResult* TaskInter::interprets( 
+            MainScript* parent, 
+            BlockIterator* it, 
+            string currentLine, 
+            int& numberOfLinesReaded, 
+            void* mgr ) {
+
     InterManager* manager = (InterManager*)mgr;
 
     TaskConfigResult* result = manager->interpretsTaskConfig( currentLine );
@@ -62,6 +70,8 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     if ( result->isFinish() )
         return new InterResult( false );
 
+    numberOfLinesReaded++;
+
     string taskName = result->getTaskName();
     vector<string>& flags = result->getFlags();
 
@@ -70,24 +80,22 @@ InterResult* TaskInter::interprets( MainScript* parent, BlockIterator* it, strin
     if ( !flagsValid ) 
         return new InterResult( currentLine, 0, 0, errorMsg );
 
-    Task* task = new Task( parent, lineNumber, currentLine );
+    Task* task = new Task( parent, numberOfLinesReaded, currentLine );
     task->setName( taskName );
 
     this->setFlags( task, flags );
 
     if ( parent != nullptr )
         parent->addTask( task );
-   
-    int numberOfLines = 1;
-    
-    BlockInterResult* blockIResult = BlockInter::interpretsBlock( task, it, lineNumber, numberOfLines, mgr );
+       
+    BlockInterResult* blockIResult = BlockInter::interpretsBlock( task, it, numberOfLinesReaded, mgr );
     InterResult* iresult = blockIResult->getInterResult();
     if ( !blockIResult->isEndFound() ) {       
         if ( iresult->isErrorFound() )
             return iresult;
         return new InterResult( currentLine, 0, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
     }
-    return new InterResult( task, numberOfLines, 0 );
+    return new InterResult( task, numberOfLinesReaded, 0 );
 }
 
 bool TaskInter::validateFlags( 

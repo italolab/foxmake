@@ -9,28 +9,42 @@
 
 MainScriptInter::~MainScriptInter() {}
 
-InterResult* MainScriptInter::interpretsLine( Block* block, BlockIterator* it, string currentLine, int currentLineNumber, void* mgr ) {
+InterResult* MainScriptInter::interpretsLine( 
+            Block* block, 
+            BlockIterator* it, 
+            string currentLine, 
+            int& numberOfLinesReaded, 
+            void* mgr ) {
+
     InterManager* manager = (InterManager*)mgr;
 
     MainScript* script = (MainScript*)block;
 
-    InterResult* result = manager->interpretsProp( script, currentLine, currentLineNumber );
+    InterResult* result = manager->interpretsProp( script, currentLine, numberOfLinesReaded );
     if ( !result->isInterpreted() && !result->isErrorFound())
-        result = manager->interpretsTask( script, it, currentLine, currentLineNumber );
+        result = manager->interpretsTask( script, it, currentLine, numberOfLinesReaded );
     if ( !result->isInterpreted() && !result->isErrorFound() )
-        result = manager->interpretsDefaultTaskConfig( script, currentLine, currentLineNumber );
+        result = manager->interpretsDefaultTaskConfig( script, currentLine, numberOfLinesReaded );
 
     return result;
 }
 
-InterResult* MainScriptInter::interpretsEnd( Block* block, string currentLine, int currentLineNumber ) {
+InterResult* MainScriptInter::interpretsEnd( 
+            Block* block, 
+            string currentLine, 
+            int& numberOfLinesReaded ) {
+
     return new InterResult( false );
 }
 
-InterResult* MainScriptInter::interprets( MainScript* script, string file, int lineNumber, void* mgr ) {
+InterResult* MainScriptInter::interprets( 
+            MainScript* script, 
+            string file, 
+            void* mgr ) {
+
     FileIterator* it = new FileIterator( file );
 
-    int numberOfLines = 0;
-    BlockInterResult* result = BlockInter::interpretsBlock( script, it, lineNumber, numberOfLines, mgr );
+    int numberOfLinesReaded = 0;
+    BlockInterResult* result = BlockInter::interpretsBlock( script, it, numberOfLinesReaded, mgr );
     return result->getInterResult();
 }

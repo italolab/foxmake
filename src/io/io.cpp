@@ -400,6 +400,14 @@ namespace io {
         return d;
     }
 
+    string removeSeparatorFromDirIfNeed( string dir ) {
+        string d = makePreferred( dir );
+        if ( d.length() > 0 )
+            if( d[ d.length()-1 ] == filesystem::path::preferred_separator )
+                d = d.substr( 0, d.length()-1 );
+        return d;
+    }
+
     string parentPath( string path ) {
         string p = makePreferred( path );
         if ( p.length() > 0 ) {

@@ -14,13 +14,14 @@ using std::istringstream;
 using std::stringstream;
 
 InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], void* mgr ) {
-    return interprets( nullptr, argc, argv, 0, mgr );
+    int numberOfLinesReaded = 0;
+    return interprets( nullptr, argc, argv, numberOfLinesReaded, mgr );
 }
 
-InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, void* mgr ) {
+InterResult* CMDInter::interprets( Block* parent, string line, int& numberOfLinesReaded, void* mgr ) {
     string cmdstr = line;
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, cmdstr, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, cmdstr, numberOfLinesReaded, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
@@ -38,10 +39,10 @@ InterResult* CMDInter::interprets( Block* parent, string line, int lineNumber, v
     while( getline( iss2, token, ' ' ) )
         argv[ i++ ] = strdup( token.c_str() );
 
-    return interprets( parent, argc, argv, lineNumber, mgr );
+    return interprets( parent, argc, argv, numberOfLinesReaded, mgr );
 }
 
-InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int lineNumber, void* mgr ) {
+InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int& numberOfLinesReaded, void* mgr ) {
     string line = "";
     string cmdName = "";
     if ( argc > 0 ) {
@@ -56,7 +57,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
         line = ss.str();
     }
 
-    CMD* cmd = new CMD( parent, lineNumber, line );
+    CMD* cmd = new CMD( parent, numberOfLinesReaded, line );
     cmd->setName( cmdName );
     cmd->setCMDStr( line );
     
@@ -96,7 +97,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
                 }
             }
 
-            cmd->addProperty( new Prop( cmd, name, value, lineNumber, line ) );
+            cmd->addProperty( new Prop( cmd, name, value, numberOfLinesReaded, line ) );
         }
         
         cmd->addArg( param );
@@ -105,5 +106,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int li
     if ( parent != nullptr )
         parent->addStatement( cmd );
 
-    return new InterResult( cmd, 1, 0 );
+    numberOfLinesReaded++;
+
+    return new InterResult( cmd, numberOfLinesReaded, 0 );
 }

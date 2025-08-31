@@ -13,21 +13,20 @@ class BlockInter : public Inter {
         BlockInterResult* interpretsBlock( 
                 Block* block, 
                 BlockIterator* it, 
-                int lineNumber, 
-                int& numberOfLines,  // Altera numberOfLines
+                int& numberOfLinesReaded,
                 void* mgr );
 
         virtual InterResult* interpretsLine( 
                 Block* block, 
                 BlockIterator* it, 
                 string currentLine, 
-                int currentLineNumber,
+                int& numberOfLinesReaded,
                 void* mgr ) = 0; 
 
         virtual InterResult* interpretsEnd( 
                 Block* block,
                 string currentLine, 
-                int currentLineNumber ) = 0;
+                int& numberOfLinesReaded ) = 0;
 
 };
 

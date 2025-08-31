@@ -3,8 +3,8 @@
 
 InterResult::InterResult( Statement* statement, int numberOfLines, int numberOfColumns ) {
     this->statement = statement;
-    this->numberOfLines = numberOfLines;
-    this->numberOfColumns = numberOfColumns;
+    this->numberOfLinesReaded = numberOfLines;
+    this->numberOfColumnsReaded = numberOfColumns;
     this->line = "";
     this->errorMsg = "";
     this->interpreted = true;
@@ -13,8 +13,8 @@ InterResult::InterResult( Statement* statement, int numberOfLines, int numberOfC
 
 InterResult::InterResult( string line, int numberOfLines, int numberOfColumns, string errorMsg ) {
     this->statement = nullptr;
-    this->numberOfLines = numberOfLines;
-    this->numberOfColumns = numberOfColumns;
+    this->numberOfLinesReaded = numberOfLines;
+    this->numberOfColumnsReaded = numberOfColumns;
     this->line = line;
     this->errorMsg = errorMsg;
     this->interpreted = false;
@@ -23,8 +23,8 @@ InterResult::InterResult( string line, int numberOfLines, int numberOfColumns, s
 
 InterResult::InterResult( bool interpreted ) {
     this->statement = nullptr;
-    this->numberOfLines = ( interpreted ? 1 : 0 );
-    this->numberOfColumns = 0;
+    this->numberOfLinesReaded = ( interpreted ? 1 : 0 );
+    this->numberOfColumnsReaded = 0;
     this->line = "";
     this->errorMsg = "";
     this->interpreted = interpreted;
@@ -39,8 +39,12 @@ bool InterResult::isErrorFound() {
     return errorFound;
 }
 
-int InterResult::getNumberOfLines() {
-    return numberOfLines;
+int InterResult::getNumberOfLinesReaded() {
+    return numberOfLinesReaded;
+}
+
+int InterResult::getNumberOfColumnsReaded() {
+    return numberOfColumnsReaded;
 }
 
 string InterResult::getLine() {

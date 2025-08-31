@@ -11,7 +11,12 @@
 using std::stringstream;
 using std::istringstream;
 
-InterResult* DefaultTaskConfigInter::interprets( MainScript* parent, string currentLine, int lineNumber, void* mgr ) {
+InterResult* DefaultTaskConfigInter::interprets( 
+            MainScript* parent, 
+            string currentLine, 
+            int& numberOfLinesReaded, 
+            void* mgr ) {
+
     InterManager* manager = (InterManager*)mgr;
 
     TaskConfigResult* result = manager->interpretsTaskConfig( currentLine );
@@ -20,6 +25,8 @@ InterResult* DefaultTaskConfigInter::interprets( MainScript* parent, string curr
     if ( status == TaskConfigResult::OK ) {  
         if ( !result->isFinish() )
             return new InterResult( false );
+
+        numberOfLinesReaded++;
 
         string taskName = result->getTaskName();
         vector<string>& flags = result->getFlags();
@@ -42,14 +49,14 @@ InterResult* DefaultTaskConfigInter::interprets( MainScript* parent, string curr
 
         DefaultTaskConfig* config = parent->getDefaultTaskConfig( taskName );
         if ( config == nullptr )
-            config = new DefaultTaskConfig( parent, taskName, lineNumber, currentLine );
+            config = new DefaultTaskConfig( parent, taskName, numberOfLinesReaded, currentLine );
         
         this->setFlags( config, flags );
 
         if ( parent != nullptr )
             parent->addDefaultTaskConfig( config );
 
-        return new InterResult( config, 1, currentLine.length() );
+        return new InterResult( config, numberOfLinesReaded, currentLine.length() );
     } else if ( status == TaskConfigResult::ERROR ) {
         string errorMsg = result->getErrorMsg();
         return new InterResult( currentLine, 0, 0, errorMsg );        

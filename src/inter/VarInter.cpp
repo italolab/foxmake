@@ -3,7 +3,8 @@
 #include "InterManager.h"
 #include "../darv/Var.h"
 
-InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, void* mgr ) {
+InterResult* VarInter::interprets( 
+            Block* parent, string line, int& numberOfLinesReaded, void* mgr ) {
     if ( line.length() == 0 )
         return new InterResult( false );
     if ( line[ 0 ] != '$' )
@@ -16,15 +17,17 @@ InterResult* VarInter::interprets( Block* parent, string line, int lineNumber, v
     string name = line.substr( 1, i-1 );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, numberOfLinesReaded, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     delete replaceResult;
 
-    Var* var = new Var( parent, name, value, lineNumber, line );
+    Var* var = new Var( parent, name, value, numberOfLinesReaded, line );
     if ( parent != nullptr )
         parent->putLocalVar( var );
 
-    return new InterResult( var, 1, line.length() );
+    numberOfLinesReaded++;
+
+    return new InterResult( var, numberOfLinesReaded, line.length() );
 }

@@ -6,7 +6,8 @@
 
 #include "../error_messages.h"
 
-InterResult* PropInter::interprets( MainScript* parent, string line, int lineNumber, void* mgr ) {
+InterResult* PropInter::interprets( 
+            MainScript* parent, string line, int& numberOfLinesReaded, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
     size_t i = line.find( '=' );
@@ -22,15 +23,17 @@ InterResult* PropInter::interprets( MainScript* parent, string line, int lineNum
         return new InterResult( line, 0, 0, b.str() );
     }
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, lineNumber, parent );
+    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, numberOfLinesReaded, parent );
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     delete replaceResult;
 
-    Prop* prop = new Prop( parent, name, value, lineNumber, line );
+    Prop* prop = new Prop( parent, name, value, numberOfLinesReaded, line );
     if ( parent != nullptr )
         parent->putProperty( prop );
 
-    return new InterResult( prop, 1, line.length() );
+    numberOfLinesReaded++;
+
+    return new InterResult( prop, numberOfLinesReaded, line.length() );
 }

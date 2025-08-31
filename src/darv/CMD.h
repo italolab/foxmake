@@ -17,12 +17,11 @@ class CMD : public GenericCMD {
     private:
         string name;
         string cmdstr;
-        int lineNumber;
         vector<string> argsVect;
         map<string, Prop*> propertiesMap;
 
     public:
-        CMD( Statement* parent, int lineNumber, string line );
+        CMD( Statement* parent, int numberOfLinesReaded, string line );
         virtual ~CMD();
 
         void addProperty( Prop* prop );
@@ -45,11 +44,9 @@ class CMD : public GenericCMD {
 
         string getName();
         string getCMDStr();
-        int getLineNumber();
 
         void setName( string name );
         void setCMDStr( string cmdstr );
-        void setLineNumber( int lineNumber );
 
         Statement* getTask();
 

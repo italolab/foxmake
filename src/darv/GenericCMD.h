@@ -6,7 +6,7 @@
 class GenericCMD : public Statement {
 
     public:
-        GenericCMD( Statement* parent, int lineNumber, string line );
+        GenericCMD( Statement* parent, int numberOfLinesReaded, string line );
         virtual Statement* getTask() = 0;
 
 };

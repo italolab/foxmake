@@ -13,14 +13,15 @@ class MainScriptInter : public BlockInter {
             Block* block, 
             BlockIterator* it, 
             string currentLine, 
-            int currentLineNumber, 
+            int& numberOfLinesReaded, 
             void* mgr );
         
-        InterResult* interpretsEnd( Block* block, string currentLine, int currentLineNumber );
+        InterResult* interpretsEnd( Block* block, string currentLine, int& currentLineNumber );
 
     public:
         virtual ~MainScriptInter();
-        InterResult* interprets( MainScript* script, string file, int lineNumber, void* mgr );
+        InterResult* interprets( 
+            MainScript* script, string file, void* mgr );
 
 };
 

@@ -15,7 +15,7 @@ class DefaultTaskConfig : public Statement {
         bool showCMDOutputFlag;
 
     public:
-        DefaultTaskConfig( Statement* parent, string name, int lineNumber, string line );
+        DefaultTaskConfig( Statement* parent, string name, int numberOfLinesReaded, string line );
 
         string getName();
         bool isVerbose();

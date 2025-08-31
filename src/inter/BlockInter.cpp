@@ -13,8 +13,7 @@ using namespace std;
 BlockInterResult* BlockInter::interpretsBlock( 
             Block* block, 
             BlockIterator* it, 
-            int lineNumber, 
-            int& numberOfLines,
+            int& numberOfLinesReaded,
             void* mgr ) {
 
     InterManager* manager = (InterManager*)mgr;
@@ -26,7 +25,7 @@ BlockInterResult* BlockInter::interpretsBlock(
         line = strutil::removeStartWhiteSpaces( line );
 
         if ( line.length() == 0 ) {
-            numberOfLines++;
+            numberOfLinesReaded++;
             continue;
         }
 
@@ -41,20 +40,20 @@ BlockInterResult* BlockInter::interpretsBlock(
         }
 
         if ( ignoreFlag || ignoreLineFlag ) {
-            numberOfLines++;
+            numberOfLinesReaded++;
             continue;
         }
 
-        int currentLineNumber = lineNumber + numberOfLines;
+        cout << line << "  " << (numberOfLinesReaded+1) << endl;
 
-        InterResult* endIResult = this->interpretsEnd( block, line, currentLineNumber );
+        InterResult* endIResult = this->interpretsEnd( block, line, numberOfLinesReaded );
         if ( endIResult->isInterpreted() ) {
-            numberOfLines++;
+            numberOfLinesReaded++;
             endFound = true;
             continue;
         } else if ( endIResult->isErrorFound() ) {
             string error = endIResult->getErrorMsg();
-            InterResult* iresult = new InterResult( line, numberOfLines, 0, error );
+            InterResult* iresult = new InterResult( line, numberOfLinesReaded, 0, error );
             return new BlockInterResult( iresult, endFound );
         }
 
@@ -62,15 +61,13 @@ BlockInterResult* BlockInter::interpretsBlock(
 
         InterResult* result = new InterResult( false );
         if ( isCmd )
-            result = manager->interpretsCMD( block, line, currentLineNumber );
+            result = manager->interpretsCMD( block, line, numberOfLinesReaded );
         if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsVar( block, line, currentLineNumber );
+            result = manager->interpretsVar( block, line, numberOfLinesReaded );
         if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsShellCMD( block, it, line, currentLineNumber );
+            result = manager->interpretsShellCMD( block, it, line, numberOfLinesReaded );
         if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = this->interpretsLine( block, it, line, currentLineNumber, mgr );            
-
-        numberOfLines += result->getNumberOfLines();
+            result = this->interpretsLine( block, it, line, numberOfLinesReaded, mgr );            
 
         if ( !result->isInterpreted() ) {
             string error;
@@ -83,15 +80,13 @@ BlockInterResult* BlockInter::interpretsBlock(
                 resultLine = line;
             }
 
-            cout << line << "  " << numberOfLines << endl;
-
-            InterResult* errorResult = new InterResult( resultLine, numberOfLines, 0, error );
+            InterResult* errorResult = new InterResult( resultLine, numberOfLinesReaded, 0, error );
             return new BlockInterResult( errorResult, endFound );
         }
 
         delete result;
     }
 
-    InterResult* okResult = new InterResult( block, numberOfLines, 0 );
+    InterResult* okResult = new InterResult( block, numberOfLinesReaded, 0 );
     return new BlockInterResult( okResult, endFound );
 }

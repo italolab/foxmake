@@ -54,6 +54,7 @@ namespace io {
     string fileOrDirName( string path );
     string fileOrDirNameWithoutExtension( string pathOrName );
     string addSeparatorToDirIfNeed( string dir );
+    string removeSeparatorFromDirIfNeed( string dir );
     string makePreferred( string path );
     string extension( string path );
     string removeRecursiveJoker( string path );

@@ -2,7 +2,7 @@
 #include "DefaultTaskConfig.h"
 #include "../consts.h"
 
-DefaultTaskConfig::DefaultTaskConfig( Statement* parent, string name, int lineNumber, string line ) : Statement( parent, lineNumber, line ) {
+DefaultTaskConfig::DefaultTaskConfig( Statement* parent, string name, int numberOfLinesReaded, string line ) : Statement( parent, numberOfLinesReaded, line ) {
     this->name = name;
     this->verboseFlag = false;
     this->showCMDOutputFlag = consts::DEFAULT_SHOW_CMD_OUTPUT;

@@ -1,9 +1,7 @@
 
 #include "CMD.h"
 
-CMD::CMD( Statement* parent, int lineNumber, string line ) : GenericCMD( parent, lineNumber, line ) {
-    this->lineNumber = 0;
-}
+CMD::CMD( Statement* parent, int numberOfLinesReaded, string line ) : GenericCMD( parent, numberOfLinesReaded, line ) {}
 
 CMD::~CMD() {
     for( const auto& pair : propertiesMap )
@@ -119,20 +117,12 @@ string CMD::getCMDStr() {
     return cmdstr;
 }
 
-int CMD::getLineNumber() {
-    return lineNumber;
-}
-
 void CMD::setName( string name ) {
     this->name = name;
 }
 
 void CMD::setCMDStr( string cmdstr ) {
     this->cmdstr = cmdstr;
-}
-
-void CMD::setLineNumber( int lineNumber ) {
-    this->lineNumber = lineNumber;
 }
 
 Statement* CMD::getTask() {

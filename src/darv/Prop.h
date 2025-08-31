@@ -14,7 +14,7 @@ class Prop : public Statement {
         string value;
 
     public:
-        Prop( Statement* block, string name, string value, int lineNumber, string line );
+        Prop( Statement* block, string name, string value, int numberOfLinesReaded, string line );
 
         string getName();
         string getValue();

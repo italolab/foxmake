@@ -21,7 +21,7 @@ class Inter {
 
     public:
         InterResult* replacePropsAndVarsAndDollarSigns( 
-            string line, string& text, int lineNumber, Block* block );
+            string line, string& text, int& numberOfLinesReaded, Block* block );
 
 };
 

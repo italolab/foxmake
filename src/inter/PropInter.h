@@ -9,7 +9,8 @@
 class PropInter : public Inter {
 
     public:
-        InterResult* interprets( MainScript* parent, string line, int lineNumber, void* mgr );
+        InterResult* interprets( 
+            MainScript* parent, string line, int& numberOfLinesReaded, void* mgr );
 
 };
 
