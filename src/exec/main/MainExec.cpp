@@ -26,6 +26,8 @@ using std::stringstream;
 using std::endl;
 
 MainExec::MainExec() {
+    mainCMDInterpreter = new MainCMDInterpreter();
+
     cleanTaskExec = new CleanTaskExec();
     compileTaskExec = new CompileTaskExec();
     linkOrArchiveTaskExec = new LinkOrArchiveTaskExec();
@@ -34,6 +36,8 @@ MainExec::MainExec() {
 }
 
 MainExec::~MainExec() {
+    delete mainCMDInterpreter;
+
     delete cleanTaskExec;
     delete compileTaskExec;
     delete linkOrArchiveTaskExec;
@@ -54,8 +58,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         return;
     }
     
-    this->configureEnvironmentAndInterpretsMainScript( mgr );
-    this->validaMainCMD( mgr );
+    mainCMDInterpreter->configureAndInterpretsAndValidate( mgr );
 
     bool isClean = manager->getMainCMDArgManager()->isClean();
     bool isCompile = manager->getMainCMDArgManager()->isCompile();
@@ -115,177 +118,6 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     if ( !isNoResume )
         out << infos::FINISH << endl;
-}
-
-void MainExec::validaMainCMD( void* mgr ) {
-    ExecManager* manager = (ExecManager*)mgr;
-    MainScript* script = manager->getMainScript();
-    CMD* mainCMD = manager->getMainCMD();
-
-    vector<string>& args = mainCMD->args();
-    int len = args.size();
-    for( int i = 0; i < len; i++ ) {
-        string arg = args[ i ];
-        if ( strutil::startsWith( arg, "-" ) )
-            continue;
-
-        if ( i > 0 )
-            if ( args[ i-1 ] == "-var" || args[ i-1 ] == "-prop" )
-                continue;
-        
-        bool isDefaultTask = manager->isDefaultTask( arg );
-        bool isUserTask = script->existsTask( arg );
-
-        if ( !isDefaultTask && !isUserTask ) {
-            messagebuilder b( errors::CMD_TASK_NOT_FOUND );
-            b << arg;
-            throw st_error( mainCMD, b.str() );
-        }
-    }
-}
-
-void MainExec::configureEnvironmentAndInterpretsMainScript( void* mgr ) {
-    ExecManager* manager = (ExecManager*)mgr;
-    InterManager* interManager = manager->getInterManager();
-    MainScript* mainScript = manager->getMainScript();
-    CMD* mainCMD = manager->getMainCMD();
-
-    Output& out = manager->out;
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
-
-    string workingDir = mainCMD->getPropertyValue( "--working-dir" );
-    string settingsFile = mainCMD->getPropertyValue( "--settings-file" );
-
-    bool workingDirFound;
-
-    if ( workingDir != "" ) {
-        workingDir = io::absoluteResolvePath( workingDir );
-        workingDir = io::removeSeparatorFromDirIfNeed( workingDir );
-        shell::setWorkingDir( workingDir );
-
-        workingDirFound = true;
-    } else {
-        if ( settingsFile != "" ) {
-            workingDir = io::dirPath( io::absoluteResolvePath( settingsFile ) );
-            workingDir = io::removeSeparatorFromDirIfNeed( workingDir );
-
-            settingsFile = io::fileOrDirName( settingsFile );
-            shell::setWorkingDir( workingDir );
-        } else {
-            workingDir = shell::getWorkingDir();
-        }
-
-        workingDirFound = false;
-    }
-
-    if ( settingsFile == "" )
-        settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
-
-    settingsFile = io::absoluteResolvePath( settingsFile );
-
-    if ( isVerbose ) {
-        messagebuilder b( infos::SETTINGS_FILE );
-        b << settingsFile;
-        out << b.str() << endl;
-    }
-
-    bool settingsFileFound = true;
-
-    if ( !io::fileExists( settingsFile ) ) {
-        messagebuilder b2( errors::SETTINGS_FILE_NOT_FOUND );
-        b2 << settingsFile;
-        out << output::green( b2.str() ) << endl;
-
-        if ( !workingDirFound )
-            throw st_error( nullptr, errors::NO_SETTINGS_AND_NO_WORKING_DIR );
-
-        settingsFileFound = false;
-    }
-
-    this->loadMainCMDProperties( mgr );
-    this->loadMainCMDVariables( mgr );
-
-    mainScript->putLocalVar( "main_config_file", settingsFile );
-    mainScript->putLocalVar( "working_dir", workingDir );
-
-    if ( settingsFileFound ) {
-        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile );
-        if ( !result->isInterpreted() )
-            throw st_error( result );
-
-        delete result;
-    }
-
-    string basedir = mainScript->getPropertyValue( props::BASE_DIR );
-    if ( basedir != "" ) {
-        basedir = io::absoluteResolvePath( basedir );
-        if ( !io::fileExists( basedir ) ) {
-            messagebuilder b( errors::BASE_DIRECTORY_NOT_FOUND );
-            b << basedir << props::BASE_DIR;
-            throw st_error( nullptr, b.str() );
-        }
-        
-        shell::setWorkingDir( basedir );
-    }
-
-    string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
-
-    if ( isVerbose ) {
-        messagebuilder b2( infos::CURRENT_DIRECTORY );
-        b2 << wdir;
-        out << b2.str() << endl;
-    }
-}
-
-
-void MainExec::loadMainCMDProperties( void* mgr ) {
-    ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
-    MainScript* mainScript = manager->getMainScript();
-
-    vector<string> properties = mainCMD->getOpArgValues( "-prop" );
-
-    for( string prop : properties ) {
-        size_t i = prop.find( '=' );
-        if ( i == string::npos ) {
-            messagebuilder b( errors::INVALID_PROP_DEF );
-            b << prop;
-            throw st_error( mainCMD, b.str() );
-        }
-
-        string propName = prop.substr( 0, i );
-        string propValue = prop.substr( i+1, prop.length()-i-1 );
-
-        if ( !manager->isValidProp( propName ) ) {
-            messagebuilder b( errors::IS_NOT_A_VALID_PROP );
-            b << propName;
-            throw st_error( mainCMD, b.str() );
-        }
-
-        mainScript->putProperty( propName, propValue );
-    }
-}
-
-void MainExec::loadMainCMDVariables( void* mgr ) {
-    ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
-    MainScript* mainScript = manager->getMainScript();
-
-    vector<string> variables = mainCMD->getOpArgValues( "-var" );
-
-    for( string var : variables ) {
-        size_t i = var.find( '=' );
-        if ( i == string::npos ) {
-            messagebuilder b( errors::INVALID_VAR_DEF );
-            b << var;
-            throw st_error( mainCMD, b.str() );
-        }
-
-        string varName = var.substr( 0, i );
-        string varValue = var.substr( i+1, var.length()-i-1 );
-
-        mainScript->putLocalVar( varName, varValue );
-    }
 }
 
 void MainExec::genSourceAndHeaderInfos( void* mgr ) {
