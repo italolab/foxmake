@@ -45,7 +45,11 @@ void TestTaskExec::exec( void* mgr ) {
 
     binDir = io::addSeparatorToDirIfNeed( binDir );
 
-    string command = binDir + consts::TEST_OUTPUT_FILE_NAME;
+    string testOutputFile = binDir + consts::TEST_OUTPUT_FILE_NAME;
+    if ( !io::fileExists( testOutputFile ) )
+        throw st_error( nullptr, errors::TEST_FILE_EXE_NOT_FOUND );    
+
+    string command = testOutputFile;
 
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );

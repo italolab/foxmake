@@ -84,6 +84,8 @@ namespace errors {
 
     const string UNNECESSARY_TOKEN = "Token desnecessário: $1";
 
+    const string TEST_FILE_EXE_NOT_FOUND = "O arquivo executável de teste não foi encontrado.\nVerifique se executou a tarefa \"link\" antes da tarefa \"test\".";
+
     namespace runtime {
         
         const string CMD_EXECUTOR_NOT_FOUND = "Executor de comando não encontrado pelo nome: \"$1\"";

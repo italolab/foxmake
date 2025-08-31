@@ -52,11 +52,16 @@ void CleanTaskExec::exec( void* mgr ) {
             removedSome = true;
     }
 
+    string testFileExe = binDir + consts::TEST_OUTPUT_FILE_NAME;
+    bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( testFileExe, mgr );
+    if ( removed )
+        removedSome = true;
+
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
         string fname = buildDir + io::fileOrDirName( bfile );
-        bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( fname, mgr );
-        if ( removed )
+        bool removed2 = this->appRecursiveDeleteFileOrDirectoryIfExists( fname, mgr );
+        if ( removed2 )
             removedSome = true;
     }
 
