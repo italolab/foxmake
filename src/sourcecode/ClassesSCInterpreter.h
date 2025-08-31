@@ -16,7 +16,6 @@ class ClassesSCInterpreter {
     public:
         void interpretsClass( 
                 map<string, CodeInfo*>& allCodeInfosMap,
-                map<string, string>& classToIncludeMap,
                 ifstream& in, 
                 string line, 
                 string filePath );

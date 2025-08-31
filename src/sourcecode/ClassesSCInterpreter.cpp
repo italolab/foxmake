@@ -7,20 +7,13 @@
 using std::stringstream;
 
 /*
-Classe com método para interpretar as classes (ou headers) que uma classe herda 
-e carregar um mapeamento entre o nome da classe e o path do arquivo da classe.
-
-Após identificar o nome da classe e extrair as classes de que ela herda, as 
-classes herdadas são adicionadas a um vetor de nomes de classes vinculado a classe.
-
-Também é feito o mapeamento entre o nome da classe e o seu path. Isso para depois 
-(No método DependenciesSCLoader::loadDependencies) recuperar os paths de todas as 
-classes herdadas e adicioná-los como dependência.
+Classe com método para interpretar as classes do arquivo de header ou código fonte 
+e extrair e adicionar a estrutura o nome da classe e as classes que ela extende. 
+Essa estrutura é adicionada a lista de classes do arquivo mapeada.
 */
 
 void ClassesSCInterpreter::interpretsClass( 
             map<string, CodeInfo*>& allCodeInfosMap,
-            map<string, string>& classToIncludeMap,
             ifstream& in, 
             string line, 
 
@@ -63,8 +56,6 @@ void ClassesSCInterpreter::interpretsClass(
     }
 
     string className = ss.str();
-    if ( className.length() > 0 )
-        classToIncludeMap[ className ] = filePath;
 
     vector<string> extendedClasses;
 

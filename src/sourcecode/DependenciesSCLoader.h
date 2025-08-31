@@ -21,7 +21,6 @@ class DependenciesSCLoader {
 
         bool loadDepencenciesForFile( 
                 map<string, CodeInfo*>& allCodeInfosMap, 
-                map<string, string>& classToIncludeMap,
                 string filePath );
 
         string findFilePathForClassName( 
@@ -34,9 +33,7 @@ class DependenciesSCLoader {
         DependenciesSCLoader();
         virtual ~DependenciesSCLoader();
 
-        bool loadDependencies( 
-                map<string, CodeInfo*>& allCodeInfosMap,
-                map<string, string>& classToIncludeMap );
+        bool loadDependencies( map<string, CodeInfo*>& allCodeInfosMap );
 
 };
 

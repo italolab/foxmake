@@ -25,9 +25,6 @@ fonte de implementação (.cpp, .c, .cc) e suas informações que estão na stru
 O atributo "allCodeInfosMap" é um mapeamento entre o path de cada arquivo de código 
 fonte, incluíndo os headers também, e suas informações na struct "CodeInfo".
 
-O atributo "classesToIncludeMap" é um mapeamento entre o nome de cada classe e o 
-path de seu arquivo.
-
 O método "withHeaderObjectCodeFiles" retorna todos os paths relativos aos arquivos 
 objeto de cada arquivo de cabeçalho. Logo, um arquivo de cabeçalho "a/B.h" tem um 
 arquivo objeto "a/B.o".
@@ -38,7 +35,6 @@ class SourceCodeManager {
     private:
         map<string, CodeInfo*> sourceCodeInfosMap;
         map<string, CodeInfo*> allCodeInfosMap;
-        map<string, string> classToIncludeMap;
 
         string sourceFileExtensions;
         string headerFileExtensions;

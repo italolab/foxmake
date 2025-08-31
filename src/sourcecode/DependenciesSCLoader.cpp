@@ -42,9 +42,7 @@ DependenciesSCLoader::~DependenciesSCLoader() {
     delete classesSCInterpreter;
 }
 
-bool DependenciesSCLoader::loadDependencies( 
-            map<string, CodeInfo*>& allCodeInfosMap,
-            map<string, string>& classToIncludeMap ) {
+bool DependenciesSCLoader::loadDependencies( map<string, CodeInfo*>& allCodeInfosMap ) {
 
     for( const auto& pair : allCodeInfosMap )
         ((CodeInfo*)pair.second)->dependencies.clear();
@@ -52,9 +50,7 @@ bool DependenciesSCLoader::loadDependencies(
     for( const auto& pair : allCodeInfosMap ) {
         CodeInfo* info = pair.second;
         
-        bool ok = this->loadDepencenciesForFile( 
-                allCodeInfosMap, classToIncludeMap, info->filePath );
-
+        bool ok = this->loadDepencenciesForFile( allCodeInfosMap, info->filePath );
         if ( !ok )
             return false;        
     }
@@ -112,8 +108,7 @@ string DependenciesSCLoader::findFilePathForClassName(
 }
 
 bool DependenciesSCLoader::loadDepencenciesForFile( 
-            map<string, CodeInfo*>& allCodeInfosMap, 
-            map<string, string>& classToIncludeMap,
+            map<string, CodeInfo*>& allCodeInfosMap,
             string filePath ) {
 
     ifstream in( filePath );
@@ -127,7 +122,7 @@ bool DependenciesSCLoader::loadDepencenciesForFile(
 
         bool interpreted = includesSCInterpreter->interpretsIncludes( allCodeInfosMap, line, filePath );
         if ( !interpreted )
-            classesSCInterpreter->interpretsClass( allCodeInfosMap, classToIncludeMap, in, line, filePath );        
+            classesSCInterpreter->interpretsClass( allCodeInfosMap, in, line, filePath );        
     }
 
     in.close();

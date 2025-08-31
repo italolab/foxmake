@@ -26,7 +26,6 @@ SourceCodeManager::~SourceCodeManager() {
 bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();
-    classToIncludeMap.clear();
 
     string src = io::makePreferred( srcDir );
     src = io::addSeparatorToDirIfNeed( src );
@@ -67,7 +66,7 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
             }
         }
 
-        return dependenciesSCLoader->loadDependencies( allCodeInfosMap, classToIncludeMap );
+        return dependenciesSCLoader->loadDependencies( allCodeInfosMap );
     } catch ( const filesystem::filesystem_error& error ) {
         return false;
     }
