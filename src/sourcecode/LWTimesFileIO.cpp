@@ -7,6 +7,11 @@
 using std::ifstream;
 using std::ofstream;
 
+/*
+Classe responsável por prover métodos para carregar e salvar o arquivo de 
+tempo de última escrita de cada arquivo de código fonte.
+*/
+
 bool LWTimesFileIO::loadLastWriteTimesFromFile( map<string, long>& writingTimesElapsedMap, string configFilePath ) {
     ifstream in( configFilePath );
     if ( !in.is_open() )

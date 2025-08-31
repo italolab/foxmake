@@ -8,6 +8,31 @@
 
 namespace filesystem = std::filesystem;
 
+/*
+Classe responsável por prover métodos para carregar uma lista de todos os arquivos 
+que foram alterados desde as datas de alteração presentes no arquivo __lwtimes e que 
+devem ser compilados.
+
+Isto é, os arquivos selecionados para serem compilados são sempre arquivos de código fonte 
+de implementação (.cpp, .c, .cc) e são escolhidos conforme suas dependências.
+
+As dependências de cada arquivo são:
+    - Os paths de arquivos com classes que o incluem.
+    - As classes que são herdadas no arquivo.
+
+Exemplo:
+
+A classe "A" está definida no caminho: "a/A.h"
+A classe "B" está definida no caminho: "b/B.h"
+A classe "C" está definida no caminho: "c/C.h"
+A classe "C" está definida no caminho: "d/D.h"
+
+A classe "A" inclue "b/B.h" e herda de "D", então:
+    - "a/A.h" é adicionado a lista de dependências de "b/B.h"
+    - "a/A.h" é adicionado a lista de dependências de "c/C.h"
+    - "d/D.h" é adicionado a lista de dependências de "a/A.h"
+*/
+
 FilesToCompileManager::FilesToCompileManager( string sourceFileExtensions, string headerFileExtensions ) {
     this->sourceFileExtensions = sourceFileExtensions;
     this->headerFileExtensions = headerFileExtensions;
