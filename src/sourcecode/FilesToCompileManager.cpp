@@ -16,19 +16,15 @@ FilesToCompileManager::FilesToCompileManager( string sourceFileExtensions, strin
 void FilesToCompileManager::loadFilesToCompile(
                                     vector<CodeInfo*>& filesToCompile,
                                     map<string, CodeInfo*>& allSourceInfosMap,
+                                    map<string, long> lwTimesMap,
                                     string configFilePath ) {
-
-    map<string, long> timesElapsedMap;
-
-    if ( io::fileExists( configFilePath ) )
-        this->loadLastWriteTimesFromFile( timesElapsedMap, configFilePath );
 
     for( const auto& pair : allSourceInfosMap ) {
         string filePath = pair.second->filePath;
 
         if ( !filesystem::is_directory( filePath ) ) {
-            if ( timesElapsedMap.find( filePath ) != timesElapsedMap.end() ) {
-                long savedWritingTimeElapsed = timesElapsedMap[ filePath ];
+            if ( lwTimesMap.find( filePath ) != lwTimesMap.end() ) {
+                long savedWritingTimeElapsed = lwTimesMap[ filePath ];
 
                 long currentWritingTimeElapsed = io::lastWriteTime( filePath );
                 if ( currentWritingTimeElapsed > savedWritingTimeElapsed )
@@ -93,40 +89,3 @@ void FilesToCompileManager::removeHeaderFiles( vector<CodeInfo*>& filesToCompile
     }
 }
 
-bool FilesToCompileManager::loadLastWriteTimesFromFile( map<string, long>& writingTimesElapsedMap, string configFilePath ) {
-    ifstream in( configFilePath );
-    if ( !in.is_open() )
-        return false;
-
-    while( !in.eof() ) {
-        string line;
-        getline( in, line );
-
-        size_t i = line.find( '=' );
-        if ( i != string::npos ) {
-            string filePath = line.substr( 0, i );
-            string lastWriteTime = line.substr( i+1, line.length()-i+2 );
-
-            writingTimesElapsedMap[ filePath ] = std::stol( lastWriteTime );
-        }
-    }
-
-    in.close();
-    return true;
-}
-
-bool FilesToCompileManager::saveLastWriteTimesInFile( map<string, CodeInfo*>& allSourceInfosMap, string configFileName, bool isAppend ) {
-    ofstream out( configFileName, isAppend ? std::ios::app : std::ios::out );
-    if ( !out.is_open() )
-        return false;
-
-    for( const auto& pair : allSourceInfosMap ) {
-        string filePath = pair.second->filePath;
-
-        long lastWriteTime = io::lastWriteTime( filePath );
-        out << filePath << "=" << lastWriteTime << "\n";
-    }
-
-    out.close();
-    return true;
-}

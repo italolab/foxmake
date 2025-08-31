@@ -3,6 +3,7 @@
 
 #include "FilesToCompileManager.h"
 #include "DependenciesSCLoader.h"
+#include "LWTimesFileIO.h"
 #include "CodeInfo.h"
 
 #include <string>
@@ -27,6 +28,8 @@ class SourceCodeManager {
 
         FilesToCompileManager* filesToCompileManager;
         DependenciesSCLoader* dependenciesSCLoader;
+
+        LWTimesFileIO* lwTimesFileIO;
 
     public:
         SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );

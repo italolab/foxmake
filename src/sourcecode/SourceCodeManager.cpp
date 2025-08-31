@@ -10,6 +10,7 @@ using std::getline;
 SourceCodeManager::SourceCodeManager( string sourceFileExtensions, string headerFileExtensions ) {
     this->filesToCompileManager = new FilesToCompileManager( sourceFileExtensions, headerFileExtensions );
     this->dependenciesSCLoader = new DependenciesSCLoader();
+    this->lwTimesFileIO = new LWTimesFileIO();
     this->sourceFileExtensions = sourceFileExtensions;
     this->headerFileExtensions = headerFileExtensions;
 }
@@ -17,6 +18,7 @@ SourceCodeManager::SourceCodeManager( string sourceFileExtensions, string header
 SourceCodeManager::~SourceCodeManager() {
     delete filesToCompileManager;
     delete dependenciesSCLoader;
+    delete lwTimesFileIO;
     for( const auto& pair : allCodeInfosMap )
         delete pair.second;
 }
@@ -100,9 +102,14 @@ vector<CodeInfo*> SourceCodeManager::sourceCodeInfos() {
 }
 
 void SourceCodeManager::loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath ) {
-    filesToCompileManager->loadFilesToCompile( filesToCompile, allCodeInfosMap, configFilePath );
+    map<string, long> lwTimesMap;
+
+    if ( io::fileExists( configFilePath ) )
+        lwTimesFileIO->loadLastWriteTimesFromFile( lwTimesMap, configFilePath );
+
+    filesToCompileManager->loadFilesToCompile( filesToCompile, allCodeInfosMap, lwTimesMap, configFilePath );
 }
 
 void SourceCodeManager::saveLastWriteTimesInFile( string configFilePath, bool isAppend ) {
-    filesToCompileManager->saveLastWriteTimesInFile( allCodeInfosMap, configFilePath, isAppend );
+    lwTimesFileIO->saveLastWriteTimesInFile( allCodeInfosMap, configFilePath, isAppend );
 }

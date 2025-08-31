@@ -30,12 +30,8 @@ class FilesToCompileManager {
         void loadFilesToCompile(
                     vector<CodeInfo*>& filesToCompile,
                     map<string, CodeInfo*>& allSourceInfosMap,
+                    map<string, long> lwTimesMap,
                     string configFilePath );
-
-        bool saveLastWriteTimesInFile(  
-                    map<string, CodeInfo*>& allSourceInfosMap, 
-                    string configFileName, 
-                    bool isAppend = false );
 
 };
 
