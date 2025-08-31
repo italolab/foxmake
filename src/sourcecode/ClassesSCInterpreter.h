@@ -14,7 +14,7 @@ using std::ifstream;
 class ClassesSCInterpreter {
 
     public:
-        bool interpretsClass( 
+        void interpretsClass( 
                 map<string, CodeInfo*>& allCodeInfosMap,
                 map<string, string>& classToIncludeMap,
                 ifstream& in, 

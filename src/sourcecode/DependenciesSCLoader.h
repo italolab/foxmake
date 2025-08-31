@@ -7,9 +7,11 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 using std::string;
 using std::map;
+using std::vector;
 
 class DependenciesSCLoader {
 
@@ -21,6 +23,12 @@ class DependenciesSCLoader {
                 map<string, CodeInfo*>& allCodeInfosMap, 
                 map<string, string>& classToIncludeMap,
                 string filePath );
+
+        string findFilePathForClassName( 
+            map<string, CodeInfo*>& allCodeInfosMap, 
+            vector<string>& includes, 
+            string className,
+            string filePath );
 
     public:
         DependenciesSCLoader();

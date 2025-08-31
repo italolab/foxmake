@@ -1,6 +1,7 @@
 
 #include "DependenciesSCLoader.h"
 #include "../util/strutil.h"
+#include "../io/io.h"
 
 /*
 Classe responsável por prover métodos para carregamento das dependências entre 
@@ -26,6 +27,10 @@ A classe "A" inclue "b/B.h" e herda de "D", então:
     - "a/A.h" é adicionado a lista de dependências de "c/C.h"
     - "d/D.h" é adicionado a lista de dependências de "a/A.h"
 */
+
+#include <iostream>
+using std::cerr;
+using std::endl;
 
 DependenciesSCLoader::DependenciesSCLoader() {
     includesSCInterpreter = new IncludesSCInterpreter();
@@ -56,13 +61,54 @@ bool DependenciesSCLoader::loadDependencies(
 
     for( const auto& pair : allCodeInfosMap ) {
         CodeInfo* info = pair.second;
-        vector<string> extendedClasses = info->extendedClasses;
-        for( string exClass : extendedClasses )
-            if ( classToIncludeMap.find( exClass ) != classToIncludeMap.end() )
-                info->dependencies.push_back( classToIncludeMap[ exClass ] );
+        string filePath = info->filePath;
+        vector<string>& includes = info->includes;
+        vector<ClassInfo*>& classes = info->classes;
+        for( ClassInfo* classInfo: classes ) {
+            vector<string> extendedClasses = classInfo->extendedClasses;
+            for( string exClass : extendedClasses ) {
+                string classFilePath = this->findFilePathForClassName( allCodeInfosMap, includes, exClass, filePath );
+                if ( classFilePath != "" )
+                    info->dependencies.push_back( classFilePath );
+            }
+        }
     }
 
     return true;
+}
+
+/*
+Para cada include, verifica as classes do arquivo correspondente ao include. Se alguma 
+for igual a classe de que se está buscando o "filePath", então o filePath é retornado.
+
+Exemplo:
+    - O arquivo "a/AB.h" tem as classes A e B definidas.
+    - A classe "c/C.h" inclue o arquivo "a/AB.h" e inclue também outros arquivos. Além disso, 
+    - A classe "C" extende a classe "B";
+    A busca vai testando include por include e, quando a busca chegar no include "a/AB.h", 
+    então são recuperados os nomes das classes desse arquivo e, então, esses nomes de 
+    classes ("A" e "B") são comparados com a classe extendida (que é a classe "B"). 
+    Como a classe "B" é encontrada na lista de nomes de classes, o path do arquivo é 
+    retornado: "a/AB.h"
+
+Se o path não for encontrado, é retornada uma string vazia.
+*/
+string DependenciesSCLoader::findFilePathForClassName( 
+            map<string, CodeInfo*>& allCodeInfosMap, 
+            vector<string>& includePaths, 
+            string className,
+            string filePath ) {
+
+    for( string includePath : includePaths ) {
+        if ( allCodeInfosMap.find( includePath ) != allCodeInfosMap.end() ) {
+            CodeInfo* info = allCodeInfosMap[ includePath ];
+            for( ClassInfo* classInfo : info->classes ) {
+                if ( classInfo->name == className )
+                    return includePath;
+            }
+        }
+    }
+    return "";
 }
 
 bool DependenciesSCLoader::loadDepencenciesForFile( 
@@ -80,10 +126,8 @@ bool DependenciesSCLoader::loadDepencenciesForFile(
         line = strutil::removeStartWhiteSpaces( line );
 
         bool interpreted = includesSCInterpreter->interpretsIncludes( allCodeInfosMap, line, filePath );
-        if ( !interpreted ) {
-            interpreted = classesSCInterpreter->interpretsClass(
-                    allCodeInfosMap, classToIncludeMap, in, line, filePath );
-        }
+        if ( !interpreted )
+            classesSCInterpreter->interpretsClass( allCodeInfosMap, classToIncludeMap, in, line, filePath );        
     }
 
     in.close();

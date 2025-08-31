@@ -12,6 +12,8 @@ todas as classes que a incluem.
 
 Logo, se uma classe A inclue as classes B, C e D, então o path da classe A é 
 adicionado ao vetor de paths de classes das classes B, C e D.
+
+São carregados também todos os includes do arquivo no vector de includes de CodeInfo.
 */
 
 bool IncludesSCInterpreter::interpretsIncludes( 
@@ -33,8 +35,11 @@ bool IncludesSCInterpreter::interpretsIncludes(
             string dir = io::dirPath( filePath );
             includePath = io::resolvePath( dir, includePath );
 
+            if ( allCodeInfosMap.find( filePath ) != allCodeInfosMap.end() )
+                allCodeInfosMap[ filePath ]->includes.push_back( includePath );
+                
             if ( allCodeInfosMap.find( includePath ) != allCodeInfosMap.end() )
-                allCodeInfosMap[ includePath ]->dependencies.push_back( filePath );
+                allCodeInfosMap[ includePath ]->dependencies.push_back( filePath );            
         }
 
         j = line.find( '\"', k+1 );

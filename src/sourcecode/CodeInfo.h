@@ -7,10 +7,16 @@
 using std::string;
 using std::vector;
 
+typedef struct TClassInfo {
+    string name;
+    vector<string> extendedClasses;
+} ClassInfo;
+
 typedef struct TCodeInfo {
     string filePath;
     string objFilePath;
-    vector<string> extendedClasses;
+    vector<string> includes;
+    vector<ClassInfo*> classes;
     vector<string> dependencies;
 } CodeInfo;
 

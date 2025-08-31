@@ -21,6 +21,14 @@
 using std::stringstream;
 using std::endl;
 
+/*
+Se a propriedade "output.file.name" for definida, os arquivos de código fonte 
+da pasta de source code são compilados.
+
+Se a propriedade "test.dir" for definida, os arquivos de código fonte da pasta 
+de testes são compilados.
+*/
+
 void CompileTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();

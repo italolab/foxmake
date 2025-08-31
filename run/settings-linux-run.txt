@@ -34,6 +34,7 @@ test.libs=cbtest
 $project_name=cbuild
 
 task copy showoutput;
+task compile verbose;
 
 task copy after
     echo Copia...
@@ -53,9 +54,6 @@ task debug before
     @dir
     echo Debug executado!
 endtask
-
-task compile verbose;
-task compileall verbose;
 
 task finish after
     $lib_dir=$(working_dir)/../lib

@@ -18,11 +18,12 @@ Também é feito o mapeamento entre o nome da classe e o seu path. Isso para dep
 classes herdadas e adicioná-los como dependência.
 */
 
-bool ClassesSCInterpreter::interpretsClass( 
+void ClassesSCInterpreter::interpretsClass( 
             map<string, CodeInfo*>& allCodeInfosMap,
             map<string, string>& classToIncludeMap,
             ifstream& in, 
             string line, 
+
             string filePath ) {
                 
     size_t i = 0;
@@ -30,7 +31,7 @@ bool ClassesSCInterpreter::interpretsClass(
 
     size_t k = line.find( "\"" );
     if ( k != string::npos )
-        return false;
+        return;
 
     if ( strutil::startsWith( line, "class" ) ) {
         i = 0;
@@ -38,7 +39,7 @@ bool ClassesSCInterpreter::interpretsClass(
     } else {
         i = line.find( " class " );
         if ( i == string::npos )
-            return false;
+            return;
 
         j = 7;
     }
@@ -64,6 +65,12 @@ bool ClassesSCInterpreter::interpretsClass(
     string className = ss.str();
     if ( className.length() > 0 )
         classToIncludeMap[ className ] = filePath;
+
+    vector<string> extendedClasses;
+
+    ClassInfo* classInfo = new ClassInfo;
+    classInfo->name = className;
+    classInfo->extendedClasses = extendedClasses;
 
     while ( ch != ':' && ch != '{' && i < len ) {
         i++;
@@ -114,7 +121,7 @@ bool ClassesSCInterpreter::interpretsClass(
 
                 string extendedClassName = ss.str();
                 if ( extendedClassName.length() > 0 )
-                    allCodeInfosMap[ filePath ]->extendedClasses.push_back( extendedClassName );
+                    classInfo->extendedClasses.push_back( extendedClassName );                
             }
 
             if ( i == len && ch != '{' && !in.eof() ) {
@@ -122,9 +129,8 @@ bool ClassesSCInterpreter::interpretsClass(
                 i = 0;
             }
         }
-
-        return true;
     }
 
-    return false;
+    if ( allCodeInfosMap.find( filePath ) != allCodeInfosMap.end() )
+        allCodeInfosMap[ filePath ]->classes.push_back( classInfo );
 }

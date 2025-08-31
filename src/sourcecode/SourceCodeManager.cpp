@@ -48,13 +48,15 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
                 string srcFilePath = filePath;
 
                 vector<string> dependencies;
-                vector<string> extendedClasses;
+                vector<string> includes;
+                vector<ClassInfo*> classes;
             
                 CodeInfo* info = new CodeInfo;
                 info->filePath = srcFilePath;
                 info->objFilePath = objFilePath;
                 info->dependencies = dependencies;
-                info->extendedClasses = extendedClasses;
+                info->classes = classes;
+                info->includes = includes;
 
                 if ( strutil::endsWithSome( filePath, sourceFileExtensions ) ) {
                     sourceCodeInfosMap[ filePath ] = info;
