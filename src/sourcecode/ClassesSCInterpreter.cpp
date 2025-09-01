@@ -91,11 +91,11 @@ void ClassesSCInterpreter::interpretsClass(
                     continue;
                 }
 
-                if ( strutil::isNextToken( line2, i, "public" ) ) {
+                if ( strutil::isNextSubstr( line2, i, "public" ) ) {
                     i += 7;
-                } else if ( strutil::isNextToken( line2, i, "protected" ) ) {
+                } else if ( strutil::isNextSubstr( line2, i, "protected" ) ) {
                     i += 10;
-                } else if ( strutil::isNextToken( line2, i, "private" ) ) {
+                } else if ( strutil::isNextSubstr( line2, i, "private" ) ) {
                     i += 8;
                 }
 

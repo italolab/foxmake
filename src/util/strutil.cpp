@@ -4,10 +4,17 @@
 #include <sstream>
 #include <iostream>
 
-not_end_double_quote_error::not_end_double_quote_error( string msg ) : runtime_error( msg ) {}
+using std::stringstream;
+using std::istringstream;
 
 namespace strutil {
 
+    /*
+    Essa função retorna um vector de strings separadas por espaços em 
+    branco ou aspas duplas. Caso uma aspa dupla não tenha aspa dupla de 
+    fechamento, a função entende que todo o restante da string deve ser
+    adicionada ao vector como se houvesse uma aspa dupla no final da string.
+    */
     vector<string> splitWithDoubleQuotes( string str ) {
         vector<string> splitVect;
 
@@ -17,13 +24,13 @@ namespace strutil {
         for( size_t i = 0; i < len; i++ ) {
             if ( str[ i ] == '\"' ) {
                 size_t j = str.find( '\"', i+1 );
-                if ( j == string::npos ) {
-                    throw not_end_double_quote_error( "Aspas duplas de fim nao encontradas." );
-                }
+                if ( j == string::npos )
+                    j = str.length();
+
                 string str2 = str.substr( i+1, j-i-1 );
                 splitVect.push_back( str2 );
                 i = j;
-            } else if ( str[ i ] == ' ' || str[ i ] == '\n' || str[ i ] == '\t' || str[ i ] == '\r' ) {
+            } else if ( isWhiteSpace( str[ i ] ) ) {
                 if ( charAdded ) {
                     splitVect.push_back( ss.str() );
                     ss.str( "" );
@@ -85,12 +92,12 @@ namespace strutil {
         return false;
     }
 
-    bool isNextToken( string str, int i, string token ) {
+    bool isNextSubstr( string str, int i, string subStr ) {
         size_t strLen = str.length();
-        size_t tokenLen = token.length();
-        if ( tokenLen <= strLen-i+1 ) {
-            for( size_t j = 0; j < tokenLen; j++ )
-                if ( str[ i+j ] != token[ j ] )
+        size_t subsLen = subStr.length();
+        if ( subsLen <= strLen-i+1 ) {
+            for( size_t j = 0; j < subsLen; j++ )
+                if ( str[ i+j ] != subStr[ j ] )
                     return false;
             return true;
         }

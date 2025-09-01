@@ -89,7 +89,7 @@
 /home/italo/workspace-cpp/cbuild/src/inter/MainScriptInter.h=1756633117
 /home/italo/workspace-cpp/cbuild/src/inter/PropInter.cpp=1756636807
 /home/italo/workspace-cpp/cbuild/src/inter/PropInter.h=1756632352
-/home/italo/workspace-cpp/cbuild/src/inter/ShellCMDInter.cpp=1756636844
+/home/italo/workspace-cpp/cbuild/src/inter/ShellCMDInter.cpp=1756727115
 /home/italo/workspace-cpp/cbuild/src/inter/ShellCMDInter.h=1756632410
 /home/italo/workspace-cpp/cbuild/src/inter/TaskInter.cpp=1756680778
 /home/italo/workspace-cpp/cbuild/src/inter/TaskInter.h=1756667535
@@ -109,7 +109,7 @@
 /home/italo/workspace-cpp/cbuild/src/io/filter/ByNameFileFilter.cpp=1756034598
 /home/italo/workspace-cpp/cbuild/src/io/filter/ByNameFileFilter.h=1755988184
 /home/italo/workspace-cpp/cbuild/src/io/filter/FileFilter.h=1755990275
-/home/italo/workspace-cpp/cbuild/src/io/io.cpp=1756634202
+/home/italo/workspace-cpp/cbuild/src/io/io.cpp=1756727154
 /home/italo/workspace-cpp/cbuild/src/io/io.h=1756634207
 /home/italo/workspace-cpp/cbuild/src/main.cpp=1756547685
 /home/italo/workspace-cpp/cbuild/src/msg/messagebuilder.cpp=1755766993
@@ -122,7 +122,7 @@
 /home/italo/workspace-cpp/cbuild/src/shell/output/OutputThread.h=1756502164
 /home/italo/workspace-cpp/cbuild/src/shell/shell.cpp=1756665588
 /home/italo/workspace-cpp/cbuild/src/shell/shell.h=1756544214
-/home/italo/workspace-cpp/cbuild/src/sourcecode/ClassesSCInterpreter.cpp=1756678776
+/home/italo/workspace-cpp/cbuild/src/sourcecode/ClassesSCInterpreter.cpp=1756717603
 /home/italo/workspace-cpp/cbuild/src/sourcecode/ClassesSCInterpreter.h=1756678514
 /home/italo/workspace-cpp/cbuild/src/sourcecode/CodeInfo.h=1756673734
 /home/italo/workspace-cpp/cbuild/src/sourcecode/DependenciesSCLoader.cpp=1756678509
@@ -133,8 +133,10 @@
 /home/italo/workspace-cpp/cbuild/src/sourcecode/IncludesSCInterpreter.h=1756673873
 /home/italo/workspace-cpp/cbuild/src/sourcecode/LWTimesFileIO.cpp=1756660369
 /home/italo/workspace-cpp/cbuild/src/sourcecode/LWTimesFileIO.h=1756648174
-/home/italo/workspace-cpp/cbuild/src/sourcecode/SourceCodeManager.cpp=1756678798
+/home/italo/workspace-cpp/cbuild/src/sourcecode/SourceCodeManager.cpp=1756727220
 /home/italo/workspace-cpp/cbuild/src/sourcecode/SourceCodeManager.h=1756678421
-/home/italo/workspace-cpp/cbuild/src/util/strutil.cpp=1755994460
-/home/italo/workspace-cpp/cbuild/src/util/strutil.h=1755766993
-/home/italo/workspace-cpp/cbuild/test/main.cpp=1756712995
+/home/italo/workspace-cpp/cbuild/src/util/strutil.cpp=1756727618
+/home/italo/workspace-cpp/cbuild/src/util/strutil.h=1756726961
+/home/italo/workspace-cpp/cbuild/test/main.cpp=1756716414
+/home/italo/workspace-cpp/cbuild/test/strutiltests.cpp=1756727656
+/home/italo/workspace-cpp/cbuild/test/strutiltests.h=1756716763

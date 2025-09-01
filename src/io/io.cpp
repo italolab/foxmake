@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 
 using std::stringstream;
+using std::ifstream;
+using std::ofstream;
 
 namespace filesystem = std::filesystem;
 

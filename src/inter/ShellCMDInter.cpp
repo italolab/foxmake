@@ -9,6 +9,7 @@
 #include <sstream>
 
 using std::stringstream;
+using std::istringstream;
 
 InterResult* ShellCMDInter::interprets( 
             Block* parent, 

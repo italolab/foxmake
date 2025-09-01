@@ -5,6 +5,8 @@
 
 #include <filesystem>
 
+namespace filesystem = std::filesystem;
+
 using std::getline;
 
 SourceCodeManager::SourceCodeManager( string sourceFileExtensions, string headerFileExtensions ) {
