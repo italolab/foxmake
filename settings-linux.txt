@@ -28,6 +28,8 @@ lib.dirs=
 include.dirs=
 libs=
 
+test.linker.params=-ldl -rdynamic
+
 test.lib.dirs=lib
 test.include.dirs=include
 test.libs=cbtest
