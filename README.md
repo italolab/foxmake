@@ -32,8 +32,10 @@ cbuild buildall --working-dir=/home/joao/cbuild-workingdir
 As classes interpreters são executadas para criação da arvore de derivação que corresponde a configuração do script representado na arvore. Essa arvore é executada pelos executores.
 
 Exemplo:
+```
     Classe interpreter: CMDInter
     Classes executoras: MainExec, CPExec
+```
 
 As classes executoras executam um comando (classe CMD da arvore de derivação), que pode ser o comando principal (o cbuild build, por exemplo) ou algum comando especificado no arquivo de settings.
 
