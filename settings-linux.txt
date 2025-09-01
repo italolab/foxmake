@@ -32,7 +32,7 @@ test.lib.dirs=lib
 test.include.dirs=include
 test.libs=cbtest
 
-task link before
+task compileall before
     echo
     rm include/*.a
     rm lib/libcbtest.a

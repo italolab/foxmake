@@ -16,8 +16,9 @@ TEST_CASE( startsWith, strutil ) {
     ASSERT_TRUE( strutil::startsWith( "(", "(" ), );
 	ASSERT_FALSE( strutil::startsWith( "abc", "bc" ), );
 	ASSERT_FALSE( strutil::startsWith( "", "bc" ), );
-	ASSERT_FALSE( strutil::startsWith( "", "AB" ), )
-	ASSERT_TRUE( strutil::startsWith( "", "" ), )
+	ASSERT_FALSE( strutil::startsWith( "", "AB" ), );
+	ASSERT_TRUE( strutil::startsWith( "", "" ), );
+	//FAIL( "Falha..." );
 }
 
 

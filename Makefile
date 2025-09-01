@@ -7,11 +7,11 @@ TARGET=cbuild
 
 all: $(TARGET)
 
-$(TARGET): src/exec/TaskExec.o src/exec/shcmd/ShellCMDExec.o src/exec/stexcept.o src/exec/main/CompileTaskExec.o src/exec/main/LinkTaskExec.o src/exec/main/MainExec.o src/exec/main/ExeLinkTaskExec.o src/exec/main/CleanTaskExec.o src/exec/main/DynamicLibraryLinkTaskExec.o src/exec/main/CopyTaskExec.o src/exec/ExecManager.o src/exec/echo/EchoExec.o src/exec/mkdir/MKDirExec.o src/exec/cd/CDExec.o src/exec/rm/RMExec.o src/exec/ArgManager.o src/exec/Exec.o src/exec/cp/CPExec.o src/main.o src/darv/Prop.o src/darv/GenericCMD.o src/darv/Task.o src/darv/Statement.o src/darv/ShellCMD.o src/darv/DefaultTaskConfig.o src/darv/CMD.o src/darv/MainScript.o src/darv/Block.o src/darv/Var.o src/util/strutil.o src/shell/shell.o src/shell/output/OutputThread.o src/shell/output/OutputController.o src/io/SourceCodeManager.o src/io/FilesToCompileManager.o src/io/io.o src/io/filter/ByNameFileFilter.o src/msg/messagebuilder.o src/inter/PropInter.o src/inter/InterManager.o src/inter/VarInter.o src/inter/Inter.o src/inter/taskconfig/TaskConfigInter.o src/inter/taskconfig/TaskConfigResult.o src/inter/InterResult.o src/inter/MainScriptInter.o src/inter/TaskInter.o src/inter/CMDInter.o src/inter/ShellCMDInter.o src/inter/it/StringIterator.o src/inter/it/FileIterator.o src/inter/DefaultTaskConfigInter.o
-	$(CXX) -o $(TARGET) obj/Debug/src/exec/TaskExec.o obj/Debug/src/exec/shcmd/ShellCMDExec.o obj/Debug/src/exec/stexcept.o obj/Debug/src/exec/main/CompileTaskExec.o obj/Debug/src/exec/main/LinkTaskExec.o obj/Debug/src/exec/main/MainExec.o obj/Debug/src/exec/main/ExeLinkTaskExec.o obj/Debug/src/exec/main/CleanTaskExec.o obj/Debug/src/exec/main/DynamicLibraryLinkTaskExec.o obj/Debug/src/exec/main/CopyTaskExec.o obj/Debug/src/exec/ExecManager.o obj/Debug/src/exec/echo/EchoExec.o obj/Debug/src/exec/mkdir/MKDirExec.o obj/Debug/src/exec/cd/CDExec.o obj/Debug/src/exec/rm/RMExec.o obj/Debug/src/exec/ArgManager.o obj/Debug/src/exec/Exec.o obj/Debug/src/exec/cp/CPExec.o obj/Debug/src/main.o obj/Debug/src/darv/Prop.o obj/Debug/src/darv/GenericCMD.o obj/Debug/src/darv/Task.o obj/Debug/src/darv/Statement.o obj/Debug/src/darv/ShellCMD.o obj/Debug/src/darv/DefaultTaskConfig.o obj/Debug/src/darv/CMD.o obj/Debug/src/darv/MainScript.o obj/Debug/src/darv/Block.o obj/Debug/src/darv/Var.o obj/Debug/src/util/strutil.o obj/Debug/src/shell/shell.o obj/Debug/src/shell/output/OutputThread.o obj/Debug/src/shell/output/OutputController.o obj/Debug/src/io/SourceCodeManager.o obj/Debug/src/io/FilesToCompileManager.o obj/Debug/src/io/io.o obj/Debug/src/io/filter/ByNameFileFilter.o obj/Debug/src/msg/messagebuilder.o obj/Debug/src/inter/PropInter.o obj/Debug/src/inter/InterManager.o obj/Debug/src/inter/VarInter.o obj/Debug/src/inter/Inter.o obj/Debug/src/inter/taskconfig/TaskConfigInter.o obj/Debug/src/inter/taskconfig/TaskConfigResult.o obj/Debug/src/inter/InterResult.o obj/Debug/src/inter/MainScriptInter.o obj/Debug/src/inter/TaskInter.o obj/Debug/src/inter/CMDInter.o obj/Debug/src/inter/ShellCMDInter.o obj/Debug/src/inter/it/StringIterator.o obj/Debug/src/inter/it/FileIterator.o obj/Debug/src/inter/DefaultTaskConfigInter.o
+$(TARGET): src/exec/MainCMDArgManager.o src/exec/shcmd/ShellCMDExec.o src/exec/stexcept.o src/exec/main/TaskExec.o src/exec/main/MainExec.o src/exec/main/task/CompileTaskExec.o src/exec/main/task/TestTaskExec.o src/exec/main/task/ArchiveTaskExec.o src/exec/main/task/LinkOrArchiveTaskExec.o src/exec/main/task/ExeLinkTaskExec.o src/exec/main/task/CleanTaskExec.o src/exec/main/task/DynamicLibraryLinkTaskExec.o src/exec/main/task/CopyTaskExec.o src/exec/main/MainCMDInterpreter.o src/exec/ExecManager.o src/exec/echo/EchoExec.o src/exec/mkdir/MKDirExec.o src/exec/cd/CDExec.o src/exec/rm/RMExec.o src/exec/Exec.o src/exec/cp/CPExec.o src/main.o src/darv/Prop.o src/darv/GenericCMD.o src/darv/Task.o src/darv/Statement.o src/darv/ShellCMD.o src/darv/DefaultTaskConfig.o src/darv/CMD.o src/darv/MainScript.o src/darv/Block.o src/darv/Var.o src/util/strutil.o src/sourcecode/SourceCodeManager.o src/sourcecode/FilesToCompileManager.o src/sourcecode/IncludesSCInterpreter.o src/sourcecode/ClassesSCInterpreter.o src/sourcecode/LWTimesFileIO.o src/sourcecode/DependenciesSCLoader.o src/shell/shell.o src/shell/output/OutputThread.o src/shell/output/OutputController.o src/compiler/Archiver.o src/compiler/Linker.o src/compiler/DynamicLibraryLinker.o src/compiler/Compiler.o src/output/output.o src/io/io.o src/io/filter/ByNameFileFilter.o src/msg/messagebuilder.o src/inter/PropInter.o src/inter/InterManager.o src/inter/BlockInter.o src/inter/VarInter.o src/inter/Inter.o src/inter/taskconfig/TaskConfigInter.o src/inter/taskconfig/TaskConfigResult.o src/inter/InterResult.o src/inter/block/BlockInterResult.o src/inter/MainScriptInter.o src/inter/TaskInter.o src/inter/CMDInter.o src/inter/ShellCMDInter.o src/inter/it/StringIterator.o src/inter/it/FileIterator.o src/inter/DefaultTaskConfigInter.o
+	$(CXX) -o $(TARGET) obj/Debug/src/exec/MainCMDArgManager.o obj/Debug/src/exec/shcmd/ShellCMDExec.o obj/Debug/src/exec/stexcept.o obj/Debug/src/exec/main/TaskExec.o obj/Debug/src/exec/main/MainExec.o obj/Debug/src/exec/main/task/CompileTaskExec.o obj/Debug/src/exec/main/task/TestTaskExec.o obj/Debug/src/exec/main/task/ArchiveTaskExec.o obj/Debug/src/exec/main/task/LinkOrArchiveTaskExec.o obj/Debug/src/exec/main/task/ExeLinkTaskExec.o obj/Debug/src/exec/main/task/CleanTaskExec.o obj/Debug/src/exec/main/task/DynamicLibraryLinkTaskExec.o obj/Debug/src/exec/main/task/CopyTaskExec.o obj/Debug/src/exec/main/MainCMDInterpreter.o obj/Debug/src/exec/ExecManager.o obj/Debug/src/exec/echo/EchoExec.o obj/Debug/src/exec/mkdir/MKDirExec.o obj/Debug/src/exec/cd/CDExec.o obj/Debug/src/exec/rm/RMExec.o obj/Debug/src/exec/Exec.o obj/Debug/src/exec/cp/CPExec.o obj/Debug/src/main.o obj/Debug/src/darv/Prop.o obj/Debug/src/darv/GenericCMD.o obj/Debug/src/darv/Task.o obj/Debug/src/darv/Statement.o obj/Debug/src/darv/ShellCMD.o obj/Debug/src/darv/DefaultTaskConfig.o obj/Debug/src/darv/CMD.o obj/Debug/src/darv/MainScript.o obj/Debug/src/darv/Block.o obj/Debug/src/darv/Var.o obj/Debug/src/util/strutil.o obj/Debug/src/sourcecode/SourceCodeManager.o obj/Debug/src/sourcecode/FilesToCompileManager.o obj/Debug/src/sourcecode/IncludesSCInterpreter.o obj/Debug/src/sourcecode/ClassesSCInterpreter.o obj/Debug/src/sourcecode/LWTimesFileIO.o obj/Debug/src/sourcecode/DependenciesSCLoader.o obj/Debug/src/shell/shell.o obj/Debug/src/shell/output/OutputThread.o obj/Debug/src/shell/output/OutputController.o obj/Debug/src/compiler/Archiver.o obj/Debug/src/compiler/Linker.o obj/Debug/src/compiler/DynamicLibraryLinker.o obj/Debug/src/compiler/Compiler.o obj/Debug/src/output/output.o obj/Debug/src/io/io.o obj/Debug/src/io/filter/ByNameFileFilter.o obj/Debug/src/msg/messagebuilder.o obj/Debug/src/inter/PropInter.o obj/Debug/src/inter/InterManager.o obj/Debug/src/inter/BlockInter.o obj/Debug/src/inter/VarInter.o obj/Debug/src/inter/Inter.o obj/Debug/src/inter/taskconfig/TaskConfigInter.o obj/Debug/src/inter/taskconfig/TaskConfigResult.o obj/Debug/src/inter/InterResult.o obj/Debug/src/inter/block/BlockInterResult.o obj/Debug/src/inter/MainScriptInter.o obj/Debug/src/inter/TaskInter.o obj/Debug/src/inter/CMDInter.o obj/Debug/src/inter/ShellCMDInter.o obj/Debug/src/inter/it/StringIterator.o obj/Debug/src/inter/it/FileIterator.o obj/Debug/src/inter/DefaultTaskConfigInter.o
 
-src/exec/TaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/TaskExec.o -c src/exec/TaskExec.cpp
+src/exec/MainCMDArgManager.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/MainCMDArgManager.o -c src/exec/MainCMDArgManager.cpp
 
 src/exec/shcmd/ShellCMDExec.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/shcmd/ShellCMDExec.o -c src/exec/shcmd/ShellCMDExec.cpp
@@ -19,26 +19,38 @@ src/exec/shcmd/ShellCMDExec.o:
 src/exec/stexcept.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/stexcept.o -c src/exec/stexcept.cpp
 
-src/exec/main/CompileTaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/CompileTaskExec.o -c src/exec/main/CompileTaskExec.cpp
-
-src/exec/main/LinkTaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/LinkTaskExec.o -c src/exec/main/LinkTaskExec.cpp
+src/exec/main/TaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/TaskExec.o -c src/exec/main/TaskExec.cpp
 
 src/exec/main/MainExec.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/MainExec.o -c src/exec/main/MainExec.cpp
 
-src/exec/main/ExeLinkTaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/ExeLinkTaskExec.o -c src/exec/main/ExeLinkTaskExec.cpp
+src/exec/main/task/CompileTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/CompileTaskExec.o -c src/exec/main/task/CompileTaskExec.cpp
 
-src/exec/main/CleanTaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/CleanTaskExec.o -c src/exec/main/CleanTaskExec.cpp
+src/exec/main/task/TestTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/TestTaskExec.o -c src/exec/main/task/TestTaskExec.cpp
 
-src/exec/main/DynamicLibraryLinkTaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/DynamicLibraryLinkTaskExec.o -c src/exec/main/DynamicLibraryLinkTaskExec.cpp
+src/exec/main/task/ArchiveTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/ArchiveTaskExec.o -c src/exec/main/task/ArchiveTaskExec.cpp
 
-src/exec/main/CopyTaskExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/CopyTaskExec.o -c src/exec/main/CopyTaskExec.cpp
+src/exec/main/task/LinkOrArchiveTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/LinkOrArchiveTaskExec.o -c src/exec/main/task/LinkOrArchiveTaskExec.cpp
+
+src/exec/main/task/ExeLinkTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/ExeLinkTaskExec.o -c src/exec/main/task/ExeLinkTaskExec.cpp
+
+src/exec/main/task/CleanTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/CleanTaskExec.o -c src/exec/main/task/CleanTaskExec.cpp
+
+src/exec/main/task/DynamicLibraryLinkTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/DynamicLibraryLinkTaskExec.o -c src/exec/main/task/DynamicLibraryLinkTaskExec.cpp
+
+src/exec/main/task/CopyTaskExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/task/CopyTaskExec.o -c src/exec/main/task/CopyTaskExec.cpp
+
+src/exec/main/MainCMDInterpreter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/main/MainCMDInterpreter.o -c src/exec/main/MainCMDInterpreter.cpp
 
 src/exec/ExecManager.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/ExecManager.o -c src/exec/ExecManager.cpp
@@ -54,9 +66,6 @@ src/exec/cd/CDExec.o:
 
 src/exec/rm/RMExec.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/rm/RMExec.o -c src/exec/rm/RMExec.cpp
-
-src/exec/ArgManager.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/ArgManager.o -c src/exec/ArgManager.cpp
 
 src/exec/Exec.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/Exec.o -c src/exec/Exec.cpp
@@ -100,6 +109,24 @@ src/darv/Var.o:
 src/util/strutil.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/util/strutil.o -c src/util/strutil.cpp
 
+src/sourcecode/SourceCodeManager.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/sourcecode/SourceCodeManager.o -c src/sourcecode/SourceCodeManager.cpp
+
+src/sourcecode/FilesToCompileManager.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/sourcecode/FilesToCompileManager.o -c src/sourcecode/FilesToCompileManager.cpp
+
+src/sourcecode/IncludesSCInterpreter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/sourcecode/IncludesSCInterpreter.o -c src/sourcecode/IncludesSCInterpreter.cpp
+
+src/sourcecode/ClassesSCInterpreter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/sourcecode/ClassesSCInterpreter.o -c src/sourcecode/ClassesSCInterpreter.cpp
+
+src/sourcecode/LWTimesFileIO.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/sourcecode/LWTimesFileIO.o -c src/sourcecode/LWTimesFileIO.cpp
+
+src/sourcecode/DependenciesSCLoader.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/sourcecode/DependenciesSCLoader.o -c src/sourcecode/DependenciesSCLoader.cpp
+
 src/shell/shell.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/shell/shell.o -c src/shell/shell.cpp
 
@@ -109,11 +136,20 @@ src/shell/output/OutputThread.o:
 src/shell/output/OutputController.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/shell/output/OutputController.o -c src/shell/output/OutputController.cpp
 
-src/io/SourceCodeManager.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/io/SourceCodeManager.o -c src/io/SourceCodeManager.cpp
+src/compiler/Archiver.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/compiler/Archiver.o -c src/compiler/Archiver.cpp
 
-src/io/FilesToCompileManager.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/io/FilesToCompileManager.o -c src/io/FilesToCompileManager.cpp
+src/compiler/Linker.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/compiler/Linker.o -c src/compiler/Linker.cpp
+
+src/compiler/DynamicLibraryLinker.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/compiler/DynamicLibraryLinker.o -c src/compiler/DynamicLibraryLinker.cpp
+
+src/compiler/Compiler.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/compiler/Compiler.o -c src/compiler/Compiler.cpp
+
+src/output/output.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/output/output.o -c src/output/output.cpp
 
 src/io/io.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/io/io.o -c src/io/io.cpp
@@ -130,6 +166,9 @@ src/inter/PropInter.o:
 src/inter/InterManager.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/InterManager.o -c src/inter/InterManager.cpp
 
+src/inter/BlockInter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/BlockInter.o -c src/inter/BlockInter.cpp
+
 src/inter/VarInter.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/VarInter.o -c src/inter/VarInter.cpp
 
@@ -144,6 +183,9 @@ src/inter/taskconfig/TaskConfigResult.o:
 
 src/inter/InterResult.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/InterResult.o -c src/inter/InterResult.cpp
+
+src/inter/block/BlockInterResult.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/block/BlockInterResult.o -c src/inter/block/BlockInterResult.cpp
 
 src/inter/MainScriptInter.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/MainScriptInter.o -c src/inter/MainScriptInter.cpp
