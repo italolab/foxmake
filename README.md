@@ -45,7 +45,7 @@ As classes nós da arvore de derivação ficam na pasta "darv" e as classes inte
 
 ## A execução de comandos do shell
 
-A execução de comandos do shell utiliza a classe "Shell" da pasta "shell". Essa classe permite a adição de um lote de comandos para serem executados concorrentemente. Como o exemplo, a compilação concorrente dos arquivo de código fonte de implementação. Esses comandos são executados concorrentemente, logo, suas saídas devem ser gerenciadas e a leitura delas, sincronizada.
+A execução de comandos do shell utiliza a classe "Shell" da pasta "shell". Essa classe permite a adição de um lote de comandos para serem executados concorrentemente. Como exemplo, a compilação concorrente dos arquivo de código fonte de implementação. Esses comandos são executados concorrentemente, logo, suas saídas devem ser gerenciadas e a leitura delas, sincronizada.
 
 A classe "OutputThread" da pasta "shell/output" é responsável por fazer a leitura da saída dos comandos e armazenar em um buffer (scringstream) que é lido concorrentemente pela classe "OutputController". Enquanto "OutputThread" está escrevendo no buffer, "OutputController" está lendo do buffer e escrevendo na saída padrão.
 
@@ -72,6 +72,7 @@ Durante o carregamento das estruturas de informação dos arquivos de código fo
 
 Exemplo:
 
+```
 A classe "A" está definida no caminho: "a/A.h"
 A classe "B" está definida no caminho: "b/B.h"
 A classe "C" está definida no caminho: "c/C.h"
@@ -81,6 +82,7 @@ A classe "A" inclue "b/B.h" e herda de "D", então:
     - "a/A.h" é adicionado a lista de dependências de "b/B.h"
     - "a/A.h" é adicionado a lista de dependências de "c/C.h"
     - "d/D.h" é adicionado a lista de dependências de "a/A.h"
+```
 
 ### O arquivo __lwtimes.txt
 
