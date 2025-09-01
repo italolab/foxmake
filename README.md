@@ -37,7 +37,7 @@ Exemplo:
     Classes executoras: MainExec, CPExec
 ```
 
-As classes executoras executam um comando (classe CMD da arvore de derivação), que pode ser o comando principal (o cbuild build, por exemplo) ou algum comando especificado no arquivo de settings.
+As classes executoras executam um comando, que pode ser o comando principal (o cbuild build, por exemplo) ou algum comando especificado no arquivo de settings.
 
 As classes interpreters, mantêm um controle sobre uma variável compartilhada e alterada entre elas que é o número de linhas lidas. Logo, o número da linha onde ocorreu um erro de interpretação no script é o número de linhas lidas mais um. Isto é, se o erro está na linha 11, foram lidas com sucesso 10 linhas.
 
