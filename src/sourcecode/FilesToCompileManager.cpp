@@ -10,7 +10,7 @@ namespace filesystem = std::filesystem;
 
 /*
 Classe responsável por prover métodos para carregar uma lista de todos os arquivos 
-que foram alterados desde as datas de alteração presentes no arquivo __lwtimes e que 
+que foram alterados desde as datas de alteração presentes no arquivo __lwtimes.txt e que 
 devem ser compilados.
 
 Isto é, os arquivos selecionados para serem compilados são sempre arquivos de código fonte 
