@@ -390,7 +390,7 @@ namespace io {
 
     string makePreferred( string path ) {
         filesystem::path p( path );
-        p.make_preferred();
+        p = p.make_preferred();
         return p.string();
     }
 
@@ -446,7 +446,10 @@ namespace io {
             return makePreferred( path2 );
         } else {
             string pp = currentPath();
-            pp = addSeparatorToDirIfNeed( pp );
+            
+            if ( path2 != "" )
+                pp = addSeparatorToDirIfNeed( pp );
+                
             pp += path2;
             return makePreferred( pp );
         }
