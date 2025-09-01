@@ -21,7 +21,7 @@ A tarefa "buildall" executa as quatro tarefas, substituíndo "compile" por "comp
 
 ## A interpretação do script
 
-O script a ser interpretado pelo cbuild com as propriedades, definições e configurações de tarefas, e comandos tem, por padrão, o nome settings.txt. Ao encontrar esse arquivo o cbuild muda o diretório padrão (workingDir) para o diretório onde o arquivo de settings está. Com exceção se a propriedade "--working-dir=path" for informada no comando conforme o exemplo abaixo ilustra:
+O script a ser interpretado pelo cbuild com as propriedades, definições, configurações de tarefas, e comandos e tem, por padrão, o nome settings.txt. Ao encontrar esse arquivo o cbuild muda o diretório padrão (workingDir) para o diretório onde o arquivo de settings está. Com exceção se a propriedade "--working-dir=path" for informada no comando conforme o exemplo abaixo ilustra:
 
 ```
 cbuild buildall --working-dir=/home/joao/cbuild-workingdir
