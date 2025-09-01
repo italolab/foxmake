@@ -1,6 +1,6 @@
 # CBuild
 
-O cbuild é um software que permite automatizar o processo de build de compilação, linkagem (criação de executável ou shared library) e archiving (criação de static library), testes de unidade com outro framework que desenvolvi: O CBTest. Também é possível executar comandos de cópia, deleção de arquivos e pastas, bem como, criação de pastas, impressão de texto, variável ou propriedade na saída padrão, alteração do diretório corrente e execução 
+O cbuild é um software que permite automatizar o processo de build de compilação, linkagem (criação de executável ou shared library), archiving (criação de static library) e testes de unidade com outro framework que desenvolvi: O CBTest. Também é possível executar comandos de cópia, deleção de arquivos e pastas, bem como, criação de pastas, impressão de texto, variável ou propriedade na saída padrão, alteração do diretório corrente e execução 
 de comandos do shell. Também é possível executar um bloco de comandos do shell.
 
 ## Tarefas
