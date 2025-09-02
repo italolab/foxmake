@@ -35,9 +35,9 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     string file = cmd->getNoOpArg( 0 );
     bool isRecursive = cmd->existsArg( "-r" );
 
-    file = io::absoluteResolvePath( file );
+    file = io::path::absoluteResolvePath( file );
 
-    string fileName = io::fileOrDirName( file );
+    string fileName = io::path::fileOrDirName( file );
 
     FileFilter* filter = io::by_name_file_filter( fileName );
 
@@ -47,7 +47,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         try {            
             size_t i = fileName.find( '*' );
             if ( i != string::npos ) {                
-                string dir = io::dirPath( file );
+                string dir = io::path::dirPath( file );
                 count = io::recursiveDeleteFiles( dir, filter );         
             } else {
                 count = io::recursiveDeleteFileOrDirectory( file );
@@ -59,8 +59,10 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         }
     } else {
         try {
-            string dir = io::dirPath( file );
+            string dir = io::path::dirPath( file );
 
+            count = 0;
+            
             bool deleted = io::deleteFiles( dir, filter );
             if ( deleted )
                 count = 1;            

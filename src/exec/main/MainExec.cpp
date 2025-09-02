@@ -136,10 +136,10 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
 
     if ( srcDir == "" )
         srcDir = ".";
-    srcDir = io::absoluteResolvePath( srcDir );
+    srcDir = io::path::absoluteResolvePath( srcDir );
 
     if ( testDir != "" )
-        testDir = io::absoluteResolvePath( testDir );
+        testDir = io::path::absoluteResolvePath( testDir );
 
     if ( !io::fileExists( srcDir ) ) {        
         messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );

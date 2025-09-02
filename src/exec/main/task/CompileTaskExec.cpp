@@ -74,11 +74,11 @@ void CompileTaskExec::exec( void* mgr ) {
     string testDir = script->getPropertyValue( props::TEST_DIR );
     string srcDir = script->getPropertyValue( props::SRC_DIR );
 
-    binDir = io::absoluteResolvePath( binDir );
-    objDir = io::absoluteResolvePath( objDir );
+    binDir = io::path::absoluteResolvePath( binDir );
+    objDir = io::path::absoluteResolvePath( objDir );
 
-    binDir = io::addSeparatorToDirIfNeed( binDir );
-    objDir = io::addSeparatorToDirIfNeed( objDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
+    objDir = io::path::addSeparatorToDirIfNeed( objDir );
 
     this->appCreateDirs( binDir, manager );
     this->appCreateDirs( objDir, manager );
@@ -154,16 +154,16 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
     string testDir = script->getPropertyValue( props::TEST_DIR );
     string srcDir = script->getPropertyValue( props::SRC_DIR );
 
-    objDir = io::absoluteResolvePath( objDir );
-    srcDir = io::absoluteResolvePath( srcDir );
+    objDir = io::path::absoluteResolvePath( objDir );
+    srcDir = io::path::absoluteResolvePath( srcDir );
 
-    objDir = io::addSeparatorToDirIfNeed( objDir );
+    objDir = io::path::addSeparatorToDirIfNeed( objDir );
 
     testIncludeDirs += " " + srcDir;
    
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
     for( CodeInfo* info : sourceCodeInfos ) {
-        string dir = io::dirPath( objDir + info->objFilePath );
+        string dir = io::path::dirPath( objDir + info->objFilePath );
         if ( dir != "" )
             this->appCreateDirs( dir, manager );
     }
@@ -189,7 +189,7 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
     if ( testDir != "" ) {
         vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
         for( CodeInfo* info : testSourceCodeInfos ) {
-            string dir = io::dirPath( objDir + info->objFilePath );
+            string dir = io::path::dirPath( objDir + info->objFilePath );
             if ( dir != "" )
                 this->appCreateDirs( dir, manager );
         }
@@ -223,7 +223,7 @@ void CompileTaskExec::appCreateDirs( string dirPath, void* mgr ) {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {
         messagebuilder b( errors::DIRECTORY_NOT_CREATED );
-        b << io::absolutePath( dirPath );
+        b << io::path::absolutePath( dirPath );
         throw st_error( mainCMD, b.str() );
     }
 }

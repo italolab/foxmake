@@ -32,8 +32,8 @@ bool IncludesSCInterpreter::interpretsIncludes(
         if ( k != string::npos ) {
             string includePath = line.substr( j, k-j );
 
-            string dir = io::dirPath( filePath );
-            includePath = io::resolvePath( dir, includePath );
+            string dir = io::path::dirPath( filePath );
+            includePath = io::path::resolvePath( dir, includePath );
 
             if ( allCodeInfosMap.find( filePath ) != allCodeInfosMap.end() )
                 allCodeInfosMap[ filePath ]->includes.push_back( includePath );

@@ -27,6 +27,8 @@ include.dirs=
 libs=
 #defines=
 
+test.linker.params=-ldl -rdynamic
+
 test.include.dirs=../include
 test.lib.dirs=../lib
 test.libs=cbtest
@@ -70,6 +72,10 @@ task finish after
     cp ../include/test/cbtest.h $(build.dir)/cbtest.h
 
     cp -r $(src.dir) $(build.dir)/source
+
+    mkdir include
+    cp -r ../../cbtest/src/**/*.h build/include
+    cp -r ../../cbtest/src/**/*.h build/include
 
     #mkdir -p $(build.dir)/a/b/c
 

@@ -41,10 +41,10 @@ void TestTaskExec::exec( void* mgr ) {
 
     manager->executaUserTaskIfExists( tasks::TEST, TaskExecution::BEFORE );
 
-    testDir = io::absoluteResolvePath( testDir );
-    binDir = io::absoluteResolvePath( binDir );
+    testDir = io::path::absoluteResolvePath( testDir );
+    binDir = io::path::absoluteResolvePath( binDir );
 
-    binDir = io::addSeparatorToDirIfNeed( binDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
 
     string testOutputFile = binDir + consts::TEST_OUTPUT_FILE_NAME;
     if ( !io::fileExists( testOutputFile ) )

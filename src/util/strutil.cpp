@@ -134,6 +134,28 @@ namespace strutil {
         }
         return newStr;
     }
+
+    string replace( string str, char ch, char newCh ) {
+        string newStr = str;
+        int len = str.length();
+        bool replaced = false;
+        for( int i = 0; !replaced && i < len; i++ ) {
+            if ( newStr[ i ] == ch ) {
+                newStr[ i ] = newCh;
+                replaced = true;
+            }
+        }
+        return newStr;
+    }
+
+    string replaceAll( string str, char ch, char newCh ) {
+        string newStr = str;
+        int len = str.length();
+        for( int i = 0; i < len; i++ )
+            if ( newStr[ i ] == ch )
+                newStr[ i ] = newCh;                    
+        return newStr;
+    }
     
     string removeStartWhiteSpaces( string str ) {
         int len = str.length();

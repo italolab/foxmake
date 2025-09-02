@@ -34,13 +34,13 @@ void CleanTaskExec::exec( void* mgr ) {
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    buildDir = io::absoluteResolvePath( buildDir );
-    binDir = io::absoluteResolvePath( binDir );
-    objDir = io::absoluteResolvePath( objDir );
+    buildDir = io::path::absoluteResolvePath( buildDir );
+    binDir = io::path::absoluteResolvePath( binDir );
+    objDir = io::path::absoluteResolvePath( objDir );
 
-    buildDir = io::addSeparatorToDirIfNeed( buildDir );
-    binDir = io::addSeparatorToDirIfNeed( binDir );
-    objDir = io::addSeparatorToDirIfNeed( objDir );    
+    buildDir = io::path::addSeparatorToDirIfNeed( buildDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
+    objDir = io::path::addSeparatorToDirIfNeed( objDir );    
 
     bool removedSome = false;
 
@@ -59,7 +59,7 @@ void CleanTaskExec::exec( void* mgr ) {
 
     vector<string> bfiles = strutil::splitWithDoubleQuotes( buildFiles );
     for( string bfile : bfiles ) {
-        string fname = buildDir + io::fileOrDirName( bfile );
+        string fname = buildDir + io::path::fileOrDirName( bfile );
         bool removed2 = this->appRecursiveDeleteFileOrDirectoryIfExists( fname, mgr );
         if ( removed2 )
             removedSome = true;

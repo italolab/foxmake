@@ -54,17 +54,17 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFou
     settingsFile = mainCMD->getPropertyValue( "--settings-file" );
 
     if ( workingDir != "" ) {
-        workingDir = io::absoluteResolvePath( workingDir );
-        workingDir = io::removeSeparatorFromDirIfNeed( workingDir );
+        workingDir = io::path::absoluteResolvePath( workingDir );
+        workingDir = io::path::removeSeparatorFromDirIfNeed( workingDir );
         shell::setWorkingDir( workingDir );
 
         workingDirFound = true;
     } else {
         if ( settingsFile != "" ) {
-            workingDir = io::dirPath( io::absoluteResolvePath( settingsFile ) );
-            workingDir = io::removeSeparatorFromDirIfNeed( workingDir );
+            workingDir = io::path::dirPath( io::path::absoluteResolvePath( settingsFile ) );
+            workingDir = io::path::removeSeparatorFromDirIfNeed( workingDir );
 
-            settingsFile = io::fileOrDirName( settingsFile );
+            settingsFile = io::path::fileOrDirName( settingsFile );
             shell::setWorkingDir( workingDir );
         } else {
             workingDir = shell::getWorkingDir();
@@ -76,7 +76,7 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFou
     if ( settingsFile == "" )
         settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
 
-    settingsFile = io::absoluteResolvePath( settingsFile );
+    settingsFile = io::path::absoluteResolvePath( settingsFile );
 
     if ( isVerbose ) {
         messagebuilder b( infos::SETTINGS_FILE );
@@ -122,7 +122,7 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool settin
 
     string basedir = mainScript->getPropertyValue( props::BASE_DIR );
     if ( basedir != "" ) {
-        basedir = io::absoluteResolvePath( basedir );
+        basedir = io::path::absoluteResolvePath( basedir );
         if ( !io::fileExists( basedir ) ) {
             messagebuilder b( errors::BASE_DIRECTORY_NOT_FOUND );
             b << basedir << props::BASE_DIR;

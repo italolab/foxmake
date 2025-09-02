@@ -25,25 +25,29 @@ SourceCodeManager::~SourceCodeManager() {
         delete pair.second;
 }
 
+#include <iostream>
+using namespace std;
+
 bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();
 
-    string src = io::makePreferred( srcDir );
-    src = io::addSeparatorToDirIfNeed( src );
+    string src = io::path::makeUnixPreferred( srcDir );
+    src = io::path::addSeparatorToDirIfNeed( src );
 
     try {
-        for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
+        string src2 = io::path::makePreferred( src );
+        for( const auto& entry : filesystem::recursive_directory_iterator( src2 ) ) {
             string filePath = entry.path().string();
-            filePath = io::makePreferred( filePath );
+            filePath = io::path::makeUnixPreferred( filePath );
 
             if ( !filesystem::is_directory( filePath ) ) {                
                 string relativeFilePath = strutil::replace( filePath, src, "" );
 
-                string ext = io::extension( filePath );
+                string ext = io::path::extension( filePath );
 
                 string objFilePath = targetFolder;
-                objFilePath = io::addSeparatorToDirIfNeed( objFilePath );
+                objFilePath = io::path::addSeparatorToDirIfNeed( objFilePath );
                 objFilePath += strutil::replace( relativeFilePath, "."+ext, ".o" );
                 
                 string srcFilePath = filePath;

@@ -45,7 +45,7 @@ namespace io {
 
     int recursiveCountFilesInDir( string dir ) {
         try {
-            string dirpath = makePreferred( dir );
+            string dirpath = path::makePreferred( dir );
             int count = 0;
             for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) ) {
                 string file = entry.path().string();
@@ -59,7 +59,7 @@ namespace io {
     }
 
     bool deleteFileOrDirectory( string path ) {
-        string p = makePreferred( path );
+        string p = path::makePreferred( path );
         try {
             return filesystem::remove( p );
         } catch ( const filesystem::filesystem_error& e ) {
@@ -70,9 +70,9 @@ namespace io {
     int deleteFiles( string dir, FileFilter* filter ) {
         int removedCount = 0;
         try {
-            string dirpath = makePreferred( dir );
+            string dirpath = path::makePreferred( dir );
             for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
-                string file = makePreferred( entry.path().string() );
+                string file = path::makePreferred( entry.path().string() );
 
                 if ( filter != nullptr )
                     if ( !filter->match( file ) )
@@ -89,9 +89,9 @@ namespace io {
     int recursiveDeleteFiles( string dir, FileFilter* filter ) {
         int removedCount = 0;
         try {
-            string dirpath = makePreferred( dir );
+            string dirpath = path::makePreferred( dir );
             for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
-                string file = makePreferred( entry.path().string() );
+                string file = path::makePreferred( entry.path().string() );
 
                 if ( filesystem::is_directory( file ) )
                     removedCount += recursiveDeleteFiles( file, filter );                
@@ -111,9 +111,9 @@ namespace io {
     int recursiveDeleteDirectoryContent( string dir ) {
         int removedCount = 0;
         try {
-            string dirpath = makePreferred( dir );
+            string dirpath = path::makePreferred( dir );
             for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
-                string file = makePreferred( entry.path().string() );
+                string file = path::makePreferred( entry.path().string() );
                 removedCount += recursiveDeleteFileOrDirectory( file );
             }
             return removedCount;
@@ -123,7 +123,7 @@ namespace io {
     }
 
     int recursiveDeleteFileOrDirectory( string path ) {
-        string p = makePreferred( path );
+        string p = path::makePreferred( path );
         if ( isDir( p ) ) {
             return recursiveDeleteDirectory( p );
         } else {
@@ -136,7 +136,7 @@ namespace io {
 
     int recursiveDeleteDirectory( string path ) {
         try {
-            string p = makePreferred( path );
+            string p = path::makePreferred( path );
             if ( filesystem::exists( p ) ) {
                 uintmax_t removedCount = filesystem::remove_all( p );
                 return removedCount;
@@ -148,8 +148,8 @@ namespace io {
     }
 
     void copyFile( string srcPath, string destPath, bool isOverwriteExisting ) {
-        string src = makePreferred( srcPath );
-        string dest = makePreferred( destPath );
+        string src = path::makePreferred( srcPath );
+        string dest = path::makePreferred( destPath );
 
         if ( isOverwriteExisting && filesystem::exists( dest ) )
             filesystem::remove( dest );
@@ -159,10 +159,10 @@ namespace io {
 
     void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
-            string fsrcName = fileOrDirName( srcDir );
+            string fsrcName = path::fileOrDirName( srcDir );
 
-            string src = makePreferred( srcDir );
-            string dest = makePreferred( destDir );
+            string src = path::makePreferred( srcDir );
+            string dest = path::makePreferred( destDir );
 
             filesystem::copy_options options;
             if ( isOverwriteExisting && isRecursive )
@@ -189,12 +189,16 @@ namespace io {
 
     void copyFileToDir( string srcFile, string destDir, bool isOverwriteExisting ) {
         try {
-            string destDir2 = addSeparatorToDirIfNeed( destDir );
+            string destDir2 = path::makeUnixPreferred( destDir );
+            destDir2 = path::addSeparatorToDirIfNeed( destDir2 );
 
-            filesystem::path src = makePreferred( srcFile );
-            string fname = fileOrDirName( srcFile );
+            filesystem::path src = path::makeUnixPreferred( srcFile );
+            string fname = path::fileOrDirName( srcFile );
 
-            filesystem::path dest = makePreferred( destDir2 + fname );
+            filesystem::path dest = destDir2 + fname;
+
+            src = path::makePreferred( src );
+            dest = path::makePreferred( dest );
 
             if ( isOverwriteExisting )
                 if ( filesystem::exists( dest ) )
@@ -208,13 +212,16 @@ namespace io {
 
     void copyDirToDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
-            string fsrcName = fileOrDirName( srcDir );
+            string fsrcName = path::fileOrDirName( srcDir );
 
-            string src = makePreferred( srcDir );
-            string dest = makePreferred( destDir );
+            string src = path::makeUnixPreferred( srcDir );
+            string dest = path::makeUnixPreferred( destDir );
 
-            dest = addSeparatorToDirIfNeed( dest );
+            dest = path::addSeparatorToDirIfNeed( dest );
             dest += fsrcName;
+
+            src = path::makePreferred( src );
+            dest = path::makePreferred( dest );
 
             if ( isOverwriteExisting && filesystem::exists( dest ) )
                 filesystem::remove_all( dest );
@@ -228,13 +235,18 @@ namespace io {
     }
 
     void __copyFile( string file, string dest, string replacePath, bool isOverwriteExisting ) {
-        string fname = strutil::replace( file, replacePath, "" );
+        string file2 = path::makeUnixPreferred( file );
+        string replacePath2 = path::makeUnixPreferred( replacePath );
 
-        string dest2 = addSeparatorToDirIfNeed( dest );
-        dest2 = dirPath( dest2 );
+        string fname = strutil::replace( file2, replacePath2, "" );
+
+        string dest2 = path::makeUnixPreferred( dest );
+        dest2 = path::addSeparatorToDirIfNeed( dest2 );
         dest2 = dest2 + fname;
 
-        createDirs( dirPath( dest2 ) );
+        dest2 = path::makePreferred( dest2 );
+
+        createDirs( path::dirPath( dest2 ) );
 
         if ( isOverwriteExisting && filesystem::exists( dest2 ) )
             filesystem::remove( dest2 );
@@ -244,11 +256,11 @@ namespace io {
 
     void copyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
-            string src = makePreferred( srcDir );
-            string dest = makePreferred( destDir );
+            string src = path::makePreferred( srcDir );
+            string dest = path::makePreferred( destDir );
 
             for( const auto& entry : filesystem::directory_iterator( src ) ) {
-                string file = makePreferred( entry.path().string() );
+                string file = path::makePreferred( entry.path().string() );
 
                 bool isCopyFile = true;
                 if ( filter != nullptr )
@@ -264,11 +276,11 @@ namespace io {
 
     void recursiveCopyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
         try {
-            string src = makePreferred( srcDir );
-            string dest = makePreferred( destDir );
+            string src = path::makePreferred( srcDir );
+            string dest = path::makePreferred( destDir );
 
             for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
-                string file = makePreferred( entry.path().string() );
+                string file = path::makePreferred( entry.path().string() );
 
                 bool isCopyFile = true;
                 if ( filter != nullptr )
@@ -283,7 +295,7 @@ namespace io {
     }
 
     bool createDir( string path ) {
-        string p = makePreferred( path );
+        string p = path::makePreferred( path );
         try {
             return filesystem::create_directory( p );
         } catch ( const filesystem::filesystem_error& e ) {
@@ -292,7 +304,7 @@ namespace io {
     }
 
     bool createDirs( string path ) {
-        string p = makePreferred( path );
+        string p = path::makePreferred( path );
         try {
             return filesystem::create_directories( p );
         } catch ( const filesystem::filesystem_error& e ) {
@@ -304,26 +316,53 @@ namespace io {
         return filesystem::exists( path );
     }
 
-    string dirPath( string path ) {
-        string p = makePreferred( path );
+    bool isDir( string path ) {
+        return filesystem::is_directory( path );
+    }
 
-        size_t i = p.find_last_of( filesystem::path::preferred_separator );
-        if ( i == string::npos ) {
-            if ( filesystem::is_directory( path ) )
-                return p;
-            return "";
-        }
-        return p.substr( 0, i+1 );
+    bool isFile( string path ) {
+        return filesystem::is_regular_file( path );
+    }
+
+    bool isEmptyDir( string dir ) {
+        return filesystem::is_empty( dir );
+    }
+
+    long lastWriteTime( string path ) {
+        struct stat fileStat;
+        int result = stat( path.c_str(), &fileStat );
+        if ( result != 0 )
+            return -1;
+
+        return fileStat.st_mtime;
+    }
+
+namespace path {
+
+    string dirPath( string path ) {
+        string p = makeUnixPreferred( path );
+        p = removeSeparatorFromDirIfNeed( p );
+
+        if ( filesystem::is_directory( path ) )
+            return p;
+        
+        size_t i = p.find_last_of( '/' );
+        if ( i == string::npos )            
+            return "";                    
+
+        if ( i == 0 )
+            return "/";        
+        return p.substr( 0, i );
     }
 
     string recursiveDirPath( string path ) {
-        string p = makePreferred( path );
+        string p = makeUnixPreferred( path );
         p = removeRecursiveJoker( p );
         return dirPath( p );
     }
 
     string recursiveDirPathToReplace( string path ) {
-        string p = makePreferred( path );
+        string p = makeUnixPreferred( path );
         size_t i = p.find( "**" );
         if ( i == string::npos ) {
             return "";
@@ -331,8 +370,7 @@ namespace io {
             if ( i == 0 ) {
                 p = "";
             } else if ( i == 1 ) {
-                p = "";
-                p += filesystem::path::preferred_separator;
+                p = "/";
             } else {
                 p = p.substr( 0, i );
             }
@@ -341,15 +379,15 @@ namespace io {
     }
 
     string fileOrDirName( string path ) {
-        string p = makePreferred( path );
+        string p = makeUnixPreferred( path );
 
-        size_t i = p.find_last_of( filesystem::path::preferred_separator );
+        size_t i = p.find_last_of( '/' );
         if ( i == string::npos )
             return p;
 
         if ( p.length() > 0 ) {
-            if ( p[ p.length()-1 ] == filesystem::path::preferred_separator ) {
-                size_t j = p.find_last_of( filesystem::path::preferred_separator, i-1 );
+            if ( p[ p.length()-1 ] == '/' ) {
+                size_t j = p.find_last_of( '/', i-1 );
                 size_t k = ( j == string::npos ? 0 : j+1 );
                 return p.substr( k, p.length()-k-1 );
             }
@@ -359,7 +397,7 @@ namespace io {
     }
 
     string fileOrDirNameWithoutExtension( string pathOrName ) {
-        string name = fileOrDirName( makePreferred( pathOrName ) );
+        string name = fileOrDirName( makeUnixPreferred( pathOrName ) );
 
         size_t i = name.find( '.' );
         if ( i == string::npos )
@@ -368,7 +406,7 @@ namespace io {
     }
 
     string recursiveFileOrDirName( string path ) {
-        string p = makePreferred( path );
+        string p = makeUnixPreferred( path );
 
         size_t i = p.find( "-" );
         if ( i == string::npos ) {
@@ -394,29 +432,31 @@ namespace io {
         return p.string();
     }
 
+    string makeUnixPreferred( string path ) {
+        return strutil::replaceAll( path, '\\', '/' );
+    }
+
     string addSeparatorToDirIfNeed( string dir ) {
-        string d = makePreferred( dir );
+        string d = makeUnixPreferred( dir );
         if ( d.length() > 0 )
-            if( d[ d.length()-1 ] != filesystem::path::preferred_separator )
-                d += filesystem::path::preferred_separator;
+            if( d[ d.length()-1 ] != '/' )
+                d += "/";
         return d;
     }
 
     string removeSeparatorFromDirIfNeed( string dir ) {
-        string d = makePreferred( dir );
+        string d = makeUnixPreferred( dir );
         if ( d.length() > 0 )
-            if( d[ d.length()-1 ] == filesystem::path::preferred_separator )
+            if( d[ d.length()-1 ] == '/' )
                 d = d.substr( 0, d.length()-1 );
         return d;
     }
 
     string parentPath( string path ) {
-        string p = makePreferred( path );
+        string p = makeUnixPreferred( path );
+        p = removeSeparatorFromDirIfNeed( p );
         if ( p.length() > 0 ) {
-            if ( p[ p.length()-1 ] == filesystem::path::preferred_separator )
-                p = p.substr( 0, p.length()-1 );
-
-            size_t i = p.find_last_of( filesystem::path::preferred_separator );
+            size_t i = p.find_last_of( '/' );
             if ( i != string::npos ) {                
                 if ( i == 0 ) {
                     p = "/";
@@ -434,16 +474,13 @@ namespace io {
         if ( path == "." )
             return currentPath();
 
-        string sep = "";
-        sep += filesystem::path::preferred_separator;
-
         string path2 = path;
-        if ( strutil::startsWith( path2, "."+sep ) )
+        if ( strutil::startsWith( path2, "./" ) )
             path2 = path2.substr( 2, path2.length()-2 );
             
         filesystem::path p( path2 );
         if ( p.is_absolute() ) {
-            return makePreferred( path2 );
+            return makeUnixPreferred( path2 );
         } else {
             string pp = currentPath();
             
@@ -451,7 +488,7 @@ namespace io {
                 pp = addSeparatorToDirIfNeed( pp );
                 
             pp += path2;
-            return makePreferred( pp );
+            return makeUnixPreferred( pp );
         }
     }
 
@@ -459,18 +496,15 @@ namespace io {
         if ( path == "." )
             return "";
 
-        string sep = "";
-        sep += filesystem::path::preferred_separator;
-
         string path2 = path;
-        if ( strutil::startsWith( path2, "."+sep ) )
+        if ( strutil::startsWith( path2, "./" ) )
             path2 = path2.substr( 2, path2.length()-2 );
 
         filesystem::path p( path2 );
         if ( p.is_absolute() ) {
             return filesystem::relative( path2, currentPath() ).string();
         } else {
-            return makePreferred( path2 );
+            return makeUnixPreferred( path2 );
         }
     }
 
@@ -490,31 +524,14 @@ namespace io {
         return name.substr( i+1, name.length()-i );
     }
 
-    bool isDir( string path ) {
-        return filesystem::is_directory( path );
-    }
-
-    bool isFile( string path ) {
-        return filesystem::is_regular_file( path );
-    }
-
-    bool isEmptyDir( string dir ) {
-        return filesystem::is_empty( dir );
-    }
-
     string removeRecursiveJoker( string path ) {
-        string p = makePreferred( path );
-        string replaceStr = "**";
-        replaceStr += filesystem::path::preferred_separator;
-        return strutil::replace( p, replaceStr, "" );
+        string p = makeUnixPreferred( path );
+        return strutil::replace( p, "**/", "" );
     }
 
     void countTwoDotsAndSlash( string path, int index, size_t& count, size_t& i, size_t& j, size_t& k ) {
-        string sep = "";
-        sep += filesystem::path::preferred_separator;
-
         string rpath = path.substr( index, path.length()-index );
-        rpath = makePreferred( rpath );
+        rpath = makeUnixPreferred( rpath );
 
         size_t len = rpath.length();
 
@@ -524,7 +541,7 @@ namespace io {
             j = index+2;
             count = 1;
         } else {
-            i = rpath.find( ".."+sep, index );
+            i = rpath.find( "../", index );
             j = ( i != string::npos ? i : index );
             k = ( i != string::npos ? i : index );
             count = 0;
@@ -536,7 +553,7 @@ namespace io {
                 if ( k+2 < len ) {
                     isContinue = rpath[ k ] == '.';
                     isContinue &= rpath[ k+1 ] == '.';
-                    isContinue &= rpath[ k+2 ] == filesystem::path::preferred_separator;
+                    isContinue &= rpath[ k+2 ] == '/';
                 } else {
                     isContinue = false;
                 }
@@ -548,12 +565,9 @@ namespace io {
         if ( relativePath == "." )
             return "";
 
-        string sep = "";
-        sep += filesystem::path::preferred_separator;
-
-        string rpath = makePreferred( relativePath );
-        if ( strutil::startsWith( rpath, "."+sep ) )
-            rpath = strutil::replace( rpath, "."+sep, "" );
+        string rpath = makeUnixPreferred( relativePath );
+        if ( strutil::startsWith( rpath, "./" ) )
+            rpath = strutil::replace( rpath, "./", "" );
         
         size_t count, i, j, k;    
         countTwoDotsAndSlash( rpath, 0, count, i, j, k );
@@ -568,12 +582,9 @@ namespace io {
         if ( path == "." )
             return "";
 
-        string sep = "";
-        sep += filesystem::path::preferred_separator;
-
-        string rpath = makePreferred( path );
-        if ( strutil::startsWith( rpath, "."+sep ) )
-            rpath = strutil::replace( rpath, "."+sep, "" );
+        string rpath = makeUnixPreferred( path );
+        if ( strutil::startsWith( rpath, "./" ) )
+            rpath = strutil::replace( rpath, "./", "" );
 
         size_t count, i, j, k;
         countTwoDotsAndSlash( rpath, 0, count, i, j, k );
@@ -592,21 +603,18 @@ namespace io {
     }
 
     string resolvePath( string currDir, string path ) {
-        string sep = "";
-        sep += filesystem::path::preferred_separator;
+        string resolvedPath = makeUnixPreferred( path );
+        if ( strutil::startsWith( resolvedPath, "./" ) )
+            resolvedPath = strutil::replace( resolvedPath, "./", "" );
 
-        string resolvedPath = makePreferred( path );
-        if ( strutil::startsWith( resolvedPath, "."+sep ) )
-            resolvedPath = strutil::replace( resolvedPath, "."+sep, "" );
-
-        size_t i = resolvedPath.find( ".."+sep );
+        size_t i = resolvedPath.find( "../" );
         bool isRepeat = i != string::npos;
         string dir = addSeparatorToDirIfNeed( currDir );
         while( isRepeat ) {
             dir = parentPath( dir );
             dir = addSeparatorToDirIfNeed( dir );
 
-            size_t j = resolvedPath.find( ".."+sep, i+3 );
+            size_t j = resolvedPath.find( "../", i+3 );
             if ( j == string::npos ) {
                 isRepeat = false;
             } else {
@@ -618,13 +626,6 @@ namespace io {
         return resolvedPath.replace( 0, k, dir );
     }
 
-    long lastWriteTime( string path ) {
-        struct stat fileStat;
-        int result = stat( path.c_str(), &fileStat );
-        if ( result != 0 )
-            return -1;
-
-        return fileStat.st_mtime;
-    }
+}
 
 }

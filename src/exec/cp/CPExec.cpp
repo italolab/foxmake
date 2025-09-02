@@ -17,6 +17,9 @@ using std::string;
 using std::stringstream;
 using std::endl;
 
+#include <iostream>
+using namespace std;
+
 void CPExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
@@ -38,24 +41,25 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );
 
-    string src2 = io::absoluteResolvePath( src );
-    string dest2 = io::absoluteResolvePath( dest );
+    string src2 = io::path::absoluteResolvePath( src );
+    string dest2 = io::path::absoluteResolvePath( dest );
 
     string replacePath = "";
     if ( src2.find( "**" ) != string::npos ) {
-        replacePath = io::recursiveDirPathToReplace( src2 );
+        replacePath = io::path::recursiveDirPathToReplace( src2 );
     } else {
-        replacePath = io::dirPath( src2 );
+        
+        replacePath = io::path::dirPath( src2 );
     }
-    replacePath = io::addSeparatorToDirIfNeed( replacePath );
+    replacePath = io::path::addSeparatorToDirIfNeed( replacePath );
 
     try {
-        string fileName = io::fileOrDirName( src2 );
+        string fileName = io::path::fileOrDirName( src2 );
 
         size_t i = fileName.find( '*' );
         if ( i != string::npos ) {
-            string srcDir = io::removeRecursiveJoker( src2 );
-            srcDir = io::dirPath( srcDir );
+            string srcDir = io::path::removeRecursiveJoker( src2 );
+            srcDir = io::path::dirPath( srcDir );
 
             if ( !io::fileExists( srcDir ) ) {
                 messagebuilder b( errors::SRC_DIRECTORY_NOT_EXISTS );
@@ -93,9 +97,9 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
                 }
 
                 if ( !io::isDir( dest2 ) ) {
-                    string fname = io::fileOrDirName( dest2 );
-                    dest2 = io::parentPath( dest2 );
-                    dest2 = io::addSeparatorToDirIfNeed( dest2 );
+                    string fname = io::path::fileOrDirName( dest2 );
+                    dest2 = io::path::parentPath( dest2 );
+                    dest2 = io::path::addSeparatorToDirIfNeed( dest2 );
                     dest2 += fname;
                 }
                 

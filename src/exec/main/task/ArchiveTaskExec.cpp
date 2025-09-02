@@ -38,11 +38,11 @@ void ArchiveTaskExec::exec( void* mgr ) {
 
     string defines = script->getPropertyValue( props::DEFINES );
 
-    binDir = io::absoluteResolvePath( binDir );
-    objDir = io::absoluteResolvePath( objDir );
+    binDir = io::path::absoluteResolvePath( binDir );
+    objDir = io::path::absoluteResolvePath( objDir );
 
-    binDir = io::addSeparatorToDirIfNeed( binDir );
-    objDir = io::addSeparatorToDirIfNeed( objDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
+    objDir = io::path::addSeparatorToDirIfNeed( objDir );
 
     if ( archiver == "" )
         archiver = consts::DEFAULT_ARCHIVER;

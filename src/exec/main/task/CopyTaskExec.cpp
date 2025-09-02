@@ -39,11 +39,11 @@ void CopyTaskExec::exec( void* mgr ) {
 
     manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
 
-    buildDir = io::absoluteResolvePath( buildDir );
-    binDir = io::absoluteResolvePath( binDir );
+    buildDir = io::path::absoluteResolvePath( buildDir );
+    binDir = io::path::absoluteResolvePath( binDir );
    
-    binDir = io::addSeparatorToDirIfNeed( binDir );
-    buildDir = io::addSeparatorToDirIfNeed( buildDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
+    buildDir = io::path::addSeparatorToDirIfNeed( buildDir );
         
     this->appCreateDirs( buildDir, props::BUILD_DIR );
 
@@ -108,7 +108,7 @@ void CopyTaskExec::appCreateDirs( string dirPath, string propName ) {
         io::createDirs( dirPath );
     } catch ( const io_error& e ) {
         messagebuilder b1( errors::FILE_OR_DIRECTORY_NOT_CREATED );
-        b1 << io::absolutePath( dirPath );
+        b1 << io::path::absolutePath( dirPath );
 
         messagebuilder b2( errors::VERIFY_THE_PROPERTY );
         b2 << propName;

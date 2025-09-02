@@ -12,8 +12,8 @@ bool ByNameFileFilter::match( string file2 ) {
     bool isNamesMatch = false;
     bool isExtsMatch = false;
 
-    string name1 = io::fileOrDirNameWithoutExtension( file1 );
-    string name2 = io::fileOrDirNameWithoutExtension( file2 );
+    string name1 = io::path::fileOrDirNameWithoutExtension( file1 );
+    string name2 = io::path::fileOrDirNameWithoutExtension( file2 );
                
     size_t i = name1.find( '*' );
     if ( i != string::npos ) {
@@ -29,8 +29,8 @@ bool ByNameFileFilter::match( string file2 ) {
         isNamesMatch = ( name1 == name2 );
     }
 
-    string ext1 = io::extension( file1 );
-    string ext2 = io::extension( file2 );
+    string ext1 = io::path::extension( file1 );
+    string ext2 = io::path::extension( file2 );
     if ( ext1 == "" ) { 
         isExtsMatch = ext2 == "" || name1 == "*";
     } else if ( ext1 == "*" ) {

@@ -13,23 +13,49 @@ using namespace std;
 using std::string;
 
 TEST_CASE( makePreferredTest, IOTests ) {
-    #ifdef _WIN32
-        ASSERT_EQUALS( io::makePreferred( "a/b/b" ), "a\\b\\c", );
-        ASSERT_EQUALS( io::makePreferred( "a\\b\\b" ), "a\\b\\c", );
-    #else
-        ASSERT_EQUALS( io::makePreferred( "a/b/c" ), "a/b/c", );
-        ASSERT_EQUALS( io::makePreferred( "/a/b/c/" ), "/a/b/c/", );
-    #endif
+    ASSERT_EQUALS( io::path::makePreferred( "a/b/c" ), "a/b/c", );
+    ASSERT_EQUALS( io::path::makePreferred( "/a/b/c/" ), "/a/b/c/", );
+}
+
+TEST_CASE( dirPathTest, IOTests ) {
+    ASSERT_EQUALS( io::path::dirPath( "C:/a" ), "C:", );
+    ASSERT_EQUALS( io::path::dirPath( "C:a" ), "C:", );
+    ASSERT_EQUALS( io::path::dirPath( "C:" ), "", );
+    ASSERT_EQUALS( io::path::dirPath( "C:/" ), "", );
+    ASSERT_EQUALS( io::path::dirPath( "a/b/c" ), "a/b", );
+    ASSERT_EQUALS( io::path::dirPath( "a/b/c/" ), "a/b", );
+    ASSERT_EQUALS( io::path::dirPath( "/a/b" ), "/a", );
+    ASSERT_EQUALS( io::path::dirPath( "/a" ), "/", );
+    ASSERT_EQUALS( io::path::dirPath( "/" ), "", );
+    ASSERT_EQUALS( io::path::dirPath( "" ), "", );
+}
+
+TEST_CASE( recursiveDirPathTest, IOTests ) {
+    ASSERT_EQUALS( io::path::recursiveDirPath( "a/**/b/c" ), "a/b", );
+    ASSERT_EQUALS( io::path::recursiveDirPath( "a/b/c/**/" ), "a/b", );
+    ASSERT_EQUALS( io::path::recursiveDirPath( "**/a/b/c" ), "a/b", );
+    ASSERT_NOT_EQUALS( io::path::recursiveDirPath( "a/b/c/**" ), "a/b", );
+    ASSERT_EQUALS( io::path::recursiveDirPath( "" ), "", );
+}
+
+TEST_CASE( recursiveDirPathToReplaceTest, IOTests ) {
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "a/b/**/c/d" ), "c/d",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "**/a/b/c" ), "a/b/c",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "/**/a/b/c" ), "a/b/c",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "/a/**/b/c" ), "b/c",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "" ), "",  );
 }
 
 TEST_CASE( absolutePathTest, IOTests ) {
-    string currpath = io::currentPath();
+    string currpath = io::path::currentPath();
 
-    ASSERT_EQUALS( io::absolutePath( "a/b/c" ), currpath + "/a/b/c", );
-    ASSERT_EQUALS( io::absolutePath( "/a/b/c" ), "/a/b/c", );
-    ASSERT_EQUALS( io::absolutePath( "" ), currpath, );
-    ASSERT_EQUALS( io::absolutePath( "." ), currpath, );
-    ASSERT_EQUALS( io::absolutePath( "./" ), currpath, );
+    ASSERT_EQUALS( io::path::absolutePath( "C:/a/b/c" ), "C:/a/b/c", );
+    ASSERT_EQUALS( io::path::absolutePath( "/a/b/c" ), "/a/b/c", );
+    ASSERT_EQUALS( io::path::absolutePath( "a/b/c" ), currpath + "/a/b/c", );
+
+    ASSERT_EQUALS( io::path::absolutePath( "" ), currpath, );
+    ASSERT_EQUALS( io::path::absolutePath( "." ), currpath, );
+    ASSERT_EQUALS( io::path::absolutePath( "./" ), currpath, );
 }
 
 #endif

@@ -34,9 +34,23 @@ test.lib.dirs=lib
 test.include.dirs=include
 test.libs=cbtest
 
+task compile verbose;
+
 task compileall before
     echo
-    rm include/*.a
+    rm -r include/*.h
+    rm lib/libcbtest.a
+    
+    @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
+    
+    cp -r ../cbtest/src/**/*.h include
+    cp ../cbtest/build/libcbtest.a lib/
+    echo
+endtask
+
+task compile before
+    echo
+    rm -r include/*.h
     rm lib/libcbtest.a
     
     @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt

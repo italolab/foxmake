@@ -19,7 +19,9 @@ namespace strutil {
     bool isNextSubstr( string str, int i, string token );
     string trim( string str );
     string replace( string str, string subStr, string newSubStr );
-    string replaceAll( string str, string replaceStr, string newReplaceStr );
+    string replaceAll( string str, string subStr, string newSubStr );
+    string replace( string str, char ch, char newCh );
+    string replaceAll( string str, char ch, char newCh );
 
     bool isWhiteSpace( char ch );
     string removeStartWhiteSpaces( string str );

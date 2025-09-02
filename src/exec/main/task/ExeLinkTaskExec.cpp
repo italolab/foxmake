@@ -89,11 +89,11 @@ void ExeLinkTaskExec::execLinkage( void* mgr ) {
     
     string defines = script->getPropertyValue( props::DEFINES );
 
-    binDir = io::absoluteResolvePath( binDir );
-    objDir = io::absoluteResolvePath( objDir );
+    binDir = io::path::absoluteResolvePath( binDir );
+    objDir = io::path::absoluteResolvePath( objDir );
 
-    binDir = io::addSeparatorToDirIfNeed( binDir );
-    objDir = io::addSeparatorToDirIfNeed( objDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
+    objDir = io::path::addSeparatorToDirIfNeed( objDir );
 
     vector<string> objectCodeFiles;
     vector<CodeInfo*> sourceCodeInfos = sourceCodeManager->sourceCodeInfos();
@@ -164,11 +164,11 @@ void ExeLinkTaskExec::execTestLinkage( void* mgr ) {
     string objDir = script->getPropertyValue( props::OBJ_DIR );
     string binDir = script->getPropertyValue( props::BIN_DIR );
 
-    objDir = io::absoluteResolvePath( objDir );
-    binDir = io::absoluteResolvePath( binDir );
+    objDir = io::path::absoluteResolvePath( objDir );
+    binDir = io::path::absoluteResolvePath( binDir );
 
-    objDir = io::addSeparatorToDirIfNeed( objDir );
-    binDir = io::addSeparatorToDirIfNeed( binDir );
+    objDir = io::path::addSeparatorToDirIfNeed( objDir );
+    binDir = io::path::addSeparatorToDirIfNeed( binDir );
 
     vector<string> withHeaderObjFiles = sourceCodeManager->withHeaderObjectCodeFiles();    
     vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();

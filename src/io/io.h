@@ -43,6 +43,15 @@ namespace io {
     void writeInTextFile( string file, string text );
     string readFromTextFile( string file );
 
+    bool isDir( string path );
+    bool isFile( string path );
+    bool isEmptyDir( string dir );
+    bool fileExists( string path );
+    
+    long lastWriteTime( string path );
+
+
+namespace path {
     string currentPath();
     string absolutePath( string path );
     string relativePath( string path );
@@ -56,6 +65,7 @@ namespace io {
     string addSeparatorToDirIfNeed( string dir );
     string removeSeparatorFromDirIfNeed( string dir );
     string makePreferred( string path );
+    string makeUnixPreferred( string path );
     string extension( string path );
     string removeRecursiveJoker( string path );
     string removeInitTwoDotsAndSlash( string relativePath );
@@ -66,12 +76,8 @@ namespace io {
     string absoluteResolvePath( string path );
 
     bool isJokerInPath( string path );
-    bool isDir( string path );
-    bool isFile( string path );
-    bool isEmptyDir( string dir );
-    bool fileExists( string path );
 
-    long lastWriteTime( string path );
+}
 
 }
 
