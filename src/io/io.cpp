@@ -347,9 +347,16 @@ namespace path {
             return p;
         
         size_t i = p.find_last_of( '/' );
-        if ( i == string::npos )            
-            return "";                    
+        size_t j = p.find( ':' );
+        if ( i == string::npos && j == string::npos )
+            return p;
 
+        if ( i == string::npos && j != string::npos ) {
+            if ( p.length() > j+1 )
+                return p.substr( 0, j+1 );            
+            return "";           
+        }
+            
         if ( i == 0 )
             return "/";        
         return p.substr( 0, i );
@@ -474,10 +481,17 @@ namespace path {
         if ( path == "." )
             return currentPath();
 
-        string path2 = path;
+        string path2 = makeUnixPreferred( path );
         if ( strutil::startsWith( path2, "./" ) )
             path2 = path2.substr( 2, path2.length()-2 );
-            
+           
+        if ( strutil::startsWith( path2, "/" ) )
+            return path2;
+
+        size_t i = path2.find( ':' );
+        if ( i != string::npos )
+            return path2;    
+
         filesystem::path p( path2 );
         if ( p.is_absolute() ) {
             return makeUnixPreferred( path2 );

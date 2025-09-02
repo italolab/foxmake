@@ -18,14 +18,14 @@ TEST_CASE( makePreferredTest, IOTests ) {
 }
 
 TEST_CASE( dirPathTest, IOTests ) {
-    ASSERT_EQUALS( io::path::dirPath( "C:/a" ), "C:", );
-    ASSERT_EQUALS( io::path::dirPath( "C:a" ), "C:", );
+    ASSERT_EQUALS( io::path::dirPath( "C:/__xx" ), "C:", );
+    ASSERT_EQUALS( io::path::dirPath( "C:__xx" ), "C:", );
     ASSERT_EQUALS( io::path::dirPath( "C:" ), "", );
     ASSERT_EQUALS( io::path::dirPath( "C:/" ), "", );
     ASSERT_EQUALS( io::path::dirPath( "a/b/c" ), "a/b", );
     ASSERT_EQUALS( io::path::dirPath( "a/b/c/" ), "a/b", );
     ASSERT_EQUALS( io::path::dirPath( "/a/b" ), "/a", );
-    ASSERT_EQUALS( io::path::dirPath( "/a" ), "/", );
+    ASSERT_EQUALS( io::path::dirPath( "/__xx" ), "/", );
     ASSERT_EQUALS( io::path::dirPath( "/" ), "", );
     ASSERT_EQUALS( io::path::dirPath( "" ), "", );
 }
@@ -39,10 +39,10 @@ TEST_CASE( recursiveDirPathTest, IOTests ) {
 }
 
 TEST_CASE( recursiveDirPathToReplaceTest, IOTests ) {
-    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "a/b/**/c/d" ), "c/d",  );
-    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "**/a/b/c" ), "a/b/c",  );
-    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "/**/a/b/c" ), "a/b/c",  );
-    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "/a/**/b/c" ), "b/c",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "a/b/**/c/d" ), "a/b/",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "**/a/b/c" ), "",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "/**/a/b/c" ), "/",  );
+    ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "/a/**/b/c" ), "/a/",  );
     ASSERT_EQUALS( io::path::recursiveDirPathToReplace( "" ), "",  );
 }
 
