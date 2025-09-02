@@ -73,6 +73,7 @@ namespace errors {
     const string END_OF_SHELL_BLOCK_NOT_FOUND = "Fim de bloco de shell \"endshell\" não encontrado.";
     const string END_OF_TASK_BLOCK_NOT_FOUND = "Fim de bloco de tarefa \"endtask\" não encontrado.";
     const string END_OF_PROC_BLOCK_NOT_FOUND = "Fim de bloco de procedimento \"endproc\" não encontrado.";
+    const string END_OF_BLOCK_NOT_FOUND = "Fim de bloco não encontrado.";
 
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     

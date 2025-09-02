@@ -84,8 +84,12 @@ InterResult* BlockInter::interpretsBlock(
         delete result;
     }
 
-    if ( !endFound && this->getEndToken() != "" )
-        return this->getEndTokenNotFoundInterResult();
+    if ( !endFound && this->getEndToken() != "" ) {
+        InterResult* iresult = this->getEndTokenNotFoundInterResult();
+        if ( iresult != nullptr )            
+            return iresult;        
+        return new InterResult( "", numberOfLinesReaded, 0, errors::END_OF_BLOCK_NOT_FOUND );
+    }
 
     return new InterResult( block, numberOfLinesReaded, 0 );
 }
