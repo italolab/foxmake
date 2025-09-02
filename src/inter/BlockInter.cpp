@@ -4,10 +4,15 @@
 #include "InterResult.h"
 #include "it/FileIterator.h"
 #include "../util/strutil.h"
+#include "../msg/messagebuilder.h"
 
 #include "../error_messages.h"
 
-BlockInterResult* BlockInter::interpretsBlock( 
+#include <sstream>
+
+using std::istringstream;
+
+InterResult* BlockInter::interpretsBlock( 
             Block* block, 
             BlockIterator* it, 
             int& numberOfLinesReaded,
@@ -47,9 +52,7 @@ BlockInterResult* BlockInter::interpretsBlock(
             endFound = true;
             continue;
         } else if ( endIResult->isErrorFound() ) {
-            string error = endIResult->getErrorMsg();
-            InterResult* iresult = new InterResult( line, numberOfLinesReaded, 0, error );
-            return new BlockInterResult( iresult, endFound );
+            return endIResult;
         }
 
         bool isCmd = manager->isValidCMD( line );
@@ -75,13 +78,42 @@ BlockInterResult* BlockInter::interpretsBlock(
                 resultLine = line;
             }
 
-            InterResult* errorResult = new InterResult( resultLine, numberOfLinesReaded, 0, error );
-            return new BlockInterResult( errorResult, endFound );
+            return new InterResult( resultLine, numberOfLinesReaded, 0, error );
         }
 
         delete result;
     }
 
-    InterResult* okResult = new InterResult( block, numberOfLinesReaded, 0 );
-    return new BlockInterResult( okResult, endFound );
+    if ( !endFound && this->getEndToken() != "" )
+        return this->getEndTokenNotFoundInterResult();
+
+    return new InterResult( block, numberOfLinesReaded, 0 );
+}
+
+InterResult* BlockInter::interpretsEnd( 
+            Block* block, string currentLine, int& numberOfLinesReaded ) {
+
+    string endToken = this->getEndToken();
+    if ( endToken != "" ) {
+
+        istringstream iss( currentLine );
+        if ( iss.peek() == EOF )
+            return new InterResult( false );
+
+        string token;
+        iss >> token;
+        if ( token == endToken ) {
+            if ( iss.peek() == EOF )
+                return new InterResult( true );
+
+            iss >> token;
+            if ( token != "" ) {
+                messagebuilder b( errors::UNNECESSARY_TOKEN );
+                b << token;
+                return new InterResult( currentLine, numberOfLinesReaded, 0, b.str() );        
+            }
+        };
+    }
+
+    return new InterResult( false );
 }

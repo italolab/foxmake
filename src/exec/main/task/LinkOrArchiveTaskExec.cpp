@@ -45,7 +45,7 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         if ( !isNoResume || isVerbose )
             out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << endl;    
 
-        manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
+        manager->executeUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
 
         if ( strutil::endsWith( outputFileName, ".dll" ) ) {
             dynamicLibraryLinkTaskExec->exec( mgr );
@@ -55,7 +55,7 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
             exeLinkTaskExec->exec( mgr );
         }
 
-        manager->executaUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
+        manager->executeUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
         if ( isVerbose )
             out << infos::SUCCESS_IN_LINKING << endl;
     }
@@ -66,11 +66,11 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         if ( !isNoResume || isVerbose )
             out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << endl;    
 
-        manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::BEFORE );
+        manager->executeUserTaskIfExists( tasks::ARCHIVE, TaskExecution::BEFORE );
 
         staticLibraryArchiveTaskExec->exec( mgr );
         
-        manager->executaUserTaskIfExists( tasks::ARCHIVE, TaskExecution::AFTER );
+        manager->executeUserTaskIfExists( tasks::ARCHIVE, TaskExecution::AFTER );
 
         if ( isVerbose )
             out << infos::SUCCESS_IN_ARCHIVING << endl;

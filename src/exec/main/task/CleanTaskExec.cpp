@@ -25,7 +25,7 @@ void CleanTaskExec::exec( void* mgr ) {
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::CLEAN ) << "..." << endl;    
 
-    manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
     MainScript* script = manager->getMainScript();
 
@@ -65,7 +65,7 @@ void CleanTaskExec::exec( void* mgr ) {
             removedSome = true;
     }
 
-    manager->executaUserTaskIfExists( tasks::CLEAN, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::CLEAN, TaskExecution::AFTER );
 
     if ( isVerbose ) {
         if ( removedSome )

@@ -29,12 +29,12 @@ InterResult* MainScriptInter::interpretsLine(
     return result;
 }
 
-InterResult* MainScriptInter::interpretsEnd( 
-            Block* block, 
-            string currentLine, 
-            int& numberOfLinesReaded ) {
+string MainScriptInter::getEndToken() {
+    return "";
+}
 
-    return new InterResult( false );
+InterResult* MainScriptInter::getEndTokenNotFoundInterResult() {
+    return nullptr;
 }
 
 InterResult* MainScriptInter::interprets( 
@@ -45,6 +45,5 @@ InterResult* MainScriptInter::interprets(
     FileIterator* it = new FileIterator( file );
 
     int numberOfLinesReaded = 0;
-    BlockInterResult* result = BlockInter::interpretsBlock( script, it, numberOfLinesReaded, mgr );
-    return result->getInterResult();
+    return BlockInter::interpretsBlock( script, it, numberOfLinesReaded, mgr );
 }

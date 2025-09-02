@@ -37,7 +37,7 @@ void CopyTaskExec::exec( void* mgr ) {
     string binDir = script->getPropertyValue( props::BIN_DIR );
     string buildFiles = script->getPropertyValue( props::BUILD_FILES );
 
-    manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
 
     buildDir = io::path::absoluteResolvePath( buildDir );
     binDir = io::path::absoluteResolvePath( binDir );
@@ -59,7 +59,7 @@ void CopyTaskExec::exec( void* mgr ) {
     for( string bfile : bfiles )
         appCopyFileOrDirectoryToBuild( bfile, buildDir, props::BUILD_FILES ,manager );
 
-    manager->executaUserTaskIfExists( tasks::COPY, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::COPY, TaskExecution::AFTER );
 
     if ( isVerbose )
         out << infos::SUCCESS_IN_COPY << endl;

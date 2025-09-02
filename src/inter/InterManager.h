@@ -5,8 +5,8 @@
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "DefaultTaskConfigInter.h"
-#include "taskconfig/TaskConfigInter.h"
-#include "taskconfig/TaskConfigResult.h"
+#include "taskdef/TaskDefinitionInter.h"
+#include "taskdef/TaskDefinitionResult.h"
 #include "CMDInter.h"
 #include "ShellCMDInter.h"
 #include "PropInter.h"
@@ -27,7 +27,7 @@ class InterManager {
         VarInter* varInter;
         TaskInter* taskInter;
         DefaultTaskConfigInter* defaultTaskConfigInter;
-        TaskConfigInter* taskConfigInter;
+        TaskDefinitionInter* taskDefinitionInter;
 
         InterDriver* drv;
 
@@ -47,7 +47,7 @@ class InterManager {
 
         InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded );
 
-        TaskConfigResult* interpretsTaskConfig( string currentLine );
+        TaskDefinitionResult* interpretsTaskDefinition( string currentLine );
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );

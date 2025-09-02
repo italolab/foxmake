@@ -2,7 +2,7 @@
 #include "TaskInter.h"
 #include "InterManager.h"
 #include "it/StringIterator.h"
-#include "taskconfig/TaskConfigResult.h"
+#include "taskdef/TaskDefinitionResult.h"
 #include "../darv/Task.h"
 #include "../util/strutil.h"
 #include "../msg/messagebuilder.h"
@@ -25,30 +25,18 @@ InterResult* TaskInter::interpretsLine(
     return new InterResult( false );
 }
 
-InterResult* TaskInter::interpretsEnd( 
-            Block* block, string currentLine, int& numberOfLinesReaded ) {
-
-    istringstream iss( currentLine );
-    if ( iss.peek() == EOF )
-        return new InterResult( false );
-
-    string token;
-    iss >> token;
-    if ( token == "endtask" ) {
-        if ( iss.peek() == EOF )
-            return new InterResult( true );
-
-        iss >> token;
-        if ( token != "" ) {
-            messagebuilder b( errors::UNNECESSARY_TOKEN );
-            b << token;
-            return new InterResult( currentLine, numberOfLinesReaded, 0, b.str() );        
-        }
-    };
-
-    return new InterResult( false );
+string TaskInter::getEndToken() {
+    return "taskend";
 }
 
+InterResult* TaskInter::getEndTokenNotFoundInterResult() {
+    return endTokenNotFoundIResult;
+}
+
+/*
+O atributo endTokenNotFoundIResult é carregado dentro da função interprets. Logo, 
+depende dela para não ser nulo.
+*/
 InterResult* TaskInter::interprets( 
             MainScript* parent, 
             BlockIterator* it, 
@@ -58,16 +46,16 @@ InterResult* TaskInter::interprets(
 
     InterManager* manager = (InterManager*)mgr;
 
-    TaskConfigResult* result = manager->interpretsTaskConfig( currentLine );
+    TaskDefinitionResult* result = manager->interpretsTaskDefinition( currentLine );
 
     int status = result->getStatus();
-    if ( status == TaskConfigResult::NO_CONFIG ) {
+    if ( status == TaskDefinitionResult::NO_CONFIG ) {
         return new InterResult( false );
-    } else if ( status == TaskConfigResult::ERROR ) {
+    } else if ( status == TaskDefinitionResult::ERROR ) {
         return new InterResult( currentLine, numberOfLinesReaded, 0, result->getErrorMsg() );        
     } 
     
-    if ( status != TaskConfigResult::OK )
+    if ( status != TaskDefinitionResult::OK )
         throw runtime_error( errors::runtime::INVALID_STATUS_OF_TASK_CONFIG_INTER );    
 
     if ( result->isFinish() )
@@ -75,6 +63,8 @@ InterResult* TaskInter::interprets(
 
     string taskName = result->getTaskName();
     vector<string>& flags = result->getFlags();
+
+    this->endTokenNotFoundIResult = new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
 
     string errorMsg;
 
@@ -99,13 +89,10 @@ InterResult* TaskInter::interprets(
     if ( parent != nullptr )
         parent->addTask( task );
        
-    BlockInterResult* blockIResult = BlockInter::interpretsBlock( task, it, numberOfLinesReaded, mgr );
-    InterResult* iresult = blockIResult->getInterResult();
-    if ( !blockIResult->isEndFound() ) {       
-        if ( iresult->isErrorFound() )
-            return iresult;
-        return new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
-    }
+    InterResult* blockIResult = BlockInter::interpretsBlock( task, it, numberOfLinesReaded, mgr );
+    if ( blockIResult->isErrorFound() )
+        return blockIResult;
+    
     return new InterResult( task, numberOfLinesReaded, 0 );
 }
 

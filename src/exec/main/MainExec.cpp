@@ -73,15 +73,15 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::INIT ) << "..." << endl;
 
-    manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );    
-    manager->executaUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );    
+    manager->executeUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
 
-    manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::TESTBUILD, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::TESTBUILD, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::BEFORE );
         
     if ( isClean )
         cleanTaskExec->exec( mgr );
@@ -94,12 +94,12 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( isCopy )
         copyTaskExec->exec( mgr );
     
-    manager->executaUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
-    manager->executaUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
-    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::AFTER );
-    manager->executaUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::AFTER );
-    manager->executaUserTaskIfExists( tasks::TESTBUILD, TaskExecution::AFTER );
-    manager->executaUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::ARCHIVEBUILD, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::TESTBUILD, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::AFTER );
 
     this->executaNoDefaultTasks( manager );
 
@@ -110,8 +110,8 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::FINISH ) << "..." << endl;
         
-    manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::BEFORE );
-    manager->executaUserTaskIfExists( tasks::FINISH, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::FINISH, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::FINISH, TaskExecution::AFTER );
     
     if ( isVerbose )
         out << endl;
@@ -181,9 +181,9 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
             if ( isVerbose && !isNoResume )
                 out << infos::EXECUTING << " " << output::green( taskName ) << "..." << endl;                            
 
-            manager->executaUserTaskIfExists( taskName, TaskExecution::BEFORE );
-            manager->executaUserTaskIfExists( taskName, TaskExecution::NORMAL );
-            manager->executaUserTaskIfExists( taskName, TaskExecution::AFTER );
+            manager->executeUserTaskIfExists( taskName, TaskExecution::BEFORE );
+            manager->executeUserTaskIfExists( taskName, TaskExecution::NORMAL );
+            manager->executeUserTaskIfExists( taskName, TaskExecution::AFTER );
         }
     }
 }
@@ -205,10 +205,7 @@ void MainExec::executaStatements( void* mgr ) {
             out << infos::EXECUTING_STATEMENTS << endl;
     }
 
-    for( int i = 0; i < tam; i++ ) {
-        Statement* st = script->getStatementByIndex( i );
-        manager->executaStatement( st );
-    }
+    manager->executeBlockStatements( script );
 
     if ( tam > 0 && isVerbose )
         out << infos::SUCCESS_IN_EXECUTING_STATEMENTS << endl;

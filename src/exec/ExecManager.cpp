@@ -79,7 +79,15 @@ void ExecManager::exec( int argc, char* argv[] ) {
     }
 }
 
-void ExecManager::executaStatement( Statement* st ) {
+void ExecManager::executeBlockStatements( Block* block ) {
+    int len = block->getStatementsLength();
+    for( int i = 0; i < len; i++ ) {
+        Statement* st = block->getStatementByIndex( i );
+        this->executeStatement( st );
+    }
+}
+
+void ExecManager::executeStatement( Statement* st ) {
     if ( dynamic_cast<CMD*>( st ) ) {
         CMD* cmd = (CMD*)st;
 
@@ -101,13 +109,13 @@ void ExecManager::executaStatement( Statement* st ) {
     }
 }
 
-void ExecManager::executaUserTaskIfExists( string taskName, TaskExecution taskExecution ) {
+void ExecManager::executeUserTaskIfExists( string taskName, TaskExecution taskExecution ) {
     Task* task = mainScript->getTask( taskName, taskExecution );
     if ( task != nullptr ) {
         int len = task->getStatementsLength();
         for( int i = 0; i < len; i++ ) {
             Statement* st = task->getStatementByIndex( i );
-            this->executaStatement( st );
+            this->executeStatement( st );
         }
     }
 }

@@ -5,6 +5,7 @@
 #include "CMD.h"
 #include "Var.h"
 #include "Task.h"
+#include "Proc.h"
 #include "DefaultTaskConfig.h"
 #include "Prop.h"
 
@@ -21,6 +22,7 @@ class MainScript : public Block {
     private:
         map<string, Prop*> propertiesMap;
         vector<Task*> tasksVect;
+        vector<Proc*> procsVect;
         vector<DefaultTaskConfig*> defaultTaskConfigsVect;
 
     public:
@@ -40,6 +42,11 @@ class MainScript : public Block {
         bool existsTask( string taskName );
         bool existsTask( string taskName, TaskExecution taskExecution );
         vector<Task*>& tasks();
+
+        void addProc( Proc* proc );
+        Proc* getProc( string procName );
+        bool existsProc( string procName );
+        vector<Proc*>& procs();
 
         void addDefaultTaskConfig( DefaultTaskConfig* config );
         DefaultTaskConfig* getDefaultTaskConfig( string taskName );

@@ -1,6 +1,6 @@
 
 #include "DefaultTaskConfigInter.h"
-#include "taskconfig/TaskConfigResult.h"
+#include "taskdef/TaskDefinitionResult.h"
 #include "InterManager.h"
 #include "../msg/messagebuilder.h"
 
@@ -19,10 +19,10 @@ InterResult* DefaultTaskConfigInter::interprets(
 
     InterManager* manager = (InterManager*)mgr;
 
-    TaskConfigResult* result = manager->interpretsTaskConfig( currentLine );
+    TaskDefinitionResult* result = manager->interpretsTaskDefinition( currentLine );
     
     int status = result->getStatus();
-    if ( status == TaskConfigResult::OK ) {  
+    if ( status == TaskDefinitionResult::OK ) {  
         if ( !result->isFinish() )
             return new InterResult( false );
 
@@ -57,10 +57,10 @@ InterResult* DefaultTaskConfigInter::interprets(
             parent->addDefaultTaskConfig( config );
 
         return new InterResult( config, numberOfLinesReaded, currentLine.length() );
-    } else if ( status == TaskConfigResult::ERROR ) {
+    } else if ( status == TaskDefinitionResult::ERROR ) {
         string errorMsg = result->getErrorMsg();
         return new InterResult( currentLine, numberOfLinesReaded, 0, errorMsg );        
-    } else if ( status == TaskConfigResult::NO_CONFIG ) {
+    } else if ( status == TaskDefinitionResult::NO_CONFIG ) {
         return new InterResult( false );
     } else {
         throw runtime_error( errors::runtime::INVALID_STATUS_OF_TASK_CONFIG_INTER );

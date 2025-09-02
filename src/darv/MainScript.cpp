@@ -76,6 +76,28 @@ vector<Task*>& MainScript::tasks() {
     return tasksVect;
 }
 
+void MainScript::addProc( Proc* proc ) {
+    procsVect.push_back( proc );
+}
+        
+Proc* MainScript::getProc( string procName ) {
+    for( Proc* proc : procsVect )
+        if ( proc->getName() == procName )
+            return proc;
+    return nullptr;
+}
+        
+bool MainScript::existsProc( string procName ) {
+    for( Proc* proc : procsVect )
+        if ( proc->getName() == procName )
+            return true;
+    return false;
+}
+    
+vector<Proc*>& MainScript::procs() {
+    return procsVect;
+}
+
 void MainScript::addDefaultTaskConfig( DefaultTaskConfig* config ) {
     defaultTaskConfigsVect.push_back( config );
 }

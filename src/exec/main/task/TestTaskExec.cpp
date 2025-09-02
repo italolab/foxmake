@@ -39,7 +39,7 @@ void TestTaskExec::exec( void* mgr ) {
         throw st_error( nullptr, b.str() );
     }
 
-    manager->executaUserTaskIfExists( tasks::TEST, TaskExecution::BEFORE );
+    manager->executeUserTaskIfExists( tasks::TEST, TaskExecution::BEFORE );
 
     testDir = io::path::absoluteResolvePath( testDir );
     binDir = io::path::absoluteResolvePath( binDir );
@@ -64,7 +64,7 @@ void TestTaskExec::exec( void* mgr ) {
     if ( exitCode != 0 )
         throw st_error( nullptr, errors::TESTING_FAILED );
 
-    manager->executaUserTaskIfExists( tasks::TEST, TaskExecution::AFTER );
+    manager->executeUserTaskIfExists( tasks::TEST, TaskExecution::AFTER );
 
     if ( isVerbose )
         out << infos::SUCCESS_IN_TESTING << endl;

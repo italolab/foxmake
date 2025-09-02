@@ -57,8 +57,10 @@ namespace errors {
     const string NOTHING_TASK_INFORMED = "E necessario informar ao menos uma tarefa como argumento.";
     const string TASK_AFTER_ALREADY_DEFINED = "Já foi definida antes a tarefa \"$1\" como after.";
     const string TASK_BEFORE_ALREADY_DEFINED = "Já foi definida antes a tarefa \"$1\" como before.";
-    const string TASK_NAME_NOT_FOUND = "Nome de tarefa não encontrado.";
+    const string TASK_NAME_NOT_DEFINED = "Nome de tarefa não definido.";
     const string TASK_NOT_RECOGNIZED = "Tarefa não reconhecida.";
+
+    const string PROC_NAME_NOT_INFORMED = "O nome do procedimento não foi informado.";
     
     const string PROPERTY_NOT_DEFINED = "A propriedade \"$1\" deve ser definida.";
     const string PROPERTY_NOT_DEFINED_FOR_ARCHIVING = "A propriedade \"$1\" deve ter valor definido para o empacotamento da biblioteca estática.";
@@ -70,6 +72,7 @@ namespace errors {
 
     const string END_OF_SHELL_BLOCK_NOT_FOUND = "Fim de bloco de shell \"endshell\" não encontrado.";
     const string END_OF_TASK_BLOCK_NOT_FOUND = "Fim de bloco de tarefa \"endtask\" não encontrado.";
+    const string END_OF_PROC_BLOCK_NOT_FOUND = "Fim de bloco de procedimento \"endproc\" não encontrado.";
 
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     

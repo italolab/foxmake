@@ -47,13 +47,14 @@ class ExecManager : public InterDriver {
 
         void exec( int argc, char* argv[] );
 
-        void executaStatement( Statement* st );
+        void executeBlockStatements( Block* block );
+        void executeStatement( Statement* st );
 
         bool isDefaultTask( string taskName );
         bool isValidProp( string propName ); 
         bool isValidCMD( string propName );
 
-        void executaUserTaskIfExists( string taskName, TaskExecution taskExecution );
+        void executeUserTaskIfExists( string taskName, TaskExecution taskExecution );
 
         MainExec* getMainExec();
         MainScript* getMainScript();

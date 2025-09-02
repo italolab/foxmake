@@ -1,5 +1,5 @@
 
-#include "TaskConfigInter.h"
+#include "TaskDefinitionInter.h"
 #include "../../util/strutil.h"
 #include "../../msg/messagebuilder.h"
 
@@ -10,7 +10,7 @@
 using std::stringstream;
 using std::istringstream;
 
-TaskConfigResult* TaskConfigInter::interprets( string currentLine, void* mgr ) {
+TaskDefinitionResult* TaskDefinitionInter::interprets( string currentLine, void* mgr ) {
                 
     istringstream iss( currentLine );
     string token;
@@ -18,10 +18,10 @@ TaskConfigResult* TaskConfigInter::interprets( string currentLine, void* mgr ) {
     iss >> token;
     
     if ( token != "task" )
-        return new TaskConfigResult( TaskConfigResult::NO_CONFIG );
+        return new TaskDefinitionResult( TaskDefinitionResult::NO_CONFIG );
 
     if ( iss.peek() == EOF )
-        return new TaskConfigResult( errors::TASK_NAME_NOT_FOUND );    
+        return new TaskDefinitionResult( errors::TASK_NAME_NOT_DEFINED );    
 
     string taskName;
     iss >> taskName;
@@ -60,10 +60,10 @@ TaskConfigResult* TaskConfigInter::interprets( string currentLine, void* mgr ) {
             if ( token != "" ) {
                 messagebuilder b( errors::UNNECESSARY_TOKEN );
                 b << token;
-                return new TaskConfigResult( b.str() );
+                return new TaskDefinitionResult( b.str() );
             }
         }
     }
 
-    return new TaskConfigResult( taskName, flags, isFinish );
+    return new TaskDefinitionResult( taskName, flags, isFinish );
 }

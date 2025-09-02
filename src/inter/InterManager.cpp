@@ -7,7 +7,7 @@ InterManager::InterManager( InterDriver* drv ) {
 
     this->mainScriptInter = new MainScriptInter();
     this->taskInter = new TaskInter();
-    this->taskConfigInter = new TaskConfigInter();
+    this->taskDefinitionInter = new TaskDefinitionInter();
     this->defaultTaskConfigInter = new DefaultTaskConfigInter();
     this->cmdInter = new CMDInter();
     this->shellCMDInter = new ShellCMDInter();
@@ -18,7 +18,7 @@ InterManager::InterManager( InterDriver* drv ) {
 InterManager::~InterManager() {
     delete mainScriptInter;
     delete taskInter;
-    delete taskConfigInter;
+    delete taskDefinitionInter;
     delete defaultTaskConfigInter;
     delete cmdInter;
     delete shellCMDInter;
@@ -58,8 +58,8 @@ InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, stri
     return defaultTaskConfigInter->interprets( script, currentLine, numberOfLinesReaded, this );
 }
 
-TaskConfigResult* InterManager::interpretsTaskConfig( string currentLine ) {
-    return taskConfigInter->interprets( currentLine, this );
+TaskDefinitionResult* InterManager::interpretsTaskDefinition( string currentLine ) {
+    return taskDefinitionInter->interprets( currentLine, this );
 }
 
 bool InterManager::isValidCMD( string line ) {

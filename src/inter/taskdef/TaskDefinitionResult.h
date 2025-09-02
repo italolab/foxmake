@@ -7,7 +7,7 @@
 using std::string;
 using std::vector;
 
-class TaskConfigResult {
+class TaskDefinitionResult {
 
     private:
         string taskName;
@@ -21,9 +21,9 @@ class TaskConfigResult {
         static const int NO_CONFIG = 1;
         static const int ERROR = 2;
 
-        TaskConfigResult( string taskName, vector<string>& flags, bool finish );
-        TaskConfigResult( string errorMsg );
-        TaskConfigResult( int status );
+        TaskDefinitionResult( string taskName, vector<string>& flags, bool finish );
+        TaskDefinitionResult( string errorMsg );
+        TaskDefinitionResult( int status );
 
         string getTaskName();
         vector<string>& getFlags();

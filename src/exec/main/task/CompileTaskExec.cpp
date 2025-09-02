@@ -63,8 +63,8 @@ void CompileTaskExec::exec( void* mgr ) {
     }
 
     if ( isCompileAll )
-        manager->executaUserTaskIfExists( tasks::COMPILEALL, TaskExecution::BEFORE );
-    else manager->executaUserTaskIfExists( tasks::COMPILE, TaskExecution::BEFORE );
+        manager->executeUserTaskIfExists( tasks::COMPILEALL, TaskExecution::BEFORE );
+    else manager->executeUserTaskIfExists( tasks::COMPILE, TaskExecution::BEFORE );
 
     string compiler = script->getPropertyValue( props::COMPILER );
     string exeFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
@@ -122,8 +122,8 @@ void CompileTaskExec::exec( void* mgr ) {
     testSourceCodeManager->saveLastWriteTimesInFile( consts::LAST_WRITE_TIMES_FILE, true );
 
     if ( isCompileAll )
-        manager->executaUserTaskIfExists( tasks::COMPILEALL, TaskExecution::AFTER );
-    else manager->executaUserTaskIfExists( tasks::COMPILE, TaskExecution::AFTER );
+        manager->executeUserTaskIfExists( tasks::COMPILEALL, TaskExecution::AFTER );
+    else manager->executeUserTaskIfExists( tasks::COMPILE, TaskExecution::AFTER );
 
     if ( isVerbose ) {
         if ( filesToCompile.empty() )

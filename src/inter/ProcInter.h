@@ -1,5 +1,5 @@
-#ifndef TASK_INTER_H
-#define TASK_INTER_H
+#ifndef PROC_INTER_H
+#define PROC_INTER_H
 
 #include "BlockInter.h"
 #include "it/BlockIterator.h"
@@ -10,29 +10,10 @@
 
 using std::vector;
 
-class TaskInter : public BlockInter {
+class ProcInter : public BlockInter {
 
     private:
-        const string BEFORE = "before";
-        const string AFTER = "after";
-
-        const vector<string> VALID_FLAGS = {
-            BEFORE,
-            AFTER
-        };
-
         InterResult* endTokenNotFoundIResult;
-    
-        bool validateFlags( 
-            MainScript* script, 
-            string taskName, 
-            vector<string>& flags,
-            string& errorMsg,
-            string currentLine,
-            void* mgr );
-        
-        void setFlags( Task* task, vector<string>& flags );
-        bool isValidFlag( string flag );
 
         InterResult* interpretsLine( 
             Block* block, 
@@ -45,7 +26,7 @@ class TaskInter : public BlockInter {
         InterResult* getEndTokenNotFoundInterResult();
 
     public:
-        virtual ~TaskInter();
+        virtual ~ProcInter();
 
         InterResult* interprets( 
             MainScript* parent, 
