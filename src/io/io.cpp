@@ -443,7 +443,9 @@ namespace path {
             size_t i = p.find_last_of( '/' );
             if ( i != string::npos ) {                
                 if ( i == 0 ) {
-                    p = "/";
+                    if ( p.length() == 1 )
+                        p = "";
+                    else p = "/";
                 } else {
                     p = p.substr( 0, i );
                 }                

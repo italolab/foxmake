@@ -86,6 +86,13 @@ TEST_CASE( removeSeparatorIfNeedTest, IOTests ) {
     ASSERT_EQUALS( io::path::removeSeparatorFromDirIfNeed( "" ), "", );
 }
 
+TEST_CASE( parentPathTest, IOTests ) {
+    ASSERT_EQUALS( io::path::parentPath( "a/b/c" ), "a/b", );
+    ASSERT_EQUALS( io::path::parentPath( "a" ), "", );
+    ASSERT_EQUALS( io::path::parentPath( "/a" ), "/", );
+    ASSERT_EQUALS( io::path::parentPath( "/" ), "", );
+}
+
 TEST_CASE( absolutePathTest, IOTests ) {
     string currpath = io::path::currentPath();
 
@@ -96,6 +103,10 @@ TEST_CASE( absolutePathTest, IOTests ) {
     ASSERT_EQUALS( io::path::absolutePath( "" ), currpath, );
     ASSERT_EQUALS( io::path::absolutePath( "." ), currpath, );
     ASSERT_EQUALS( io::path::absolutePath( "./" ), currpath, );
+}
+
+TEST_CASE( relativePathTest, IOTests ) {
+    
 }
 
 #endif
