@@ -489,7 +489,7 @@ namespace path {
         if ( path == "." )
             return "";
 
-        string path2 = path;
+        string path2 = makeUnixPreferred( path );
         if ( strutil::startsWith( path2, "./" ) )
             path2 = path2.substr( 2, path2.length()-2 );
 
@@ -537,23 +537,34 @@ namespace path {
 
         size_t i = p.find( "**" );
         if ( i == string::npos ) {
-            return fileOrDirName( path );
+            return fileOrDirName( p );
         } else {
             i += 2;
+            if ( i < p.length() )
+                i++;
             return p.substr( i, p.length()-i+1 );
         }
     }
 
     string removeJokerJoker( string path ) {
         string p = makeUnixPreferred( path );
+        if ( p.find( "**/" ) == string::npos )
+            return strutil::replace( p, "**", "" );
         return strutil::replace( p, "**/", "" );
     }
 
-    bool isJokerInPath( string path ) {
+    bool isFileNameStartsWithJoker( string path ) {
         string file = fileOrDirName( path );
+        if ( file.length() > 1 ) {
+            if ( file[ 0 ] == '*' && file[ 1 ] != '*' )
+                return true;
+            return false;            
+        }
+
         if ( file.length() > 0 )
             if ( file[ 0 ] == '*' )
                 return true;
+
         return false;
     }
 
@@ -589,7 +600,7 @@ namespace path {
         }
     }
 
-    string removeInitTwoDotsAndSlash( string relativePath ) {
+    string removeInitTwoDotsAndSlashes( string relativePath ) {
         if ( relativePath == "." )
             return "";
 

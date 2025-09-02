@@ -71,13 +71,13 @@ namespace path {
     string jokerJokerBeforePath( string path );
     string removeJokerJoker( string path );
 
-    bool isJokerInPath( string path );
+    bool isFileNameStartsWithJoker( string path );
 
     string resolvePath( string currDir, string path );
     string resolvePath( string path );
     string absoluteResolvePath( string path );
 
-    string removeInitTwoDotsAndSlash( string relativePath );
+    string removeInitTwoDotsAndSlashes( string relativePath );
 
 }
 
