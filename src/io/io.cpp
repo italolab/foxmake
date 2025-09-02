@@ -362,27 +362,10 @@ namespace path {
         return p.substr( 0, i );
     }
 
-    string recursiveDirPath( string path ) {
+    string jokerJokerDirPath( string path ) {
         string p = makeUnixPreferred( path );
-        p = removeRecursiveJoker( p );
+        p = removeJokerJoker( p );
         return dirPath( p );
-    }
-
-    string recursiveDirPathToReplace( string path ) {
-        string p = makeUnixPreferred( path );
-        size_t i = p.find( "**" );
-        if ( i == string::npos ) {
-            return "";
-        } else {
-            if ( i == 0 ) {
-                p = "";
-            } else if ( i == 1 ) {
-                p = "/";
-            } else {
-                p = p.substr( 0, i );
-            }
-            return p;
-        }
     }
 
     string fileOrDirName( string path ) {
@@ -412,19 +395,7 @@ namespace path {
         return name.substr( 0, i );
     }
 
-    string recursiveFileOrDirName( string path ) {
-        string p = makeUnixPreferred( path );
-
-        size_t i = p.find( "-" );
-        if ( i == string::npos ) {
-            return fileOrDirName( path );
-        } else {
-            i += 2;
-            return p.substr( i, p.length()-i+1 );
-        }
-    }
-
-    char fileSeparator() {
+    char preferredSeparator() {
         return filesystem::path::preferred_separator;
     }
 
@@ -453,9 +424,15 @@ namespace path {
 
     string removeSeparatorFromDirIfNeed( string dir ) {
         string d = makeUnixPreferred( dir );
-        if ( d.length() > 0 )
-            if( d[ d.length()-1 ] == '/' )
-                d = d.substr( 0, d.length()-1 );
+
+        int len = d.length();
+        if ( len > 0 ) {
+            if( d[ len-1 ] == '/' ) {
+                if ( len == 1 )
+                    return "/";
+                return d = d.substr( 0, d.length()-1 );
+            }
+        }
         return d;
     }
 
@@ -522,14 +499,6 @@ namespace path {
         }
     }
 
-    bool isJokerInPath( string path ) {
-        string file = fileOrDirName( path );
-        if ( file.length() > 0 )
-            if ( file[ 0 ] == '*' )
-                return true;
-        return false;
-    }
-
     string extension( string path ) {
         string name = fileOrDirName( path );
         size_t i = name.find( '.' );
@@ -538,9 +507,52 @@ namespace path {
         return name.substr( i+1, name.length()-i );
     }
 
-    string removeRecursiveJoker( string path ) {
+    /*
+    Retorna o path antes do **
+    */
+    string jokerJokerBeforePath( string path ) {
+        string p = makeUnixPreferred( path );
+        size_t i = p.find( "**" );
+        if ( i == string::npos ) {
+            return "";
+        } else {
+            if ( i == 0 ) {
+                p = "";
+            } else if ( i == 1 ) {
+                p = "/";
+            } else {
+                p = p.substr( 0, i );
+            }
+            return p;
+        }
+    }
+
+    /*
+    Retorna o path após o **.
+    */
+    string jokerJokerAfterPath( string path ) {
+        string p = makeUnixPreferred( path );
+
+        size_t i = p.find( "**" );
+        if ( i == string::npos ) {
+            return fileOrDirName( path );
+        } else {
+            i += 2;
+            return p.substr( i, p.length()-i+1 );
+        }
+    }
+
+    string removeJokerJoker( string path ) {
         string p = makeUnixPreferred( path );
         return strutil::replace( p, "**/", "" );
+    }
+
+    bool isJokerInPath( string path ) {
+        string file = fileOrDirName( path );
+        if ( file.length() > 0 )
+            if ( file[ 0 ] == '*' )
+                return true;
+        return false;
     }
 
     void countTwoDotsAndSlash( string path, int index, size_t& count, size_t& i, size_t& j, size_t& k ) {

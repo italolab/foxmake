@@ -46,7 +46,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
 
     string replacePath = "";
     if ( src2.find( "**" ) != string::npos ) {
-        replacePath = io::path::recursiveDirPathToReplace( src2 );
+        replacePath = io::path::jokerJokerBeforePath( src2 );
     } else {
         
         replacePath = io::path::dirPath( src2 );
@@ -58,7 +58,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
 
         size_t i = fileName.find( '*' );
         if ( i != string::npos ) {
-            string srcDir = io::path::removeRecursiveJoker( src2 );
+            string srcDir = io::path::removeJokerJoker( src2 );
             srcDir = io::path::dirPath( srcDir );
 
             if ( !io::fileExists( srcDir ) ) {

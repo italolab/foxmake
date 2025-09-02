@@ -56,9 +56,6 @@ namespace path {
     string absolutePath( string path );
     string relativePath( string path );
     string parentPath( string path );
-    string recursiveDirPath( string path );
-    string recursiveFileOrDirName( string path );
-    string recursiveDirPathToReplace( string path );
     string dirPath( string path );
     string fileOrDirName( string path );
     string fileOrDirNameWithoutExtension( string pathOrName );
@@ -67,15 +64,20 @@ namespace path {
     string makePreferred( string path );
     string makeUnixPreferred( string path );
     string extension( string path );
-    string removeRecursiveJoker( string path );
-    string removeInitTwoDotsAndSlash( string relativePath );
-    char fileSeparator();
+    char preferredSeparator();
+
+    string jokerJokerDirPath( string path );
+    string jokerJokerAfterPath( string path );
+    string jokerJokerBeforePath( string path );
+    string removeJokerJoker( string path );
+
+    bool isJokerInPath( string path );
 
     string resolvePath( string currDir, string path );
     string resolvePath( string path );
     string absoluteResolvePath( string path );
 
-    bool isJokerInPath( string path );
+    string removeInitTwoDotsAndSlash( string relativePath );
 
 }
 
