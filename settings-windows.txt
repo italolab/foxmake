@@ -57,5 +57,5 @@ task compile before
 endtask
 
 task finish after    
-    #@./build/cbuild testbuild --settings-file=settings-linux-run.txt
+    
 endtask

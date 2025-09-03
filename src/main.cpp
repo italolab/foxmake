@@ -4,7 +4,7 @@
 #include <locale>
 
 #ifdef _WIN32
-    const string PT_BR_LOCALE = "Portuguese_Brazil.1252";
+    const string PT_BR_LOCALE = "portuguese-brazilian";
 #else
     const string PT_BR_LOCALE = "pt_BR.UTF-8";
 #endif

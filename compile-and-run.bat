@@ -10,5 +10,5 @@ if not "%~3" == "" (
         set target=%4
     )
 
-    .\build\cbuild.exe %3 --working-dir=run --settings-file=settings-windows.txt -var target=!target!
+    .\build\cbuild.exe %3 --working-dir=run --settings-file=settings-windows-run.txt -var target=!target!
 )
