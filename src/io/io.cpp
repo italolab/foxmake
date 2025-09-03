@@ -387,7 +387,8 @@ namespace path {
     }
 
     string fileOrDirNameWithoutExtension( string pathOrName ) {
-        string name = fileOrDirName( makeUnixPreferred( pathOrName ) );
+        string name = makeUnixPreferred( pathOrName );
+        name = fileOrDirName( name );
 
         size_t i = name.find( '.' );
         if ( i == string::npos )
@@ -473,15 +474,16 @@ namespace path {
 
         filesystem::path p( path2 );
         if ( p.is_absolute() ) {
-            return makeUnixPreferred( path2 );
+            return path2;
         } else {
             string pp = currentPath();
-            
+            pp = makeUnixPreferred( pp );
+
             if ( path2 != "" )
                 pp = addSeparatorToDirIfNeed( pp );
                 
             pp += path2;
-            return makeUnixPreferred( pp );
+            return pp;
         }
     }
 
@@ -497,7 +499,7 @@ namespace path {
         if ( p.is_absolute() ) {
             return filesystem::relative( path2, currentPath() ).string();
         } else {
-            return makeUnixPreferred( path2 );
+            return path2;
         }
     }
 
@@ -643,6 +645,7 @@ namespace path {
 
     string resolvePath( string currDir, string path ) {
         string resolvedPath = makeUnixPreferred( path );
+        
         if ( strutil::startsWith( resolvedPath, "./" ) )
             resolvedPath = strutil::replace( resolvedPath, "./", "" );
 

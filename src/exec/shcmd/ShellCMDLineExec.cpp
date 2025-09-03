@@ -1,5 +1,5 @@
 
-#include "ShellCMDExec.h"
+#include "ShellCMDLineExec.h"
 #include "../ExecManager.h"
 #include "../stexcept.h"
 #include "../../io/io.h"
@@ -11,7 +11,7 @@
 #include "../../info_messages.h"
 #include "../../consts.h"
 
-void ShellCMDExec::exec( ShellCMD* shellCMD, void* mgr ) {
+void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
     string cmdstr = shellCMD->getCMDStr();

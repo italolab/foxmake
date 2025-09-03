@@ -2,6 +2,7 @@
 #include "Statement.h"
 #include "Block.h"
 #include "Task.h"
+#include "Proc.h"
 
 Statement::Statement( Statement* parent, int lineNumber, string line ) {
     this->parent = parent;
@@ -24,9 +25,18 @@ Statement* Statement::getTask() {
     if ( dynamic_cast<Task*>( this ) )
         return this;
 
-    if ( Statement::getParent() == nullptr )
+    if ( parent == nullptr )
         return nullptr;
     return ((Block*)parent)->getTask();
+}
+
+Statement* Statement::getProc() {
+    if ( dynamic_cast<Proc*>( this ) )
+        return this;
+    
+    if ( parent == nullptr )
+        return nullptr;
+    return ((Block*)parent)->getProc();
 }
 
 Statement* Statement::getParent() {

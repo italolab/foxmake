@@ -2,6 +2,7 @@
 #define CMD_INTER_H
 
 #include "Inter.h"
+#include "../darv/CMD.h"
 
 #include <string>
 
@@ -17,6 +18,17 @@ class CMDInter : public Inter{
                 int& numberOfLinesReaded, 
                 void* mgr );
 
+        InterResult* newCMD( 
+                CMD** cmd, 
+                Block* parent,
+                string cmdName, 
+                string line,
+                int numberOfLinesReaded,  
+                int argc, 
+                char* argv[] );
+
+        void loadCMDNameAndLine( int argc, char* argv[], string& cmdName, string& cmdLine );
+        
     public:
         InterResult* interprets( 
                 Block* parent, 

@@ -19,9 +19,11 @@ class Statement {
         Statement* getRoot();
         Statement* getParent();
         Statement* getTask();
+        Statement* getProc();
 
         int getNumberOfLinesReaded();
         string getLine();
+
 };
 
 #endif

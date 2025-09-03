@@ -9,7 +9,7 @@
 #include "taskdef/TaskDefinitionInter.h"
 #include "taskdef/TaskDefinitionResult.h"
 #include "CMDInter.h"
-#include "ShellCMDInter.h"
+#include "ShellCMDLineInter.h"
 #include "PropInter.h"
 #include "VarInter.h"
 #include "InterResult.h"
@@ -25,7 +25,7 @@ class InterManager {
         TaskInter* taskInter;
         ProcInter* procInter;
         CMDInter* cmdInter;
-        ShellCMDInter* shellCMDInter;
+        ShellCMDLineInter* shellCMDInter;
         PropInter* propInter;
         VarInter* varInter;
         DefaultTaskConfigInter* defaultTaskConfigInter;

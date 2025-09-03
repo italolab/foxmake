@@ -7,10 +7,10 @@
 #include "task/LinkOrArchiveTaskExec.h"
 #include "task/TestTaskExec.h"
 #include "task/CopyTaskExec.h"
-#include "../Exec.h"
+#include "../../darv/CMD.h"
 #include "../../darv/MainScript.h"
 
-class MainExec : public Exec {
+class MainExec {
 
     private:
         MainCMDInterpreter* mainCMDInterpreter;

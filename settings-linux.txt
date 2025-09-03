@@ -34,9 +34,9 @@ test.lib.dirs=lib
 test.include.dirs=include
 test.libs=cbtest
 
-task compile verbose;
+task compile noverbose;
 
-task compileall before
+proc archive_and_copy_cbtest
     echo
     rm -r include/*.h
     rm lib/libcbtest.a
@@ -46,18 +46,14 @@ task compileall before
     cp -r ../cbtest/src/**/*.h include
     cp ../cbtest/build/libcbtest.a lib/
     echo
+endproc
+
+task compileall before
+   call archive_and_copy_cbtest
 endtask
 
 task compile before
-    echo
-    rm -r include/*.h
-    rm lib/libcbtest.a
-    
-    @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
-    
-    cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/libcbtest.a lib/
-    echo
+    call archive_and_copy_cbtest
 endtask
 
 task finish after    

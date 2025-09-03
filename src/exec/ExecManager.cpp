@@ -4,6 +4,7 @@
 #include "../darv/DefaultTaskConfig.h"
 #include "../darv/Task.h"
 #include "../darv/GenericCMD.h"
+#include "../darv/CallCMD.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/io.h"
@@ -34,7 +35,6 @@ ExecManager::ExecManager() {
     cdExec = new CDExec();
     mkdirExec = new MKDirExec();
     echoExec = new EchoExec();
-    callExec = new CallExec();
 
     validCMDNames.push_back( "cd" );
     validCMDNames.push_back( "cp" );
@@ -43,7 +43,7 @@ ExecManager::ExecManager() {
     validCMDNames.push_back( "echo" );
     validCMDNames.push_back( "call" );
 
-    shellCMDExec = new ShellCMDExec();
+    shellCMDExec = new ShellCMDLineExec();
 }
 
 ExecManager::~ExecManager() {
@@ -59,9 +59,6 @@ ExecManager::~ExecManager() {
     delete rmExec;
     delete echoExec;
     delete mkdirExec;
-    delete shellCMDExec;
-    delete callExec;
-
     delete shellCMDExec;
 }
 
@@ -98,26 +95,35 @@ void ExecManager::executeStatement( Statement* st ) {
     if ( dynamic_cast<CMD*>( st ) ) {
         CMD* cmd = (CMD*)st;
         
-        string cmdName = cmd->getName();
-        if ( cmdName == "cd" ) {
-            cdExec->exec( cmd, this );
-        } else if ( cmdName == "cp" ) {
-            cpExec->exec( cmd, this );
-        } else if ( cmdName == "rm" ) {
-            rmExec->exec( cmd, this );
-        } else if ( cmdName == "echo" ) {
-            echoExec->exec( cmd, this );
-        } else if ( cmdName == "mkdir" ) {
-            mkdirExec->exec( cmd, this );
-        } else if ( cmdName == "call" ) {
-            callExec->exec( cmd, this );
+        if ( dynamic_cast<CallCMD*>( cmd ) ) {
+            CallCMD* callCMD = (CallCMD*)cmd;
+            Proc* proc = callCMD->getProc();
+            if ( proc == nullptr ) {
+                messagebuilder b ( errors::runtime::NULL_PROC );
+                b << __func__;
+                throw runtime_error( b.str() );
+            }
+            this->executeBlockStatements( proc );
         } else {
-            messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
-            b << cmd->getName();
-            throw runtime_error( b.str() );
+            string cmdName = cmd->getName();
+            if ( cmdName == "cd" ) {
+                cdExec->exec( cmd, this );
+            } else if ( cmdName == "cp" ) {
+                cpExec->exec( cmd, this );
+            } else if ( cmdName == "rm" ) {
+                rmExec->exec( cmd, this );
+            } else if ( cmdName == "echo" ) {
+                echoExec->exec( cmd, this );
+            } else if ( cmdName == "mkdir" ) {
+                mkdirExec->exec( cmd, this );
+            } else {
+                messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
+                b << cmd->getName();
+                throw runtime_error( b.str() );
+            }
         }
-    } else if ( dynamic_cast<ShellCMD*>( st ) ) {
-        shellCMDExec->exec( (ShellCMD*)st, this );
+    } else if ( dynamic_cast<ShellCMDLine*>( st ) ) {
+        shellCMDExec->exec( (ShellCMDLine*)st, this );
     } else {
         messagebuilder b( errors::runtime::INVALID_STATEMENT_TYPE );
         b << st->getLine();

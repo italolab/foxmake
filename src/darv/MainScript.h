@@ -41,12 +41,12 @@ class MainScript : public Block {
         Task* getTask( string taskName, TaskExecution taskExecution );
         bool existsTask( string taskName );
         bool existsTask( string taskName, TaskExecution taskExecution );
-        vector<Task*>& tasks();
+        vector<Task*>& getTasks();
 
         void addProc( Proc* proc );
         Proc* getProc( string procName );
         bool existsProc( string procName );
-        vector<Proc*>& procs();
+        vector<Proc*>& getProcs();
 
         void addDefaultTaskConfig( DefaultTaskConfig* config );
         DefaultTaskConfig* getDefaultTaskConfig( string taskName );

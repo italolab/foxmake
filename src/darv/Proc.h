@@ -13,8 +13,12 @@ class Proc : public Block {
         string name;
     
     public:
+        const string CALL_CMD_NAME = "call";
+
         Proc( Statement* parent, string name, int numberOfLinesReaded, string line );
 
+        Proc* newProc( Statement* newParent );
+        
         string getName();
         void setName( string name );
 

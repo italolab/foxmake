@@ -1,11 +1,11 @@
 #ifndef RM_EXEC_H
 #define RM_EXEC_H
 
-#include "../Exec.h"
+#include "../../darv/CMD.h"
 
 #include <string>
 
-class RMExec : public Exec {
+class RMExec {
 
     public:
         void exec( CMD* cmd, void* mgr );

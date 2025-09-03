@@ -72,7 +72,7 @@ bool MainScript::existsTask( string taskName, TaskExecution taskExecution ) {
     return false;
 }
 
-vector<Task*>& MainScript::tasks() {
+vector<Task*>& MainScript::getTasks() {
     return tasksVect;
 }
 
@@ -94,7 +94,7 @@ bool MainScript::existsProc( string procName ) {
     return false;
 }
     
-vector<Proc*>& MainScript::procs() {
+vector<Proc*>& MainScript::getProcs() {
     return procsVect;
 }
 

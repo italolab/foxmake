@@ -1,17 +1,14 @@
 #ifndef EXEC_MANAGER_H
 #define EXEC_MANAGER_H
 
-#include "Exec.h"
 #include "MainCMDArgManager.h"
 #include "main/MainExec.h"
-#include "shcmd/ShellCMDExec.h"
 #include "cp/CPExec.h"
 #include "rm/RMExec.h"
 #include "cd/CDExec.h"
 #include "mkdir/MKDirExec.h"
 #include "echo/EchoExec.h"
-#include "shcmd/ShellCMDExec.h"
-#include "call/CallExec.h"
+#include "shcmd/ShellCMDLineExec.h"
 #include "../darv/Statement.h"
 #include "../darv/MainScript.h"
 #include "../darv/Task.h"
@@ -46,9 +43,8 @@ class ExecManager : public InterDriver {
         CDExec* cdExec;
         MKDirExec* mkdirExec;
         EchoExec* echoExec;
-        CallExec* callExec;
 
-        ShellCMDExec* shellCMDExec;
+        ShellCMDLineExec* shellCMDExec;
 
         vector<string> validCMDNames;
 

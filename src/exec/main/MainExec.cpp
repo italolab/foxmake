@@ -172,7 +172,7 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
-    vector<Task*> tasks = manager->getMainScript()->tasks();
+    vector<Task*> tasks = manager->getMainScript()->getTasks();
     for( Task* task : tasks ) {
         string taskName = task->getName();
 

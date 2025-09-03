@@ -1,6 +1,6 @@
 
-#include "ShellCMDInter.h"
-#include "../darv/ShellCMD.h"
+#include "ShellCMDLineInter.h"
+#include "../darv/ShellCMDLine.h"
 #include "../util/strutil.h"
 #include "../msg/messagebuilder.h"
 
@@ -11,7 +11,7 @@
 using std::stringstream;
 using std::istringstream;
 
-InterResult* ShellCMDInter::interprets( 
+InterResult* ShellCMDLineInter::interprets( 
             Block* parent, 
             BlockIterator* it, 
             string currentLine, 
@@ -89,7 +89,7 @@ InterResult* ShellCMDInter::interprets(
 
     delete replaceResult;
 
-    ShellCMD* shellCMD = new ShellCMD( parent, cmdstr, numberOfLinesReaded, currentLine );
+    ShellCMDLine* shellCMD = new ShellCMDLine( parent, cmdstr, numberOfLinesReaded, currentLine );
 
     if ( parent != nullptr )
         parent->addStatement( shellCMD );

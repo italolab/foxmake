@@ -11,7 +11,7 @@ InterManager::InterManager( InterDriver* drv ) {
     this->taskDefinitionInter = new TaskDefinitionInter();
     this->defaultTaskConfigInter = new DefaultTaskConfigInter();
     this->cmdInter = new CMDInter();
-    this->shellCMDInter = new ShellCMDInter();
+    this->shellCMDInter = new ShellCMDLineInter();
     this->propInter = new PropInter();
     this->varInter = new VarInter();
 }

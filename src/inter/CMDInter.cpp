@@ -1,9 +1,10 @@
 
 #include "CMDInter.h"
 #include "InterManager.h"
-#include "../darv/CMD.h"
+#include "../darv/CallCMD.h"
 #include "../darv/Prop.h"
 #include "../util/strutil.h"
+#include "../msg/messagebuilder.h"
 
 #include "../error_messages.h"
 
@@ -45,19 +46,15 @@ InterResult* CMDInter::interprets( Block* parent, string line, int& numberOfLine
 InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int& numberOfLinesReaded, void* mgr ) {
     string line = "";
     string cmdName = "";
-    if ( argc > 0 ) {
-        cmdName = argv[ 0 ];
+    this->loadCMDNameAndLine( argc, argv, cmdName, line );
 
-        stringstream ss;
-        for( int i = 0; i < argc; i++ ) {
-            ss << argv[ i ];
-            if ( i < argc-1 )
-                ss << " ";
-        }
-        line = ss.str();
-    }
+    CMD* cmd = nullptr;
+    InterResult* result = this->newCMD( 
+            &cmd, parent, cmdName, line, numberOfLinesReaded, argc, argv );
 
-    CMD* cmd = new CMD( parent, numberOfLinesReaded, line );
+    if ( cmd == nullptr || result->isErrorFound() )
+        return result;
+
     cmd->setName( cmdName );
     cmd->setCMDStr( line );
     
@@ -109,4 +106,58 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int& n
     numberOfLinesReaded++;
 
     return new InterResult( cmd, numberOfLinesReaded, 0 );
+}
+
+InterResult* CMDInter::newCMD( 
+                CMD** cmd, 
+                Block* parent,
+                string cmdName, 
+                string line,
+                int numberOfLinesReaded,  
+                int argc, 
+                char* argv[] ) {
+    if ( cmdName == "call" ) {
+        if ( argc < 2 )
+            return new InterResult( line, numberOfLinesReaded, 0, errors::PROC_NAME_NOT_INFORMED );
+        
+        string procName = argv[ 1 ];
+
+        Statement* root = parent->getRoot();
+        if ( root == nullptr ) {
+            messagebuilder b( errors::runtime::NULL_ROOT_STATEMENT );
+            b << __func__;
+            throw runtime_error( b.str() );
+        }
+
+        MainScript* script = (MainScript*)root;
+        Proc* proc = script->getProc( procName );
+        if ( proc == nullptr ) {
+            messagebuilder b( errors::PROC_NOT_FOUND );
+            b << procName;
+            return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+        }
+
+        Proc* newProc = proc->newProc( parent );
+        *cmd = new CallCMD( parent, newProc, numberOfLinesReaded, line );        
+    } else {
+        *cmd = new CMD( parent, numberOfLinesReaded, line );
+    }
+
+    return new InterResult( true );
+}
+
+void CMDInter::loadCMDNameAndLine( int argc, char* argv[], string& cmdName, string& line ) {
+    line = "";
+    cmdName = "";
+    if ( argc > 0 ) {
+        cmdName = argv[ 0 ];
+
+        stringstream ss;
+        for( int i = 0; i < argc; i++ ) {
+            ss << argv[ i ];
+            if ( i < argc-1 )
+                ss << " ";
+        }
+        line = ss.str();
+    }
 }

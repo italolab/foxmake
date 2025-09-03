@@ -36,21 +36,21 @@ test.libs=cbtest
 $project_name=cbuild
 
 task copy showoutput;
-task compile verbose;
+task compile noverbose;
 
-proc 123proc
+proc echo123
     echo 123
 endproc
 
 task compile after
     echo 000
-    call 123proc
+    call echo123
     echo 456
 endtask
 
 task copy after
     echo Copia...
-    call 123proc
+    call echo123
 
     @echo "abc"
     shellbegin

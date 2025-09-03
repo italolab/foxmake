@@ -22,6 +22,13 @@ Var* Block::getVar( string varName ) {
     return nullptr;
 }
 
+void Block::load( map<string, Var*>& localVarsMap2, vector<Statement*> statementsVect2 ) {
+    for( const auto& pair : localVarsMap2 )
+        localVarsMap[ pair.first ] = pair.second;
+
+    statementsVect.insert( statementsVect.end(), statementsVect2.begin(), statementsVect2.end() );
+}
+
 void Block::putLocalVar( string name, string value ) {
     localVarsMap[ name ] = new Var( this, name, value, 0, "" );
 }
@@ -47,6 +54,10 @@ vector<string> Block::localVarNames() {
     return names;
 }
 
+map<string, Var*>& Block::getLocalVarsMap() {
+    return localVarsMap;
+}
+
 void Block::addStatement( Statement* st ) {
     statementsVect.push_back( st );
 }
@@ -59,7 +70,7 @@ Statement* Block::getStatementByIndex( int i ) {
     return statementsVect[ i ];
 }
 
-vector<Statement*>& Block::statements() {
+vector<Statement*>& Block::getStatements() {
     return statementsVect;
 }
 

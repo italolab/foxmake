@@ -1,5 +1,5 @@
-#ifndef SHELL_CMD_INTER_H
-#define SHELL_CMD_INTER_H
+#ifndef SHELL_CMD_LINE_INTER_H
+#define SHELL_CMD_LINE_INTER_H
 
 #include "Inter.h"
 #include "it/BlockIterator.h"
@@ -8,7 +8,7 @@
 
 using std::string;
 
-class ShellCMDInter : public Inter {
+class ShellCMDLineInter : public Inter {
 
     public:
         InterResult* interprets( 
