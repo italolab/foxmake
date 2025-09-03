@@ -82,7 +82,7 @@ task finish after
     cp ../include/test/cbtest.h $(build.dir)/cbtest.h
     cp ../include/test/cbtest.h $(build.dir)/cbtest.h
 
-    #cp -r $(src.dir) $(build.dir)/source
+    cp -r $(src.dir) $(build.dir)/source
 
     mkdir include
     cp -r ../../cbtest/src/**/*.h build/include
