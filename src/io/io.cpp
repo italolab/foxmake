@@ -191,13 +191,13 @@ namespace io {
             string forReplace = path::makeUnixPreferred( srcDir );
             forReplace = path::addSeparatorToDirIfNeed( forReplace );
 
+            string preferredSrcDir = path::makePreferred( srcDir );
             string preferredTargetDir = path::makePreferred( targetDir );
-            if ( !fileExists( preferredTargetDir ) )
+            if ( fileExists( preferredSrcDir ) && !fileExists( preferredTargetDir ) )
                 createDir( preferredTargetDir );
 
-            string preferredSrc = path::makePreferred( srcDir );
             if ( isRecursive ) {
-                for( const auto& entry : filesystem::recursive_directory_iterator( preferredSrc ) ) {
+                for( const auto& entry : filesystem::recursive_directory_iterator( preferredSrcDir ) ) {
                     string preferredFile = entry.path().string();
                     if ( filesystem::is_directory( preferredFile ) )
                         continue;
@@ -205,7 +205,7 @@ namespace io {
                     __copyFile( preferredFile, preferredTargetDir, forReplace, isOverwriteExisting );
                 }
             } else {
-                for( const auto& entry : filesystem::directory_iterator( preferredSrc ) ) {
+                for( const auto& entry : filesystem::directory_iterator( preferredSrcDir ) ) {
                     string preferredFile = entry.path().string();
                     if ( filesystem::is_directory( preferredFile ) )
                         continue;
