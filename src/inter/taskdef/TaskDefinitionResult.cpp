@@ -10,7 +10,7 @@ TaskDefinitionResult::TaskDefinitionResult( string taskName, vector<string>& fla
 
 TaskDefinitionResult::TaskDefinitionResult( string errorMsg ) {
     this->errorMsg = errorMsg;
-    this->status = ERROR;
+    this->status = HAS_ERROR;
 }
 
 TaskDefinitionResult::TaskDefinitionResult( int status ) {

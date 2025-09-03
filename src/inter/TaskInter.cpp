@@ -43,7 +43,7 @@ InterResult* TaskInter::interprets(
     int status = result->getStatus();
     if ( status == TaskDefinitionResult::NO_CONFIG ) {
         return new InterResult( false );
-    } else if ( status == TaskDefinitionResult::ERROR ) {
+    } else if ( status == TaskDefinitionResult::HAS_ERROR ) {
         return new InterResult( currentLine, numberOfLinesReaded, 0, result->getErrorMsg() );        
     } 
     

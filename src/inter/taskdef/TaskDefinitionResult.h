@@ -19,7 +19,7 @@ class TaskDefinitionResult {
     public:
         static const int OK = 0;
         static const int NO_CONFIG = 1;
-        static const int ERROR = 2;
+        static const int HAS_ERROR = 2;
 
         TaskDefinitionResult( string taskName, vector<string>& flags, bool finish );
         TaskDefinitionResult( string errorMsg );

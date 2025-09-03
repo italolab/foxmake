@@ -1,35 +1,36 @@
+#ifdef __WIN32
+    #include <windows.h>
+#endif
+
 #include "exec/ExecManager.h"
 
-#include <stdexcept>
 #include <locale>
+#include <string>
+#include <cstring>
+
+#include <iostream>
+
+using namespace std;
 
 #ifdef _WIN32
-    const string PT_BR_LOCALE = "portuguese-brazilian";
+    const string PT_BR_LOCALE = "C";
 #else
     const string PT_BR_LOCALE = "pt_BR.UTF-8";
 #endif
 
 const string DEFAULT_LOCALE = "";
 
-bool setLocale( string locale ) {
-    try {
-        std::locale testlocale( PT_BR_LOCALE );
-        setlocale( LC_ALL, locale.c_str() );
-        return true;
-    } catch ( const std::runtime_error& ) {
-        return false;
-    }
-}
-
 int main( int argc, char* argv[] ) {  
-    try {
-        std::locale testlocale( PT_BR_LOCALE );
-        setlocale( LC_ALL, PT_BR_LOCALE.c_str() );
-        return true;
-    } catch ( const std::runtime_error& ) {
-        setlocale( LC_ALL, DEFAULT_LOCALE.c_str() );
-    }
-            
+    char* defaultLocale = setlocale( LC_ALL, nullptr );
+    
+    std::setlocale( LC_ALL, PT_BR_LOCALE.c_str() );
+    if ( strcmp( setlocale( LC_ALL, nullptr ), "C" ) == 0 )
+        std::setlocale( LC_ALL, defaultLocale );        
+      
+    #ifdef _WIN32
+        SetConsoleOutputCP( CP_UTF8 );
+    #endif
+
     ExecManager* manager = new ExecManager();
     manager->exec( argc, argv );
 

@@ -57,7 +57,7 @@ InterResult* DefaultTaskConfigInter::interprets(
             parent->addDefaultTaskConfig( config );
 
         return new InterResult( config, numberOfLinesReaded, currentLine.length() );
-    } else if ( status == TaskDefinitionResult::ERROR ) {
+    } else if ( status == TaskDefinitionResult::HAS_ERROR ) {
         string errorMsg = result->getErrorMsg();
         return new InterResult( currentLine, numberOfLinesReaded, 0, errorMsg );        
     } else if ( status == TaskDefinitionResult::NO_CONFIG ) {
