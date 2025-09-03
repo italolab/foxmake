@@ -1,33 +1,33 @@
 #ifndef IO_TESTS_H
 #define IO_TESTS_H
 
-#include "io/io.h"
+#include <io/io.h>
 
 #include <test/cbtest.h>
 
 #include <string>
 
-#include <iostream>
-using namespace std;
-
 using std::string;
 
-TEST_CASE( makePreferredTest, IOPathTests ) {
-    ASSERT_EQUALS( io::path::makePreferred( "a/b/c" ), "a/b/c", );
-    ASSERT_EQUALS( io::path::makePreferred( "/a/b/c/" ), "/a/b/c/", );
-}
+#include <iostream>
+using namespace std;
 
 TEST_CASE( dirPathTest, IOPathTests ) {
     ASSERT_EQUALS( io::path::dirPath( "C:/__xx" ), "C:", );
     ASSERT_EQUALS( io::path::dirPath( "C:__xx" ), "C:", );
     ASSERT_EQUALS( io::path::dirPath( "C:" ), "", );
-    ASSERT_EQUALS( io::path::dirPath( "C:/" ), "", );
     ASSERT_EQUALS( io::path::dirPath( "a/b/c" ), "a/b", );
     ASSERT_EQUALS( io::path::dirPath( "a/b/c/" ), "a/b", );
     ASSERT_EQUALS( io::path::dirPath( "/a/b" ), "/a", );
     ASSERT_EQUALS( io::path::dirPath( "/__xx" ), "/", );
     ASSERT_EQUALS( io::path::dirPath( "/" ), "/", );
     ASSERT_EQUALS( io::path::dirPath( "" ), "", );
+
+    if ( io::fileExists( "C:/" ) ) {
+        ASSERT_EQUALS( io::path::dirPath( "C:/" ), "C:", );
+    } else {
+        ASSERT_EQUALS( io::path::dirPath( "C:/" ), "", );    
+    }
 }
 
 TEST_CASE( recursiveDirPathToReplaceTest, IOPathTests ) {

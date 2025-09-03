@@ -192,10 +192,10 @@ namespace io {
             string destDir2 = path::makeUnixPreferred( destDir );
             destDir2 = path::addSeparatorToDirIfNeed( destDir2 );
 
-            filesystem::path src = path::makeUnixPreferred( srcFile );
+            string src = path::makeUnixPreferred( srcFile );
             string fname = path::fileOrDirName( srcFile );
 
-            filesystem::path dest = destDir2 + fname;
+            string dest = destDir2 + fname;
 
             src = path::makePreferred( src );
             dest = path::makePreferred( dest );
@@ -402,7 +402,7 @@ namespace path {
 
     string currentPath() {
         filesystem::path currPathFS = filesystem::current_path();
-        return currPathFS.string();
+        return makeUnixPreferred( currPathFS.string() );
     }
 
     string makePreferred( string path ) {
@@ -459,7 +459,7 @@ namespace path {
 
     string absolutePath( string path ) {
         if ( path == "." )
-            return currentPath();
+            return makeUnixPreferred( currentPath() );
 
         string path2 = makeUnixPreferred( path );
         if ( strutil::startsWith( path2, "./" ) )
@@ -497,7 +497,8 @@ namespace path {
 
         filesystem::path p( path2 );
         if ( p.is_absolute() ) {
-            return filesystem::relative( path2, currentPath() ).string();
+            path2 = filesystem::relative( path2, currentPath() ).string();
+            return makeUnixPreferred( path2 ); 
         } else {
             return path2;
         }

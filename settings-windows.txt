@@ -1,7 +1,12 @@
-is.dll=false
 
 compiler=g++
 output.file.name=cbuild.exe
+
+src.dir=src
+test.dir=test
+build.dir=build
+
+build.files=
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
@@ -13,10 +18,44 @@ $release_obj_dir=obj/Release
 $release_compiler_params=-Wall -fexceptions -O2 -std=c++17
 $release_linker_params=-s -static
 
+
 bin.dir=$($(target)_bin_dir)
 obj.dir=$($(target)_obj_dir)
 compiler.params=$($(target)_compiler_params)
 linker.params=$($(target)_linker_params)
 
-src.dir=src
-build.dir=build
+lib.dirs=
+include.dirs=
+libs=
+
+test.linker.params=
+
+test.lib.dirs=lib
+test.include.dirs=include
+test.libs=cbtest
+
+task compile noverbose;
+
+proc archive_and_copy_cbtest
+    echo
+    rm -r include/*.h
+    rm lib/libcbtest.lib
+    
+    @cbuild.exe archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
+    
+    cp -r ../cbtest/src/**/*.h include
+    cp ../cbtest/build/libcbtest.lib lib/
+    echo
+endproc
+
+task compileall before
+   call archive_and_copy_cbtest
+endtask
+
+task compile before
+    call archive_and_copy_cbtest
+endtask
+
+task finish after    
+    #@./build/cbuild testbuild --settings-file=settings-linux-run.txt
+endtask

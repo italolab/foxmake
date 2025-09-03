@@ -50,8 +50,8 @@ namespace io {
     
     long lastWriteTime( string path );
 
-
 namespace path {
+    
     string currentPath();
     string absolutePath( string path );
     string relativePath( string path );

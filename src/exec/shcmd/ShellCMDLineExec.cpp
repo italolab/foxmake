@@ -29,7 +29,7 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     #ifdef _WIN32
         if ( cmdstr.find( '\n' ) == string::npos ) {
             shell->pushCommand( consts::WINDOWS_CMD_EXE + " " + cmdstr );
-            result = shell->executa();
+            result = shell->execute();
         } else {
             shell->setVerbose( false );
 
@@ -37,7 +37,7 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
 
             io::writeInTextFile( consts::TEMP_BAT_FILE, cmdstr2 );
             shell->pushCommand( ".\\" + consts::TEMP_BAT_FILE );
-            result = shell->executa();
+            result = shell->execute();
             io::deleteFileOrDirectory( consts::TEMP_BAT_FILE );
         }
     #else
