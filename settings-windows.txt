@@ -41,7 +41,7 @@ proc archive_and_copy_cbtest
     rm -r include/*.h
     rm lib/libcbtest.lib
     
-    @cbuild.exe archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
+    @cbuild.exe archivebuildall --settings-file=../cbtest/settings-staticlib-windows.txt
     
     cp -r ../cbtest/src/**/*.h include
     cp ../cbtest/build/libcbtest.lib lib/
