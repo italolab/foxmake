@@ -29,14 +29,6 @@ InterResult* MainScriptInter::interpretsLine(
     return result;
 }
 
-string MainScriptInter::getEndToken() {
-    return "";
-}
-
-InterResult* MainScriptInter::getEndTokenNotFoundInterResult() {
-    return nullptr;
-}
-
 InterResult* MainScriptInter::interprets( 
             MainScript* script, 
             string file, 
@@ -44,6 +36,7 @@ InterResult* MainScriptInter::interprets(
 
     FileIterator* it = new FileIterator( file );
 
+    string endToken = "";
     int numberOfLinesReaded = 0;
-    return BlockInter::interpretsBlock( script, it, numberOfLinesReaded, mgr );
+    return BlockInter::interpretsBlock( script, it, numberOfLinesReaded, endToken, nullptr,  mgr );
 }

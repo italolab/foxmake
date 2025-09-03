@@ -13,13 +13,16 @@ class BlockInter : public Inter {
         InterResult* interpretsEnd( 
                 Block* block,
                 string currentLine, 
-                int& numberOfLinesReaded );
+                int& numberOfLinesReaded,
+                string endToken );
 
     protected:        
         InterResult* interpretsBlock( 
                 Block* block, 
                 BlockIterator* it, 
                 int& numberOfLinesReaded,
+                string endToken,
+                InterResult* endOfTokenNotFoundIR,
                 void* mgr );
 
         virtual InterResult* interpretsLine( 
@@ -28,9 +31,6 @@ class BlockInter : public Inter {
                 string currentLine, 
                 int& numberOfLinesReaded,
                 void* mgr ) = 0; 
-
-        virtual string getEndToken() = 0;
-        virtual InterResult* getEndTokenNotFoundInterResult() = 0;
 
 };
 

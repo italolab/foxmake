@@ -16,9 +16,6 @@ class MainScriptInter : public BlockInter {
             int& numberOfLinesReaded, 
             void* mgr );
         
-        string getEndToken();
-        InterResult* getEndTokenNotFoundInterResult();
-
     public:
         virtual ~MainScriptInter();
         InterResult* interprets( 

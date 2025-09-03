@@ -25,14 +25,6 @@ InterResult* ProcInter::interpretsLine(
     return new InterResult( false );
 }
 
-string ProcInter::getEndToken() {
-    return "procend";
-}
-
-InterResult* ProcInter::getEndTokenNotFoundInterResult() {
-    return endTokenNotFoundIResult;
-}
-
 /*
 O atributo endTokenNotFoundIResult é carregado dentro da função interprets. Logo, 
 depende dela para não ser nulo.
@@ -70,7 +62,7 @@ InterResult* ProcInter::interprets(
         }
     }
         
-    this->endTokenNotFoundIResult = new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_PROC_BLOCK_NOT_FOUND );
+    InterResult* endTokenNotFoundIResult = new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_PROC_BLOCK_NOT_FOUND );
 
     numberOfLinesReaded++;
 
@@ -79,7 +71,10 @@ InterResult* ProcInter::interprets(
     if ( parent != nullptr )
         parent->addProc( proc );
        
-    InterResult* blockIResult = BlockInter::interpretsBlock( proc, it, numberOfLinesReaded, mgr );
+    string endToken = "endproc";
+    InterResult* blockIResult = BlockInter::interpretsBlock( 
+                proc, it, numberOfLinesReaded, endToken, endTokenNotFoundIResult, mgr );
+
     if ( blockIResult->isErrorFound() )
         return blockIResult;
         

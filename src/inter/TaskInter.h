@@ -20,8 +20,6 @@ class TaskInter : public BlockInter {
             BEFORE,
             AFTER
         };
-
-        InterResult* endTokenNotFoundIResult;
     
         bool validateFlags( 
             MainScript* script, 
@@ -40,9 +38,6 @@ class TaskInter : public BlockInter {
             string currentLine, 
             int& numberOfLinesReaded, 
             void* mgr );
-
-        string getEndToken();
-        InterResult* getEndTokenNotFoundInterResult();
 
     public:
         virtual ~TaskInter();

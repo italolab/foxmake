@@ -25,14 +25,6 @@ InterResult* TaskInter::interpretsLine(
     return new InterResult( false );
 }
 
-string TaskInter::getEndToken() {
-    return "taskend";
-}
-
-InterResult* TaskInter::getEndTokenNotFoundInterResult() {
-    return endTokenNotFoundIResult;
-}
-
 /*
 O atributo endTokenNotFoundIResult é carregado dentro da função interprets. Logo, 
 depende dela para não ser nulo.
@@ -64,7 +56,7 @@ InterResult* TaskInter::interprets(
     string taskName = result->getTaskName();
     vector<string>& flags = result->getFlags();
 
-    this->endTokenNotFoundIResult = new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
+    InterResult* endTokenNotFoundIResult = new InterResult( currentLine, numberOfLinesReaded, 0, errors::END_OF_TASK_BLOCK_NOT_FOUND );
 
     string errorMsg;
 
@@ -89,7 +81,10 @@ InterResult* TaskInter::interprets(
     if ( parent != nullptr )
         parent->addTask( task );
        
-    InterResult* blockIResult = BlockInter::interpretsBlock( task, it, numberOfLinesReaded, mgr );
+    string endToken = "endtask";
+    InterResult* blockIResult = BlockInter::interpretsBlock( 
+                task, it, numberOfLinesReaded, endToken, endTokenNotFoundIResult, mgr );
+                
     if ( blockIResult->isErrorFound() )
         return blockIResult;
     

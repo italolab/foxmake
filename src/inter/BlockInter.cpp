@@ -16,6 +16,8 @@ InterResult* BlockInter::interpretsBlock(
             Block* block, 
             BlockIterator* it, 
             int& numberOfLinesReaded,
+            string endToken,
+            InterResult* endTokenNotFoundIR,
             void* mgr ) {
 
     InterManager* manager = (InterManager*)mgr;
@@ -46,7 +48,7 @@ InterResult* BlockInter::interpretsBlock(
             continue;
         }
 
-        InterResult* endIResult = this->interpretsEnd( block, line, numberOfLinesReaded );
+        InterResult* endIResult = this->interpretsEnd( block, line, numberOfLinesReaded, endToken );
         if ( endIResult->isInterpreted() ) {
             numberOfLinesReaded++;
             endFound = true;
@@ -84,10 +86,9 @@ InterResult* BlockInter::interpretsBlock(
         delete result;
     }
 
-    if ( !endFound && this->getEndToken() != "" ) {
-        InterResult* iresult = this->getEndTokenNotFoundInterResult();
-        if ( iresult != nullptr )            
-            return iresult;        
+    if ( !endFound && endToken != "" ) {
+        if ( endTokenNotFoundIR != nullptr )            
+            return endTokenNotFoundIR;        
         return new InterResult( "", numberOfLinesReaded, 0, errors::END_OF_BLOCK_NOT_FOUND );
     }
 
@@ -95,11 +96,9 @@ InterResult* BlockInter::interpretsBlock(
 }
 
 InterResult* BlockInter::interpretsEnd( 
-            Block* block, string currentLine, int& numberOfLinesReaded ) {
+            Block* block, string currentLine, int& numberOfLinesReaded, string endToken ) {
 
-    string endToken = this->getEndToken();
     if ( endToken != "" ) {
-
         istringstream iss( currentLine );
         if ( iss.peek() == EOF )
             return new InterResult( false );

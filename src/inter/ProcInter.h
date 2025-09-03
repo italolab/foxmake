@@ -13,17 +13,12 @@ using std::vector;
 class ProcInter : public BlockInter {
 
     private:
-        InterResult* endTokenNotFoundIResult;
-
         InterResult* interpretsLine( 
             Block* block, 
             BlockIterator* it, 
             string currentLine, 
             int& numberOfLinesReaded, 
             void* mgr );
-
-        string getEndToken();
-        InterResult* getEndTokenNotFoundInterResult();
 
     public:
         virtual ~ProcInter();
