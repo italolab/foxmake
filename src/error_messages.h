@@ -61,7 +61,8 @@ namespace errors {
     const string TASK_NOT_RECOGNIZED = "Tarefa não reconhecida.";
 
     const string PROC_NAME_NOT_INFORMED = "O nome do procedimento não foi informado.";
-    
+    const string PROC_NOT_FOUND = "Nenhum procedimento encontrado pelo nome: $1.";
+
     const string PROPERTY_NOT_DEFINED = "A propriedade \"$1\" deve ser definida.";
     const string PROPERTY_NOT_DEFINED_FOR_ARCHIVING = "A propriedade \"$1\" deve ter valor definido para o empacotamento da biblioteca estática.";
     const string PROPERTY_NOT_DEFINED_FOR_LINKING = "A propriedade \"$1\" deve ter valor definido para linkagem.";

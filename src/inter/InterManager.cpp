@@ -7,6 +7,7 @@ InterManager::InterManager( InterDriver* drv ) {
 
     this->mainScriptInter = new MainScriptInter();
     this->taskInter = new TaskInter();
+    this->procInter = new ProcInter();
     this->taskDefinitionInter = new TaskDefinitionInter();
     this->defaultTaskConfigInter = new DefaultTaskConfigInter();
     this->cmdInter = new CMDInter();
@@ -18,6 +19,7 @@ InterManager::InterManager( InterDriver* drv ) {
 InterManager::~InterManager() {
     delete mainScriptInter;
     delete taskInter;
+    delete procInter;
     delete taskDefinitionInter;
     delete defaultTaskConfigInter;
     delete cmdInter;
@@ -52,6 +54,10 @@ InterResult* InterManager::interpretsMainScript( MainScript* script, string file
 
 InterResult* InterManager::interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded ) {
     return taskInter->interprets( parent, it, currentLine, numberOfLinesReaded, this );
+}
+
+InterResult* InterManager::interpretsProc( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded ) {
+    return procInter->interprets( parent, it, currentLine, numberOfLinesReaded, this );
 }
 
 InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded ) {

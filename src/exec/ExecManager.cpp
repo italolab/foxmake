@@ -1,12 +1,6 @@
 
 #include "ExecManager.h"
 #include "stexcept.h"
-#include "cp/CPExec.h"
-#include "rm/RMExec.h"
-#include "cd/CDExec.h"
-#include "mkdir/MKDirExec.h"
-#include "echo/EchoExec.h"
-#include "shcmd/ShellCMDExec.h"
 #include "../darv/DefaultTaskConfig.h"
 #include "../darv/Task.h"
 #include "../darv/GenericCMD.h"
@@ -35,11 +29,19 @@ ExecManager::ExecManager() {
 
     mainExec = new MainExec();
 
-    execsMap[ cmds::CP ] = new CPExec();
-    execsMap[ cmds::RM ] = new RMExec();
-    execsMap[ cmds::CD ] = new CDExec();
-    execsMap[ cmds::MKDIR ] = new MKDirExec();
-    execsMap[ cmds::ECHO ] = new EchoExec();
+    cpExec = new CPExec();
+    rmExec = new RMExec();
+    cdExec = new CDExec();
+    mkdirExec = new MKDirExec();
+    echoExec = new EchoExec();
+    callExec = new CallExec();
+
+    validCMDNames.push_back( "cd" );
+    validCMDNames.push_back( "cp" );
+    validCMDNames.push_back( "rm" );
+    validCMDNames.push_back( "mkdir" );
+    validCMDNames.push_back( "echo" );
+    validCMDNames.push_back( "call" );
 
     shellCMDExec = new ShellCMDExec();
 }
@@ -52,8 +54,13 @@ ExecManager::~ExecManager() {
 
     delete mainExec;
 
-    for( const auto& pair : execsMap )
-        delete pair.second;
+    delete cdExec;
+    delete cpExec;
+    delete rmExec;
+    delete echoExec;
+    delete mkdirExec;
+    delete shellCMDExec;
+    delete callExec;
 
     delete shellCMDExec;
 }
@@ -90,15 +97,25 @@ void ExecManager::executeBlockStatements( Block* block ) {
 void ExecManager::executeStatement( Statement* st ) {
     if ( dynamic_cast<CMD*>( st ) ) {
         CMD* cmd = (CMD*)st;
-
-        Exec* exec = execsMap[ cmd->getName() ];
-        if ( exec == nullptr ) {
+        
+        string cmdName = cmd->getName();
+        if ( cmdName == "cd" ) {
+            cdExec->exec( cmd, this );
+        } else if ( cmdName == "cp" ) {
+            cpExec->exec( cmd, this );
+        } else if ( cmdName == "rm" ) {
+            rmExec->exec( cmd, this );
+        } else if ( cmdName == "echo" ) {
+            echoExec->exec( cmd, this );
+        } else if ( cmdName == "mkdir" ) {
+            mkdirExec->exec( cmd, this );
+        } else if ( cmdName == "call" ) {
+            callExec->exec( cmd, this );
+        } else {
             messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
             b << cmd->getName();
             throw runtime_error( b.str() );
         }
-
-        exec->exec( cmd, this );
     } else if ( dynamic_cast<ShellCMD*>( st ) ) {
         shellCMDExec->exec( (ShellCMD*)st, this );
     } else {
@@ -111,13 +128,17 @@ void ExecManager::executeStatement( Statement* st ) {
 
 void ExecManager::executeUserTaskIfExists( string taskName, TaskExecution taskExecution ) {
     Task* task = mainScript->getTask( taskName, taskExecution );
-    if ( task != nullptr ) {
-        int len = task->getStatementsLength();
-        for( int i = 0; i < len; i++ ) {
-            Statement* st = task->getStatementByIndex( i );
-            this->executeStatement( st );
-        }
+    if ( task != nullptr )
+        this->executeBlockStatements( task );
+}
+
+bool ExecManager::executeProc( string procName ) {
+    Proc* proc = mainScript->getProc( procName );
+    if ( proc != nullptr ) {
+        this->executeBlockStatements( proc );
+        return true;
     }
+    return false;
 }
 
 bool ExecManager::isDefaultTask( string taskName ) {
@@ -138,8 +159,8 @@ bool ExecManager::isValidProp( string propName ) {
 
 bool ExecManager::isValidCMD( string cmdName ) {
     vector<string> names;
-    for( const auto& pair : execsMap )
-        if ( pair.first == cmdName )
+    for( string validCMDName : validCMDNames )
+        if ( cmdName == validCMDName )
             return true;
     return false;
 }

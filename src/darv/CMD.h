@@ -31,14 +31,14 @@ class CMD : public GenericCMD {
 
         void addArg( string command );
         vector<string>& args();
-        string getArg( int i );
+        string getArgByIndex( int i );
         bool existsArg( string command );
         int countOpArgs();
         int countNoOpArgs();
         int getArgsLength();
 
-        string getOpArg( int i );
-        string getNoOpArg( int i );
+        string getOpArgByIndex( int i );
+        string getNoOpArgByIndex( int i );
 
         vector<string> getOpArgValues( string op );
 

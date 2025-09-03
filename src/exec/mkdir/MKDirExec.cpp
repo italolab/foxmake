@@ -29,7 +29,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
         throw st_error( cmd, b.str() );
     }
 
-    string dir = cmd->getNoOpArg( 0 );
+    string dir = cmd->getNoOpArgByIndex( 0 );
     bool isCreateParents = cmd->existsArg( "-p" );
 
     bool ok;

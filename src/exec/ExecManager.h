@@ -5,6 +5,13 @@
 #include "MainCMDArgManager.h"
 #include "main/MainExec.h"
 #include "shcmd/ShellCMDExec.h"
+#include "cp/CPExec.h"
+#include "rm/RMExec.h"
+#include "cd/CDExec.h"
+#include "mkdir/MKDirExec.h"
+#include "echo/EchoExec.h"
+#include "shcmd/ShellCMDExec.h"
+#include "call/CallExec.h"
 #include "../darv/Statement.h"
 #include "../darv/MainScript.h"
 #include "../darv/Task.h"
@@ -33,10 +40,18 @@ class ExecManager : public InterDriver {
         SourceCodeManager* testSourceCodeManager;
         MainCMDArgManager* mainCMDArgManager;
 
-        MainExec* mainExec;
         ShellCMDExec* shellCMDExec;
 
-        map<string, Exec*> execsMap;
+        MainExec* mainExec;
+        CPExec* cpExec;
+        RMExec* rmExec;
+        CDExec* cdExec;
+        MKDirExec* mkdirExec;
+        EchoExec* echoExec;
+        ShellCMDExec* shellCMDExec;
+        CallExec* callExec;
+
+        vector<string> validCMDNames;
 
     public:
         Output out;
@@ -55,6 +70,7 @@ class ExecManager : public InterDriver {
         bool isValidCMD( string propName );
 
         void executeUserTaskIfExists( string taskName, TaskExecution taskExecution );
+        bool executeProc( string procName );
 
         MainExec* getMainExec();
         MainScript* getMainScript();

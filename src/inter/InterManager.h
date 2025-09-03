@@ -4,6 +4,7 @@
 #include "InterDriver.h"
 #include "MainScriptInter.h"
 #include "TaskInter.h"
+#include "ProcInter.h"
 #include "DefaultTaskConfigInter.h"
 #include "taskdef/TaskDefinitionInter.h"
 #include "taskdef/TaskDefinitionResult.h"
@@ -21,11 +22,12 @@ class InterManager {
 
     private:
         MainScriptInter* mainScriptInter;
+        TaskInter* taskInter;
+        ProcInter* procInter;
         CMDInter* cmdInter;
         ShellCMDInter* shellCMDInter;
         PropInter* propInter;
         VarInter* varInter;
-        TaskInter* taskInter;
         DefaultTaskConfigInter* defaultTaskConfigInter;
         TaskDefinitionInter* taskDefinitionInter;
 
@@ -44,6 +46,7 @@ class InterManager {
 
         InterResult* interpretsMainScript( MainScript* script, string file );
         InterResult* interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded );
+        InterResult* interpretsProc( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded );
 
         InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded );
 

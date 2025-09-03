@@ -32,7 +32,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         throw st_error( cmd, b.str() );
     }
 
-    string file = cmd->getNoOpArg( 0 );
+    string file = cmd->getNoOpArgByIndex( 0 );
     bool isRecursive = cmd->existsArg( "-r" );
 
     file = io::path::absoluteResolvePath( file );

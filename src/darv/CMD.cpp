@@ -37,7 +37,7 @@ int CMD::countNoOpArgs() {
     return count;
 }
 
-string CMD::getOpArg( int i ) {
+string CMD::getOpArgByIndex( int i ) {
     int k = 0;
     for( string a : argsVect ) {
         if ( a.length() > 0 ) {
@@ -51,7 +51,7 @@ string CMD::getOpArg( int i ) {
     return "";
 }
 
-string CMD::getNoOpArg( int i ) {
+string CMD::getNoOpArgByIndex( int i ) {
     int k = 0;
     for( string a : argsVect ) {
         if ( a.length() > 0 ) {
@@ -76,7 +76,7 @@ void CMD::addArg( string arg ) {
     argsVect.push_back( arg );
 }
 
-string CMD::getArg( int i ) {
+string CMD::getArgByIndex( int i ) {
     return argsVect[ i ];
 }
 

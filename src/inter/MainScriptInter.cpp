@@ -25,6 +25,8 @@ InterResult* MainScriptInter::interpretsLine(
         result = manager->interpretsTask( script, it, currentLine, numberOfLinesReaded );
     if ( !result->isInterpreted() && !result->isErrorFound() )
         result = manager->interpretsDefaultTaskConfig( script, currentLine, numberOfLinesReaded );
+    if ( !result->isInterpreted() && !result->isErrorFound() )
+        result = manager->interpretsProc( script, it, currentLine, numberOfLinesReaded );
 
     return result;
 }

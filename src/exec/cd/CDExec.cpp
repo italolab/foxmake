@@ -26,12 +26,12 @@ void CDExec::exec( CMD* cmd, void* mgr ) {
     
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
-        messagebuilder b;
+        messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
         b << "1" << std::to_string( alen );
         throw st_error( cmd, b.str() );
     }
 
-    string newDir = cmd->getNoOpArg( 0 );
+    string newDir = cmd->getNoOpArgByIndex( 0 );
 
     if ( !io::fileExists( newDir ) )
         throw st_error( cmd, errors::DIRECTORY_NOT_FOUND );

@@ -35,8 +35,8 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
         b << "2" << std::to_string( alen );
         throw st_error( cmd, b.str() );
     }
-    string src = cmd->getNoOpArg( 0 );
-    string dest = cmd->getNoOpArg( 1 );
+    string src = cmd->getNoOpArgByIndex( 0 );
+    string dest = cmd->getNoOpArgByIndex( 1 );
 
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );

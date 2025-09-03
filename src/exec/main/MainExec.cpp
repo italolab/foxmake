@@ -221,7 +221,7 @@ void MainExec::showHelp( void* mgr ) {
     if ( count == 0 ) {
         out << helpmessage::helpMessage();
     } else if ( count > 0 ) {
-        string taskName = mainCMD->getNoOpArg( 0 );
+        string taskName = mainCMD->getNoOpArgByIndex( 0 );
         if ( taskName == tasks::CLEAN ) {
             out << helpmessage::cleanHelpMessage();
         } else if ( taskName == tasks::COMPILE ) {
