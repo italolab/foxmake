@@ -9,10 +9,7 @@
 
 void CallExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    
-    Output& out = manager->out;    
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
-    
+        
     int alen = cmd->countNoOpArgs();
     if ( alen != 1 ) {
         messagebuilder b;

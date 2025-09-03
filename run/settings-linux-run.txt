@@ -38,8 +38,19 @@ $project_name=cbuild
 task copy showoutput;
 task compile verbose;
 
+proc 123proc
+    echo 123
+endproc
+
+task compile after
+    echo 000
+    call 123proc
+    echo 456
+endtask
+
 task copy after
     echo Copia...
+    call 123proc
 
     @echo "abc"
     shellbegin

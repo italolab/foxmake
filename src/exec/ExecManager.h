@@ -40,16 +40,15 @@ class ExecManager : public InterDriver {
         SourceCodeManager* testSourceCodeManager;
         MainCMDArgManager* mainCMDArgManager;
 
-        ShellCMDExec* shellCMDExec;
-
         MainExec* mainExec;
         CPExec* cpExec;
         RMExec* rmExec;
         CDExec* cdExec;
         MKDirExec* mkdirExec;
         EchoExec* echoExec;
-        ShellCMDExec* shellCMDExec;
         CallExec* callExec;
+
+        ShellCMDExec* shellCMDExec;
 
         vector<string> validCMDNames;
 
