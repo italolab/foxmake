@@ -26,14 +26,37 @@ namespace io {
 
     bool createDir( string path );
     bool createDirs( string path );
+
     void copyFile( string srcFile, string destFile, bool isOverwriteExisting );
-    void copyDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive );
-    void copyFileOrDirectoryToDir( string srcPath, string destDir, bool isOverwriteExisting, bool isRecursive );
-    void copyFileToDir( string srcFile, string destDir, bool isOverwriteExisting );
-    void copyDirToDir( string srcDir, string destDir, bool isOverwriteExisting, bool isRecursive );
-    void copyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
-    void recursiveCopyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
-    bool deleteFileOrDirectory( string path );
+
+    void copyDir( 
+                string srcDir, 
+                string targetDir, 
+                bool isOverwriteExisting, 
+                bool isRecursive );
+
+    void copyFileOrDir( 
+        string srcPath, 
+        string targetDir, 
+        bool isOverwriteExisting, 
+        bool isRecursive );
+    
+    void copyFiles(
+                string srcDir, 
+                string targetDir, 
+                FileFilter* filter, 
+                bool isOverwriteExisting, 
+                bool isRecursive );
+
+    void copyFiles( 
+                string srcDir, 
+                string targetDir, 
+                string forReplacePath, 
+                FileFilter* filter, 
+                bool isOverwriteExisting, 
+                bool isRecursive );
+    
+    bool deleteFileOrDir( string path );
     int deleteFiles( string dir, FileFilter* filter );
     int recursiveDeleteFiles( string dir, FileFilter* filter );
     int recursiveDeleteDirectory( string dir );

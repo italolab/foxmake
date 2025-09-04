@@ -74,11 +74,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
             }
 
             FileFilter* filter = io::by_name_file_filter( fileName );
-            if ( isRecursive ) {
-                io::recursiveCopyFilesToDir( srcDir, dest2, replacePath, filter, isOverwrite );
-            } else {
-                io::copyFilesToDir( srcDir, dest2, replacePath, filter, isOverwrite );
-            }            
+            io::copyFiles( srcDir, dest2, replacePath, filter, isOverwrite, isRecursive );                       
         } else {
             if ( !io::fileExists( src2 ) ) {
                 messagebuilder b( errors::FILE_OR_FOLDER_NOT_FOUND );
@@ -106,7 +102,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
                 io::copyDir( src2, dest2, isOverwrite, isRecursive );
             } else {
                 if ( io::isDir( dest2 ) ) {
-                    io::copyFileOrDirectoryToDir( src2, dest2, isOverwrite, isRecursive );
+                    io::copyFileOrDir( src2, dest2, isOverwrite, isRecursive );
                 } else {
                     io::copyFile( src2, dest2, isOverwrite );
                 }

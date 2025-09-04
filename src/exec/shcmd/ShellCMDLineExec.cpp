@@ -56,7 +56,7 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
             shell->pushCommand( cmdstr );
             result = shell->execute();
 
-            io::deleteFileOrDirectory( tempBatFile );
+            io::deleteFileOrDir( tempBatFile );
         #else
             shell->pushCommand( cmdstr );
             result = shell->execute();

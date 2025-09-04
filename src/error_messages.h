@@ -93,9 +93,21 @@ namespace errors {
 
 namespace io {
 
-    const string SRC_DIR_NOT_FOUND = "O diretório de origem não existe.";
-    const string TARGET_DIR_NOT_FOUND = "O diretório de destino não existe.";
+    const string FILE_OR_FOLDER_NOT_FOUND = "O arquivo ou pasta não existe.";
+    const string FILE_NOT_FOUND = "O arquivo não existe.";
+    const string DIR_NOT_FOUND = "A pasta não existe.";
 
+    const string IS_NOT_A_DIR = "Não é um diretório.";
+    const string FOLDER_NOT_EMPTY = "Pasta não vazia.";
+
+    const string SRC_DIR_NOT_FOUND = "O diretório de origem não existe.";
+    const string TARGET_DIR_NOT_FOUND = "O diretório alvo não existe.";
+
+    const string SRC_IS_NOT_A_REGULAR_FILE = "A origem não é um arquivo regular.";
+    const string TARGET_IS_NOT_A_REGULAR_FILE = "O alvo não é um arquivo regular.";
+
+    const string SRC_IS_NOT_A_DIR = "A origem não é um diretório.";
+    const string TARGET_IS_NOT_A_DIR = "O alvo não é um diretório.";
 }
 
 namespace runtime {

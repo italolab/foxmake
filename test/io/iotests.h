@@ -34,6 +34,10 @@ TEST_CASE( copyFileTest, IOTests ) {
     io::copyFile( "temp/b.sh", "temp/build/b.sh", true );
     io::copyFile( "temp/b.sh", "temp/build/c.sh", true );
 
+    ASSERT_THROWS( io_error, {
+        io::copyFile( "temp/x.doc", "temp/build/x.doc", true );
+    }, )
+
     ASSERT_TRUE( io::fileExists( "temp/b.sh" ), )
     ASSERT_TRUE( io::fileExists( "temp/build/b.sh" ), )
     ASSERT_TRUE( io::fileExists( "temp/build/c.sh" ), )
@@ -52,10 +56,30 @@ TEST_CASE( copyFileTest, IOTests ) {
     ASSERT_THROWS( io_error, {
         io::copyFile( "temp/b.sh", "temp/c.bat", false );
     }, )
+
+    io::copyFile( "temp/c.bat", "temp/build", true );
+    ASSERT_TRUE( io::fileExists( "temp/c.bat" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/c.bat" ), )
+
+    ASSERT_THROWS( io_error, {
+        io::copyFile( "temp/c.bat", "temp/build", false );
+    }, );
 }
 
 TEST_CASE( copyDirTest, IOTests ) {
     ASSERT_TRUE( io::fileExists( "temp/build" ), )
+
+    ASSERT_THROWS( io_error, {
+        io::copyDir( "temp/arquivos5", "temp/build", true, true );
+    }, )
+
+    ASSERT_THROWS( io_error, {
+        io::copyDir( "temp/a.txt", "temp/build", true, true );
+    }, )
+
+    ASSERT_THROWS( io_error, {
+        io::copyDir( "temp/arquivos", "temp/b.sh", true, true );
+    }, )
 
     io::copyDir( "temp/arquivos", "temp/build", true, true );
     ASSERT_TRUE( io::fileExists( "temp/arquivos" ), )
@@ -97,18 +121,32 @@ TEST_CASE( copyDirTest, IOTests ) {
     }, )
 }
 
-TEST_CASE( copyDirToDirTest, IOTests ) {
-    ASSERT_FALSE( io::fileExists( "temp/build/arquivos" ), )
-    ASSERT_FALSE( io::isEmptyDir( "temp/arquivos" ), )
+TEST_CASE( copyFilesTest, IOTests ) {
+    io::copyFiles( "temp/arquivos2", "temp/build", io::by_name_file_filter("*"), true, true );
+    ASSERT_TRUE( io::fileExists( "temp/arquivos2/d.txt" ), )
+    ASSERT_TRUE( io::fileExists( "temp/arquivos2/e.sh" ), )
+    ASSERT_TRUE( io::fileExists( "temp/arquivos2/f.bat" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/d.txt" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/e.sh" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/f.bat" ), )
 
-    ASSERT_THROWS( io_error,
-        io::copyDirToDir( "temp/arquivos", "temp/build/arquivos", true, true );
-    , )
+    ASSERT_THROWS( io_error, {
+        io::copyFiles( "temp/arquivos3", "temp/build", io::by_name_file_filter("*"), true, true );
+    }, );
 
-    ASSERT_NOT_THROWS( io_error, 
-        io::copyDirToDir( "temp/arquivos", "temp/build", true, true );
-    , )
+    ASSERT_THROWS( io_error, {
+        io::copyFiles( "temp/arquivos2", "temp/build2", io::by_name_file_filter("*"), true, true );
+    }, );
 
+    io::copyFiles( "temp/arquivos2", "temp/build", "temp", io::by_name_file_filter("*"), true, true );
+    ASSERT_TRUE( io::fileExists( "temp/arquivos2/d.txt" ), )
+    ASSERT_TRUE( io::fileExists( "temp/arquivos2/e.sh" ), )
+    ASSERT_TRUE( io::fileExists( "temp/arquivos2/f.bat" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/arquivos2/d.txt" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/arquivos2/e.sh" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/arquivos2/f.bat" ), )
+
+    io::copyFiles( "temp/arquivos", "temp/build", "temp", io::by_name_file_filter( "*" ), true, true );
     ASSERT_TRUE( io::fileExists( "temp/build/arquivos" ), )
-    ASSERT_FALSE( io::isEmptyDir( "temp/build/arquivos" ), )
+    ASSERT_TRUE( io::fileExists( "temp/build/arquivos/pasta" ), )
 }

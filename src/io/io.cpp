@@ -66,82 +66,6 @@ namespace io {
         }
     }
 
-    bool deleteFileOrDirectory( string path ) {
-        string p = path::makePreferred( path );
-        try {
-            return filesystem::remove( p );
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-    }
-
-    int deleteFiles( string dir, FileFilter* filter ) {
-        int removedCount = 0;
-        try {
-            string dirpath = path::makePreferred( dir );
-            for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
-                string file = path::makePreferred( entry.path().string() );
-
-                if ( filter != nullptr )
-                    if ( !filter->match( file ) )
-                        continue;
-                
-                removedCount += recursiveDeleteFileOrDirectory( file );
-            }            
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-        return removedCount;
-    }
-
-    int recursiveDeleteFiles( string dir, FileFilter* filter ) {
-        int removedCount = 0;
-        try {
-            string dirpath = path::makePreferred( dir );
-            for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
-                string file = path::makePreferred( entry.path().string() );
-
-                if ( filesystem::is_directory( file ) )
-                    removedCount += recursiveDeleteFiles( file, filter );                
-
-                if ( filter != nullptr )
-                    if ( !filter->match( file ) )
-                        continue;
-
-                removedCount += recursiveDeleteFileOrDirectory( file );                                
-            }
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-        return removedCount;
-    }
-
-    int recursiveDeleteDirectoryContent( string dir ) {
-        int removedCount = 0;
-        try {
-            string dirpath = path::makePreferred( dir );
-            for( const auto& entry : filesystem::directory_iterator( dirpath ) ) {
-                string file = path::makePreferred( entry.path().string() );
-                removedCount += recursiveDeleteFileOrDirectory( file );
-            }
-            return removedCount;
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-    }
-
-    int recursiveDeleteFileOrDirectory( string path ) {
-        string p = path::makePreferred( path );
-        if ( isDir( p ) ) {
-            return recursiveDeleteDirectory( p );
-        } else {
-            bool deleted = deleteFileOrDirectory( p );
-            if ( deleted )
-                return 1;            
-            return 0;
-        }
-    }
-
     int recursiveDeleteDirectory( string path ) {
         try {
             string p = path::makePreferred( path );
@@ -155,15 +79,98 @@ namespace io {
         }
     }
 
-    void copyFile( string srcPath, string destPath, bool isOverwriteExisting ) {
+    int deleteFileOrDir( string path, bool isRecursive ) {
         try {
-            string src = path::makePreferred( srcPath );
-            string dest = path::makePreferred( destPath );
+            string p = path::makePreferred( path );
+            
+            if ( !fileExists( p ) ) 
+                throw io_error( errors::io::FILE_OR_FOLDER_NOT_FOUND );
 
-            if ( isOverwriteExisting && filesystem::exists( dest ) )
-                filesystem::remove( dest );
+            if ( isDir( p ) ) {
+                if ( isRecursive ) {
+                    return recursiveDeleteDirectory( p );
+                } else {
+                    if ( !isDir( p ) || isEmptyDir( p ) )
+                        throw io_error( errors::io::FOLDER_NOT_EMPTY );
 
-            filesystem::copy_file( src, dest );
+                    bool removed = filesystem::remove( p );
+                    return ( removed ? 1 : 0 );                    
+                }
+            } else {                
+                bool removed = filesystem::remove( p );
+                return ( removed ? 1 : 0 );
+            }
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+    }
+
+    int deleteFiles( string dir, FileFilter* filter, bool isRecursive ) {
+        int removedCount = 0;
+        try {
+            string preferredDir = path::makePreferred( dir );
+
+            if ( fileExists( preferredDir ) )
+                throw io_error( errors::io::DIR_NOT_FOUND );
+            if ( !isDir( preferredDir ) )
+                throw io_error( errors::io::IS_NOT_A_DIR );
+
+            if ( isRecursive ) {
+                for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {
+                    string file = path::makePreferred( entry.path().string() );
+
+                    if ( filesystem::is_directory( file ) )
+                        removedCount += deleteFiles( file, filter, isRecursive );                
+
+                    if ( filter != nullptr )
+                        if ( !filter->match( file ) )
+                            continue;
+
+                    removedCount += recursiveDeleteFileOrDirectory( file );                                
+                }
+            } else {
+                for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {
+                    string file = path::makePreferred( entry.path().string() );
+
+                    if ( filter != nullptr )
+                        if ( !filter->match( file ) )
+                            continue;
+                    
+                    removedCount += recursiveDeleteFileOrDirectory( file );
+                }       
+            }     
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
+        return removedCount;
+    }     
+
+    void copyFile( string srcFile, string targetPath, bool isOverwriteExisting ) {
+        try {
+            string preferredSrc = path::makePreferred( srcFile );
+            string preferredTarget = path::makePreferred( targetPath );
+
+            if ( !fileExists( preferredSrc ) )
+                throw io_error( errors::io::SRC_DIR_NOT_FOUND );
+            
+            string unixTarget = path::makeUnixPreferred( targetPath );
+            string unixSrc = path::makeUnixPreferred( srcFile );
+
+            string srcFName = path::fileOrDirName( unixSrc );
+            string targetFName = path::fileOrDirName( unixTarget );
+
+            if ( srcFName != targetFName && isDir( preferredTarget ) ) {
+                unixTarget = path::addSeparatorIfNeed( unixTarget );
+                unixTarget += srcFName;
+            }
+
+            preferredSrc = path::makePreferred( unixSrc );
+            preferredTarget = path::makePreferred( unixTarget );
+
+            if ( isOverwriteExisting && filesystem::exists( preferredTarget ) )
+                filesystem::remove( preferredTarget );
+
+            filesystem::copy_file( preferredSrc, preferredTarget );
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
@@ -195,16 +202,20 @@ namespace io {
 
     void copyDir( string srcDir, string targetDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
-            if ( !fileExists( path::makePreferred( srcDir ) ) )
+            string preferredSrcDir = path::makePreferred( srcDir );
+            string preferredTargetDir = path::makePreferred( targetDir );            
+            
+            if ( !fileExists( preferredSrcDir ) )
                 throw io_error( errors::io::SRC_DIR_NOT_FOUND ); 
+            if ( !isDir( preferredSrcDir ) )
+                throw io_error( errors::io::SRC_IS_NOT_A_DIR );
+            if ( fileExists( preferredTargetDir ) && !isDir( preferredTargetDir ) )
+                throw io_error( errors::io::TARGET_IS_NOT_A_DIR );
 
             string fsrcName = path::fileOrDirName( srcDir );
 
             string forReplace = path::makeUnixPreferred( srcDir );
             forReplace = path::addSeparatorIfNeed( forReplace );
-
-            string preferredSrcDir = path::makePreferred( srcDir );
-            string preferredTargetDir = path::makePreferred( targetDir );
             
             bool srcExists = fileExists( preferredSrcDir );
             bool targetExists = fileExists( preferredTargetDir );
@@ -253,97 +264,67 @@ namespace io {
         }
     }
 
-    void copyDirToDir( string srcDir, string targetDir, bool isOverwriteExisting, bool isRecursive ) {
-        try {
-            if ( !fileExists( path::makePreferred( srcDir ) ) )
-                throw io_error( errors::io::SRC_DIR_NOT_FOUND );
-            if ( !fileExists( path::makePreferred( targetDir ) ) )
-                throw io_error( errors::io::TARGET_DIR_NOT_FOUND );
-
-            string unixSrc = path::makeUnixPreferred( srcDir );
-            string unixTarget = path::makeUnixPreferred( targetDir );
-
-            string srcFolder = path::fileOrDirName( unixSrc );
-
-            unixTarget = path::addSeparatorIfNeed( unixTarget );
-            unixTarget += srcFolder;
-
-            string preferredSrc = path::makePreferred( unixSrc );
-            string preferredTarget = path::makePreferred( unixTarget );
-
-            copyDir( unixSrc, unixTarget, isOverwriteExisting, isRecursive );
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-    }
-
-    void copyFileToDir( string srcFile, string destDir, bool isOverwriteExisting ) {
-        try {
-            string unixTargetDir = path::makeUnixPreferred( destDir );
-            unixTargetDir = path::addSeparatorIfNeed( unixTargetDir );
-
-            string unixSrc = path::makeUnixPreferred( srcFile );
-            string fname = path::fileOrDirName( srcFile );
-
-            string unixTarget = unixTargetDir + fname;
-
-            string preferredSrc = path::makePreferred( unixSrc );
-            string preferredTarget = path::makePreferred( unixTarget );
-
-            if ( isOverwriteExisting && filesystem::exists( preferredTarget ) )
-                filesystem::remove( preferredTarget );
-
-            filesystem::copy_file( preferredSrc, preferredTarget );
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
-    }
-
-    void copyFileOrDirectoryToDir( string srcPath, string targetDir, bool isOverwriteExisting, bool isRecursive ) {
+    void copyFileOrDir( string srcPath, string targetDir, bool isOverwriteExisting, bool isRecursive ) {
         if ( isDir( srcPath ) ) {
-            copyDirToDir( srcPath, targetDir, isOverwriteExisting, isRecursive );
+            copyDir( srcPath, targetDir, isOverwriteExisting, isRecursive );
         } else {
-            copyFileToDir( srcPath, targetDir, isOverwriteExisting );
+            copyFile( srcPath, targetDir, isOverwriteExisting );
         }
     }
     
-    void copyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
-        try {
-            string src = path::makePreferred( srcDir );
-            string dest = path::makePreferred( destDir );
+    void copyFiles( 
+                string srcDir, 
+                string targetDir, 
+                FileFilter* filter, 
+                bool isOverwriteExisting, 
+                bool isRecursive ) {
+    
+        string forReplacePath = path::makeUnixPreferred( srcDir );
+        forReplacePath = path::addSeparatorIfNeed( forReplacePath );
 
-            for( const auto& entry : filesystem::directory_iterator( src ) ) {
-                string file = path::makePreferred( entry.path().string() );
-
-                bool isCopyFile = true;
-                if ( filter != nullptr )
-                    isCopyFile = filter->match( file );
-
-                if ( isCopyFile && !filesystem::is_directory( file ) )
-                    __copyFile( file, dest, replacePath, isOverwriteExisting );
-            }
-        } catch ( const filesystem::filesystem_error& e ) {
-            throw io_error( e.what() );
-        }
+        copyFiles( srcDir, targetDir, forReplacePath, filter, isOverwriteExisting, isRecursive );
     }
 
-    void recursiveCopyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting ) {
+    void copyFiles( 
+                string srcDir, 
+                string targetDir, 
+                string forReplacePath, 
+                FileFilter* filter, 
+                bool isOverwriteExisting,
+                bool isRecursive ) {
         try {
             string src = path::makePreferred( srcDir );
-            string dest = path::makePreferred( destDir );
+            string target = path::makePreferred( targetDir );
 
-            for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
-                string file = path::makePreferred( entry.path().string() );
+            if ( !fileExists( src ) )
+                throw io_error( errors::io::SRC_DIR_NOT_FOUND );
+            if ( !fileExists( target ) )
+                throw io_error( errors::io::TARGET_DIR_NOT_FOUND );
 
-                bool isCopyFile = true;
-                if ( filter != nullptr )
-                    isCopyFile = filter->match( file );
+            if ( isRecursive ) {
+                for( const auto& entry : filesystem::recursive_directory_iterator( src ) ) {
+                    string file = path::makePreferred( entry.path().string() );
 
-                if ( isCopyFile && !filesystem::is_directory( file ) )
-                    __copyFile( file, dest, replacePath, isOverwriteExisting );
+                    bool isCopyFile = true;
+                    if ( filter != nullptr )
+                        isCopyFile = filter->match( file );
+
+                    if ( isCopyFile && !filesystem::is_directory( file ) )
+                        __copyFile( file, target, forReplacePath, isOverwriteExisting );
+                }
+            } else {
+                for( const auto& entry : filesystem::directory_iterator( src ) ) {
+                    string file = path::makePreferred( entry.path().string() );
+
+                    bool isCopyFile = true;
+                    if ( filter != nullptr )
+                        isCopyFile = filter->match( file );
+
+                    if ( isCopyFile && !filesystem::is_directory( file ) )
+                        __copyFile( file, target, forReplacePath, isOverwriteExisting );
+                }
             }
         } catch ( const filesystem::filesystem_error& e ) {
-            cout << e.what() << endl;
             throw io_error( e.what() );
         }
     }
