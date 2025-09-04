@@ -77,8 +77,8 @@ void CompileTaskExec::exec( void* mgr ) {
     binDir = io::path::absoluteResolvePath( binDir );
     objDir = io::path::absoluteResolvePath( objDir );
 
-    binDir = io::path::addSeparatorToDirIfNeed( binDir );
-    objDir = io::path::addSeparatorToDirIfNeed( objDir );
+    binDir = io::path::addSeparatorIfNeed( binDir );
+    objDir = io::path::addSeparatorIfNeed( objDir );
 
     this->appCreateDirs( binDir, manager );
     this->appCreateDirs( objDir, manager );
@@ -157,7 +157,7 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
     objDir = io::path::absoluteResolvePath( objDir );
     srcDir = io::path::absoluteResolvePath( srcDir );
 
-    objDir = io::path::addSeparatorToDirIfNeed( objDir );
+    objDir = io::path::addSeparatorIfNeed( objDir );
 
     testIncludeDirs += " " + srcDir;
    

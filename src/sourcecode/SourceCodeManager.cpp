@@ -33,7 +33,7 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
     allCodeInfosMap.clear();
 
     string src = io::path::makeUnixPreferred( srcDir );
-    src = io::path::addSeparatorToDirIfNeed( src );
+    src = io::path::addSeparatorIfNeed( src );
 
     try {
         string src2 = io::path::makePreferred( src );
@@ -47,7 +47,7 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
                 string ext = io::path::extension( filePath );
 
                 string objFilePath = targetFolder;
-                objFilePath = io::path::addSeparatorToDirIfNeed( objFilePath );
+                objFilePath = io::path::addSeparatorIfNeed( objFilePath );
                 objFilePath += strutil::replace( relativeFilePath, "."+ext, ".o" );
                 
                 string srcFilePath = filePath;

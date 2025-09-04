@@ -1,6 +1,3 @@
-#ifdef _WIN32
-    #include <windows.h>
-#endif
 
 #include "io.h"
 #include "../util/strutil.h"
@@ -27,20 +24,6 @@ namespace io {
 
     ByNameFileFilter* by_name_file_filter( string fileName ) {
         return new ByNameFileFilter( fileName );
-    }
-
-    bool hideFile( string file ) {
-        if ( fileExists( file ) ) {
-            #ifdef _WIN32
-                SetFileAttributes( file, FILE_ATTRIBUTE_HIDDEN );
-            #else
-                if ( !strutil::startsWith( file, "." ) )
-                    filesystem::rename( file, "."+file );
-            #endif
-            
-            return true;            
-        }
-        return false;
     }
 
     void writeInTextFile( string file, string text ) {
@@ -188,7 +171,7 @@ namespace io {
         string fname = strutil::replace( unixFile, unixReplacePath, "" );
 
         string unixTarget = path::makeUnixPreferred( target );
-        unixTarget = path::addSeparatorToDirIfNeed( unixTarget );
+        unixTarget = path::addSeparatorIfNeed( unixTarget );
         unixTarget = unixTarget + fname;
 
         string preferredDir = path::dirPath( unixTarget );
@@ -210,7 +193,7 @@ namespace io {
             string fsrcName = path::fileOrDirName( srcDir );
 
             string forReplace = path::makeUnixPreferred( srcDir );
-            forReplace = path::addSeparatorToDirIfNeed( forReplace );
+            forReplace = path::addSeparatorIfNeed( forReplace );
 
             string preferredSrcDir = path::makePreferred( srcDir );
             string preferredTargetDir = path::makePreferred( targetDir );
@@ -246,7 +229,7 @@ namespace io {
 
             string srcFolder = path::fileOrDirName( unixSrc );
 
-            unixTarget = path::addSeparatorToDirIfNeed( unixTarget );
+            unixTarget = path::addSeparatorIfNeed( unixTarget );
             unixTarget += srcFolder;
 
             copyDir( unixSrc, targetDir, isOverwriteExisting, isRecursive );
@@ -258,7 +241,7 @@ namespace io {
     void copyFileToDir( string srcFile, string destDir, bool isOverwriteExisting ) {
         try {
             string unixTargetDir = path::makeUnixPreferred( destDir );
-            unixTargetDir = path::addSeparatorToDirIfNeed( unixTargetDir );
+            unixTargetDir = path::addSeparatorIfNeed( unixTargetDir );
 
             string unixSrc = path::makeUnixPreferred( srcFile );
             string fname = path::fileOrDirName( srcFile );
@@ -437,6 +420,11 @@ namespace path {
         return makeUnixPreferred( currPathFS.string() );
     }
 
+    string tempDirPath() {
+        filesystem::path tempDirPath = filesystem::temp_directory_path();
+        return makeUnixPreferred( tempDirPath.string() );
+    }
+
     string makePreferred( string path ) {
         filesystem::path p( path );
         p = p.make_preferred();
@@ -447,7 +435,7 @@ namespace path {
         return strutil::replaceAll( path, '\\', '/' );
     }
 
-    string addSeparatorToDirIfNeed( string dir ) {
+    string addSeparatorIfNeed( string dir ) {
         string d = makeUnixPreferred( dir );
         if ( d.length() > 0 )
             if( d[ d.length()-1 ] != '/' )
@@ -512,7 +500,7 @@ namespace path {
             pp = makeUnixPreferred( pp );
 
             if ( path2 != "" )
-                pp = addSeparatorToDirIfNeed( pp );
+                pp = addSeparatorIfNeed( pp );
                 
             pp += path2;
             return pp;
@@ -671,7 +659,7 @@ namespace path {
 
         for( size_t l = 0; l < count; l++ )
             basePath = parentPath( basePath );        
-        basePath = addSeparatorToDirIfNeed( basePath );
+        basePath = addSeparatorIfNeed( basePath );
         
         return basePath + relativePath;
     }
@@ -684,10 +672,10 @@ namespace path {
 
         size_t i = resolvedPath.find( "../" );
         bool isRepeat = i != string::npos;
-        string dir = addSeparatorToDirIfNeed( currDir );
+        string dir = addSeparatorIfNeed( currDir );
         while( isRepeat ) {
             dir = parentPath( dir );
-            dir = addSeparatorToDirIfNeed( dir );
+            dir = addSeparatorIfNeed( dir );
 
             size_t j = resolvedPath.find( "../", i+3 );
             if ( j == string::npos ) {

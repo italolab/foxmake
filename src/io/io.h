@@ -43,8 +43,6 @@ namespace io {
     void writeInTextFile( string file, string text );
     string readFromTextFile( string file );
 
-    bool hideFile( string file );
-
     bool isDir( string path );
     bool isFile( string path );
     bool isEmptyDir( string dir );
@@ -55,13 +53,14 @@ namespace io {
 namespace path {
     
     string currentPath();
+    string tempDirPath();
     string absolutePath( string path );
     string relativePath( string path );
     string parentPath( string path );
     string dirPath( string path );
     string fileOrDirName( string path );
     string fileOrDirNameWithoutExtension( string pathOrName );
-    string addSeparatorToDirIfNeed( string dir );
+    string addSeparatorIfNeed( string dir );
     string removeSeparatorFromDirIfNeed( string dir );
     string makePreferred( string path );
     string makeUnixPreferred( string path );

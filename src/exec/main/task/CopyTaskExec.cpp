@@ -42,8 +42,8 @@ void CopyTaskExec::exec( void* mgr ) {
     buildDir = io::path::absoluteResolvePath( buildDir );
     binDir = io::path::absoluteResolvePath( binDir );
    
-    binDir = io::path::addSeparatorToDirIfNeed( binDir );
-    buildDir = io::path::addSeparatorToDirIfNeed( buildDir );
+    binDir = io::path::addSeparatorIfNeed( binDir );
+    buildDir = io::path::addSeparatorIfNeed( buildDir );
         
     this->appCreateDirs( buildDir, props::BUILD_DIR );
 

@@ -54,8 +54,8 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     binDir = io::path::absoluteResolvePath( binDir );
     objDir = io::path::absoluteResolvePath( objDir );
 
-    binDir = io::path::addSeparatorToDirIfNeed( binDir );
-    objDir = io::path::addSeparatorToDirIfNeed( objDir );
+    binDir = io::path::addSeparatorIfNeed( binDir );
+    objDir = io::path::addSeparatorIfNeed( objDir );
 
     if ( compiler == "" )
         compiler = consts::DEFAULT_COMPILER;    

@@ -44,7 +44,7 @@ void TestTaskExec::exec( void* mgr ) {
     testDir = io::path::absoluteResolvePath( testDir );
     binDir = io::path::absoluteResolvePath( binDir );
 
-    binDir = io::path::addSeparatorToDirIfNeed( binDir );
+    binDir = io::path::addSeparatorIfNeed( binDir );
 
     string testOutputFile = binDir + consts::TEST_OUTPUT_FILE_NAME;
     if ( !io::fileExists( testOutputFile ) )

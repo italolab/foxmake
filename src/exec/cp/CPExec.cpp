@@ -51,7 +51,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
         
         replacePath = io::path::dirPath( src2 );
     }
-    replacePath = io::path::addSeparatorToDirIfNeed( replacePath );
+    replacePath = io::path::addSeparatorIfNeed( replacePath );
 
     try {
         string fileName = io::path::fileOrDirName( src2 );
@@ -99,7 +99,7 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
                 if ( !io::isDir( dest2 ) ) {
                     string fname = io::path::fileOrDirName( dest2 );
                     dest2 = io::path::parentPath( dest2 );
-                    dest2 = io::path::addSeparatorToDirIfNeed( dest2 );
+                    dest2 = io::path::addSeparatorIfNeed( dest2 );
                     dest2 += fname;
                 }
                 

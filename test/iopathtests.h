@@ -64,10 +64,10 @@ TEST_CASE( makeUnixPreferredTest, IOPathTests ) {
 }
 
 TEST_CASE( addSeparatorIfNeedTest, IOPathTests ) {
-    ASSERT_EQUALS( io::path::addSeparatorToDirIfNeed( "/a/b" ), "/a/b/", )
-    ASSERT_EQUALS( io::path::addSeparatorToDirIfNeed( "/a/b/" ), "/a/b/", )
-    ASSERT_EQUALS( io::path::addSeparatorToDirIfNeed( "/" ), "/", )
-    ASSERT_EQUALS( io::path::addSeparatorToDirIfNeed( "" ), "", )
+    ASSERT_EQUALS( io::path::addSeparatorIfNeed( "/a/b" ), "/a/b/", )
+    ASSERT_EQUALS( io::path::addSeparatorIfNeed( "/a/b/" ), "/a/b/", )
+    ASSERT_EQUALS( io::path::addSeparatorIfNeed( "/" ), "/", )
+    ASSERT_EQUALS( io::path::addSeparatorIfNeed( "" ), "", )
 }
 
 TEST_CASE( removeSeparatorIfNeedTest, IOPathTests ) {
