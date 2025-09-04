@@ -6,13 +6,11 @@
 #include "../../shell/shell.h"
 #include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
+#include "../../util/hashutil.h"
 
 #include "../../error_messages.h"
 #include "../../info_messages.h"
 #include "../../consts.h"
-
-#include <ctime>
-#include <cstdlib>
 
 void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
@@ -30,12 +28,8 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     int result;
 
     #ifdef _WIN32
-        srand( time( NULL ) );
-        int currTime = time( NULL );
-        int randomNum = rand();
-
         stringstream ss;
-        ss << "." << currTime << randomNum << ".bat";
+        ss << "." << hashutil::currentHash() << ".bat";
         string tempBatFile = ss.str();
 
         if ( cmdstr.find( '\n' ) == string::npos ) {
