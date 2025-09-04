@@ -91,19 +91,25 @@ namespace errors {
 
     const string TEST_FILE_EXE_NOT_FOUND = "O arquivo executável de teste não foi encontrado.\nVerifique se executou a tarefa \"link\" antes da tarefa \"test\".";
 
-    namespace runtime {
+namespace io {
 
-        const string NULL_ROOT_STATEMENT = "$1 --> A raiz da árvore é nula.";
-        const string NULL_PROC = "$1 --> Proc nula.";
+    const string SRC_DIR_NOT_FOUND = "O diretório de origem não existe.";
+    const string TARGET_DIR_NOT_FOUND = "O diretório de destino não existe.";
 
-        const string CMD_EXECUTOR_NOT_FOUND = "Executor de comando não encontrado pelo nome: \"$1\"";
-        const string TASK_EXECUTOR_NOT_FOUND = "Executor de tarefa não encontrado pelo nome: \"$1\"";
-        
-        const string INVALID_STATEMENT_TYPE = "Instrução de tipo inválido.\nLinha=\"$1\"\nTipo=\"$2\"";
-        const string INVALID_STATUS_OF_TASK_CONFIG_INTER = "Status de TaskConfigInter não reconhecido.";
-        
+}
 
-    }
+namespace runtime {
+
+    const string NULL_ROOT_STATEMENT = "$1 --> A raiz da árvore é nula.";
+    const string NULL_PROC = "$1 --> Proc nula.";
+
+    const string CMD_EXECUTOR_NOT_FOUND = "Executor de comando não encontrado pelo nome: \"$1\"";
+    const string TASK_EXECUTOR_NOT_FOUND = "Executor de tarefa não encontrado pelo nome: \"$1\"";
+    
+    const string INVALID_STATEMENT_TYPE = "Instrução de tipo inválido.\nLinha=\"$1\"\nTipo=\"$2\"";
+    const string INVALID_STATUS_OF_TASK_CONFIG_INTER = "Status de TaskConfigInter não reconhecido.";
+
+}
 
 }
 

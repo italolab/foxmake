@@ -2,6 +2,8 @@
 #include "io.h"
 #include "../util/strutil.h"
 
+#include "../error_messages.h"
+
 #include <fstream>
 #include <sstream>
 #include <filesystem>
@@ -19,6 +21,9 @@ namespace filesystem = std::filesystem;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
 joker_error::joker_error( string msg ) : io_error( msg ) {}
+
+#include <iostream>
+using namespace std;
 
 namespace io {
 
@@ -190,6 +195,9 @@ namespace io {
 
     void copyDir( string srcDir, string targetDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
+            if ( !fileExists( path::makePreferred( srcDir ) ) )
+                throw io_error( errors::io::SRC_DIR_NOT_FOUND ); 
+
             string fsrcName = path::fileOrDirName( srcDir );
 
             string forReplace = path::makeUnixPreferred( srcDir );
@@ -197,8 +205,31 @@ namespace io {
 
             string preferredSrcDir = path::makePreferred( srcDir );
             string preferredTargetDir = path::makePreferred( targetDir );
-            if ( fileExists( preferredSrcDir ) && !fileExists( preferredTargetDir ) )
-                createDir( preferredTargetDir );
+            
+            bool srcExists = fileExists( preferredSrcDir );
+            bool targetExists = fileExists( preferredTargetDir );
+          
+            if ( srcExists ) {                
+                if ( targetExists ) {
+                    string unixSrcDir = path::makeUnixPreferred( srcDir );
+                    string unixTargetDir = path::makeUnixPreferred( targetDir );
+
+                    string srcFolder = path::fileOrDirName( unixSrcDir );
+
+                    unixTargetDir = path::addSeparatorIfNeed( unixTargetDir );
+                    unixTargetDir += srcFolder;
+
+                    preferredTargetDir = path::makePreferred( unixTargetDir );
+
+                    createDir( preferredTargetDir );
+                } else {
+                    string unixTargetDir = path::makeUnixPreferred( targetDir );
+                    string parentDir = path::parentPath( unixTargetDir );
+                    bool parentExists = io::fileExists( parentDir );
+                    if ( parentExists )
+                        createDir( preferredTargetDir );
+                }
+            }
 
             if ( isRecursive ) {
                 for( const auto& entry : filesystem::recursive_directory_iterator( preferredSrcDir ) ) {
@@ -224,6 +255,11 @@ namespace io {
 
     void copyDirToDir( string srcDir, string targetDir, bool isOverwriteExisting, bool isRecursive ) {
         try {
+            if ( !fileExists( path::makePreferred( srcDir ) ) )
+                throw io_error( errors::io::SRC_DIR_NOT_FOUND );
+            if ( !fileExists( path::makePreferred( targetDir ) ) )
+                throw io_error( errors::io::TARGET_DIR_NOT_FOUND );
+
             string unixSrc = path::makeUnixPreferred( srcDir );
             string unixTarget = path::makeUnixPreferred( targetDir );
 
@@ -232,7 +268,10 @@ namespace io {
             unixTarget = path::addSeparatorIfNeed( unixTarget );
             unixTarget += srcFolder;
 
-            copyDir( unixSrc, targetDir, isOverwriteExisting, isRecursive );
+            string preferredSrc = path::makePreferred( unixSrc );
+            string preferredTarget = path::makePreferred( unixTarget );
+
+            copyDir( unixSrc, unixTarget, isOverwriteExisting, isRecursive );
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
