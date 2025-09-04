@@ -26,30 +26,37 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     shell->setShowOutput( isShowCMDOutput );
 
     int result;
+    if ( cmdstr.find( '\n' ) == string::npos ) {
+        #ifdef _WIN32
+            cmdstr = consts::WINDOWS_CMD_EXE + " " + cmdstr;               
+        #endif        
 
-    #ifdef _WIN32
-        stringstream ss;
-        ss << "." << hashutil::currentHash() << ".bat";
-        string tempBatFile = ss.str();
-
-        if ( cmdstr.find( '\n' ) == string::npos ) {
-            shell->pushCommand( consts::WINDOWS_CMD_EXE + " " + cmdstr );
-            result = shell->execute();
-        } else {
-            shell->setVerbose( false );
-
-            string cmdstr2 = "@echo off\n" + cmdstr;
-
-            io::writeInTextFile( tempBatFile, cmdstr2 );
-            io::hideFile( tempBatFile );
-            shell->pushCommand( ".\\" + tempBatFile );
-            result = shell->execute();
-            io::deleteFileOrDirectory( tempBatFile );
-        }
-    #else
         shell->pushCommand( cmdstr );
         result = shell->execute();
-    #endif
+    } else {
+        #ifdef _WIN32
+            shell->setVerbose( false );
+
+            string shellFileContent = "@echo off\n" + cmdstr;
+
+            stringstream ss;
+            ss << "." << hashutil::currentHash() << ".bat";
+            string tempShellFile = ss.str();
+
+            io::writeInTextFile( tempShellFile, shellFileContent );
+            io::hideFile( tempShellFile );
+
+            cmdstr = ".\\" + tempShellFile;
+
+            shell->pushCommand( cmdstr );
+            result = shell->execute();
+
+            io::deleteFileOrDirectory( tempShellFile );
+        #else
+            shell->pushCommand( cmdstr );
+            result = shell->execute();
+        #endif
+    }
 
     if ( result != 0 ) {
         messagebuilder b( errors::SHELL_CMD_NOT_EXECUTED );
