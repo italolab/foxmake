@@ -43,6 +43,8 @@ namespace io {
     void writeInTextFile( string file, string text );
     string readFromTextFile( string file );
 
+    bool hideFile( string file );
+
     bool isDir( string path );
     bool isFile( string path );
     bool isEmptyDir( string dir );

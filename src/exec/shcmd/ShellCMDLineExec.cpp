@@ -41,6 +41,7 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
             string cmdstr2 = "@echo off\n" + cmdstr;
 
             io::writeInTextFile( tempBatFile, cmdstr2 );
+            io::hideFile( tempBatFile );
             shell->pushCommand( ".\\" + tempBatFile );
             result = shell->execute();
             io::deleteFileOrDirectory( tempBatFile );

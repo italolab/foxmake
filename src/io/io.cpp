@@ -1,3 +1,6 @@
+#ifdef _WIN32
+    #include <windows.h>
+#endif
 
 #include "io.h"
 #include "../util/strutil.h"
@@ -24,6 +27,20 @@ namespace io {
 
     ByNameFileFilter* by_name_file_filter( string file ) {
         return new ByNameFileFilter( file );
+    }
+
+    bool hideFile( string file ) {
+        if ( fileExists( file ) ) {
+            #ifdef _WIN32
+                SetFileAttributes( file, FILE_ATTRIBUTE_HIDDEN );
+            #else
+                if ( !strutil::startsWith( file, "." ) )
+                    filesystem::rename( file, "."+file );
+            #endif
+            
+            return true;            
+        }
+        return false;
     }
 
     void writeInTextFile( string file, string text ) {
