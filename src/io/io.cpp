@@ -25,8 +25,8 @@ joker_error::joker_error( string msg ) : io_error( msg ) {}
 
 namespace io {
 
-    ByNameFileFilter* by_name_file_filter( string file ) {
-        return new ByNameFileFilter( file );
+    ByNameFileFilter* by_name_file_filter( string fileName ) {
+        return new ByNameFileFilter( fileName );
     }
 
     bool hideFile( string file ) {
@@ -168,13 +168,17 @@ namespace io {
     }
 
     void copyFile( string srcPath, string destPath, bool isOverwriteExisting ) {
-        string src = path::makePreferred( srcPath );
-        string dest = path::makePreferred( destPath );
+        try {
+            string src = path::makePreferred( srcPath );
+            string dest = path::makePreferred( destPath );
 
-        if ( isOverwriteExisting && filesystem::exists( dest ) )
-            filesystem::remove( dest );
+            if ( isOverwriteExisting && filesystem::exists( dest ) )
+                filesystem::remove( dest );
 
-        filesystem::copy_file( src, dest );
+            filesystem::copy_file( src, dest );
+        } catch ( const filesystem::filesystem_error& e ) {
+            throw io_error( e.what() );
+        }
     }
 
     void __copyFile( string file, string target, string replacePath, bool isOverwriteExisting ) {

@@ -22,7 +22,7 @@ class joker_error : public io_error {
 
 namespace io {
 
-    ByNameFileFilter* by_name_file_filter( string file );
+    ByNameFileFilter* by_name_file_filter( string fileName );
 
     bool createDir( string path );
     bool createDirs( string path );
@@ -34,9 +34,9 @@ namespace io {
     void copyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     void recursiveCopyFilesToDir( string srcDir, string destDir, string replacePath, FileFilter* filter, bool isOverwriteExisting );
     bool deleteFileOrDirectory( string path );
-    int deleteFiles( string path, FileFilter* filter );
+    int deleteFiles( string dir, FileFilter* filter );
     int recursiveDeleteFiles( string dir, FileFilter* filter );
-    int recursiveDeleteDirectory( string path );
+    int recursiveDeleteDirectory( string dir );
     int recursiveDeleteFileOrDirectory( string path );
     int recursiveDeleteDirectoryContent( string dir );
 
