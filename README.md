@@ -51,6 +51,11 @@ A classe "OutputThread" da pasta "shell/output" é responsável por fazer a leit
 
 Os comandos são executados utilizando-se a biblioteca "popen".
 
+## A execução de blocos de comandos do shell
+
+Para a execução de bloco de comandos do shell acontecer no windows, o cbuild precisa 
+criar um arquivo .bat temporário, copiar o conteúdo do bloco de comandos para esse arquivo e, então, executar o arquivo.
+
 ## A classe SourceCodeManager
 
 A classe SourceCodeManager fica na pasta "sourcecode" e carrega estruturas com informações sobre os arquivos de código da pasta passada como parâmetro para o método de leitura e carregamento das estruturas.

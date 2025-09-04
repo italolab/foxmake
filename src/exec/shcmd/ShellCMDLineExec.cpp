@@ -11,6 +11,9 @@
 #include "../../info_messages.h"
 #include "../../consts.h"
 
+#include <ctime>
+#include <cstdlib>
+
 void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
 
@@ -27,6 +30,14 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     int result;
 
     #ifdef _WIN32
+        srand( time( NULL ) );
+        int currTime = time( NULL );
+        int randomNum = rand();
+
+        stringstream ss;
+        ss << "." << currTime << randomNum << ".bat";
+        string tempBatFile = ss.str();
+
         if ( cmdstr.find( '\n' ) == string::npos ) {
             shell->pushCommand( consts::WINDOWS_CMD_EXE + " " + cmdstr );
             result = shell->execute();
@@ -35,10 +46,10 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
 
             string cmdstr2 = "@echo off\n" + cmdstr;
 
-            io::writeInTextFile( consts::TEMP_BAT_FILE, cmdstr2 );
-            shell->pushCommand( ".\\" + consts::TEMP_BAT_FILE );
+            io::writeInTextFile( tempBatFile, cmdstr2 );
+            shell->pushCommand( ".\\" + tempBatFile );
             result = shell->execute();
-            io::deleteFileOrDirectory( consts::TEMP_BAT_FILE );
+            io::deleteFileOrDirectory( tempBatFile );
         }
     #else
         shell->pushCommand( cmdstr );
