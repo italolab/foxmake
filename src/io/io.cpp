@@ -14,9 +14,6 @@ using std::stringstream;
 using std::ifstream;
 using std::ofstream;
 
-#include <iostream>
-using namespace std;
-
 namespace filesystem = std::filesystem;
 
 io_error::io_error( string msg ) : runtime_error( msg ) {}
@@ -51,22 +48,24 @@ namespace io {
         return ss.str();
     }
 
-    int recursiveCountFilesInDir( string dir ) {
+    int countFilesAndDirs( string dir ) {
         try {
             string dirpath = path::makePreferred( dir );
+            if ( !fileExists( dirpath ) )
+                throw io_error( errors::io::DIR_NOT_FOUND );
+            if ( !isDir( dirpath ) )
+                throw io_error( errors::io::IS_NOT_A_DIR );
+
             int count = 0;
-            for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) ) {
-                string file = entry.path().string();
-                if ( !filesystem::is_directory( file ) )
-                    count++;            
-            }
+            for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) )
+                count++;                        
             return count;
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
         }
     }
 
-    int recursiveDeleteDirectory( string path ) {
+    int recursiveDeleteDir( string path ) {
         try {
             string p = path::makePreferred( path );
             if ( filesystem::exists( p ) ) {
@@ -88,9 +87,9 @@ namespace io {
 
             if ( isDir( p ) ) {
                 if ( isRecursive ) {
-                    return recursiveDeleteDirectory( p );
+                    return recursiveDeleteDir( p );
                 } else {
-                    if ( !isDir( p ) || isEmptyDir( p ) )
+                    if ( !isDir( p ) || !isEmptyDir( p ) )
                         throw io_error( errors::io::FOLDER_NOT_EMPTY );
 
                     bool removed = filesystem::remove( p );
@@ -110,7 +109,7 @@ namespace io {
         try {
             string preferredDir = path::makePreferred( dir );
 
-            if ( fileExists( preferredDir ) )
+            if ( !fileExists( preferredDir ) )
                 throw io_error( errors::io::DIR_NOT_FOUND );
             if ( !isDir( preferredDir ) )
                 throw io_error( errors::io::IS_NOT_A_DIR );
@@ -119,14 +118,17 @@ namespace io {
                 for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {
                     string file = path::makePreferred( entry.path().string() );
 
-                    if ( filesystem::is_directory( file ) )
-                        removedCount += deleteFiles( file, filter, isRecursive );                
+                    if ( filesystem::is_directory( file ) ) {
+                        removedCount += deleteFiles( file, filter, true );
+                        if ( isEmptyDir( file ) )
+                            removedCount += deleteFileOrDir( file, false );
+                    } else {
+                        if ( filter != nullptr )
+                            if ( !filter->match( file ) )
+                                continue;
 
-                    if ( filter != nullptr )
-                        if ( !filter->match( file ) )
-                            continue;
-
-                    removedCount += deleteFileOrDir( file, isRecursive );                                
+                        removedCount += deleteFileOrDir( file, false );                                
+                    }
                 }
             } else {
                 for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {

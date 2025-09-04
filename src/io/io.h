@@ -27,6 +27,8 @@ namespace io {
     bool createDir( string path );
     bool createDirs( string path );
 
+    int countFilesAndDirs( string dir );
+    
     void copyFile( string srcFile, string destFile, bool isOverwriteExisting );
 
     void copyDir( 
@@ -58,8 +60,8 @@ namespace io {
     
     int deleteFileOrDir( string path, bool isRecursive );
     int deleteFiles( string dir, FileFilter* filter, bool isRecursive );
-    int recursiveDeleteDirectory( string dir );
-
+    int recursiveDeleteDir( string dir );
+        
     void writeInTextFile( string file, string text );
     string readFromTextFile( string file );
 

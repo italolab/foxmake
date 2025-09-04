@@ -24,13 +24,20 @@ BEFORE_EACH( IOTests ) {
     io::writeInTextFile( "temp/arquivos2/d.txt", "ddd" );
     io::writeInTextFile( "temp/arquivos2/e.sh", "ls /" );
     io::writeInTextFile( "temp/arquivos2/f.bat", "ls /" );
+
+    io::copyDir( "temp/arquivos", "temp/arquivos1", true, true );
 }
 
 AFTER_EACH( IOTests ) {
     io::deleteFiles( "temp", io::by_name_file_filter( "*" ), true ); 
 }
 
-TEST_CASE( copyFileTest, IOTests ) {
+AFTER_ALL( IOTests ) {
+    ASSERT_EQUALS( io::countFilesAndDirs( "temp" ), 0, )
+    cout << io::countFilesAndDirs( "temp" ) << endl;
+}
+
+TEST_CASE( copyFileTest, IOTests ) {    
     io::copyFile( "temp/b.sh", "temp/build/b.sh", true );
     io::copyFile( "temp/b.sh", "temp/build/c.sh", true );
 
@@ -149,4 +156,54 @@ TEST_CASE( copyFilesTest, IOTests ) {
     io::copyFiles( "temp/arquivos", "temp/build", "temp", io::by_name_file_filter( "*" ), true, true );
     ASSERT_TRUE( io::fileExists( "temp/build/arquivos" ), )
     ASSERT_TRUE( io::fileExists( "temp/build/arquivos/pasta" ), )
+}
+
+TEST_CASE( recursiveDeleteDirTest, IOTests ) {
+    int count = io::recursiveDeleteDir( "temp/arquivos" );
+    ASSERT_FALSE( io::fileExists( "temp/arquivos" ), )
+    ASSERT_EQUALS( count, 8, )
+}
+
+TEST_CASE( deleteFileOrDirTest, IOTests ) {
+    int count = io::deleteFileOrDir( "temp/b.sh", true );
+    ASSERT_FALSE( io::fileExists( "temp/b.sh" ), )
+    ASSERT_TRUE( count, 1 );
+
+    ASSERT_THROWS( io_error, {
+        count = io::deleteFileOrDir( "temp/arquivos", false );
+    }, )
+
+    count = io::deleteFileOrDir( "temp/arquivos", true );
+    ASSERT_FALSE( io::fileExists( "temp/arquivos/pasta" ), )
+    ASSERT_EQUALS( count, 8, )
+}
+
+TEST_CASE( deleteFilesTest, IOTests ) {
+    int count;
+    
+    ASSERT_THROWS( io_error, {
+        count = io::deleteFiles( "temp/xxx", io::by_name_file_filter( "*" ), true );
+    }, )
+
+    ASSERT_THROWS( io_error, {
+        count = io::deleteFiles( "temp/a.txt", io::by_name_file_filter( "*" ), true );
+    }, )
+
+    count = io::deleteFiles( "temp/arquivos", io::by_name_file_filter( "*" ), true );
+    ASSERT_FALSE( io::fileExists( "temp/arquivos/d.txt" ), )
+    ASSERT_FALSE( io::fileExists( "temp/arquivos/e.sh" ), )
+    ASSERT_FALSE( io::fileExists( "temp/arquivos/f.bat" ), )
+    ASSERT_FALSE( io::fileExists( "temp/arquivos/pasta" ), )
+    ASSERT_EQUALS( count, 7, );
+
+    ASSERT_TRUE( io::fileExists( "temp/arquivos1" ), )
+
+    ASSERT_THROWS( io_error, {    
+        count = io::deleteFiles( "temp/arquivos1", io::by_name_file_filter( "*" ), false );        
+    }, )
+}
+
+TEST_CASE( countFilesAndDirsTest, IOTests ) {
+    int count = io::countFilesAndDirs( "temp" );
+    ASSERT_EQUALS( count, 24, )
 }
