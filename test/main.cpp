@@ -1,5 +1,6 @@
 #include "strutiltests.h"
 #include "iopathtests.h"
+#include "iotests.h"
 
 #include <test/cbtest.h>
 
