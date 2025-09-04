@@ -48,9 +48,9 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
             size_t i = fileName.find( '*' );
             if ( i != string::npos ) {                
                 string dir = io::path::dirPath( file );
-                count = io::recursiveDeleteFiles( dir, filter );         
+                count = io::deleteFiles( dir, filter, isRecursive );         
             } else {
-                count = io::recursiveDeleteFileOrDirectory( file );
+                count = io::deleteFileOrDir( file, isRecursive );
             }
         } catch ( const io_error& e ) {
             messagebuilder b( errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
@@ -63,7 +63,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
 
             count = 0;
             
-            bool deleted = io::deleteFiles( dir, filter );
+            bool deleted = io::deleteFiles( dir, filter, isRecursive );
             if ( deleted )
                 count = 1;            
         } catch ( const io_error& e ) {

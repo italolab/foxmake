@@ -27,7 +27,7 @@ BEFORE_EACH( IOTests ) {
 }
 
 AFTER_EACH( IOTests ) {
-    io::deleteFiles( "temp", io::by_name_file_filter( "*" ) ); 
+    io::deleteFiles( "temp", io::by_name_file_filter( "*" ), true ); 
 }
 
 TEST_CASE( copyFileTest, IOTests ) {
@@ -105,7 +105,7 @@ TEST_CASE( copyDirTest, IOTests ) {
     ASSERT_TRUE( io::fileExists( "temp/build/arquivos2/e.sh" ), )
     ASSERT_TRUE( io::fileExists( "temp/build/arquivos2/f.bat" ), )
 
-    io::deleteFiles( "temp/build", io::by_name_file_filter( "*" ) );
+    io::deleteFiles( "temp/build", io::by_name_file_filter( "*" ), true );
 
     io::copyDir( "temp/arquivos", "temp/build", true, false );
     ASSERT_TRUE( io::fileExists( "temp/build/arquivos" ), )

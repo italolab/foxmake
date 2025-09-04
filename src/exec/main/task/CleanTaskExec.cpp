@@ -82,7 +82,7 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void
     
     try {
         if ( io::fileExists( path ) ) {
-            int count = io::recursiveDeleteFileOrDirectory( path );
+            int count = io::deleteFileOrDir( path, true );
             if ( count == 0 ) {
                 messagebuilder b ( errors::FILE_OR_FOLDER_NOT_DELETED );
                 b << path;

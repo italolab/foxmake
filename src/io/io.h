@@ -56,12 +56,9 @@ namespace io {
                 bool isOverwriteExisting, 
                 bool isRecursive );
     
-    bool deleteFileOrDir( string path );
-    int deleteFiles( string dir, FileFilter* filter );
-    int recursiveDeleteFiles( string dir, FileFilter* filter );
+    int deleteFileOrDir( string path, bool isRecursive );
+    int deleteFiles( string dir, FileFilter* filter, bool isRecursive );
     int recursiveDeleteDirectory( string dir );
-    int recursiveDeleteFileOrDirectory( string path );
-    int recursiveDeleteDirectoryContent( string dir );
 
     void writeInTextFile( string file, string text );
     string readFromTextFile( string file );

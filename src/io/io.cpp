@@ -126,7 +126,7 @@ namespace io {
                         if ( !filter->match( file ) )
                             continue;
 
-                    removedCount += recursiveDeleteFileOrDirectory( file );                                
+                    removedCount += deleteFileOrDir( file, isRecursive );                                
                 }
             } else {
                 for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {
@@ -136,7 +136,7 @@ namespace io {
                         if ( !filter->match( file ) )
                             continue;
                     
-                    removedCount += recursiveDeleteFileOrDirectory( file );
+                    removedCount += deleteFileOrDir( file, isRecursive );
                 }       
             }     
         } catch ( const filesystem::filesystem_error& e ) {
