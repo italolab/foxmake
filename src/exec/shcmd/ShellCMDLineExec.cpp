@@ -47,8 +47,6 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
             ss << "temp\\" << hash << ".bat";
             string tempBatFile = ss.str();
 
-            out << tempBatFile << "\n";
-
             io::writeInTextFile( tempBatFile, shellFileContent );
 
             cmdstr = ".\\" + tempBatFile;
