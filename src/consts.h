@@ -9,7 +9,7 @@ using std::vector;
 
 namespace consts {
 
-    const string DEFAULT_CBUILD_FILE_NAME = "CBuildFile";
+    const string DEFAULT_SCRIPT_FILE_NAME = "CBuildFile";
 
     const string LAST_WRITE_TIMES_FILE = "__lwtimes.txt";
 

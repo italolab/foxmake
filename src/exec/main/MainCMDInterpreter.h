@@ -9,10 +9,10 @@ class MainCMDInterpreter {
 
     private:
         string workingDir;
-        string cbuildFile;
+        string scriptFile;
 
-        void configure( bool& workingDirFound, bool& cbuildFileFound, void* mgr );
-        void interpretsMainScript( bool workingDirFound, bool cbuildFileFound, void* mgr );
+        void configure( bool& workingDirFound, bool& scriptFileFound, void* mgr );
+        void interpretsMainScript( bool workingDirFound, bool scriptFileFound, void* mgr );
         void validaMainCMD( void* mgr );
 
         void loadProperties( void* mgr );

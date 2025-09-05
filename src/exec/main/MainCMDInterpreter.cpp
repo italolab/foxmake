@@ -36,14 +36,14 @@ Exemplo:
 
 void MainCMDInterpreter::configureAndInterpretsAndValidate( void* mgr ) {
     bool workingDirFound = false;
-    bool cbuildFileFound = false;
+    bool scriptFileFound = false;
 
-    this->configure( workingDirFound, cbuildFileFound, mgr );
-    this->interpretsMainScript( workingDirFound, cbuildFileFound, mgr );
+    this->configure( workingDirFound, scriptFileFound, mgr );
+    this->interpretsMainScript( workingDirFound, scriptFileFound, mgr );
     this->validaMainCMD( mgr );
 }
 
-void MainCMDInterpreter::configure( bool& workingDirFound, bool& cbuildFileFound, void* mgr ) {
+void MainCMDInterpreter::configure( bool& workingDirFound, bool& scriptFileFound, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
@@ -51,7 +51,7 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& cbuildFileFound
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     workingDir = mainCMD->getPropertyValue( "--working-dir" );
-    cbuildFile = mainCMD->getPropertyValue( "--cbuild-file" );
+    scriptFile = mainCMD->getPropertyValue( "--cbuild-file" );
 
     if ( workingDir != "" ) {
         workingDir = io::path::absoluteResolvePath( workingDir );
@@ -60,11 +60,11 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& cbuildFileFound
 
         workingDirFound = true;
     } else {
-        if ( cbuildFile != "" ) {
-            workingDir = io::path::dirPath( io::path::absoluteResolvePath( cbuildFile ) );
+        if ( scriptFile != "" ) {
+            workingDir = io::path::dirPath( io::path::absoluteResolvePath( scriptFile ) );
             workingDir = io::path::removeSeparatorFromDirIfNeed( workingDir );
 
-            cbuildFile = io::path::fileOrDirName( cbuildFile );
+            scriptFile = io::path::fileOrDirName( scriptFile );
             shell::setWorkingDir( workingDir );
         } else {
             workingDir = shell::getWorkingDir();
@@ -73,32 +73,32 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& cbuildFileFound
         workingDirFound = false;
     }
 
-    if ( cbuildFile == "" )
-        cbuildFile = consts::DEFAULT_CBUILD_FILE_NAME;
+    if ( scriptFile == "" )
+        scriptFile = consts::DEFAULT_SCRIPT_FILE_NAME;
 
-    cbuildFile = io::path::absoluteResolvePath( cbuildFile );
+    scriptFile = io::path::absoluteResolvePath( scriptFile );
 
     if ( isVerbose ) {
         messagebuilder b( infos::CBUILD_FILE );
-        b << cbuildFile;
+        b << scriptFile;
         out << b.str() << endl;
     }
 
-    cbuildFileFound = true;
+    scriptFileFound = true;
 
-    if ( !io::fileExists( cbuildFile ) ) {
-        messagebuilder b2( errors::CBUILD_FILE_NOT_FOUND );
-        b2 << cbuildFile;
+    if ( !io::fileExists( scriptFile ) ) {
+        messagebuilder b2( errors::SCRIPT_FILE_NOT_FOUND );
+        b2 << scriptFile;
         out << output::green( b2.str() ) << endl;
 
         if ( !workingDirFound )
-            throw st_error( nullptr, errors::NO_CBUILD_FILE_AND_NO_WORKING_DIR );
+            throw st_error( nullptr, errors::NO_SCRIPT_FILE_AND_NO_WORKING_DIR );
 
-        cbuildFileFound = false;
+        scriptFileFound = false;
     }
 }
 
-void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool cbuildFileFound, void* mgr ) {
+void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool scriptFileFound, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
@@ -109,11 +109,11 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool cbuild
     this->loadProperties( mgr );
     this->loadVariables( mgr );
 
-    mainScript->putLocalVar( "main_config_file", cbuildFile );
+    mainScript->putLocalVar( "main_config_file", scriptFile );
     mainScript->putLocalVar( "working_dir", workingDir );
 
-    if ( cbuildFileFound ) {
-        InterResult* result = interManager->interpretsMainScript( mainScript, cbuildFile );
+    if ( scriptFileFound ) {
+        InterResult* result = interManager->interpretsMainScript( mainScript, scriptFile );
         if ( !result->isInterpreted() )
             throw st_error( result );
 
