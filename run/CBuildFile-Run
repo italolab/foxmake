@@ -39,8 +39,14 @@ IFNOWIN32
 ENDIF
 
 test.include.dirs=../include
-test.lib.dirs=../lib
 test.libs=cbtest
+
+IFWIN32
+    test.lib.dirs=../lib/windows
+ENDIF
+IFNOWIN32
+    test.lib.dirs=../lib/linux
+ENDIF
 
 $project_name=cbuild
 
@@ -78,7 +84,13 @@ task debug before
 endtask
 
 task finish after
-    $lib_dir=$(working_dir)/../lib
+
+    IFWIN32
+        $lib_dir=$(working_dir)/../lib/windows
+    ENDIF
+    IFNOWIN32
+        $lib_dir=$(working_dir)/../lib/linux
+    ENDIF
 
     mkdir build/include
 
