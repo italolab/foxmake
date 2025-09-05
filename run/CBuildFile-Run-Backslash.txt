@@ -1,5 +1,12 @@
 compiler=g++
-output.file.name=cbuild.exe
+
+IFWIN32
+    output.file.name=cbuild.exe
+ENDIF
+
+IFNOWIN32
+    output.file.name=cbuild
+ENDIF
 
 src.dir=..\src
 test.dir=..\test
@@ -27,11 +34,19 @@ include.dirs=
 libs=
 #defines=
 
-test.linker.params=
+IFNOWIN32
+    test.linker.params=-ldl -rdynamic
+ENDIF
 
 test.include.dirs=..\include
-test.lib.dirs=..\lib
 test.libs=cbtest
+
+IFWIN32
+    test.lib.dirs=..\lib\windows
+ENDIF
+IFNOWIN32
+    test.lib.dirs=..\lib\linux
+ENDIF
 
 $project_name=cbuild
 
@@ -54,11 +69,20 @@ task copy after
 
     @echo "abc"
     shellbegin
-        if exist "settings.txt" (
-            echo O arquivo existe...!
-        ) else (
-            echo Arquivo nao existe: settings.txt
-        )
+        IFWIN32
+            if exist CBuildFile-Run (
+                echo O arquivo existe!
+            ) else (
+                echo O arquivo nao existe.
+            )
+        ENDIF
+        IFNOWIN32
+            if [ -f "CBuildFile-Run" ]; then
+                echo "O arquivo existe...!"
+            else 
+                echo "Arquivo nao existe: CBuildFile-Run.txt"
+            fi
+        ENDIF
     endshell
 
 endtask
@@ -69,22 +93,27 @@ task debug before
 endtask
 
 task finish after
-    $lib_dir=$(working_dir)\..\lib
 
-    mkdir build/include
+    IFWIN32
+        $lib_dir=$(working_dir)\..\lib\windows
+    ENDIF
+    IFNOWIN32
+        $lib_dir=$(working_dir)\..\lib\linux
+    ENDIF
+
+    mkdir build\include
 
     cp -r $(src.dir)\**\io\*.h build\include
     cp $(src.dir)\*.cpp $(build.dir)
     mkdir $(build.dir)\objects
     cp $(obj.dir)\src\io\* $(build.dir)\objects
 
-    cp $(lib_dir)\libcbtest.lib $(build.dir)\libtest.lib
+    cp $(lib_dir)\libcbtest.a $(build.dir)\libtest.a
     cp ..\include\test\cbtest.h $(build.dir)\cbtest.h
     cp ..\include\test\cbtest.h $(build.dir)\cbtest.h
 
     cp -r $(src.dir) $(build.dir)\source
 
-    mkdir include
     cp -r ..\..\cbtest\src\**\*.h build\include
     cp -r ..\..\cbtest\src\**\*.h build\include
 

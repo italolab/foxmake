@@ -69,11 +69,20 @@ task copy after
 
     @echo "abc"
     shellbegin
-        if [ -f "settings-run.txt" ]; then
-            echo "O arquivo existe...!"
-        else 
-            echo "Arquivo nao existe: settings.txt"
-        fi
+        IFWIN32
+            if exist CBuildFile-Run (
+                echo O arquivo existe!
+            ) else (
+                echo O arquivo nao existe.
+            )
+        ENDIF
+        IFNOWIN32
+            if [ -f "CBuildFile-Run" ]; then
+                echo "O arquivo existe...!"
+            else 
+                echo "Arquivo nao existe: CBuildFile-Run.txt"
+            fi
+        ENDIF
     endshell
 
 endtask

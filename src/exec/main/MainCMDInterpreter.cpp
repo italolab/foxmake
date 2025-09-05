@@ -51,7 +51,7 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& scriptFileFound
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     workingDir = mainCMD->getPropertyValue( "--working-dir" );
-    scriptFile = mainCMD->getPropertyValue( "--cbuild-file" );
+    scriptFile = mainCMD->getPropertyValue( "--script" );
 
     if ( workingDir != "" ) {
         workingDir = io::path::absoluteResolvePath( workingDir );

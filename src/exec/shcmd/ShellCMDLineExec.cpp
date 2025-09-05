@@ -39,13 +39,8 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
 
             string shellFileContent = "@echo off\n" + cmdstr;
 
-            int hash = hashutil::currentHash();
-
             io::createDirs( "temp" );
-            
-            stringstream ss;
-            ss << "temp\\" << hash << ".bat";
-            string tempBatFile = ss.str();
+            string tempBatFile = "temp\\" + consts::TEMP_BAT_FILE;
 
             io::writeInTextFile( tempBatFile, shellFileContent );
 

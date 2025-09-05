@@ -3,8 +3,8 @@ CXX="g++"
 CXXFLAGS="-Wall -g"
 LINKERFLAGS=""
 SRC_DIR="src"
-OBJ_DIR="obj/Debug"
-BIN_DIR="bin/Debug"
+OBJ_DIR="obj/Release"
+BIN_DIR="bin/Release"
 TARGET="cbuild"
 
 mkdir -p $OBJ_DIR
