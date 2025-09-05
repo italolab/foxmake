@@ -55,7 +55,7 @@ Os comandos são executados utilizando-se a biblioteca "popen".
 
 Para a execução de bloco de comandos do shell acontecer no windows, o cbuild precisa criar um arquivo .bat temporário, copiar o conteúdo do bloco de comandos para esse arquivo e, então, executar o arquivo.
 
-O arquivo está sendo gravado numa pasta temporária interna do cbuild: A pasta "temp". O arquivo recebe o nome de um valor hash da data/hora atual concatenada com a string de um número gerado aleatoriamente. Isto para que o nome seja sempre único. Após o arquivo ser executado, ele é removido.
+O arquivo está sendo gravado numa pasta temporária interna do cbuild: A pasta "temp".
 
 ## A classe SourceCodeManager
 
