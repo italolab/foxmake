@@ -1,7 +1,6 @@
 # CBuild
 
-O cbuild é um software que permite automatizar o processo de build de compilação, linkagem (criação de executável ou shared library), archiving (criação de static library) e testes de unidade com outro framework que desenvolvi: O CBTest. Também é possível executar comandos de cópia, deleção de arquivos e pastas, bem como, criação de pastas, impressão de texto, variável ou propriedade na saída padrão, alteração do diretório corrente e execução 
-de comandos do shell. Também é possível executar um bloco de comandos do shell.
+O cbuild é um software que permite automatizar o processo de build de compilação, linkagem (criação de executável ou shared library), archiving (criação de static library) e testes de unidade com outro framework que desenvolvi: O CBTest. Também é possível executar comandos de cópia, deleção de arquivos e pastas, bem como, criação de pastas, impressão de texto, variável ou propriedade na saída padrão, alteração do diretório corrente e execução de comandos do shell. Também é possível executar um bloco de comandos do shell.
 
 ## Tarefas
 
@@ -61,12 +60,11 @@ O arquivo está sendo gravado numa pasta temporária interna do cbuild: A pasta 
 
 A classe SourceCodeManager fica na pasta "sourcecode" e carrega estruturas com informações sobre os arquivos de código da pasta passada como parâmetro para o método de leitura e carregamento das estruturas.
 
-É mantida uma "map" das informações do arquivo (struct CodeInfo). A chave desse map é 
-o "filePath", o caminho absoluto do arquivo. Exemplo de chave: "/home/joao/projetos/projeto/src/main.cpp". E o valor desse map é um ponteiro da instância de CodeInfo.
+É mantida uma "map" das informações do arquivo (struct CodeInfo). A chave desse map é o "filePath", o caminho absoluto do arquivo. Exemplo de chave: "/home/joao/projetos/projeto/src/main.cpp". E o valor desse map é um ponteiro da instância de CodeInfo.
 
 Há dois maps, um com apenas informações dos arquivos de código fonte de implementação (.cpp, .c, .cc) e um com todos os arquivos de código fonte, incluíndo os headers (.h, .hpp, .tpp, .ipp).
 
-Geralmente, são passados como parâmetro para o método carregador dessas estruturas os valores das propriedades "src.dir" e "test.dir". 
+Geralmente, são passados como parâmetro para o método carregador dessas estruturas os valores das propriedades "src.dir" e "test.dir".
 
 È mantida uma instância de SourceCodeManager para informações dos arquivos de "src.dir" e outra instância para informações dos arquivos de "test.dir".
 
@@ -111,12 +109,3 @@ Também a cada compilação, antes do arquivo "__lwtimes.txt" ser atualizado, é
 Na classe "FilesToCompileManager", o método de carregamento de informações dos arquivos a serem compilados (FilesToCompileManager::loadFilesToCompile) faz um percorrimento em todos os arquivos de código fonte carregados e compara sua data de última alteração com a sua data de compilação presente no arquivo "__lwtimes.txt". Se a data de última alteração for mais recente que a data de última compilação, então, as dependências de implementação desse arquivos são adicionados ao vector de arquivos a serem compilados.
 
 Um arquivo pode depender de outros arquivos que o inclúem e seus arquivos que o incluem podem depender, ainda, de outros arquivos que os inclúem. Assim, essa busca por arquivos para compilar é recursiva.
-
-
-
-
-
-
-
-
-
