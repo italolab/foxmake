@@ -23,7 +23,7 @@ InterResult::InterResult( string line, int numberOfLines, int numberOfColumns, s
 
 InterResult::InterResult( bool interpreted ) {
     this->statement = nullptr;
-    this->numberOfLinesReaded = ( interpreted ? 1 : 0 );
+    this->numberOfLinesReaded = 0;
     this->numberOfColumnsReaded = 0;
     this->line = "";
     this->errorMsg = "";

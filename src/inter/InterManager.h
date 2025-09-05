@@ -5,6 +5,7 @@
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "ProcInter.h"
+#include "preproc/PreProcessor.h"
 #include "DefaultTaskConfigInter.h"
 #include "taskdef/TaskDefinitionInter.h"
 #include "taskdef/TaskDefinitionResult.h"
@@ -31,6 +32,8 @@ class InterManager {
         DefaultTaskConfigInter* defaultTaskConfigInter;
         TaskDefinitionInter* taskDefinitionInter;
 
+        PreProcessor* preProcessor;
+        
         InterDriver* drv;
 
     public:
@@ -51,6 +54,8 @@ class InterManager {
         InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded );
 
         TaskDefinitionResult* interpretsTaskDefinition( string currentLine );
+
+        InterResult* preProcess( BlockIterator* it, string& preProcessedText );
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );

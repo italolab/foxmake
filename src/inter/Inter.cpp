@@ -10,9 +10,6 @@
 
 using std::stringstream;
 
-#include <iostream>
-using namespace std;
-
 inter_error::inter_error( string msg ) : runtime_error( msg ) {}
 
 InterResult* Inter::replacePropsAndVarsAndDollarSigns( 
