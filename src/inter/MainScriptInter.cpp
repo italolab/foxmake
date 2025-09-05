@@ -2,6 +2,7 @@
 #include "MainScriptInter.h"
 #include "InterManager.h"
 #include "it/FileIterator.h"
+#include "it/StringIterator.h"
 #include "../darv/MainScript.h"
 #include "../util/strutil.h"
 
@@ -35,10 +36,19 @@ InterResult* MainScriptInter::interprets(
             MainScript* script, 
             string file, 
             void* mgr ) {
+    InterManager* manager = (InterManager*)mgr;
+
 
     FileIterator* it = new FileIterator( file );
 
+    string preProcessedText;
+    InterResult* iresult = manager->preProcess( it, preProcessedText );
+    if ( iresult->isErrorFound() )
+        return iresult;
+                
+    StringIterator* preProcessedTextIt = new StringIterator( preProcessedText );
+
     string endToken = "";
     int numberOfLinesReaded = 0;
-    return BlockInter::interpretsBlock( script, it, numberOfLinesReaded, endToken, nullptr,  mgr );
+    return BlockInter::interpretsBlock( script, preProcessedTextIt, numberOfLinesReaded, endToken, nullptr,  mgr );
 }

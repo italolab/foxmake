@@ -2,7 +2,6 @@
 #include "BlockInter.h"
 #include "InterManager.h"
 #include "InterResult.h"
-#include "it/FileIterator.h"
 #include "../util/strutil.h"
 #include "../msg/messagebuilder.h"
 
@@ -56,7 +55,7 @@ InterResult* BlockInter::interpretsBlock(
         } else if ( endIResult->isErrorFound() ) {
             return endIResult;
         }
-
+        
         bool isCmd = manager->isValidCMD( line );
 
         InterResult* result = new InterResult( false );

@@ -14,6 +14,8 @@ InterManager::InterManager( InterDriver* drv ) {
     this->shellCMDInter = new ShellCMDLineInter();
     this->propInter = new PropInter();
     this->varInter = new VarInter();
+
+    this->preProcessor = new PreProcessor();
 }
 
 InterManager::~InterManager() {
@@ -26,6 +28,8 @@ InterManager::~InterManager() {
     delete shellCMDInter;
     delete propInter;
     delete varInter;
+
+    delete preProcessor;
 }
 
 InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
@@ -66,6 +70,10 @@ InterResult* InterManager::interpretsDefaultTaskConfig( MainScript* script, stri
 
 TaskDefinitionResult* InterManager::interpretsTaskDefinition( string currentLine ) {
     return taskDefinitionInter->interprets( currentLine, this );
+}
+
+InterResult* InterManager::preProcess( BlockIterator* it, string& preProcessedText ) {
+    return preProcessor->preProcess( it, preProcessedText );
 }
 
 bool InterManager::isValidCMD( string line ) {

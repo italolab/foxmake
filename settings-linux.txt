@@ -1,6 +1,16 @@
 
 compiler=g++
-output.file.name=cbuild
+
+#IFWIN32
+#    echo WINDOWS
+#    output.file.name=cbuild.exe
+#ENDIF
+
+
+#IFNOWIN32
+#    echo LINUX
+    output.file.name=cbuild
+#ENDIF
 
 src.dir=src
 test.dir=test
@@ -28,7 +38,10 @@ lib.dirs=
 include.dirs=
 libs=
 
-test.linker.params=-ldl -rdynamic
+#IFNOWIN32
+#    echo LINUX
+    test.linker.params=-ldl -rdynamic
+#ENDIF
 
 test.lib.dirs=lib
 test.include.dirs=include
