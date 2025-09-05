@@ -13,7 +13,7 @@ namespace errors {
     const string TEST_LINKING_FAILED = "Falha na linkagem do executável de teste!";
     const string TESTING_FAILED = "Falha na execução da tarefa teste!";
 
-    const string NO_SETTINGS_AND_NO_WORKING_DIR = "Como o arquivo de settings não foi encontrado ou informado, é necessario definir o argumento --working-dir";
+    const string NO_CBUILD_FILE_AND_NO_WORKING_DIR = "Como o arquivo de configurações não foi encontrado ou informado, é necessario definir o argumento --working-dir";
 
     const string SRC_DIRECTORY_NOT_FOUND = "Diretório de códigos fonte não encontrado: \"$1\"\nVerifique a propriedade \"$2\"";
     const string WORKDIR_VAR_NOT_FOUND = "Não foi encontrada a variável de diretório de trabalho.";
@@ -26,7 +26,7 @@ namespace errors {
     const string IS_NOT_A_VALID_PROP = "A propriedade \"$1\" não foi reconhecida.";
     const string IS_NOT_A_DEFAULT_TASK = "A tarefa \"$1\" não é uma tarefa default. Logo, não pode ser configurada assim.";
 
-    const string SETTINGS_FILE_NOT_FOUND = "Arquivo de configuração não encontrado: \"$1\"";
+    const string CBUILD_FILE_NOT_FOUND = "Arquivo de configuração não encontrado: \"$1\"";
     const string FILE_OR_DIRECTORY_NOT_CREATED = "Não foi possível criar o diretório: \"$1\"";
     const string FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER = "não foi possível cópiar o arquivo ou pasta: \"$1\" para a pasta de build.";
     const string FILE_OR_FOLDER_NOT_FOUND = "Arquivo ou diretório não encontrado: \"$1\"";

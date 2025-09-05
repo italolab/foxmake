@@ -1,5 +1,12 @@
 compiler=g++
-output.file.name=cbuild.exe
+
+IFWIN32
+    output.file.name=cbuild.exe
+ENDIF
+
+IFNOWIN32
+    output.file.name=cbuild
+ENDIF
 
 src.dir=../src
 test.dir=../test
@@ -27,7 +34,9 @@ include.dirs=
 libs=
 #defines=
 
-test.linker.params=
+IFNOWIN32
+    test.linker.params=-ldl -rdynamic
+ENDIF
 
 test.include.dirs=../include
 test.lib.dirs=../lib
@@ -54,11 +63,11 @@ task copy after
 
     @echo "abc"
     shellbegin
-        if exist "settings.txt" (
-            echo O arquivo existe...!
-        ) else (
-            echo Arquivo nao existe: settings.txt
-        )
+        if [ -f "settings-run.txt" ]; then
+            echo "O arquivo existe...!"
+        else 
+            echo "Arquivo nao existe: settings.txt"
+        fi
     endshell
 
 endtask
@@ -78,29 +87,19 @@ task finish after
     mkdir $(build.dir)/objects
     cp $(obj.dir)/src/io/* $(build.dir)/objects
 
-    cp $(lib_dir)/libcbtest.lib $(build.dir)/libtest.lib
+    cp $(lib_dir)/libcbtest.a $(build.dir)/libtest.a
     cp ../include/test/cbtest.h $(build.dir)/cbtest.h
     cp ../include/test/cbtest.h $(build.dir)/cbtest.h
 
     cp -r $(src.dir) $(build.dir)/source
 
-    mkdir include
     cp -r ../../cbtest/src/**/*.h build/include
     cp -r ../../cbtest/src/**/*.h build/include
 
-    #mkdir -p $(build.dir)/a/b/c
+    rm $(build.dir)/objects/io.o
+    rm $(build.dir)/ma*n.*
+    rm $(build.dir)/lib*.*
 
-    #cp ../../italo-xadrez/italo-xadrez $(build.dir)
-
-    #cd ../../italo-xadrez
-    #cp -r Src ../$(project_name)/$(build.dir)
-
-    #cd ../$(project_name)/run
-
-    #rm $(build.dir)/objects/io.o
-    #rm $(build.dir)/ma*n.*
-    #rm $(build.dir)/sett*.*
-
-    #rm -r $(include.dirs)/io/fi*r
-    #rm -r $(bin.dir)
+    rm -r $(build.dir)/include/io/i*.*
+    rm -r $(bin.dir)
 endtask

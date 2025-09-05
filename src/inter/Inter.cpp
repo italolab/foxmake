@@ -61,7 +61,7 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns(
                                 ss << value;
                                 k = j;
                             } else {
-                                Var* var = block->getVar( name );
+                                Var* var = block->getVar( name );                                
                                 if ( var != nullptr ) {
                                     string value = var->getValue();
                                     ss << value;

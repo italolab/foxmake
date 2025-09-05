@@ -1,6 +1,12 @@
 
 compiler=g++
-output.file.name=cbuild.exe
+
+IFWIN32
+    output.file.name=cbuild.exe
+ENDIF
+IFNOWIN32
+    output.file.name=cbuild
+ENDIF
 
 src.dir=src
 test.dir=test
@@ -28,7 +34,9 @@ lib.dirs=
 include.dirs=
 libs=
 
-test.linker.params=
+IFNOWIN32
+    test.linker.params=-ldl -rdynamic
+ENDIF
 
 test.lib.dirs=lib
 test.include.dirs=include
@@ -39,12 +47,12 @@ task compile noverbose;
 proc archive_and_copy_cbtest
     echo
     rm -r include/*.h
-    rm lib/libcbtest.lib
+    rm lib/libcbtest.a
     
-    @cbuild.exe archivebuildall --settings-file=../cbtest/settings-staticlib-windows.txt
+    @./cbuild archivebuildall --cbuild-file=../cbtest/settings-staticlib-linux.txt
     
     cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/libcbtest.lib lib/
+    cp ../cbtest/build/libcbtest.a lib/
     echo
 endproc
 
@@ -57,5 +65,5 @@ task compile before
 endtask
 
 task finish after    
-    
+    #@./build/cbuild testbuild --settings-file=settings-linux-run.txt
 endtask

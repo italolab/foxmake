@@ -6,7 +6,13 @@ output.file.name=libcbuild.a
 src.dir=src
 build.dir=build
 
-bin.dir=bin/Release
+IFWIN32
+    bin.dir=bin/Release/windows
+ENDIF
+IFNOWIN32
+    bin.dir=bin/Release/linux
+ENDIF
+
 obj.dir=obj/Release/archive
 compiler.params=-Wall -fexceptions -O2 -std=c++17
 archiver.params=

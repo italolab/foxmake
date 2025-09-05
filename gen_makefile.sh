@@ -1,6 +1,7 @@
 #!/bin/bash
 CXX="g++"
 CXXFLAGS="-Wall -g"
+LINKERFLAGS=""
 SRC_DIR="src"
 OBJ_DIR="obj/Debug"
 BIN_DIR="bin/Debug"
@@ -49,7 +50,7 @@ printf ".PHONY: all\n\n" >> Makefile
 printf "all: \$(TARGET)\n\n" >> Makefile
 
 printf "\$(TARGET): $OBJS\n" >> Makefile
-printf "\t\$(CXX) -o \$(TARGET) $OBJS_PATHS\n\n" >> Makefile
+printf "\t\$(CXX) -o \$(TARGET) $OBJS_PATHS $LINKERFLAGS\n\n" >> Makefile
 
 find $SRC_DIR -type f -name "*.cpp" -printf '%p\n' | while read -r file; do
     cpp_file_path="$file"
