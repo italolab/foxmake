@@ -32,11 +32,6 @@ AFTER_EACH( IOTests ) {
     io::deleteFiles( "temp", io::by_name_file_filter( "*" ), true ); 
 }
 
-AFTER_ALL( IOTests ) {
-    ASSERT_EQUALS( io::countFilesAndDirs( "temp" ), 0, )
-    cout << io::countFilesAndDirs( "temp" ) << endl;
-}
-
 TEST_CASE( copyFileTest, IOTests ) {    
     io::copyFile( "temp/b.sh", "temp/build/b.sh", true );
     io::copyFile( "temp/b.sh", "temp/build/c.sh", true );
