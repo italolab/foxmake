@@ -39,24 +39,24 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
 
             string shellFileContent = "@echo off\n" + cmdstr;
 
-            string tempDirPath = io::tempDirPath();
-            tempDirPath = io::addSeparatorIfNeed( tempDirPath );
-
             int hash = hashutil::currentHash();
 
+            io::createDirs( "temp" );
+            
             stringstream ss;
-            ss << tempDirPath << hash << ".bat";
+            ss << "temp\\" << hash << ".bat";
             string tempBatFile = ss.str();
 
+            out << tempBatFile << "\n";
+
             io::writeInTextFile( tempBatFile, shellFileContent );
-            io::hideFile( tempBatFile );
 
             cmdstr = ".\\" + tempBatFile;
 
             shell->pushCommand( cmdstr );
             result = shell->execute();
 
-            io::deleteFileOrDir( tempBatFile );
+            io::deleteFileOrDir( tempBatFile, true );
         #else
             shell->pushCommand( cmdstr );
             result = shell->execute();

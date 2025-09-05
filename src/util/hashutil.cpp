@@ -4,6 +4,10 @@
 #include <ctime>
 #include <cstdlib>
 
+#include <string>
+
+using std::string;
+
 namespace hashutil {
 
     size_t currentHash() {
@@ -11,8 +15,8 @@ namespace hashutil {
         int currTime = time( NULL );
         int randomNum = rand();
 
-        std::hash<int> hash_fn;
-        return hash_fn( currTime + randomNum );
+        std::hash<string> hash_fn;
+        return hash_fn( std::to_string( currTime ) + std::to_string( randomNum ) );
     }
 
 }

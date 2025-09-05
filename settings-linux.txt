@@ -30,7 +30,7 @@ libs=
 
 test.linker.params=-ldl -rdynamic
 
-test.lib.dirs=lib
+test.lib.dirs=lib/linux
 test.include.dirs=include
 test.libs=cbtest
 
@@ -43,8 +43,10 @@ proc archive_and_copy_cbtest
     
     @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
     
+    mkdir -p lib/linux
+
     cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/libcbtest.a lib/
+    cp ../cbtest/build/libcbtest.a lib/linux
     echo
 endproc
 

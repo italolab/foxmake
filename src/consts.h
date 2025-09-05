@@ -12,6 +12,7 @@ namespace consts {
     const string DEFAULT_SETTINGS_FILE_NAME = "settings.txt";
 
     const string LAST_WRITE_TIMES_FILE = "__lwtimes.txt";
+    const string TEMP_BAT_FILE = "__temp.bat";
 
     const string SOURCE_FILE_EXTENSIONS = ".c .cpp .cc";
     const string HEADER_FILE_EXTENSIONS = ".h .hpp .tpp .ipp";

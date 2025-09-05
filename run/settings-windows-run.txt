@@ -88,19 +88,10 @@ task finish after
     cp -r ../../cbtest/src/**/*.h build/include
     cp -r ../../cbtest/src/**/*.h build/include
 
-    #mkdir -p $(build.dir)/a/b/c
+    rm $(build.dir)/objects/io.o
+    rm $(build.dir)/ma*n.*
+    rm $(build.dir)/lib*.*
 
-    #cp ../../italo-xadrez/italo-xadrez $(build.dir)
-
-    #cd ../../italo-xadrez
-    #cp -r Src ../$(project_name)/$(build.dir)
-
-    #cd ../$(project_name)/run
-
-    #rm $(build.dir)/objects/io.o
-    #rm $(build.dir)/ma*n.*
-    #rm $(build.dir)/sett*.*
-
-    #rm -r $(include.dirs)/io/fi*r
-    #rm -r $(bin.dir)
+    rm -r $(build.dir)/include/io/i*.*
+    rm -r $(bin.dir)
 endtask

@@ -30,7 +30,7 @@ libs=
 
 test.linker.params=
 
-test.lib.dirs=lib
+test.lib.dirs=lib/windows
 test.include.dirs=include
 test.libs=cbtest
 
@@ -39,12 +39,14 @@ task compile noverbose;
 proc archive_and_copy_cbtest
     echo
     rm -r include/*.h
-    rm lib/libcbtest.lib
+    rm lib/libcbtest.a
     
     @cbuild.exe archivebuildall --settings-file=../cbtest/settings-staticlib-windows.txt
     
+    mkdir -p lib/windows
+
     cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/libcbtest.lib lib/
+    cp ../cbtest/build/libcbtest.a lib/windows
     echo
 endproc
 
