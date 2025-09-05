@@ -1,6 +1,7 @@
 #include "util/strutiltests.h"
 #include "io/iopathtests.h"
 #include "io/iotests.h"
+#include "io/ByNameFileFilterTests.h"
 
 #include <test/cbtest.h>
 
