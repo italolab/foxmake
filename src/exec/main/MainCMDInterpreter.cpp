@@ -18,7 +18,7 @@
 using std::endl;
 
 /*
-Classe responsável por ler e setar workingDir e settingsFile, interpretar 
+Classe responsável por ler e setar workingDir e cbuildFile, interpretar 
 o script principal, carregando toda a arvore de derivação, carregar as 
 variáveis e propriedades definidas no comando principal com "-var" e "-prop" e 
 validar o comando.
@@ -30,20 +30,20 @@ validação falha.
 
 Exemplo:
     Informada a tarefa "executar". Ela não é uma tarefa default executada pelo sistema e, 
-    caso não tenha sido definida no arquivo de settings, também não é uma tarefa de usuário. 
-    Logo, é uma tarefa desconhecida e o sistema informa isso para o usuário.
+    caso não tenha sido definida no arquivo de configurações, também não é uma tarefa 
+    de usuário. Logo, é uma tarefa desconhecida e o sistema informa isso para o usuário.
 */
 
 void MainCMDInterpreter::configureAndInterpretsAndValidate( void* mgr ) {
     bool workingDirFound = false;
-    bool settingsFileFound = false;
+    bool cbuildFileFound = false;
 
-    this->configure( workingDirFound, settingsFileFound, mgr );
-    this->interpretsMainScript( workingDirFound, settingsFileFound, mgr );
+    this->configure( workingDirFound, cbuildFileFound, mgr );
+    this->interpretsMainScript( workingDirFound, cbuildFileFound, mgr );
     this->validaMainCMD( mgr );
 }
 
-void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFound, void* mgr ) {
+void MainCMDInterpreter::configure( bool& workingDirFound, bool& cbuildFileFound, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* mainCMD = manager->getMainCMD();
 
@@ -51,7 +51,7 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFou
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     workingDir = mainCMD->getPropertyValue( "--working-dir" );
-    settingsFile = mainCMD->getPropertyValue( "--settings-file" );
+    cbuildFile = mainCMD->getPropertyValue( "--cbuild-file" );
 
     if ( workingDir != "" ) {
         workingDir = io::path::absoluteResolvePath( workingDir );
@@ -60,11 +60,11 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFou
 
         workingDirFound = true;
     } else {
-        if ( settingsFile != "" ) {
-            workingDir = io::path::dirPath( io::path::absoluteResolvePath( settingsFile ) );
+        if ( cbuildFile != "" ) {
+            workingDir = io::path::dirPath( io::path::absoluteResolvePath( cbuildFile ) );
             workingDir = io::path::removeSeparatorFromDirIfNeed( workingDir );
 
-            settingsFile = io::path::fileOrDirName( settingsFile );
+            cbuildFile = io::path::fileOrDirName( cbuildFile );
             shell::setWorkingDir( workingDir );
         } else {
             workingDir = shell::getWorkingDir();
@@ -73,32 +73,32 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& settingsFileFou
         workingDirFound = false;
     }
 
-    if ( settingsFile == "" )
-        settingsFile = consts::DEFAULT_SETTINGS_FILE_NAME;
+    if ( cbuildFile == "" )
+        cbuildFile = consts::DEFAULT_CBUILD_FILE_NAME;
 
-    settingsFile = io::path::absoluteResolvePath( settingsFile );
+    cbuildFile = io::path::absoluteResolvePath( cbuildFile );
 
     if ( isVerbose ) {
-        messagebuilder b( infos::SETTINGS_FILE );
-        b << settingsFile;
+        messagebuilder b( infos::CBUILD_FILE );
+        b << cbuildFile;
         out << b.str() << endl;
     }
 
-    settingsFileFound = true;
+    cbuildFileFound = true;
 
-    if ( !io::fileExists( settingsFile ) ) {
-        messagebuilder b2( errors::SETTINGS_FILE_NOT_FOUND );
-        b2 << settingsFile;
+    if ( !io::fileExists( cbuildFile ) ) {
+        messagebuilder b2( errors::CBUILD_FILE_NOT_FOUND );
+        b2 << cbuildFile;
         out << output::green( b2.str() ) << endl;
 
         if ( !workingDirFound )
-            throw st_error( nullptr, errors::NO_SETTINGS_AND_NO_WORKING_DIR );
+            throw st_error( nullptr, errors::NO_CBUILD_FILE_AND_NO_WORKING_DIR );
 
-        settingsFileFound = false;
+        cbuildFileFound = false;
     }
 }
 
-void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool settingsFileFound,void* mgr ) {
+void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool cbuildFileFound, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
@@ -109,11 +109,11 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool settin
     this->loadProperties( mgr );
     this->loadVariables( mgr );
 
-    mainScript->putLocalVar( "main_config_file", settingsFile );
+    mainScript->putLocalVar( "main_config_file", cbuildFile );
     mainScript->putLocalVar( "working_dir", workingDir );
 
-    if ( settingsFileFound ) {
-        InterResult* result = interManager->interpretsMainScript( mainScript, settingsFile );
+    if ( cbuildFileFound ) {
+        InterResult* result = interManager->interpretsMainScript( mainScript, cbuildFile );
         if ( !result->isInterpreted() )
             throw st_error( result );
 

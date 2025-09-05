@@ -1,16 +1,12 @@
 
 compiler=g++
 
-#IFWIN32
-#    echo WINDOWS
-#    output.file.name=cbuild.exe
-#ENDIF
-
-
-#IFNOWIN32
-#    echo LINUX
+IFWIN32
+    output.file.name=cbuild.exe
+ENDIF
+IFNOWIN32
     output.file.name=cbuild
-#ENDIF
+ENDIF
 
 src.dir=src
 test.dir=test
@@ -38,10 +34,9 @@ lib.dirs=
 include.dirs=
 libs=
 
-#IFNOWIN32
-#    echo LINUX
+IFNOWIN32
     test.linker.params=-ldl -rdynamic
-#ENDIF
+ENDIF
 
 test.lib.dirs=lib/linux
 test.include.dirs=include
@@ -54,7 +49,7 @@ proc archive_and_copy_cbtest
     rm -r include/*.h
     rm lib/libcbtest.a
     
-    @./cbuild archivebuildall --settings-file=../cbtest/settings-staticlib-linux.txt
+    @./cbuild archivebuildall --cbuild-file=../cbtest/settings-staticlib-linux.txt
     
     mkdir -p lib/linux
 

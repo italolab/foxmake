@@ -7,14 +7,14 @@ TARGET=cbuild
 
 all: $(TARGET)
 
-$(TARGET): src/exec/MainCMDArgManager.o src/exec/shcmd/ShellCMDExec.o src/exec/stexcept.o src/exec/main/TaskExec.o src/exec/main/MainExec.o src/exec/main/task/CompileTaskExec.o src/exec/main/task/TestTaskExec.o src/exec/main/task/ArchiveTaskExec.o src/exec/main/task/LinkOrArchiveTaskExec.o src/exec/main/task/ExeLinkTaskExec.o src/exec/main/task/CleanTaskExec.o src/exec/main/task/DynamicLibraryLinkTaskExec.o src/exec/main/task/CopyTaskExec.o src/exec/main/MainCMDInterpreter.o src/exec/ExecManager.o src/exec/echo/EchoExec.o src/exec/mkdir/MKDirExec.o src/exec/cd/CDExec.o src/exec/rm/RMExec.o src/exec/Exec.o src/exec/cp/CPExec.o src/main.o src/darv/Prop.o src/darv/GenericCMD.o src/darv/Task.o src/darv/Statement.o src/darv/ShellCMD.o src/darv/DefaultTaskConfig.o src/darv/CMD.o src/darv/MainScript.o src/darv/Block.o src/darv/Var.o src/util/strutil.o src/sourcecode/SourceCodeManager.o src/sourcecode/FilesToCompileManager.o src/sourcecode/IncludesSCInterpreter.o src/sourcecode/ClassesSCInterpreter.o src/sourcecode/LWTimesFileIO.o src/sourcecode/DependenciesSCLoader.o src/shell/shell.o src/shell/output/OutputThread.o src/shell/output/OutputController.o src/compiler/Archiver.o src/compiler/Linker.o src/compiler/DynamicLibraryLinker.o src/compiler/Compiler.o src/output/output.o src/io/io.o src/io/filter/ByNameFileFilter.o src/msg/messagebuilder.o src/inter/PropInter.o src/inter/InterManager.o src/inter/BlockInter.o src/inter/VarInter.o src/inter/Inter.o src/inter/taskconfig/TaskConfigInter.o src/inter/taskconfig/TaskConfigResult.o src/inter/InterResult.o src/inter/block/BlockInterResult.o src/inter/MainScriptInter.o src/inter/TaskInter.o src/inter/CMDInter.o src/inter/ShellCMDInter.o src/inter/it/StringIterator.o src/inter/it/FileIterator.o src/inter/DefaultTaskConfigInter.o
-	$(CXX) -o $(TARGET) obj/Debug/src/exec/MainCMDArgManager.o obj/Debug/src/exec/shcmd/ShellCMDExec.o obj/Debug/src/exec/stexcept.o obj/Debug/src/exec/main/TaskExec.o obj/Debug/src/exec/main/MainExec.o obj/Debug/src/exec/main/task/CompileTaskExec.o obj/Debug/src/exec/main/task/TestTaskExec.o obj/Debug/src/exec/main/task/ArchiveTaskExec.o obj/Debug/src/exec/main/task/LinkOrArchiveTaskExec.o obj/Debug/src/exec/main/task/ExeLinkTaskExec.o obj/Debug/src/exec/main/task/CleanTaskExec.o obj/Debug/src/exec/main/task/DynamicLibraryLinkTaskExec.o obj/Debug/src/exec/main/task/CopyTaskExec.o obj/Debug/src/exec/main/MainCMDInterpreter.o obj/Debug/src/exec/ExecManager.o obj/Debug/src/exec/echo/EchoExec.o obj/Debug/src/exec/mkdir/MKDirExec.o obj/Debug/src/exec/cd/CDExec.o obj/Debug/src/exec/rm/RMExec.o obj/Debug/src/exec/Exec.o obj/Debug/src/exec/cp/CPExec.o obj/Debug/src/main.o obj/Debug/src/darv/Prop.o obj/Debug/src/darv/GenericCMD.o obj/Debug/src/darv/Task.o obj/Debug/src/darv/Statement.o obj/Debug/src/darv/ShellCMD.o obj/Debug/src/darv/DefaultTaskConfig.o obj/Debug/src/darv/CMD.o obj/Debug/src/darv/MainScript.o obj/Debug/src/darv/Block.o obj/Debug/src/darv/Var.o obj/Debug/src/util/strutil.o obj/Debug/src/sourcecode/SourceCodeManager.o obj/Debug/src/sourcecode/FilesToCompileManager.o obj/Debug/src/sourcecode/IncludesSCInterpreter.o obj/Debug/src/sourcecode/ClassesSCInterpreter.o obj/Debug/src/sourcecode/LWTimesFileIO.o obj/Debug/src/sourcecode/DependenciesSCLoader.o obj/Debug/src/shell/shell.o obj/Debug/src/shell/output/OutputThread.o obj/Debug/src/shell/output/OutputController.o obj/Debug/src/compiler/Archiver.o obj/Debug/src/compiler/Linker.o obj/Debug/src/compiler/DynamicLibraryLinker.o obj/Debug/src/compiler/Compiler.o obj/Debug/src/output/output.o obj/Debug/src/io/io.o obj/Debug/src/io/filter/ByNameFileFilter.o obj/Debug/src/msg/messagebuilder.o obj/Debug/src/inter/PropInter.o obj/Debug/src/inter/InterManager.o obj/Debug/src/inter/BlockInter.o obj/Debug/src/inter/VarInter.o obj/Debug/src/inter/Inter.o obj/Debug/src/inter/taskconfig/TaskConfigInter.o obj/Debug/src/inter/taskconfig/TaskConfigResult.o obj/Debug/src/inter/InterResult.o obj/Debug/src/inter/block/BlockInterResult.o obj/Debug/src/inter/MainScriptInter.o obj/Debug/src/inter/TaskInter.o obj/Debug/src/inter/CMDInter.o obj/Debug/src/inter/ShellCMDInter.o obj/Debug/src/inter/it/StringIterator.o obj/Debug/src/inter/it/FileIterator.o obj/Debug/src/inter/DefaultTaskConfigInter.o
+$(TARGET): src/exec/MainCMDArgManager.o src/exec/shcmd/ShellCMDLineExec.o src/exec/stexcept.o src/exec/main/TaskExec.o src/exec/main/MainExec.o src/exec/main/task/CompileTaskExec.o src/exec/main/task/TestTaskExec.o src/exec/main/task/ArchiveTaskExec.o src/exec/main/task/LinkOrArchiveTaskExec.o src/exec/main/task/ExeLinkTaskExec.o src/exec/main/task/CleanTaskExec.o src/exec/main/task/DynamicLibraryLinkTaskExec.o src/exec/main/task/CopyTaskExec.o src/exec/main/MainCMDInterpreter.o src/exec/ExecManager.o src/exec/echo/EchoExec.o src/exec/mkdir/MKDirExec.o src/exec/cd/CDExec.o src/exec/rm/RMExec.o src/exec/cp/CPExec.o src/main.o src/darv/Prop.o src/darv/GenericCMD.o src/darv/Task.o src/darv/ShellCMDLine.o src/darv/Statement.o src/darv/DefaultTaskConfig.o src/darv/CMD.o src/darv/MainScript.o src/darv/Block.o src/darv/Var.o src/darv/CallCMD.o src/darv/Proc.o src/util/hashutil.o src/util/strutil.o src/sourcecode/SourceCodeManager.o src/sourcecode/FilesToCompileManager.o src/sourcecode/IncludesSCInterpreter.o src/sourcecode/ClassesSCInterpreter.o src/sourcecode/LWTimesFileIO.o src/sourcecode/DependenciesSCLoader.o src/shell/shell.o src/shell/output/OutputThread.o src/shell/output/OutputController.o src/compiler/Archiver.o src/compiler/Linker.o src/compiler/DynamicLibraryLinker.o src/compiler/Compiler.o src/output/output.o src/io/io.o src/io/filter/ByNameFileFilter.o src/msg/messagebuilder.o src/inter/PropInter.o src/inter/ProcInter.o src/inter/InterManager.o src/inter/BlockInter.o src/inter/VarInter.o src/inter/Inter.o src/inter/preproc/PreProcessor.o src/inter/ShellCMDLineInter.o src/inter/InterResult.o src/inter/block/BlockInterResult.o src/inter/MainScriptInter.o src/inter/TaskInter.o src/inter/CMDInter.o src/inter/taskdef/TaskDefinitionInter.o src/inter/taskdef/TaskDefinitionResult.o src/inter/it/StringIterator.o src/inter/it/FileIterator.o src/inter/DefaultTaskConfigInter.o
+	$(CXX) -o $(TARGET) obj/Debug/src/exec/MainCMDArgManager.o obj/Debug/src/exec/shcmd/ShellCMDLineExec.o obj/Debug/src/exec/stexcept.o obj/Debug/src/exec/main/TaskExec.o obj/Debug/src/exec/main/MainExec.o obj/Debug/src/exec/main/task/CompileTaskExec.o obj/Debug/src/exec/main/task/TestTaskExec.o obj/Debug/src/exec/main/task/ArchiveTaskExec.o obj/Debug/src/exec/main/task/LinkOrArchiveTaskExec.o obj/Debug/src/exec/main/task/ExeLinkTaskExec.o obj/Debug/src/exec/main/task/CleanTaskExec.o obj/Debug/src/exec/main/task/DynamicLibraryLinkTaskExec.o obj/Debug/src/exec/main/task/CopyTaskExec.o obj/Debug/src/exec/main/MainCMDInterpreter.o obj/Debug/src/exec/ExecManager.o obj/Debug/src/exec/echo/EchoExec.o obj/Debug/src/exec/mkdir/MKDirExec.o obj/Debug/src/exec/cd/CDExec.o obj/Debug/src/exec/rm/RMExec.o obj/Debug/src/exec/cp/CPExec.o obj/Debug/src/main.o obj/Debug/src/darv/Prop.o obj/Debug/src/darv/GenericCMD.o obj/Debug/src/darv/Task.o obj/Debug/src/darv/ShellCMDLine.o obj/Debug/src/darv/Statement.o obj/Debug/src/darv/DefaultTaskConfig.o obj/Debug/src/darv/CMD.o obj/Debug/src/darv/MainScript.o obj/Debug/src/darv/Block.o obj/Debug/src/darv/Var.o obj/Debug/src/darv/CallCMD.o obj/Debug/src/darv/Proc.o obj/Debug/src/util/hashutil.o obj/Debug/src/util/strutil.o obj/Debug/src/sourcecode/SourceCodeManager.o obj/Debug/src/sourcecode/FilesToCompileManager.o obj/Debug/src/sourcecode/IncludesSCInterpreter.o obj/Debug/src/sourcecode/ClassesSCInterpreter.o obj/Debug/src/sourcecode/LWTimesFileIO.o obj/Debug/src/sourcecode/DependenciesSCLoader.o obj/Debug/src/shell/shell.o obj/Debug/src/shell/output/OutputThread.o obj/Debug/src/shell/output/OutputController.o obj/Debug/src/compiler/Archiver.o obj/Debug/src/compiler/Linker.o obj/Debug/src/compiler/DynamicLibraryLinker.o obj/Debug/src/compiler/Compiler.o obj/Debug/src/output/output.o obj/Debug/src/io/io.o obj/Debug/src/io/filter/ByNameFileFilter.o obj/Debug/src/msg/messagebuilder.o obj/Debug/src/inter/PropInter.o obj/Debug/src/inter/ProcInter.o obj/Debug/src/inter/InterManager.o obj/Debug/src/inter/BlockInter.o obj/Debug/src/inter/VarInter.o obj/Debug/src/inter/Inter.o obj/Debug/src/inter/preproc/PreProcessor.o obj/Debug/src/inter/ShellCMDLineInter.o obj/Debug/src/inter/InterResult.o obj/Debug/src/inter/block/BlockInterResult.o obj/Debug/src/inter/MainScriptInter.o obj/Debug/src/inter/TaskInter.o obj/Debug/src/inter/CMDInter.o obj/Debug/src/inter/taskdef/TaskDefinitionInter.o obj/Debug/src/inter/taskdef/TaskDefinitionResult.o obj/Debug/src/inter/it/StringIterator.o obj/Debug/src/inter/it/FileIterator.o obj/Debug/src/inter/DefaultTaskConfigInter.o 
 
 src/exec/MainCMDArgManager.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/MainCMDArgManager.o -c src/exec/MainCMDArgManager.cpp
 
-src/exec/shcmd/ShellCMDExec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/shcmd/ShellCMDExec.o -c src/exec/shcmd/ShellCMDExec.cpp
+src/exec/shcmd/ShellCMDLineExec.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/shcmd/ShellCMDLineExec.o -c src/exec/shcmd/ShellCMDLineExec.cpp
 
 src/exec/stexcept.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/stexcept.o -c src/exec/stexcept.cpp
@@ -67,9 +67,6 @@ src/exec/cd/CDExec.o:
 src/exec/rm/RMExec.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/rm/RMExec.o -c src/exec/rm/RMExec.cpp
 
-src/exec/Exec.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/Exec.o -c src/exec/Exec.cpp
-
 src/exec/cp/CPExec.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/exec/cp/CPExec.o -c src/exec/cp/CPExec.cpp
 
@@ -85,11 +82,11 @@ src/darv/GenericCMD.o:
 src/darv/Task.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/Task.o -c src/darv/Task.cpp
 
+src/darv/ShellCMDLine.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/ShellCMDLine.o -c src/darv/ShellCMDLine.cpp
+
 src/darv/Statement.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/Statement.o -c src/darv/Statement.cpp
-
-src/darv/ShellCMD.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/ShellCMD.o -c src/darv/ShellCMD.cpp
 
 src/darv/DefaultTaskConfig.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/DefaultTaskConfig.o -c src/darv/DefaultTaskConfig.cpp
@@ -105,6 +102,15 @@ src/darv/Block.o:
 
 src/darv/Var.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/Var.o -c src/darv/Var.cpp
+
+src/darv/CallCMD.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/CallCMD.o -c src/darv/CallCMD.cpp
+
+src/darv/Proc.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/darv/Proc.o -c src/darv/Proc.cpp
+
+src/util/hashutil.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/util/hashutil.o -c src/util/hashutil.cpp
 
 src/util/strutil.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/util/strutil.o -c src/util/strutil.cpp
@@ -163,6 +169,9 @@ src/msg/messagebuilder.o:
 src/inter/PropInter.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/PropInter.o -c src/inter/PropInter.cpp
 
+src/inter/ProcInter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/ProcInter.o -c src/inter/ProcInter.cpp
+
 src/inter/InterManager.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/InterManager.o -c src/inter/InterManager.cpp
 
@@ -175,11 +184,11 @@ src/inter/VarInter.o:
 src/inter/Inter.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/Inter.o -c src/inter/Inter.cpp
 
-src/inter/taskconfig/TaskConfigInter.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/taskconfig/TaskConfigInter.o -c src/inter/taskconfig/TaskConfigInter.cpp
+src/inter/preproc/PreProcessor.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/preproc/PreProcessor.o -c src/inter/preproc/PreProcessor.cpp
 
-src/inter/taskconfig/TaskConfigResult.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/taskconfig/TaskConfigResult.o -c src/inter/taskconfig/TaskConfigResult.cpp
+src/inter/ShellCMDLineInter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/ShellCMDLineInter.o -c src/inter/ShellCMDLineInter.cpp
 
 src/inter/InterResult.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/InterResult.o -c src/inter/InterResult.cpp
@@ -196,8 +205,11 @@ src/inter/TaskInter.o:
 src/inter/CMDInter.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/CMDInter.o -c src/inter/CMDInter.cpp
 
-src/inter/ShellCMDInter.o:
-	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/ShellCMDInter.o -c src/inter/ShellCMDInter.cpp
+src/inter/taskdef/TaskDefinitionInter.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/taskdef/TaskDefinitionInter.o -c src/inter/taskdef/TaskDefinitionInter.cpp
+
+src/inter/taskdef/TaskDefinitionResult.o:
+	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/taskdef/TaskDefinitionResult.o -c src/inter/taskdef/TaskDefinitionResult.cpp
 
 src/inter/it/StringIterator.o:
 	$(CXX) $(CXXFLAGS) -o obj/Debug/src/inter/it/StringIterator.o -c src/inter/it/StringIterator.cpp

@@ -10,9 +10,6 @@
 using std::stringstream;
 using std::istringstream;
 
-#include <iostream>
-using namespace std;
-
 InterResult* PreProcessor::preProcess( BlockIterator* it, string& preProcessedText ) {
     bool isWin32 = false;
 
@@ -20,21 +17,19 @@ InterResult* PreProcessor::preProcess( BlockIterator* it, string& preProcessedTe
         isWin32 = true;
     #endif
 
-    bool isIgnore = false;
-
     stringstream blockSS;
-
     int numberOfLinesReaded = 0;
 
     InterResult* endNotFoundIR = nullptr;
 
-    int count = 0;
-    while( count > 0 && it->hasNextLine() ) {
+    bool isIgnore = false;
+    bool endIFNotFound = false;
+    while( it->hasNextLine() ) {
         string line = it->nextLine();
 
         istringstream iss( line );
         if ( iss.peek() == EOF ) {
-            blockSS << line;
+            blockSS << line << "\n";
             numberOfLinesReaded++;
             continue;
         }
@@ -44,20 +39,18 @@ InterResult* PreProcessor::preProcess( BlockIterator* it, string& preProcessedTe
 
         token = strutil::trim( token );
 
-        if ( isIgnore ) {
-            if ( token == "IFWIN32" || token == "IFNOWIN32" ) {
-                count++;
-            } else if ( token == "ENDIF" ) {
-                count--;
-            }
+        if ( endIFNotFound && token == "ENDIF" ) {
+            endIFNotFound = false;
+            isIgnore = false;
+            blockSS << "#" << line << "\n";
+            numberOfLinesReaded++;
+            continue;                            
+        } 
 
-            if ( count == 0 ) {
-                isIgnore = false;
-                numberOfLinesReaded++;
-                continue;
-            }
-        } else {
-            if ( token == "IFWIN32" || token == "IFNOWIN32" ) {
+        if ( token == "IFWIN32" || token == "IFNOWIN32" ) {
+            if ( !isIgnore ) {
+                endIFNotFound = true;
+
                 if ( iss.peek() != EOF ) {
                     iss >> token;
                     if ( strutil::trim( token ) != "" ) {
@@ -67,32 +60,38 @@ InterResult* PreProcessor::preProcess( BlockIterator* it, string& preProcessedTe
                     }
                 }
             }
-
+                 
+            bool isIgnore2 = false;
             if ( isWin32 ) {
-                isIgnore = token == "IFNOWIN32";
-                count = 1;
+                isIgnore2 = token == "IFNOWIN32";
             } else {
-                isIgnore = token == "IFWIN32";
-                count = 1;
+                isIgnore2 = token == "IFWIN32";
             }
 
-            if ( isIgnore )
+            if ( isIgnore2 ) {
+                isIgnore = true;
+
+                if ( endNotFoundIR != nullptr )
+                    delete endNotFoundIR;
                 endNotFoundIR = new InterResult( line, numberOfLinesReaded, 0, errors::END_OF_BLOCK_NOT_FOUND );  
+            }
+
+            numberOfLinesReaded++;
+            blockSS << "#" << line << "\n";
+            continue;
         }
         
-        if ( !isIgnore )
-            if ( token != "IFWIN32" && token != "IFNOWIN32" )
-                blockSS << line << "\n";
-
+        if ( isIgnore )
+            blockSS << "#" << line << "\n";
+        else blockSS << line << "\n";
+          
         numberOfLinesReaded++;
     }
 
-    if ( count > 0 && endNotFoundIR != nullptr )
+    if ( endIFNotFound && endNotFoundIR != nullptr )
         return endNotFoundIR;
 
     preProcessedText = blockSS.str();
-
-    cout << preProcessedText << endl;
         
     return new InterResult( true );
 }

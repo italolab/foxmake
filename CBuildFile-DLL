@@ -1,7 +1,12 @@
 
-target=debug
 compiler=g++
-output.file.name=cexec.dll
+
+IFWIN32
+	output.file.name=cexec.dll
+ENDIF
+IFNOWIN32
+	output.file.name=cexec.so
+ENDIF
 
 debug.bin.dir=bin/Debug
 debug.obj.dir=obj/Debug
@@ -26,9 +31,10 @@ build.dir=build
 #lib.dirs=
 #include.dirs=include
 #dlls=
-defines=BUILD_DLL
 
-output.def.file=$(bin.dir)/libCExec.def
-out.implib.file=$(bin.dir)/libCExec.a
+IFWIN32
+	defines=BUILD_DLL
+ENDIF
 
-cp $(src.dir)/-/*.h $(include.dirs)
+output.def.file=$(bin.dir)/libcbuild.def
+out.implib.file=$(bin.dir)/libcbuild.a
