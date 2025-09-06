@@ -7,6 +7,8 @@ using std::string;
 
 namespace infos {
 
+    const string COPYRIGHT = "Copyright (c) 2025 Ítalo Herbert Siqueira Gabriel";
+
     const string EXECUTING = "Executando";
     const string EXECUTING_STATEMENTS = "Executando instruções...";
 

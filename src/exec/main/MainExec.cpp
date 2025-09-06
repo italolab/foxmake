@@ -118,6 +118,11 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     if ( !isNoResume )
         out << infos::FINISH << endl;
+
+    if ( isVerbose && !isNoResume ) {
+        out << endl;
+        out << infos::COPYRIGHT << endl;
+    }
 }
 
 void MainExec::genSourceAndHeaderInfos( void* mgr ) {
@@ -228,14 +233,26 @@ void MainExec::showHelp( void* mgr ) {
             out << helpmessage::compileHelpMessage();
         } else if ( taskName == tasks::COMPILEALL ) {
             out << helpmessage::compileAllHelpMessage();
+        } else if ( taskName == tasks::ARCHIVE ) {
+            out << helpmessage::archiveHelpMessage();
+        } else if ( taskName == tasks::TEST ) {
+            out << helpmessage::testHelpMessage();
         } else if ( taskName == tasks::LINK ) {
             out << helpmessage::linkHelpMessage();
         } else if ( taskName == tasks::COPY ) {
             out << helpmessage::copyHelpMessage();
         } else if ( taskName == tasks::BUILD ) {
             out << helpmessage::buildHelpMessage();
+        } else if ( taskName == tasks::ARCHIVEBUILD ) {
+            out << helpmessage::archiveBuildHelpMessage();
+        } else if ( taskName == tasks::TESTBUILD ) {
+            out << helpmessage::testBuildHelpMessage();
         } else if ( taskName == tasks::BUILDALL ) {
             out << helpmessage::buildAllHelpMessage();
+        } else if ( taskName == tasks::ARCHIVEBUILDALL ) {
+            out << helpmessage::archiveBuildAllHelpMessage();
+        } else if ( taskName == tasks::TESTBUILDALL ) {
+            out << helpmessage::testBuildAllHelpMessage();
         } else {
             out << errors::TASK_NOT_RECOGNIZED << endl;
         }
