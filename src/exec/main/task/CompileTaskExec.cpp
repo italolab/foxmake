@@ -33,8 +33,7 @@ void CompileTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
-
-    MainScript* script = manager->getMainScript();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     bool isCompileAll = manager->getMainCMDArgManager()->isCompileAll();
 
@@ -66,16 +65,13 @@ void CompileTaskExec::exec( void* mgr ) {
         manager->executeUserTaskIfExists( tasks::COMPILEALL, TaskExecution::BEFORE );
     else manager->executeUserTaskIfExists( tasks::COMPILE, TaskExecution::BEFORE );
 
-    string compiler = script->getPropertyValue( props::COMPILER );
-    string exeFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string compiler = scriptPropManager->getCompiler();
+    string exeFileName = scriptPropManager->getOutputFileName();
 
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
-    string testDir = script->getPropertyValue( props::TEST_DIR );
-    string srcDir = script->getPropertyValue( props::SRC_DIR );
-
-    binDir = io::path::absoluteResolvePath( binDir );
-    objDir = io::path::absoluteResolvePath( objDir );
+    string binDir = scriptPropManager->getBinDir();
+    string objDir = scriptPropManager->getObjDir();
+    string testDir = scriptPropManager->getTestDir();
+    string srcDir = scriptPropManager->getSrcDir();
 
     binDir = io::path::addSeparatorIfNeed( binDir );
     objDir = io::path::addSeparatorIfNeed( objDir );
@@ -136,26 +132,22 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     bool isCompileAll = manager->getMainCMDArgManager()->isCompileAll();
 
-    MainScript* script = manager->getMainScript();
+    string compilerParams = scriptPropManager->getCompilerParams();
+    string testCompilerParams = scriptPropManager->getTestCompilerParams();
 
-    string compilerParams = script->getPropertyValue( props::COMPILER_PARAMS );
-    string testCompilerParams = script->getPropertyValue( props::TEST_COMPILER_PARAMS );
+    string includeDirs = scriptPropManager->getIncludeDirs();
+    string defines = scriptPropManager->getDefines();
 
-    string includeDirs = script->getPropertyValue( props::INCLUDE_DIRS );
-    string defines = script->getPropertyValue( props::DEFINES );
+    string testIncludeDirs = scriptPropManager->getTestIncludeDirs();
+    string testDefines = scriptPropManager->getTestDefines();
 
-    string testIncludeDirs = script->getPropertyValue( props::TEST_INCLUDE_DIRS );
-    string testDefines = script->getPropertyValue( props::TEST_DEFINES );
-
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
-    string testDir = script->getPropertyValue( props::TEST_DIR );
-    string srcDir = script->getPropertyValue( props::SRC_DIR );
-
-    objDir = io::path::absoluteResolvePath( objDir );
-    srcDir = io::path::absoluteResolvePath( srcDir );
+    string objDir = scriptPropManager->getObjDir();
+    string testDir = scriptPropManager->getTestDir();
+    string srcDir = scriptPropManager->getSrcDir();
 
     objDir = io::path::addSeparatorIfNeed( objDir );
 

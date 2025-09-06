@@ -129,22 +129,15 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();    
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
-    MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
-    string srcDir = script->getPropertyValue( props::SRC_DIR );
-    string testDir = script->getPropertyValue( props::TEST_DIR );
-
-    if ( srcDir == "" )
-        srcDir = ".";
-    srcDir = io::path::absoluteResolvePath( srcDir );
-
-    if ( testDir != "" )
-        testDir = io::path::absoluteResolvePath( testDir );
+    string srcDir = scriptPropManager->getSrcDir();
+    string testDir = scriptPropManager->getTestDir();
 
     if ( !io::fileExists( srcDir ) ) {        
         messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );

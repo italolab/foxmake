@@ -2,6 +2,7 @@
 #define EXEC_MANAGER_H
 
 #include "MainCMDArgManager.h"
+#include "ScriptPropertyManager.h"
 #include "main/MainExec.h"
 #include "cp/CPExec.h"
 #include "rm/RMExec.h"
@@ -36,6 +37,7 @@ class ExecManager : public InterDriver {
         SourceCodeManager* sourceCodeManager;
         SourceCodeManager* testSourceCodeManager;
         MainCMDArgManager* mainCMDArgManager;
+        ScriptPropertyManager* scriptPropertyManager;
 
         MainExec* mainExec;
         CPExec* cpExec;
@@ -73,7 +75,9 @@ class ExecManager : public InterDriver {
         InterManager* getInterManager();
         SourceCodeManager* getSourceCodeManager();
         SourceCodeManager* getTestSourceCodeManager();
+
         MainCMDArgManager* getMainCMDArgManager();
+        ScriptPropertyManager* getScriptPropManager();
 
 };
 

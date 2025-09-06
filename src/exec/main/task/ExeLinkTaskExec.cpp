@@ -27,15 +27,12 @@ using std::endl;
 
 void ExeLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    MainScript* script = manager->getMainScript();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
-    string compiler = script->getPropertyValue( props::COMPILER );
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
-    string resourceFile = script->getPropertyValue( props::RESOURCE_FILE );
-    string testDir = script->getPropertyValue( props::TEST_DIR );
-
-    if ( compiler == "" )
-        compiler = consts::DEFAULT_COMPILER;
+    string compiler = scriptPropManager->getCompiler();
+    string outputFileName = scriptPropManager->getOutputFileName();
+    string resourceFile = scriptPropManager->getResourceFile();
+    string testDir = scriptPropManager->getTestDir();
 
     if ( outputFileName == "" && testDir == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_LINKING );
@@ -67,30 +64,26 @@ a propriedade "bin.dir" concatenado ao valor da propriedade "output.file.name".
 void ExeLinkTaskExec::execLinkage( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
 
-    MainScript* script = manager->getMainScript();
+    string compiler = scriptPropManager->getCompiler();
+    string linkerParams = scriptPropManager->getLinkerParams();
 
-    string compiler = script->getPropertyValue( props::COMPILER );
-    string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
+    string outputFileName = scriptPropManager->getOutputFileName();
 
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string binDir = scriptPropManager->getBinDir();
+    string objDir = scriptPropManager->getObjDir();
 
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
+    string resourceFile = scriptPropManager->getResourceFile();
 
-    string resourceFile = script->getPropertyValue( props::RESOURCE_FILE );
-
-    string libDirs = script->getPropertyValue( props::LIB_DIRS );
-    string libs = script->getPropertyValue( props::LIBS );
+    string libDirs = scriptPropManager->getLibDirs();
+    string libs = scriptPropManager->getLibs();
     
-    string defines = script->getPropertyValue( props::DEFINES );
-
-    binDir = io::path::absoluteResolvePath( binDir );
-    objDir = io::path::absoluteResolvePath( objDir );
+    string defines = scriptPropManager->getDefines();
 
     binDir = io::path::addSeparatorIfNeed( binDir );
     objDir = io::path::addSeparatorIfNeed( objDir );
@@ -146,26 +139,22 @@ void ExeLinkTaskExec::execTestLinkage( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
 
-    MainScript* script = manager->getMainScript();
+    string compiler = scriptPropManager->getCompiler();
+    string testLinkerParams = scriptPropManager->getTestLinkerParams();
 
-    string compiler = script->getPropertyValue( props::COMPILER );
-    string testLinkerParams = script->getPropertyValue( props::TEST_LINKER_PARAMS );
+    string testLibDirs = scriptPropManager->getTestLibDirs();
+    string testLibs = scriptPropManager->getTestLibs();
 
-    string testLibDirs = script->getPropertyValue( props::TEST_LIB_DIRS );
-    string testLibs = script->getPropertyValue( props::TEST_LIBS );
+    string testDefines = scriptPropManager->getTestDefines();
 
-    string testDefines = script->getPropertyValue( props::TEST_DEFINES );
-
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-
-    objDir = io::path::absoluteResolvePath( objDir );
-    binDir = io::path::absoluteResolvePath( binDir );
+    string objDir = scriptPropManager->getObjDir();
+    string binDir = scriptPropManager->getBinDir();
 
     objDir = io::path::addSeparatorIfNeed( objDir );
     binDir = io::path::addSeparatorIfNeed( binDir );

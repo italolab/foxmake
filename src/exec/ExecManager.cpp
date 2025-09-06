@@ -24,6 +24,8 @@ ExecManager::ExecManager() {
     mainScript = new MainScript();
 
     mainCMDArgManager = new MainCMDArgManager( this );
+    scriptPropertyManager = new ScriptPropertyManager( this );
+
     interManager = new InterManager( this );
     sourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
     testSourceCodeManager = new SourceCodeManager( consts::SOURCE_FILE_EXTENSIONS, consts::HEADER_FILE_EXTENSIONS );
@@ -48,6 +50,9 @@ ExecManager::ExecManager() {
 
 ExecManager::~ExecManager() {
     delete mainScript;
+
+    delete mainCMDArgManager;
+    delete scriptPropertyManager;
 
     delete interManager;
     delete sourceCodeManager;
@@ -193,6 +198,10 @@ SourceCodeManager* ExecManager::getTestSourceCodeManager() {
 
 MainCMDArgManager* ExecManager::getMainCMDArgManager() {
     return mainCMDArgManager;
+}
+
+ScriptPropertyManager* ExecManager::getScriptPropManager() {
+    return scriptPropertyManager;
 }
 
 InterManager* ExecManager::getInterManager() {

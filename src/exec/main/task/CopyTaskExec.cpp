@@ -20,6 +20,7 @@ using std::endl;
 
 void CopyTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
 
@@ -31,16 +32,11 @@ void CopyTaskExec::exec( void* mgr ) {
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << endl;    
 
-    MainScript* script = manager->getMainScript();
-
-    string buildDir = script->getPropertyValue( props::BUILD_DIR );
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string buildFiles = script->getPropertyValue( props::BUILD_FILES );
+    string buildDir = scriptPropManager->getBuildDir();
+    string binDir = scriptPropManager->getBinDir();
+    string buildFiles = scriptPropManager->getBuildFiles();
 
     manager->executeUserTaskIfExists( tasks::COPY, TaskExecution::BEFORE );
-
-    buildDir = io::path::absoluteResolvePath( buildDir );
-    binDir = io::path::absoluteResolvePath( binDir );
    
     binDir = io::path::addSeparatorIfNeed( binDir );
     buildDir = io::path::addSeparatorIfNeed( buildDir );
@@ -48,7 +44,7 @@ void CopyTaskExec::exec( void* mgr ) {
     this->appCreateDirs( buildDir, props::BUILD_DIR );
 
     if ( binDir != buildDir ) {
-        string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+        string outputFileName = scriptPropManager->getOutputFileName();
         if ( outputFileName != "" ) {
             string linkOutFName = binDir + outputFileName;
             appCopyFileOrDirectoryToBuild( linkOutFName, buildDir, props::OUTPUT_FILE_NAME, manager );        

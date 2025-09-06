@@ -15,6 +15,7 @@ using std::endl;
 
 void CleanTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::CLEAN );
@@ -27,16 +28,10 @@ void CleanTaskExec::exec( void* mgr ) {
 
     manager->executeUserTaskIfExists( tasks::CLEAN, TaskExecution::BEFORE );
 
-    MainScript* script = manager->getMainScript();
-
-    string buildDir = script->getPropertyValue( props::BUILD_DIR );
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
-    string buildFiles = script->getPropertyValue( props::BUILD_FILES );
-
-    buildDir = io::path::absoluteResolvePath( buildDir );
-    binDir = io::path::absoluteResolvePath( binDir );
-    objDir = io::path::absoluteResolvePath( objDir );
+    string buildDir = scriptPropManager->getBuildDir();
+    string binDir = scriptPropManager->getBinDir();
+    string objDir = scriptPropManager->getObjDir();
+    string buildFiles = scriptPropManager->getBuildFiles();
 
     buildDir = io::path::addSeparatorIfNeed( buildDir );
     binDir = io::path::addSeparatorIfNeed( binDir );
@@ -44,7 +39,7 @@ void CleanTaskExec::exec( void* mgr ) {
 
     bool removedSome = false;
 
-    string outputFName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string outputFName = scriptPropManager->getOutputFileName();
     if ( outputFName != "" ) {
         string file = binDir + outputFName;
         bool removed = this->appRecursiveDeleteFileOrDirectoryIfExists( file, mgr );

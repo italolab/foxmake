@@ -28,37 +28,30 @@ using std::endl;
 void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
     
-    MainScript* script = manager->getMainScript();
+    string compiler = scriptPropManager->getCompiler();
+    string linkerParams = scriptPropManager->getLinkerParams();
 
-    string compiler = script->getPropertyValue( props::COMPILER );
-    string linkerParams = script->getPropertyValue( props::LINKER_PARAMS );
+    string outputFileName = scriptPropManager->getOutputFileName();
 
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string binDir = scriptPropManager->getBinDir();
+    string objDir = scriptPropManager->getObjDir();
 
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
+    string libDirs = scriptPropManager->getLibDirs();
+    string libs = scriptPropManager->getLibs();
 
-    string libDirs = script->getPropertyValue( props::LIB_DIRS );
-    string libs = script->getPropertyValue( props::LIBS );
+    string outputDefFile = scriptPropManager->getOutputDefFile();
+    string outImplibFile = scriptPropManager->getOutImplibFile();
 
-    string outputDefFile = script->getPropertyValue( props::OUTPUT_DEF_FILE );
-    string outImplibFile = script->getPropertyValue( props::OUT_IMPLIB_FILE );
-
-    string defines = script->getPropertyValue( props::DEFINES );
-
-    binDir = io::path::absoluteResolvePath( binDir );
-    objDir = io::path::absoluteResolvePath( objDir );
+    string defines = scriptPropManager->getDefines();
 
     binDir = io::path::addSeparatorIfNeed( binDir );
     objDir = io::path::addSeparatorIfNeed( objDir );
-
-    if ( compiler == "" )
-        compiler = consts::DEFAULT_COMPILER;    
 
     string outputFile;
     if ( outputFileName == "" ) {

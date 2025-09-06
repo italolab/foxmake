@@ -102,6 +102,7 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();    
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
@@ -120,7 +121,7 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
         delete result;
     }
 
-    string basedir = mainScript->getPropertyValue( props::BASE_DIR );
+    string basedir = scriptPropManager->getBaseDir();
     if ( basedir != "" ) {
         basedir = io::path::absoluteResolvePath( basedir );
         if ( !io::fileExists( basedir ) ) {

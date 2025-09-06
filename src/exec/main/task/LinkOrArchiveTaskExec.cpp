@@ -24,6 +24,7 @@ LinkOrArchiveTaskExec::~LinkOrArchiveTaskExec() {
 
 void LinkOrArchiveTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
@@ -35,9 +36,7 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
 
     bool isVerbose = ( isLink && isLinkVerbose ) || ( isArchive && isArchiveVerbose );
 
-    MainScript* script = manager->getMainScript();
-
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string outputFileName = scriptPropManager->getOutputFileName();
 
     if ( isLink ) {
         if ( isVerbose )

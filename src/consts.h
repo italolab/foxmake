@@ -20,6 +20,10 @@ namespace consts {
     const string SRC_TARGET_FOLDER = "src";
     const string TEST_TARGET_FOLDER = "test";
 
+    const string DEFAULT_TEST_DIR = "test";
+    const string DEFAULT_OBJ_DIR = "obj";
+    const string DEFAULT_BUILD_DIR = "build";
+
 #ifdef _WIN32
     const string TEST_OUTPUT_FILE_NAME = "__test.exe";
 #else

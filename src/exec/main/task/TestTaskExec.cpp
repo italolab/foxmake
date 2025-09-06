@@ -17,7 +17,7 @@ using std::endl;
 
 void TestTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    MainScript* script = manager->getMainScript();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
 
@@ -30,8 +30,8 @@ void TestTaskExec::exec( void* mgr ) {
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::TEST ) << "..." << endl;    
 
-    string testDir = script->getPropertyValue( props::TEST_DIR );
-    string binDir = script->getPropertyValue( props::BIN_DIR );
+    string testDir = scriptPropManager->getTestDir();
+    string binDir = scriptPropManager->getBinDir();
 
     if ( testDir == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED );
@@ -40,9 +40,6 @@ void TestTaskExec::exec( void* mgr ) {
     }
 
     manager->executeUserTaskIfExists( tasks::TEST, TaskExecution::BEFORE );
-
-    testDir = io::path::absoluteResolvePath( testDir );
-    binDir = io::path::absoluteResolvePath( binDir );
 
     binDir = io::path::addSeparatorIfNeed( binDir );
 

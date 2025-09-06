@@ -18,34 +18,27 @@ using std::endl;
 void ArchiveTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::ARCHIVE );
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::ARCHIVE );
     
-    MainScript* script = manager->getMainScript();
+    string archiver = scriptPropManager->getArchiver();
+    string archiverParams = scriptPropManager->getArchiverParams();
 
-    string archiver = script->getPropertyValue( props::ARCHIVER );
-    string archiverParams = script->getPropertyValue( props::ARCHIVER_PARAMS );
+    string outputFileName = scriptPropManager->getOutputFileName();
 
-    string outputFileName = script->getPropertyValue( props::OUTPUT_FILE_NAME );
+    string binDir = scriptPropManager->getBinDir();
+    string objDir = scriptPropManager->getObjDir();
 
-    string binDir = script->getPropertyValue( props::BIN_DIR );
-    string objDir = script->getPropertyValue( props::OBJ_DIR );
+    string libDirs = scriptPropManager->getLibDirs();
+    string libs = scriptPropManager->getLibs();
 
-    string libDirs = script->getPropertyValue( props::LIB_DIRS );
-    string libs = script->getPropertyValue( props::LIBS );
-
-    string defines = script->getPropertyValue( props::DEFINES );
-
-    binDir = io::path::absoluteResolvePath( binDir );
-    objDir = io::path::absoluteResolvePath( objDir );
+    string defines = scriptPropManager->getDefines();
 
     binDir = io::path::addSeparatorIfNeed( binDir );
     objDir = io::path::addSeparatorIfNeed( objDir );
-
-    if ( archiver == "" )
-        archiver = consts::DEFAULT_ARCHIVER;
 
     if ( outputFileName == "" ) {
         messagebuilder b( errors::PROPERTY_NOT_DEFINED_FOR_ARCHIVING );
