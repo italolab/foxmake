@@ -9,9 +9,6 @@
 
 using std::string;
 
-#include <iostream>
-using namespace std;
-
 TEST_CASE( dirPathTest, IOPathTests ) {
     ASSERT_EQUALS( io::path::dirPath( "C:/__xx" ), "C:", )
     ASSERT_EQUALS( io::path::dirPath( "C:__xx" ), "C:", )

@@ -53,7 +53,7 @@ string ScriptPropertyManager::getTestDir() {
     
     string testDir = script->getPropertyValue( props::TEST_DIR );
     if ( testDir == "" )
-        return consts::DEFAULT_TEST_DIR;
+        return "";
     return io::path::absoluteResolvePath( testDir );
 }
 

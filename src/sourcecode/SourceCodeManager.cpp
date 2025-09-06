@@ -25,9 +25,6 @@ SourceCodeManager::~SourceCodeManager() {
         delete pair.second;
 }
 
-#include <iostream>
-using namespace std;
-
 bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();

@@ -1,5 +1,4 @@
 
-echo $2
 ./cbuild $1 --script=CBuildFile -var target=$2
 
 if [ "$#" -gt "2" ]; then
@@ -8,5 +7,6 @@ if [ "$#" -gt "2" ]; then
         target=$4
     fi
 
-    ./build/cbuild $3 --script=run/CBuildFile-Run -var target=$target
+    #./build/cbuild $3 --script=run/CBuildFile-Run -var target=$target
+    ./build/cbuild $3 --script=helloworld/CBuildFile
 fi
