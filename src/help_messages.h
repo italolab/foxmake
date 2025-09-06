@@ -114,6 +114,8 @@ namespace helpmessage {
 
         << "    " << PROJ_NAME << " -prop output.file.name=proj.exe -var target=release\n\n"
 
+        << "===============================================================\n"
+        << "       Copyright (c) 2025 Ítalo Herbert Siqueira Gabriel\n"
         << "===============================================================\n\n";
 
         return ss.str();
