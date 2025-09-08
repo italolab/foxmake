@@ -213,9 +213,14 @@ TEST_CASE( deleteFilesTest, IOTests ) {
     io::deleteFiles( "temp/deleteFiles", io::by_name_file_filter( "pa*.*"), true );
     ASSERT_TRUE( io::fileExists( "temp/deleteFiles/a.txt" ), )
     ASSERT_TRUE( io::fileExists( "temp/deleteFiles/t.txt" ), )
+    ASSERT_TRUE( io::fileExists( "temp/deleteFiles/pasta/a.bat" ), )
+    ASSERT_TRUE( io::fileExists( "temp/deleteFiles/pasta/b.sh" ), )
+    ASSERT_FALSE( io::fileExists( "temp/deleteFiles/patch.txt" ), )
+
+    io::deleteFiles( "temp/deleteFiles", io::by_name_file_filter( "pa*/*.*"), true );
+
     ASSERT_FALSE( io::fileExists( "temp/deleteFiles/pasta/a.bat" ), )
     ASSERT_FALSE( io::fileExists( "temp/deleteFiles/pasta/b.sh" ), )
-    ASSERT_FALSE( io::fileExists( "temp/deleteFiles/patch.txt" ), )
 }
 
 TEST_CASE( hasNoEmptyDirTest, IOTests ) {
