@@ -7,6 +7,5 @@ if [ "$#" -gt "2" ]; then
         target=$4
     fi
 
-    #./build/cbuild $3 --script=run/CBuildFile-Run -var target=$target
-    ./build/cbuild $3 --script=helloworld/CBuildFile
+    ./build/cbuild $3 --script=run/CBuildFile-Run -var target=$target
 fi

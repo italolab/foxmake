@@ -57,8 +57,9 @@ namespace io {
                 throw io_error( errors::io::IS_NOT_A_DIR );
 
             int count = 0;
-            for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) )
-                count++;                        
+
+            for( const auto& entry : filesystem::recursive_directory_iterator( dirpath ) )                
+                count++;                                    
             return count;
         } catch ( const filesystem::filesystem_error& e ) {
             throw io_error( e.what() );
@@ -104,6 +105,38 @@ namespace io {
         }
     }
 
+    bool hasNoEmptyDir( string path, FileFilter* filter, bool isRecursive ) {
+        string preferredDir = path::makePreferred( path );
+
+        if ( isRecursive ) {
+            for( const auto& entry : filesystem::recursive_directory_iterator( preferredDir ) ) {
+                string file = entry.path().string();
+
+                if ( filter != nullptr )
+                    if ( !filter->match( file ) )
+                        continue;
+
+                if ( filesystem::is_directory( file ) )
+                    if ( !isEmptyDir( file ) )
+                        return true;                                       
+            }
+        } else {
+            for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {
+                string file = entry.path().string();
+
+                if ( filter != nullptr )
+                    if ( !filter->match( file ) )
+                        continue;
+
+                if ( filesystem::is_directory( file ) )
+                    if ( !isEmptyDir( file ) )                    
+                        return true;              
+            }
+        }
+
+        return false;
+    }
+
     int deleteFiles( string dir, FileFilter* filter, bool isRecursive ) {
         int removedCount = 0;
         try {
@@ -118,17 +151,14 @@ namespace io {
                 for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {
                     string file = path::makePreferred( entry.path().string() );
 
-                    if ( filesystem::is_directory( file ) ) {
+                    if ( filesystem::is_directory( file ) )
                         removedCount += deleteFiles( file, filter, true );
-                        if ( isEmptyDir( file ) )
-                            removedCount += deleteFileOrDir( file, false );
-                    } else {
-                        if ( filter != nullptr )
-                            if ( !filter->match( file ) )
-                                continue;
+                        
+                    if ( filter != nullptr )
+                        if ( !filter->match( file ) )
+                            continue;
 
-                        removedCount += deleteFileOrDir( file, false );                                
-                    }
+                    removedCount += deleteFileOrDir( file, true );                                                    
                 }
             } else {
                 for( const auto& entry : filesystem::directory_iterator( preferredDir ) ) {

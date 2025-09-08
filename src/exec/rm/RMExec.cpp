@@ -61,12 +61,12 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
         try {
             string dir = io::path::dirPath( file );
 
-            count = 0;
-            
-            bool deleted = io::deleteFiles( dir, filter, isRecursive );
-            if ( deleted )
-                count = 1;            
+            if ( io::hasNoEmptyDir( dir, filter, isRecursive ) )
+                throw st_error( cmd, errors::TRY_DELETE_NO_RECURSIVE_NO_EMPTH_DIR );            
+
+            count = io::deleteFiles( dir, filter, isRecursive );                        
         } catch ( const io_error& e ) {
+            out << e.what() << endl;
             messagebuilder b( errors::FILE_OR_FOLDER_NOT_DELETED );
             b << file;
             throw st_error( cmd, b.str() );

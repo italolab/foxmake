@@ -122,5 +122,5 @@ task finish after
     rm $(build.dir)/lib*.*
 
     rm -r $(build.dir)/include/io/i*.*
-    rm -r $(bin.dir)
+    rm $(bin.dir)
 endtask

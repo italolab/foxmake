@@ -7,6 +7,10 @@ BEFORE_EACH( IOTests ) {
     io::createDir( "temp/arquivos" );
     io::createDir( "temp/arquivos/pasta" );
     io::createDir( "temp/arquivos2" );
+    io::createDir( "temp/deleteFiles" );
+    io::createDir( "temp/deleteFiles/pasta" );
+    io::createDir( "temp/hasEmptyDir" );
+    io::createDir( "temp/hasEmptyDir/pasta" );
 
     io::createDir( "temp/build" );
 
@@ -24,6 +28,15 @@ BEFORE_EACH( IOTests ) {
     io::writeInTextFile( "temp/arquivos2/d.txt", "ddd" );
     io::writeInTextFile( "temp/arquivos2/e.sh", "ls /" );
     io::writeInTextFile( "temp/arquivos2/f.bat", "ls /" );
+
+    io::writeInTextFile( "temp/deleteFiles/a.txt", "aaa" );
+    io::writeInTextFile( "temp/deleteFiles/pasta/a.bat", "aaa" );
+    io::writeInTextFile( "temp/deleteFiles/pasta/b.sh", "bbb" );
+    io::writeInTextFile( "temp/deleteFiles/patch.txt", "patch" );
+    io::writeInTextFile( "temp/deleteFiles/t.txt", "ttt" );
+
+    io::writeInTextFile( "temp/hasEmptyDir/a.txt", "aaa" );
+    io::writeInTextFile( "temp/hasEmptyDir/b.txt", "aaa" );
 
     io::copyDir( "temp/arquivos", "temp/arquivos1", true, true );
 }
@@ -196,9 +209,21 @@ TEST_CASE( deleteFilesTest, IOTests ) {
     ASSERT_THROWS( io_error, {    
         count = io::deleteFiles( "temp/arquivos1", io::by_name_file_filter( "*" ), false );        
     }, )
+
+    io::deleteFiles( "temp/deleteFiles", io::by_name_file_filter( "pa*.*"), true );
+    ASSERT_TRUE( io::fileExists( "temp/deleteFiles/a.txt" ), )
+    ASSERT_TRUE( io::fileExists( "temp/deleteFiles/t.txt" ), )
+    ASSERT_FALSE( io::fileExists( "temp/deleteFiles/pasta/a.bat" ), )
+    ASSERT_FALSE( io::fileExists( "temp/deleteFiles/pasta/b.sh" ), )
+    ASSERT_FALSE( io::fileExists( "temp/deleteFiles/patch.txt" ), )
+}
+
+TEST_CASE( hasNoEmptyDirTest, IOTests ) {
+    ASSERT_TRUE( io::hasNoEmptyDir( "temp/arquivos", io::by_name_file_filter("*"), true ), )
+    ASSERT_FALSE( io::hasNoEmptyDir( "temp/hasEmptyDir", io::by_name_file_filter("*"), true ), )
 }
 
 TEST_CASE( countFilesAndDirsTest, IOTests ) {
     int count = io::countFilesAndDirs( "temp" );
-    ASSERT_EQUALS( count, 24, )
+    ASSERT_EQUALS( count, 35, )
 }

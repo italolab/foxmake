@@ -58,6 +58,8 @@ namespace io {
                 bool isOverwriteExisting, 
                 bool isRecursive );
     
+    bool hasNoEmptyDir( string path, FileFilter* filter, bool isRecursive );
+
     int deleteFileOrDir( string path, bool isRecursive );
     int deleteFiles( string dir, FileFilter* filter, bool isRecursive );
     int recursiveDeleteDir( string dir );
