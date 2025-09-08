@@ -3,7 +3,7 @@
 #include "io/iotests.h"
 #include "io/ByNameFileFilterTests.h"
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 
 #include <util/hashutil.h>
 

@@ -1,3 +1,7 @@
+VERSION=1.0
+SO=linux
+ARCH=x64
+
 
 ./cbuild $1 --script=CBuildFile -var target=$2
 
@@ -7,5 +11,5 @@ if [ "$#" -gt "2" ]; then
         target=$4
     fi
 
-    ./build/cbuild $3 --script=run/CBuildFile-Run -var target=$target
+    ./build/cbuild-$VERSION-$SO-$ARCH/cbuild $3 --script=run/CBuildFile-Run -var target=$target
 fi

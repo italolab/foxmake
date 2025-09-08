@@ -3,7 +3,7 @@
 
 #include <io/io.h>
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 
 #include <string>
 

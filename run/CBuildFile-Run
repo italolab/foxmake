@@ -80,7 +80,7 @@ task copy after
             if [ -f "CBuildFile-Run" ]; then
                 echo "O arquivo existe...!"
             else 
-                echo "Arquivo nao existe: CBuildFile-Run.txt"
+                echo "Arquivo nao existe: CBuildFile-Run"
             fi
         ENDIF
     endshell
@@ -109,8 +109,8 @@ task finish after
     cp $(obj.dir)/src/io/* $(build.dir)/objects
 
     cp $(lib_dir)/libcbtest.a $(build.dir)/libtest.a
-    cp ../include/test/cbtest.h $(build.dir)/cbtest.h
-    cp ../include/test/cbtest.h $(build.dir)/cbtest.h
+    cp ../include/cbtest/cbtest.h $(build.dir)/cbtest.h
+    cp ../include/cbtest/cbtest.h $(build.dir)/cbtest.h
 
     cp -r $(src.dir) $(build.dir)/source
 

@@ -1,5 +1,5 @@
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 #include <io/io.h>
 
 BEFORE_EACH( IOTests ) {

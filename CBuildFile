@@ -1,4 +1,13 @@
 
+$version=1.0
+
+IFWIN32
+    $so=windows
+ENDIF
+IFNOWIN32
+    $so=linux
+ENDIF
+
 compiler=g++
 
 IFWIN32
@@ -10,7 +19,7 @@ ENDIF
 
 src.dir=src
 test.dir=test
-build.dir=build
+build.dir=build/cbuild-$(version)-$(so)-x64
 
 build.files=
 

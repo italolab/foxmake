@@ -1,5 +1,5 @@
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 #include <io/filter/ByNameFileFilter.h>
 
 TEST_CASE( ByNameFileFilterTest, ByNameFileFilterTests ) {

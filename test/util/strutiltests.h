@@ -3,7 +3,7 @@
 
 #include <util/strutil.h>
 
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 
 #include <vector>
 
