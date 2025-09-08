@@ -32,12 +32,18 @@ bool ByNameFileFilter::match( string file2 ) {
     string ext1 = io::path::extension( file1 );
     string ext2 = io::path::extension( file2 );
     if ( ext1 == "" ) { 
-        isExtsMatch = ext2 == "" || name1 == "*";
+        isExtsMatch = name1.find( "*" ) != string::npos;
     } else if ( ext1 == "*" ) {
-        isExtsMatch = true;
+        isExtsMatch = ext2 != "";
     } else {
         isExtsMatch = ( ext1 == ext2 );
     }
+    
+    if ( name1 == "*" && ext1 == "*" )
+        return name2 != "" && ext2 != "";    
+
+    if ( name1 == "*" && ext1 == "" )
+        return !( name2 == "" && ext2 == "" );
     
     return ( isNamesMatch && isExtsMatch );
 }
