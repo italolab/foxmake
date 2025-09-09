@@ -25,6 +25,7 @@ namespace strutil {
 
     bool isWhiteSpace( char ch );
     string removeStartWhiteSpaces( string str );
+    string removeEndWhiteSpaces( string str );
 
 }
 

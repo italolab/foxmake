@@ -175,6 +175,24 @@ namespace strutil {
         return "";
     }
 
+    string removeEndWhiteSpaces( string str ) {
+        int len = str.length();
+
+        int j = len-1;
+        bool notWhiteSpace = false;
+        while( !notWhiteSpace && j >= 0 ) {
+            if ( isWhiteSpace( str[ j ] ) ) {
+                j--;
+            } else {
+                notWhiteSpace = true;
+            }
+        }
+
+        if ( j >= 0 )
+            return str.substr( 0, j+1 );
+        return "";
+    }
+
     bool isWhiteSpace( char ch ) {
         return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
     }

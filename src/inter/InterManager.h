@@ -2,6 +2,7 @@
 #define INTER_MANAGER_H
 
 #include "InterDriver.h"
+#include "ConcreteBlockInter.h"
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "ProcInter.h"
@@ -22,6 +23,7 @@
 class InterManager {
 
     private:
+        ConcreteBlockInter* concreteBlockInter;
         MainScriptInter* mainScriptInter;
         TaskInter* taskInter;
         ProcInter* procInter;
@@ -46,6 +48,8 @@ class InterManager {
         InterResult* interpretsShellCMD( Block* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded );
         InterResult* interpretsVar( Block* parent, string line, int& numberOfLinesReaded );
         InterResult* interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded );
+
+        InterResult* interpretsBlock( Block* parent, BlockIterator* it, int& numberOfLinesReaded );
 
         InterResult* interpretsMainScript( MainScript* script, string file );
         InterResult* interpretsTask( MainScript* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded );

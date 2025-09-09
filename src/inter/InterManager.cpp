@@ -5,6 +5,7 @@
 InterManager::InterManager( InterDriver* drv ) {
     this->drv = drv;
 
+    this->concreteBlockInter = new ConcreteBlockInter();
     this->mainScriptInter = new MainScriptInter();
     this->taskInter = new TaskInter();
     this->procInter = new ProcInter();
@@ -19,6 +20,7 @@ InterManager::InterManager( InterDriver* drv ) {
 }
 
 InterManager::~InterManager() {
+    delete concreteBlockInter;
     delete mainScriptInter;
     delete taskInter;
     delete procInter;
@@ -50,6 +52,10 @@ InterResult* InterManager::interpretsVar( Block* parent, string line, int& numbe
 
 InterResult* InterManager::interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded ) {
     return propInter->interprets( parent, line, numberOfLinesReaded, this );
+}
+
+InterResult* InterManager::interpretsBlock( Block* block, BlockIterator* it, int& numberOfLinesReaded ) {
+    return concreteBlockInter->interprets( block, it, numberOfLinesReaded, this );
 }
 
 InterResult* InterManager::interpretsMainScript( MainScript* script, string file ) {

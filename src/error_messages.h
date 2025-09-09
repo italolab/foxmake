@@ -77,6 +77,15 @@ namespace errors {
     const string END_OF_PROC_BLOCK_NOT_FOUND = "Fim de bloco de procedimento \"endproc\" não encontrado.";
     const string END_OF_BLOCK_NOT_FOUND = "Fim de bloco não encontrado.";
 
+    const string IF_WITHOUT_THEN = "Encontrado definição de if sem then.";
+    const string IF_CONDITION_WITHOUT_COMP_OPERATOR = "Encontrada condição de if sem operador de comparação.";
+    const string IF_OPERAND1_WITHOUT_CLOSE_QUOTES = "Operando 1 de IF sem fecha aspas.";
+    const string IF_OPERAND2_WITHOUT_CLOSE_QUOTES = "Operando 2 de IF sem fecha aspas.";
+    const string IF_UNNECESSARY_ELSE = "Else desnecessário.";
+    const string ENDIF_NOT_FOUND = "if sem endif correspondente.";
+
+    const string VARIABLE_OR_PROPERTY_NOT_FOUND = "Não foi encontrada variável nem propriedade com nome: $1.";
+
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     
     const string ERROR_IN_FILES_COPY = "Houve erro na cópia do(s) arquivo(s).\nVerifique os caminhos da origem e do destino, \nse a cópia é recursiva e com ou sem sobrescrita, \ne se tem permissoes necessarias para está operacao";
