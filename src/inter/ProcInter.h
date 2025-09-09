@@ -2,8 +2,10 @@
 #define PROC_INTER_H
 
 #include "BlockInter.h"
+#include "InterResult.h"
 #include "it/BlockIterator.h"
 #include "../darv/MainScript.h"
+#include "../darv/Block.h"
 #include "../darv/Task.h"
 
 #include <vector>

@@ -15,7 +15,7 @@ void MainScript::putProperty( Prop* prop ) {
 }
 
 void MainScript::putProperty( string name, string value ) {
-    propertiesMap[ name ] = new Prop( this, name, value, 0, "" ); 
+    propertiesMap[ name ] = new Prop( name, value, 0, "" ); 
 }
 
 string MainScript::getPropertyValue( string name ) {

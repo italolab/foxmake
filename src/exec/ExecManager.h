@@ -4,12 +4,11 @@
 #include "MainCMDArgManager.h"
 #include "ScriptPropertyManager.h"
 #include "main/MainExec.h"
-#include "cp/CPExec.h"
-#include "rm/RMExec.h"
-#include "cd/CDExec.h"
-#include "mkdir/MKDirExec.h"
-#include "echo/EchoExec.h"
+#include "cmd/CMDExec.h"
 #include "shcmd/ShellCMDLineExec.h"
+#include "if/IFExec.h"
+#include "varattr/VarAttrExec.h"
+#include "call/CallExec.h"
 #include "../darv/Statement.h"
 #include "../darv/MainScript.h"
 #include "../darv/Task.h"
@@ -40,13 +39,12 @@ class ExecManager : public InterDriver {
         ScriptPropertyManager* scriptPropertyManager;
 
         MainExec* mainExec;
-        CPExec* cpExec;
-        RMExec* rmExec;
-        CDExec* cdExec;
-        MKDirExec* mkdirExec;
-        EchoExec* echoExec;
 
         ShellCMDLineExec* shellCMDExec;
+        CMDExec* cmdExec;
+        IFExec* ifExec;
+        VarAttrExec* varAttrExec;
+        CallExec* callExec;
 
         vector<string> validCMDNames;
 

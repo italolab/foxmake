@@ -3,11 +3,23 @@
 
 #include "../it/BlockIterator.h"
 #include "../InterResult.h"
+#include "../if/IFConditionInter.h"
+#include "../../darv/Block.h"
 
 class PreProcessor {
 
+    private:
+        IFConditionInter* ifConditionInter;
+
     public:
-        InterResult* preProcess( BlockIterator* it, string& preProcessedBlock );
+        PreProcessor();
+        virtual ~PreProcessor();
+
+        InterResult* preProcess( 
+                    Block* block, 
+                    BlockIterator* it, 
+                    string& preProcessedBlock, 
+                    void* mgr );
 
 };
 

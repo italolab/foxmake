@@ -6,7 +6,6 @@
 #include "../../shell/shell.h"
 #include "../../output/output.h"
 #include "../../msg/messagebuilder.h"
-#include "../../util/hashutil.h"
 
 #include "../../error_messages.h"
 #include "../../info_messages.h"

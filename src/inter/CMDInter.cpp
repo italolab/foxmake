@@ -10,7 +10,9 @@
 
 #include <sstream>
 #include <cstring>
+#include <stdexcept>
 
+using std::runtime_error;
 using std::istringstream;
 using std::stringstream;
 
@@ -20,9 +22,14 @@ InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], void* mgr ) {
 }
 
 InterResult* CMDInter::interprets( Block* parent, string line, int& numberOfLinesReaded, void* mgr ) {
+    InterManager* manager = (InterManager*)mgr;
+
     string cmdstr = line;
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, cmdstr, numberOfLinesReaded, parent );
+    bool isErrorIfNotFound = false;
+    InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns( 
+            cmdstr, numberOfLinesReaded, line, isErrorIfNotFound, parent );
+            
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
@@ -94,7 +101,7 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int& n
                 }
             }
 
-            cmd->addProperty( new Prop( cmd, name, value, numberOfLinesReaded, line ) );
+            cmd->addProperty( new Prop( name, value, numberOfLinesReaded, line ) );
         }
         
         cmd->addArg( param );

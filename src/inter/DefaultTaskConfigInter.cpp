@@ -6,8 +6,10 @@
 
 #include "../error_messages.h"
 
+#include <stdexcept>
 #include <sstream>
 
+using std::runtime_error;
 using std::stringstream;
 using std::istringstream;
 

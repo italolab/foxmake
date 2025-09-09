@@ -23,6 +23,8 @@ InterResult* MainScriptInter::interpretsLine(
 
     InterResult* result = manager->interpretsProp( script, currentLine, numberOfLinesReaded );
     if ( !result->isInterpreted() && !result->isErrorFound())
+        result = manager->interpretsVar( script, currentLine, numberOfLinesReaded );
+    if ( !result->isInterpreted() && !result->isErrorFound())
         result = manager->interpretsTask( script, it, currentLine, numberOfLinesReaded );
     if ( !result->isInterpreted() && !result->isErrorFound() )
         result = manager->interpretsDefaultTaskConfig( script, currentLine, numberOfLinesReaded );
@@ -42,7 +44,7 @@ InterResult* MainScriptInter::interprets(
     FileIterator* it = new FileIterator( file );
 
     string preProcessedText;
-    InterResult* iresult = manager->preProcess( it, preProcessedText );
+    InterResult* iresult = manager->preProcess( script, it, preProcessedText );
     if ( iresult->isErrorFound() )
         return iresult;
                 
@@ -50,5 +52,12 @@ InterResult* MainScriptInter::interprets(
 
     string endToken = "";
     int numberOfLinesReaded = 0;
-    return BlockInter::interpretsBlock( script, preProcessedTextIt, numberOfLinesReaded, endToken, nullptr,  mgr );
+    
+    return BlockInter::interpretsBlock( 
+                script, 
+                preProcessedTextIt, 
+                numberOfLinesReaded, 
+                endToken, 
+                nullptr, 
+                mgr );
 }

@@ -2,9 +2,9 @@
 #include "IF.h"
 
 IF::IF( Statement* parent, int numberOfLinesReaded, string line ) : Statement( parent, numberOfLinesReaded, line ) {
+    this->condition = nullptr;
     this->thenStatement = nullptr;
     this->elseStatement = nullptr;
-    this->conditionValue = true;
 }
 
 IF::~IF() {
@@ -14,8 +14,8 @@ IF::~IF() {
         delete elseStatement;
 }
 
-bool IF::getConditionValue() {
-    return conditionValue;
+IFCondition* IF::getCondition() {
+    return condition;
 }
 
 Statement* IF::getThenStatement() {
@@ -26,8 +26,8 @@ Statement* IF::getElseStatement() {
     return elseStatement;
 }
 
-void IF::setConditionValue( bool value ) {
-    this->conditionValue = value;
+void IF::setCondition( IFCondition* condition ) {
+    this->condition = condition;
 }
 
 void IF::setThenStatement( Statement* block ) {

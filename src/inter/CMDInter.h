@@ -1,14 +1,15 @@
 #ifndef CMD_INTER_H
 #define CMD_INTER_H
 
-#include "Inter.h"
+#include "InterResult.h"
 #include "../darv/CMD.h"
+#include "../darv/Block.h"
 
 #include <string>
 
 class InterManager;
 
-class CMDInter : public Inter{
+class CMDInter {
 
     private:
         InterResult* interprets( 

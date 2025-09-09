@@ -1,22 +1,26 @@
 #ifndef VAR_H
 #define VAR_H
 
-#include "Statement.h"
 #include <string>
 
 using std::string;
 
-class Var : public Statement {
+class Var {
 
     private:
         string name;
         string value;
+        string line;
+        int numberOfLinesReaded;
 
     public:
-        Var( Statement* parent, string name, string value, int numberOfLinesReaded, string line );
+        Var( string name, string value, int numberOfLinesReaded, string line );
 
         string getName();
         string getValue();
+        int getNumberOfLinesReaded();
+        string getLine();
+
         void setValue( string value );
 
 };

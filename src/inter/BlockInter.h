@@ -1,13 +1,12 @@
 #ifndef BLOCK_INTER_H
 #define BLOCK_INTER_H
 
-#include "Inter.h"
 #include "InterResult.h"
 #include "block/BlockInterResult.h"
 #include "it/BlockIterator.h"
 #include "../darv/Block.h"
 
-class BlockInter : public Inter {
+class BlockInter {
 
     private:
         InterResult* interpretsEnd( 

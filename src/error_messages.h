@@ -79,12 +79,14 @@ namespace errors {
 
     const string IF_WITHOUT_THEN = "Encontrado definição de if sem then.";
     const string IF_CONDITION_WITHOUT_COMP_OPERATOR = "Encontrada condição de if sem operador de comparação.";
-    const string IF_OPERAND1_WITHOUT_CLOSE_QUOTES = "Operando 1 de IF sem fecha aspas.";
-    const string IF_OPERAND2_WITHOUT_CLOSE_QUOTES = "Operando 2 de IF sem fecha aspas.";
+    const string IF_OPERAND1_WITHOUT_CLOSE_QUOTES = "Operando 1 de IF sem fecha aspas ou com fecha aspas antes do final.";
+    const string IF_OPERAND2_WITHOUT_CLOSE_QUOTES = "Operando 2 de IF sem fecha aspas ou com fecha aspas antes do final.";
     const string IF_UNNECESSARY_ELSE = "Else desnecessário.";
+    const string IF_CONDITION_EXPECTED = "Condição de if esperada.";
     const string ENDIF_NOT_FOUND = "if sem endif correspondente.";
 
     const string VARIABLE_OR_PROPERTY_NOT_FOUND = "Não foi encontrada variável nem propriedade com nome: $1.";
+    const string PROPERTY_NOT_FOUND = "Propriedade não reconhecida: \"$1\".";
 
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     
@@ -123,7 +125,9 @@ namespace io {
 namespace runtime {
 
     const string NULL_ROOT_STATEMENT = "$1 --> A raiz da árvore é nula.";
+    const string NULL_BLOCK_STATEMENT = "$1 --> O objeto bloco é nulo.";
     const string NULL_PROC = "$1 --> Proc nula.";
+    const string NULL_IF_CONDITION = "IF Condition nula.";
 
     const string CMD_EXECUTOR_NOT_FOUND = "Executor de comando não encontrado pelo nome: \"$1\"";
     const string TASK_EXECUTOR_NOT_FOUND = "Executor de tarefa não encontrado pelo nome: \"$1\"";

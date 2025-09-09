@@ -10,13 +10,15 @@
 using std::stringstream;
 using std::istringstream;
 
-InterResult* PreProcessor::preProcess( BlockIterator* it, string& preProcessedText ) {
-    bool isWin32 = false;
+PreProcessor::PreProcessor() {
+    this->ifConditionInter = new IFConditionInter();
+}
 
-    #ifdef _WIN32
-        isWin32 = true;
-    #endif
+PreProcessor::~PreProcessor() {
+    delete ifConditionInter;
+}
 
+InterResult* PreProcessor::preProcess( Block* block, BlockIterator* it, string& preProcessedText, void* mgr ) {
     stringstream blockSS;
     int numberOfLinesReaded = 0;
 
@@ -47,25 +49,32 @@ InterResult* PreProcessor::preProcess( BlockIterator* it, string& preProcessedTe
             continue;                            
         } 
 
-        if ( token == "IFWIN32" || token == "IFNOWIN32" ) {
-            if ( !isIgnore ) {
+        if ( token == "IF" ) {
+            if ( !isIgnore )
                 endIFNotFound = true;
 
-                if ( iss.peek() != EOF ) {
-                    iss >> token;
-                    if ( strutil::trim( token ) != "" ) {
-                        messagebuilder b( errors::UNNECESSARY_TOKEN );
-                        b << token;
-                        return new InterResult( line, numberOfLinesReaded, 0, b.str() );
-                    }
-                }
-            }
+            if ( line.length() < 3 )
+                return new InterResult( line, numberOfLinesReaded, 0, errors::IF_CONDITION_EXPECTED );
+
+            string line2 = strutil::removeStartWhiteSpaces( line );
+            string condition = line2.substr( 3, line2.length()-3 );
+            condition = strutil::removeStartWhiteSpaces( condition );
+            condition = strutil::removeEndWhiteSpaces( condition );
                  
+            string value1;
+            string value2;
+            string compOperator;
+            InterResult* result = ifConditionInter->interprets( 
+                    block, condition, value1, value2, compOperator, line, numberOfLinesReaded, mgr );
+                    
+            if ( result->isErrorFound() )
+                return result;
+
             bool isIgnore2 = false;
-            if ( isWin32 ) {
-                isIgnore2 = token == "IFNOWIN32";
+            if ( compOperator == "==" ) {
+                isIgnore2 = ( value1 != value2 );
             } else {
-                isIgnore2 = token == "IFWIN32";
+                isIgnore2 = ( value1 == value2 );
             }
 
             if ( isIgnore2 ) {

@@ -1,14 +1,15 @@
 #ifndef SHELL_CMD_LINE_INTER_H
 #define SHELL_CMD_LINE_INTER_H
 
-#include "Inter.h"
+#include "InterResult.h"
 #include "it/BlockIterator.h"
+#include "../darv/Block.h"
 
 #include <string>
 
 using std::string;
 
-class ShellCMDLineInter : public Inter {
+class ShellCMDLineInter {
 
     public:
         InterResult* interprets( 

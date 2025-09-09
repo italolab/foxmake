@@ -1,9 +1,11 @@
 
 #include "Prop.h"
 
-Prop::Prop( Statement* parent, string name, string value, int numberOfLinesReaded, string line ) : Statement( parent, numberOfLinesReaded, line ) {
+Prop::Prop( string name, string value, int numberOfLinesReaded, string line ) {
     this->name = name;
     this->value = value;
+    this->numberOfLinesReaded = numberOfLinesReaded;
+    this->line = line;
 }
 
 string Prop::getName() {
@@ -12,4 +14,12 @@ string Prop::getName() {
 
 string Prop::getValue() {
     return value;
+}
+
+int Prop::getNumberOfLinesReaded() {
+    return numberOfLinesReaded;
+}
+
+string Prop::getLine() {
+    return line;
 }

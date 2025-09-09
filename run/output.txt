@@ -1,12 +1,12 @@
 compiler=g++
 
-IF os == "windows"
-    output.file.name=cbuild.exe
-ENDIF
+#IF os == "windows"
+#    output.file.name=cbuild.exe
+#ENDIF
 
-IF os != "windows"
+#IF os != "windows"
     output.file.name=cbuild
-ENDIF
+#ENDIF
 
 src.dir=../src
 test.dir=../test
@@ -34,19 +34,19 @@ include.dirs=
 libs=
 #defines=
 
-IF os != "windows"
+#IF os != "windows"
     test.linker.params=-ldl -rdynamic
-ENDIF
+#ENDIF
 
 test.include.dirs=../include
 test.libs=cbtest
 
-IF os == "windows"
-    test.lib.dirs=../lib/windows
-ENDIF
-IF os != "windows"
+#IF os == "windows"
+#    test.lib.dirs=../lib/windows
+#ENDIF
+#IF os != "windows"
     test.lib.dirs=../lib/linux
-ENDIF
+#ENDIF
 
 $project_name=cbuild
 
@@ -70,20 +70,20 @@ task copy after
 
     @echo "abc"
     shellbegin
-        IF os=="windows"
-            if exist CBuildFile-Run (
-                echo O arquivo existe!
-            ) else (
-                echo O arquivo nao existe.
-            )
-        ENDIF
-        IF os=="nowindows"
+#        IF os=="windows"
+#            if exist CBuildFile-Run (
+#                echo O arquivo existe!
+#            ) else (
+#                echo O arquivo nao existe.
+#            )
+#        ENDIF
+#        IF os=="nowindows"
             if [ -f "CBuildFile-Run" ]; then
                 echo "O arquivo existe...!"
             else 
                 echo "Arquivo nao existe: CBuildFile-Run"
             fi
-        ENDIF
+#        ENDIF
     endshell
 
 endtask
@@ -95,12 +95,12 @@ endtask
 
 task finish after
 
-    IF os == "windows"
-        $lib_dir=$(working_dir)/../lib/windows
-    ENDIF
-    IF os == "nowindows"
+#    IF os == "windows"
+#        $lib_dir=$(working_dir)/../lib/windows
+#    ENDIF
+#    IF os == "nowindows"
         $lib_dir=$(working_dir)/../lib/linux
-    ENDIF
+#    ENDIF
 
     mkdir build/include
 
@@ -147,3 +147,4 @@ task finish after
         echo Não é igual a nenhum!
     endif
 endtask
+

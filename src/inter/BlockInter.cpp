@@ -64,8 +64,6 @@ InterResult* BlockInter::interpretsBlock(
         if ( isCmd )
             result = manager->interpretsCMD( block, line, numberOfLinesReaded );
         if ( !result->isInterpreted() && !result->isErrorFound() )
-            result = manager->interpretsVar( block, line, numberOfLinesReaded );
-        if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsShellCMD( block, it, line, numberOfLinesReaded );
         if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsIF( block, it, line, numberOfLinesReaded, IS_ADD_TO_PARENT );

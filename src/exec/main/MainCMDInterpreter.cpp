@@ -110,6 +110,14 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
     this->loadProperties( mgr );
     this->loadVariables( mgr );
 
+    string os = "nowindows";
+    #ifdef _WIN32
+        so = "windows";
+    #else
+        os = "nowindows";
+    #endif
+
+    mainScript->putLocalVar( "os", os );
     mainScript->putLocalVar( "main_config_file", scriptFile );
     mainScript->putLocalVar( "working_dir", workingDir );
 

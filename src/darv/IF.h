@@ -2,11 +2,12 @@
 #define IF_H
 
 #include "Statement.h"
+#include "IFCondition.h"
 
 class IF : public Statement {
 
     private:
-        bool conditionValue; 
+        IFCondition* condition; 
         Statement* thenStatement;
         Statement* elseStatement;
 
@@ -14,11 +15,11 @@ class IF : public Statement {
         IF( Statement* parent, int numberOfLinesReaded, string line );
         virtual ~IF();
 
-        bool getConditionValue();
+        IFCondition* getCondition();
         Statement* getThenStatement();
         Statement* getElseStatement();
 
-        void setConditionValue( bool condition );
+        void setCondition( IFCondition* condition );
         void setThenStatement( Statement* block );
         void setElseStatement( Statement* block );
 

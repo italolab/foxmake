@@ -1,5 +1,6 @@
 
 #include "ConcreteBlockInter.h"
+#include "InterManager.h"
 
 ConcreteBlockInter::~ConcreteBlockInter() {}
 
@@ -10,7 +11,9 @@ InterResult* ConcreteBlockInter::interpretsLine(
             int& numberOfLinesReaded, 
             void* mgr ) {
 
-    return new InterResult( false );
+    InterManager* manager = (InterManager*)mgr;
+
+    return manager->interpretsVarAttr( block, currentLine, numberOfLinesReaded );
 }
 
 InterResult* ConcreteBlockInter::interprets( 
@@ -20,5 +23,12 @@ InterResult* ConcreteBlockInter::interprets(
             void* mgr ) {
 
     string endToken = "";
-    return BlockInter::interpretsBlock( parent, it, numberOfLinesReaded, endToken, nullptr,  mgr );
+    
+    return BlockInter::interpretsBlock( 
+                parent, 
+                it, 
+                numberOfLinesReaded, 
+                endToken, 
+                nullptr, 
+                mgr );
 }

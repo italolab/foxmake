@@ -30,7 +30,7 @@ void Block::load( map<string, Var*>& localVarsMap2, vector<Statement*> statement
 }
 
 void Block::putLocalVar( string name, string value ) {
-    localVarsMap[ name ] = new Var( this, name, value, 0, "" );
+    localVarsMap[ name ] = new Var( name, value, 0, "" );
 }
 
 void Block::putLocalVar( Var* var ) {

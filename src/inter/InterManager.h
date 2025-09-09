@@ -14,7 +14,9 @@
 #include "ShellCMDLineInter.h"
 #include "PropInter.h"
 #include "VarInter.h"
+#include "VarAttrInter.h"
 #include "IFInter.h"
+#include "PropsAndVarsReplacer.h"
 #include "InterResult.h"
 #include "it/BlockIterator.h"
 
@@ -32,10 +34,13 @@ class InterManager {
         ShellCMDLineInter* shellCMDInter;
         PropInter* propInter;
         VarInter* varInter;
+        VarAttrInter* varAttrInter;
         DefaultTaskConfigInter* defaultTaskConfigInter;
         TaskDefinitionInter* taskDefinitionInter;
 
         IFInter* ifInter;
+
+        PropsAndVarsReplacer* propsAndVarsReplacer;
 
         PreProcessor* preProcessor;
         
@@ -52,6 +57,8 @@ class InterManager {
         InterResult* interpretsVar( Block* parent, string line, int& numberOfLinesReaded );
         InterResult* interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded );
 
+        InterResult* interpretsVarAttr( Block* parent, string line, int& numberOfLinesReaded );
+
         InterResult* interpretsBlock( Block* parent, BlockIterator* it, int& numberOfLinesReaded );
 
         InterResult* interpretsMainScript( MainScript* script, string file );
@@ -64,7 +71,9 @@ class InterManager {
 
         InterResult* interpretsIF( Block* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded, bool isAddToParent );
 
-        InterResult* preProcess( BlockIterator* it, string& preProcessedText );
+        InterResult* replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, bool isErrorIfNotFound, Block* block );
+
+        InterResult* preProcess( Block* block, BlockIterator* it, string& preProcessedText );
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );

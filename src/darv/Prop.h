@@ -1,23 +1,25 @@
 #ifndef PROP_H
 #define PROP_H
 
-#include "Statement.h"
-
 #include <string>
 
 using std::string;
 
-class Prop : public Statement {
+class Prop {
 
     private:
         string name;
         string value;
+        string line;
+        int numberOfLinesReaded;
 
     public:
-        Prop( Statement* block, string name, string value, int numberOfLinesReaded, string line );
+        Prop( string name, string value, int numberOfLinesReaded, string line );
 
         string getName();
         string getValue();
+        int getNumberOfLinesReaded();
+        string getLine();
 
 };
 

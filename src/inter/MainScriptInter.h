@@ -1,10 +1,11 @@
 #ifndef MAIN_SCRIPT_INTER_H
 #define MAIN_SCRIPT_INTER_H
 
-#include "Inter.h"
 #include "BlockInter.h"
+#include "InterResult.h"
 #include "it/BlockIterator.h"
 #include "../darv/MainScript.h"
+#include "../darv/Block.h"
 
 class MainScriptInter : public BlockInter {
 

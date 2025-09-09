@@ -1,14 +1,10 @@
-#ifndef VAR_INTER_H
-#define VAR_INTER_H
+#ifndef VAR_ATTR_INTER_H
+#define VAR_ATTR_INTER_H
 
 #include "InterResult.h"
 #include "../darv/Block.h"
 
-#include <string>
-
-using std::string;
-
-class VarInter {
+class VarAttrInter {
 
     public:
         InterResult* interprets( 

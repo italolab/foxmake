@@ -9,8 +9,10 @@
 
 #include "../error_messages.h"
 
+#include <stdexcept>
 #include <sstream>
 
+using std::runtime_error;
 using std::stringstream;
 using std::istringstream;
 
@@ -22,7 +24,10 @@ InterResult* TaskInter::interpretsLine(
             string currentLine, 
             int& numberOfLinesReaded, 
             void* mgr ) {
-    return new InterResult( false );
+                
+    InterManager* manager = (InterManager*)mgr;
+
+    return manager->interpretsVarAttr( block, currentLine, numberOfLinesReaded );    
 }
 
 /*
@@ -82,8 +87,14 @@ InterResult* TaskInter::interprets(
         parent->addTask( task );
        
     string endToken = "endtask";
+
     InterResult* blockIResult = BlockInter::interpretsBlock( 
-                task, it, numberOfLinesReaded, endToken, endTokenNotFoundIResult, mgr );
+                task, 
+                it, 
+                numberOfLinesReaded, 
+                endToken, 
+                endTokenNotFoundIResult, 
+                mgr );
                 
     if ( blockIResult->isErrorFound() )
         return blockIResult;

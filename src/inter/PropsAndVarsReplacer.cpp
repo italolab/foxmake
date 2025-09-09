@@ -1,5 +1,5 @@
 
-#include "Inter.h"
+#include "PropsAndVarsReplacer.h"
 #include "../darv/MainScript.h"
 #include "../msg/messagebuilder.h"
 #include "../util/strutil.h"
@@ -10,10 +10,12 @@
 
 using std::stringstream;
 
-inter_error::inter_error( string msg ) : runtime_error( msg ) {}
-
-InterResult* Inter::replacePropsAndVarsAndDollarSigns( 
-        string line, string& text, int& numberOfLinesReaded, Block* block ) {
+InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns( 
+                string& text, 
+                int& numberOfLinesReaded, 
+                string line, 
+                bool isErrorIfNotFound, 
+                Block* block ) {
 
     MainScript* script = (MainScript*)block->getRoot();
 
@@ -54,7 +56,9 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns(
                         }
                         if ( parentesisCount == 0 ) {
                             string name = text.substr( k+2, j-(k+2) );
-                            replacePropsAndVarsAndDollarSigns( line, name, numberOfLinesReaded, block );
+                            
+                            this->replacePropsAndVarsAndDollarSigns( 
+                                    name, numberOfLinesReaded, line, isErrorIfNotFound, block );
 
                             if ( script->existsProperty( name ) ) {
                                 string value = script->getPropertyValue( name );
@@ -67,9 +71,12 @@ InterResult* Inter::replacePropsAndVarsAndDollarSigns(
                                     ss << value;
                                     k = j;
                                 } else {
-                                    messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
-                                    b << name;
-                                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+                                    if ( isErrorIfNotFound ) {
+                                        messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+                                        b << name;
+                                        return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+                                    }
+                                    ss << name;
                                 }
                             }
                         } else {

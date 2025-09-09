@@ -22,7 +22,10 @@ InterResult* ProcInter::interpretsLine(
             string currentLine, 
             int& numberOfLinesReaded, 
             void* mgr ) {
-    return new InterResult( false );
+                
+    InterManager* manager = (InterManager*)mgr;
+
+    return manager->interpretsVarAttr( block, currentLine, numberOfLinesReaded );
 }
 
 /*
@@ -72,8 +75,14 @@ InterResult* ProcInter::interprets(
         parent->addProc( proc );
        
     string endToken = "endproc";
+    
     InterResult* blockIResult = BlockInter::interpretsBlock( 
-                proc, it, numberOfLinesReaded, endToken, endTokenNotFoundIResult, mgr );
+                    proc, 
+                    it, 
+                    numberOfLinesReaded, 
+                    endToken, 
+                    endTokenNotFoundIResult, 
+                    mgr );
 
     if ( blockIResult->isErrorFound() )
         return blockIResult;

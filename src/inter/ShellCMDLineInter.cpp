@@ -1,5 +1,6 @@
 
 #include "ShellCMDLineInter.h"
+#include "InterManager.h"
 #include "../darv/ShellCMDLine.h"
 #include "../util/strutil.h"
 #include "../msg/messagebuilder.h"
@@ -17,6 +18,8 @@ InterResult* ShellCMDLineInter::interprets(
             string currentLine, 
             int& numberOfLinesReaded, 
             void* mgr ) {
+
+    InterManager* manager = (InterManager*)mgr;
 
     if ( currentLine.length() == 0 )
         return new InterResult( false );
@@ -83,7 +86,10 @@ InterResult* ShellCMDLineInter::interprets(
             cmdstr = cmdstr.substr( 0, cmdstr.length()-1 );
     }
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( currentLine, cmdstr, numberOfLinesReaded, parent );
+    bool isErrorIfNotFound = false;
+    InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns( 
+            cmdstr, numberOfLinesReaded, currentLine, isErrorIfNotFound, parent );
+            
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 

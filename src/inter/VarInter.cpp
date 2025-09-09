@@ -5,6 +5,9 @@
 
 InterResult* VarInter::interprets( 
             Block* parent, string line, int& numberOfLinesReaded, void* mgr ) {
+
+    InterManager* manager = (InterManager*)mgr;
+
     if ( line.length() == 0 )
         return new InterResult( false );
     if ( line[ 0 ] != '$' )
@@ -17,17 +20,20 @@ InterResult* VarInter::interprets(
     string name = line.substr( 1, i-1 );
     string value = line.substr( i+1, line.length()-i );
 
-    InterResult* replaceResult = Inter::replacePropsAndVarsAndDollarSigns( line, value, numberOfLinesReaded, parent );
+    bool isErrorIfNotFound = false;
+    InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns(
+            value, numberOfLinesReaded, line, isErrorIfNotFound, parent );
+
     if ( !replaceResult->isInterpreted() )
         return replaceResult;
 
     delete replaceResult;
 
-    Var* var = new Var( parent, name, value, numberOfLinesReaded, line );
+    Var* var = new Var( name, value, numberOfLinesReaded, line );
     if ( parent != nullptr )
         parent->putLocalVar( var );
 
     numberOfLinesReaded++;
 
-    return new InterResult( var, numberOfLinesReaded, line.length() );
+    return new InterResult( nullptr, numberOfLinesReaded, line.length() );
 }

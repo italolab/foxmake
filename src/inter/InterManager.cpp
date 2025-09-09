@@ -15,8 +15,10 @@ InterManager::InterManager( InterDriver* drv ) {
     this->shellCMDInter = new ShellCMDLineInter();
     this->propInter = new PropInter();
     this->varInter = new VarInter();
+    this->varAttrInter = new VarAttrInter();
 
     this->ifInter = new IFInter();
+    this->propsAndVarsReplacer = new PropsAndVarsReplacer();
 
     this->preProcessor = new PreProcessor();
 }
@@ -32,8 +34,10 @@ InterManager::~InterManager() {
     delete shellCMDInter;
     delete propInter;
     delete varInter;
+    delete varAttrInter;
 
     delete ifInter;
+    delete propsAndVarsReplacer;
 
     delete preProcessor;
 }
@@ -56,6 +60,10 @@ InterResult* InterManager::interpretsVar( Block* parent, string line, int& numbe
 
 InterResult* InterManager::interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded ) {
     return propInter->interprets( parent, line, numberOfLinesReaded, this );
+}
+
+InterResult* InterManager::interpretsVarAttr( Block* parent, string line, int& numberOfLinesReaded ) {
+    return varAttrInter->interprets( parent, line, numberOfLinesReaded, this );
 }
 
 InterResult* InterManager::interpretsBlock( Block* block, BlockIterator* it, int& numberOfLinesReaded ) {
@@ -86,8 +94,13 @@ InterResult* InterManager::interpretsIF( Block* parent, BlockIterator* it, strin
     return ifInter->interprets( parent, it, currentLine, numberOfLinesReaded, isAddToParent, this );
 }
 
-InterResult* InterManager::preProcess( BlockIterator* it, string& preProcessedText ) {
-    return preProcessor->preProcess( it, preProcessedText );
+InterResult* InterManager::replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, bool isErrorIfNotFound, Block* block ) {
+    return propsAndVarsReplacer->replacePropsAndVarsAndDollarSigns( text, numberOfLinesReaded, line, isErrorIfNotFound, block );
+}
+
+
+InterResult* InterManager::preProcess( Block* block, BlockIterator* it, string& preProcessedText ) {
+    return preProcessor->preProcess( block, it, preProcessedText, this );
 }
 
 bool InterManager::isValidCMD( string line ) {
