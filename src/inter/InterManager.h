@@ -14,6 +14,7 @@
 #include "ShellCMDLineInter.h"
 #include "PropInter.h"
 #include "VarInter.h"
+#include "IFInter.h"
 #include "InterResult.h"
 #include "it/BlockIterator.h"
 
@@ -33,6 +34,8 @@ class InterManager {
         VarInter* varInter;
         DefaultTaskConfigInter* defaultTaskConfigInter;
         TaskDefinitionInter* taskDefinitionInter;
+
+        IFInter* ifInter;
 
         PreProcessor* preProcessor;
         
@@ -58,6 +61,8 @@ class InterManager {
         InterResult* interpretsDefaultTaskConfig( MainScript* script, string currentLine, int& numberOfLinesReaded );
 
         TaskDefinitionResult* interpretsTaskDefinition( string currentLine );
+
+        InterResult* interpretsIF( Block* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded, bool isAddToParent );
 
         InterResult* preProcess( BlockIterator* it, string& preProcessedText );
 

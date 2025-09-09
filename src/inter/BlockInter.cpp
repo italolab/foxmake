@@ -21,6 +21,8 @@ InterResult* BlockInter::interpretsBlock(
 
     InterManager* manager = (InterManager*)mgr;
 
+    const bool IS_ADD_TO_PARENT = true;
+
     bool ignoreFlag = false;
     bool endFound = false;
     while( !endFound && it->hasNextLine() ) {
@@ -65,6 +67,8 @@ InterResult* BlockInter::interpretsBlock(
             result = manager->interpretsVar( block, line, numberOfLinesReaded );
         if ( !result->isInterpreted() && !result->isErrorFound() )
             result = manager->interpretsShellCMD( block, it, line, numberOfLinesReaded );
+        if ( !result->isInterpreted() && !result->isErrorFound() )
+            result = manager->interpretsIF( block, it, line, numberOfLinesReaded, IS_ADD_TO_PARENT );
         if ( !result->isInterpreted() && !result->isErrorFound() )
             result = this->interpretsLine( block, it, line, numberOfLinesReaded, mgr );            
 

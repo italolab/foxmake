@@ -123,4 +123,20 @@ task finish after
 
     rm -r $(build.dir)/include/io/i*.*
     rm $(bin.dir)
+
+    if src.dir==bin.dir then
+        echo É igual a bin.dir!
+    else if src.dir==build.dir then
+        echo È igual a build.dir
+    else if src.dir=="../src" then
+        if bin.dir!="bin/Debug" then
+            echo Debug!
+        else if bin.dir=="bin/Debug" then
+            echo Release!
+        else
+            echo Not bin debug!
+        endif    
+    else 
+        echo Não é igual a nenhum!
+    endif
 endtask

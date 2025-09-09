@@ -31,6 +31,7 @@ class IFInter : public Inter {
                 BlockIterator* it, 
                 string currentLine, 
                 int& numberOfLineReaded, 
+                bool isAddToParent,
                 void* mgr );
 
 };

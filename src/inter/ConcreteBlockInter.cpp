@@ -1,6 +1,8 @@
 
 #include "ConcreteBlockInter.h"
 
+ConcreteBlockInter::~ConcreteBlockInter() {}
+
 InterResult* ConcreteBlockInter::interpretsLine( 
             Block* block, 
             BlockIterator* it, 
@@ -18,6 +20,5 @@ InterResult* ConcreteBlockInter::interprets(
             void* mgr ) {
 
     string endToken = "";
-    int numberOfLinesReaded = 0;
     return BlockInter::interpretsBlock( parent, it, numberOfLinesReaded, endToken, nullptr,  mgr );
 }

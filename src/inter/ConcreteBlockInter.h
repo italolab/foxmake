@@ -18,6 +18,8 @@ class ConcreteBlockInter : public BlockInter {
                 void* mgr );
 
     public:
+        virtual ~ConcreteBlockInter();
+        
         InterResult* interprets( 
                 Block* block, 
                 BlockIterator* it, 

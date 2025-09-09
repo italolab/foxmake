@@ -18,6 +18,7 @@ InterResult* IFInter::interprets(
             BlockIterator* it, 
             string currentLine, 
             int& numberOfLinesReaded, 
+            bool isAddToParent,
             void* mgr ) {
 
     InterManager* manager = (InterManager*)mgr;
@@ -25,19 +26,22 @@ InterResult* IFInter::interprets(
     size_t i = currentLine.find( "if" );
     size_t j = currentLine.find( "then" );
 
-    if ( i == string::npos )
+    string currLine = strutil::removeStartWhiteSpaces( currentLine );
+    if ( !strutil::startsWith( currLine, "if " ) )
         return new InterResult( false );
 
     if ( j == string::npos )
         return new InterResult( currentLine, numberOfLinesReaded, 0, errors::IF_WITHOUT_THEN );
 
-    string afterThenTokens = currentLine.substr( j+5, currentLine.length()-j-5 );
-    afterThenTokens = strutil::trim( afterThenTokens );
-    
-    if ( afterThenTokens != "" ) {
-        messagebuilder b( errors::UNNECESSARY_TOKEN );
-        b << afterThenTokens;
-        return new InterResult( currentLine, numberOfLinesReaded, 0, b.str() );
+    if ( currentLine.length() > j+5 ) {
+        string afterThenTokens = currentLine.substr( j+5, currentLine.length()-j-5 );
+        afterThenTokens = strutil::trim( afterThenTokens );
+        
+        if ( afterThenTokens != "" ) {
+            messagebuilder b( errors::UNNECESSARY_TOKEN );
+            b << afterThenTokens;
+            return new InterResult( currentLine, numberOfLinesReaded, 0, b.str() );
+        }
     }
 
     string condition = currentLine.substr( i+3, j-i-3 );
@@ -65,13 +69,13 @@ InterResult* IFInter::interprets(
 
     numberOfLinesReaded++;
     string line;
-    bool elseFound = false;
     int ifCount = 1;
     while( ifCount > 0 && it->hasNextLine() ) {
         string line = it->nextLine();
         string line2 = strutil::removeStartWhiteSpaces( line );
 
         if ( strutil::startsWith( line2, "if" ) ) {
+            ss << line << "\n";
             ifCount++;
         } else if ( strutil::startsWith( line2, "else" ) ) {
             if ( ifCount == 1 ) {
@@ -80,18 +84,18 @@ InterResult* IFInter::interprets(
 
                 thenSt = new Block( parent, numberOfLinesReaded, currentLine );
 
-                StringIterator* it = new StringIterator( ss.str() );
+                StringIterator* it2 = new StringIterator( ss.str() );
 
                 ss.str("");
 
-                InterResult* result = manager->interpretsBlock( (Block*)thenSt, it, numberOfLinesReaded );
+                InterResult* result = manager->interpretsBlock( (Block*)thenSt, it2, numberOfLinesReaded );
                 if ( result->isErrorFound() )
                     return result;
 
                 if ( strutil::startsWith( line2, "else if" ) ) {                        
                     string line3 = line2.substr( 5, line2.length()-5 );
 
-                    InterResult* result = this->interprets( nullptr, it, line3, numberOfLinesReaded, mgr );
+                    InterResult* result = this->interprets( parent, it, line3, numberOfLinesReaded, false, mgr );
                     if ( result->isErrorFound() )
                         return result;
 
@@ -101,12 +105,15 @@ InterResult* IFInter::interprets(
                 } else {
                     numberOfLinesReaded++;                
                 }
-
+            } else if ( ifCount > 1 ) {
+                ss << line << "\n";
             }
         } else if ( strutil::startsWith( line2, "endif" ) ) {
             ifCount--;
+            if ( ifCount != 0 )
+                ss << line << "\n";
         } else {
-            ss << line;
+            ss << line << "\n";
         }
     }
 
@@ -136,7 +143,7 @@ InterResult* IFInter::interprets(
     ifst->setThenStatement( thenSt );
     ifst->setElseStatement( elseSt );
     
-    if ( parent != nullptr )
+    if ( parent != nullptr && isAddToParent )
         parent->addStatement( ifst );
 
     return new InterResult( ifst, numberOfLinesReaded, 0 );
@@ -158,8 +165,6 @@ InterResult* IFInter::interpretsCondition(
     if ( replaceResult->isErrorFound() )
         return replaceResult;
 
-    string compOperator = "";
-
     size_t k = condition.find( "==" );
     if ( k != string::npos ) {
         compOperator = "==";
@@ -179,9 +184,8 @@ InterResult* IFInter::interpretsCondition(
     operand1 = strutil::removeEndWhiteSpaces( operand1 );
 
     operand2 = strutil::removeStartWhiteSpaces( operand2 );
-    operand2 = strutil::removeEndWhiteSpaces( operand1 );
+    operand2 = strutil::removeEndWhiteSpaces( operand2 );
 
-    string value1 = "";
     if ( strutil::startsWith( operand1, "\"" ) ) {
         if ( !strutil::endsWith( operand1, "\"" ) )
             return new InterResult( line, numberOfLinesReaded, 0, errors::IF_OPERAND1_WITHOUT_CLOSE_QUOTES );
@@ -194,7 +198,6 @@ InterResult* IFInter::interpretsCondition(
             return new InterResult( line, numberOfLinesReaded, 0, errorMsg );
     }
 
-    string value2 = "";
     if ( strutil::startsWith( operand2, "\"" ) ) {
         if ( !strutil::endsWith( operand2, "\"" ) )
             return new InterResult( line, numberOfLinesReaded, 0, errors::IF_OPERAND2_WITHOUT_CLOSE_QUOTES );

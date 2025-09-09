@@ -5,6 +5,7 @@
 #include "../darv/Task.h"
 #include "../darv/GenericCMD.h"
 #include "../darv/CallCMD.h"
+#include "../darv/IF.h"
 #include "../inter/InterResult.h"
 #include "../shell/shell.h"
 #include "../io/io.h"
@@ -129,6 +130,15 @@ void ExecManager::executeStatement( Statement* st ) {
         }
     } else if ( dynamic_cast<ShellCMDLine*>( st ) ) {
         shellCMDExec->exec( (ShellCMDLine*)st, this );
+    } else if ( dynamic_cast<IF*>( st ) ) {
+        IF* ifst = (IF*)st;
+        if ( ifst->getConditionValue() ) {
+            this->executeStatement( ifst->getThenStatement() );
+        } else {
+            this->executeStatement( ifst->getElseStatement() );
+        }   
+    } else if ( dynamic_cast<Block*>( st ) ) {
+        this->executeBlockStatements( (Block*)st );     
     } else {
         messagebuilder b( errors::runtime::INVALID_STATEMENT_TYPE );
         b << st->getLine();
