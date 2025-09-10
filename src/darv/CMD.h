@@ -20,9 +20,13 @@ class CMD : public GenericCMD {
         vector<string> argsVect;
         map<string, Prop*> propertiesMap;
 
+        void load( string name, string cmdstr, vector<string>& argsVect2, map<string, Prop*>& propsMap2 );
+
     public:
         CMD( Statement* parent, int numberOfLinesReaded, string line );
         virtual ~CMD();
+
+        CMD* newCopy();
 
         void addProperty( Prop* prop );
         vector<string> propertyNames();
@@ -30,7 +34,7 @@ class CMD : public GenericCMD {
         int getPropertiesLength();
 
         void addArg( string command );
-        vector<string>& args();
+        vector<string>& getArgs();
         string getArgByIndex( int i );
         bool existsArg( string command );
         int countOpArgs();

@@ -28,9 +28,8 @@ InterResult* PropInter::interprets(
         return new InterResult( line, numberOfLinesReaded, 0, b.str() );
     }
 
-    bool isErrorIfNotFound = true;
     InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns( 
-            value, numberOfLinesReaded, line, isErrorIfNotFound, parent );
+            value, numberOfLinesReaded, line, parent );
             
     if ( !replaceResult->isInterpreted() )
         return replaceResult;

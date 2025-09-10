@@ -20,9 +20,8 @@ InterResult* VarInter::interprets(
     string name = line.substr( 1, i-1 );
     string value = line.substr( i+1, line.length()-i );
 
-    bool isErrorIfNotFound = false;
     InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns(
-            value, numberOfLinesReaded, line, isErrorIfNotFound, parent );
+            value, numberOfLinesReaded, line, parent );
 
     if ( !replaceResult->isInterpreted() )
         return replaceResult;

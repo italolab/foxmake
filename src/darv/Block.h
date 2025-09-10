@@ -17,7 +17,7 @@ class Block : public Statement {
     private:
         map<string, Var*> localVarsMap;
         vector<Statement*> statementsVect;
-
+        
     public:
         Block( Statement* parent, int numberOfLinesReaded, string line );
         virtual ~Block();

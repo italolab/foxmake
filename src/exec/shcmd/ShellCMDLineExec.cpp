@@ -13,6 +13,7 @@
 
 void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    InterManager* interManager = manager->getInterManager();
 
     string cmdstr = shellCMD->getCMDStr();
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( shellCMD );
@@ -23,6 +24,19 @@ void ShellCMDLineExec::exec( ShellCMDLine* shellCMD, void* mgr ) {
     Shell* shell = new Shell( out );
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
+
+    int numberOfLinesReaded = shellCMD->getNumberOfLinesReaded();
+    string line = shellCMD->getLine();
+    Statement* parent = shellCMD->getParent();
+
+    if ( parent == nullptr )
+        throw runtime_error( errors::runtime::NULL_PARENT );
+
+    InterResult* replaceResult = interManager->replacePropsAndVarsAndDollarSigns( 
+            cmdstr, numberOfLinesReaded, line, (Block*)parent );
+    if ( replaceResult->isErrorFound() )
+        throw st_error( replaceResult );
+    delete replaceResult;
 
     int result;
     if ( cmdstr.find( '\n' ) == string::npos ) {

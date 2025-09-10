@@ -155,7 +155,7 @@ void MainCMDInterpreter::validaMainCMD( void* mgr ) {
     MainScript* script = manager->getMainScript();
     CMD* mainCMD = manager->getMainCMD();
 
-    vector<string>& args = mainCMD->args();
+    vector<string>& args = mainCMD->getArgs();
     int len = args.size();
     for( int i = 0; i < len; i++ ) {
         string arg = args[ i ];

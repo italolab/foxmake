@@ -22,17 +22,8 @@ InterResult* IFConditionInter::interprets(
             int numberOfLinesReaded,
             void* mgr ) {
         
-    InterManager* manager = (InterManager*)mgr;
-
     condition = strutil::removeStartWhiteSpaces( condition );
     condition = strutil::removeEndWhiteSpaces( condition );
-
-    bool isErrorIfNotFound = false;
-    InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns( 
-            condition, numberOfLinesReaded, line, isErrorIfNotFound, parent );
-            
-    if ( replaceResult->isErrorFound() )
-        return replaceResult;
 
     size_t k = condition.find( "==" );
     if ( k != string::npos ) {

@@ -1,6 +1,7 @@
 
 #include "CMDExec.h"
 #include "../ExecManager.h"
+#include "../stexcept.h"
 #include "../../msg/messagebuilder.h"
 
 #include "../../error_messages.h"
@@ -8,6 +9,9 @@
 #include <stdexcept>
 
 using std::runtime_error;
+
+#include <iostream>
+using namespace std;
 
 CMDExec::CMDExec() {
     cpExec = new CPExec();
@@ -25,21 +29,47 @@ CMDExec::~CMDExec() {
     delete mkdirExec;
 }
 
+/*
+Aqui é criado uma cópia do CMD para o caso do CMD ser executado várias vezes, 
+não haver problema com a substituição de valores de variáveis e propriedades.
+
+Esse método é executado a cada execução do comando e não seria bom que o replace 
+de variáveis e propriedades alterasse o CMD original.
+*/
 void CMDExec::exec( CMD* cmd, void* mgr ) {
-    string cmdName = cmd->getName();
+    ExecManager* manager = (ExecManager*)mgr;
+    InterManager* interManager = manager->getInterManager();
+
+    CMD* newCMD = cmd->newCopy();
+
+    int numberOfLinesReaded = newCMD->getNumberOfLinesReaded();
+    string line = newCMD->getLine();
+    Block* parent = (Block*)newCMD->getParent();
+
+    vector<string>& args = newCMD->getArgs();
+    int len = args.size();
+    for( int i = 0; i < len; i++ ) {
+        InterResult* replaceResult = interManager->replacePropsAndVarsAndDollarSigns( 
+                args[ i ], numberOfLinesReaded, line, parent );
+        if ( !replaceResult->isInterpreted() )
+            throw st_error( replaceResult );
+        delete replaceResult;        
+    }
+    
+    string cmdName = newCMD->getName();
     if ( cmdName == "cd" ) {
-        cdExec->exec( cmd, mgr );
+        cdExec->exec( newCMD, mgr );
     } else if ( cmdName == "cp" ) {
-        cpExec->exec( cmd, mgr );
+        cpExec->exec( newCMD, mgr );
     } else if ( cmdName == "rm" ) {
-        rmExec->exec( cmd, mgr );
+        rmExec->exec( newCMD, mgr );
     } else if ( cmdName == "echo" ) {
-        echoExec->exec( cmd, mgr );
+        echoExec->exec( newCMD, mgr );
     } else if ( cmdName == "mkdir" ) {
-        mkdirExec->exec( cmd, mgr );
+        mkdirExec->exec( newCMD, mgr );
     } else {
         messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
-        b << cmd->getName();
+        b << newCMD->getName();
         throw runtime_error( b.str() );
     }
 }

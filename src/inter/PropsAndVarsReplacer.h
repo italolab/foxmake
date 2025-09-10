@@ -15,7 +15,6 @@ class PropsAndVarsReplacer {
                     string& text, 
                     int& numberOfLinesReaded, 
                     string line, 
-                    bool isErrorIfNotFound, 
                     Block* block );
 
 };

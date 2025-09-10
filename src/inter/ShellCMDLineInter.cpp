@@ -19,8 +19,6 @@ InterResult* ShellCMDLineInter::interprets(
             int& numberOfLinesReaded, 
             void* mgr ) {
 
-    InterManager* manager = (InterManager*)mgr;
-
     if ( currentLine.length() == 0 )
         return new InterResult( false );
 
@@ -85,15 +83,6 @@ InterResult* ShellCMDLineInter::interprets(
         if ( cmdstr.length() > 0 )
             cmdstr = cmdstr.substr( 0, cmdstr.length()-1 );
     }
-
-    bool isErrorIfNotFound = false;
-    InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns( 
-            cmdstr, numberOfLinesReaded, currentLine, isErrorIfNotFound, parent );
-            
-    if ( !replaceResult->isInterpreted() )
-        return replaceResult;
-
-    delete replaceResult;
 
     ShellCMDLine* shellCMD = new ShellCMDLine( parent, cmdstr, numberOfLinesReaded, currentLine );
 

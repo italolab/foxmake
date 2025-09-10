@@ -94,8 +94,8 @@ InterResult* InterManager::interpretsIF( Block* parent, BlockIterator* it, strin
     return ifInter->interprets( parent, it, currentLine, numberOfLinesReaded, isAddToParent, this );
 }
 
-InterResult* InterManager::replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, bool isErrorIfNotFound, Block* block ) {
-    return propsAndVarsReplacer->replacePropsAndVarsAndDollarSigns( text, numberOfLinesReaded, line, isErrorIfNotFound, block );
+InterResult* InterManager::replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, Block* block ) {
+    return propsAndVarsReplacer->replacePropsAndVarsAndDollarSigns( text, numberOfLinesReaded, line, block );
 }
 
 

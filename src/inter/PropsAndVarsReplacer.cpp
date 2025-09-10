@@ -14,7 +14,6 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
                 string& text, 
                 int& numberOfLinesReaded, 
                 string line, 
-                bool isErrorIfNotFound, 
                 Block* block ) {
 
     MainScript* script = (MainScript*)block->getRoot();
@@ -58,7 +57,7 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
                             string name = text.substr( k+2, j-(k+2) );
                             
                             this->replacePropsAndVarsAndDollarSigns( 
-                                    name, numberOfLinesReaded, line, isErrorIfNotFound, block );
+                                    name, numberOfLinesReaded, line, block );
 
                             if ( script->existsProperty( name ) ) {
                                 string value = script->getPropertyValue( name );
@@ -71,12 +70,9 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
                                     ss << value;
                                     k = j;
                                 } else {
-                                    if ( isErrorIfNotFound ) {
-                                        messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
-                                        b << name;
-                                        return new InterResult( line, numberOfLinesReaded, 0, b.str() );
-                                    }
-                                    ss << name;
+                                    messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+                                    b << name;
+                                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );
                                 }
                             }
                         } else {

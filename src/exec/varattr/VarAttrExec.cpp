@@ -19,14 +19,13 @@ void VarAttrExec::exec( VarAttr* varAttr, void* mgr ) {
     Block* parent = (Block*)varAttr->getParent();
 
     if ( parent == nullptr )
-        throw runtime_error( errors::runtime::NULL_BLOCK_STATEMENT );
+        throw runtime_error( errors::runtime::NULL_PARENT );
 
-    bool isErrorIfNotFound = true;
     InterResult* result = interManager->replacePropsAndVarsAndDollarSigns( 
-            varValue, numberOfLinesReaded, line, isErrorIfNotFound, parent );
-
+            varValue, numberOfLinesReaded, line, parent );
     if ( result->isErrorFound() )
         throw st_error( result );
+    delete result;
 
     Var* var = new Var( varName, varValue, numberOfLinesReaded, line );
     parent->putLocalVar( var );    

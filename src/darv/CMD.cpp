@@ -8,6 +8,27 @@ CMD::~CMD() {
         delete pair.second;
 }
 
+CMD* CMD::newCopy() {
+    Statement* parent = Statement::getParent();
+    int numberOfLinesReaded = Statement::getNumberOfLinesReaded();
+    string line = Statement::getLine();
+    
+    CMD* cmd = new CMD( parent, numberOfLinesReaded, line );
+    cmd->load( name, cmdstr, argsVect, propertiesMap );
+    
+    return cmd;
+}
+
+void CMD::load( string name, string cmdstr, vector<string>& argsVect2, map<string, Prop*>& propsMap2 ) {
+    this->name = name;
+    this->cmdstr = cmdstr;
+    this->argsVect.insert( argsVect.end(), argsVect2.begin(), argsVect2.end() );
+    
+    for( const auto& pair : propsMap2 )
+        this->propertiesMap[ pair.first ] = pair.second;    
+}
+
+
 vector<string> CMD::getOpArgValues( string op ) {
     vector<string> values;
     int len = argsVect.size();
@@ -84,7 +105,7 @@ int CMD::getArgsLength() {
     return argsVect.size();
 }
 
-vector<string>& CMD::args() {
+vector<string>& CMD::getArgs() {
     return argsVect;
 }
 

@@ -125,7 +125,7 @@ namespace io {
 namespace runtime {
 
     const string NULL_ROOT_STATEMENT = "$1 --> A raiz da árvore é nula.";
-    const string NULL_BLOCK_STATEMENT = "$1 --> O objeto bloco é nulo.";
+    const string NULL_PARENT = "$1 --> O objeto bloco é nulo.";
     const string NULL_PROC = "$1 --> Proc nula.";
     const string NULL_IF_CONDITION = "IF Condition nula.";
 

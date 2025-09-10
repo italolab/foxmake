@@ -71,7 +71,7 @@ class InterManager {
 
         InterResult* interpretsIF( Block* parent, BlockIterator* it, string currentLine, int& numberOfLinesReaded, bool isAddToParent );
 
-        InterResult* replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, bool isErrorIfNotFound, Block* block );
+        InterResult* replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, Block* block );
 
         InterResult* preProcess( Block* block, BlockIterator* it, string& preProcessedText );
 

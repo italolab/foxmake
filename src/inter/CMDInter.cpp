@@ -22,16 +22,7 @@ InterResult* CMDInter::interpretsMainCMD( int argc, char* argv[], void* mgr ) {
 }
 
 InterResult* CMDInter::interprets( Block* parent, string line, int& numberOfLinesReaded, void* mgr ) {
-    InterManager* manager = (InterManager*)mgr;
-
     string cmdstr = line;
-
-    bool isErrorIfNotFound = false;
-    InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns( 
-            cmdstr, numberOfLinesReaded, line, isErrorIfNotFound, parent );
-            
-    if ( !replaceResult->isInterpreted() )
-        return replaceResult;
 
     string token;
     istringstream iss( cmdstr );
@@ -115,6 +106,9 @@ InterResult* CMDInter::interprets( Block* parent, int argc, char* argv[], int& n
     return new InterResult( cmd, numberOfLinesReaded, 0 );
 }
 
+/*
+Adiciona o procedimento e instancia CallCMD se o comando for uma call
+*/
 InterResult* CMDInter::newCMD( 
                 CMD** cmd, 
                 Block* parent,
