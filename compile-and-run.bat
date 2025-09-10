@@ -1,8 +1,12 @@
 @echo off
 
+set VERSION=1.0
+set SO=windows
+set ARCH=x64
+
 setlocal enabledelayedexpansion
 
-.\cbuild.exe %1 --script=CBuildFile -var target=%2 -v
+.\cbuild.exe %1 --script=CBuildFile -var target=%2
 
 if not "%~3" == "" (
     set target=debug
@@ -10,5 +14,5 @@ if not "%~3" == "" (
         set target=%4
     )
 
-    .\build\cbuild.exe %3 --working-dir=run --script=CBuildFile-Run -var target=!target!
+    .\build\cbuild-%VERSION%-%SO%-%ARCH%\cbuild.exe %3 --working-dir=run --script=CBuildFile-Run -var target=!target!
 )
