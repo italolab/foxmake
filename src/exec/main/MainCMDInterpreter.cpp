@@ -118,7 +118,7 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
     #endif
 
     mainScript->putLocalVar( "os", os );
-    mainScript->putLocalVar( "main_config_file", scriptFile );
+    mainScript->putLocalVar( "script_file", scriptFile );
     mainScript->putLocalVar( "working_dir", workingDir );
 
     if ( scriptFileFound ) {

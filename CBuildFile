@@ -1,19 +1,19 @@
 
 $version=1.0
 
-IFWIN32
+IF os == "windows"
     $so=windows
 ENDIF
-IFNOWIN32
+IF os != "windows"
     $so=linux
 ENDIF
 
 compiler=g++
 
-IFWIN32
+IF os == "windows"
     output.file.name=cbuild.exe
 ENDIF
-IFNOWIN32
+IF os != "windows"
     output.file.name=cbuild
 ENDIF
 
@@ -43,7 +43,7 @@ lib.dirs=
 include.dirs=
 libs=
 
-IFNOWIN32
+IF os != "windows"
     test.linker.params=-ldl -rdynamic
 ENDIF
 
@@ -58,10 +58,10 @@ proc archive_and_copy_cbtest
     rm -r include/*.h
     rm lib/libcbtest.a
     
-    IFWIN32
+    IF os == "windows"
         @.\cbuild.exe archivebuildall --script=../cbtest/CBuildFile-StaticLib
     ENDIF
-    IFNOWIN32
+    IF os != "windows"
         @./cbuild archivebuildall --script=../cbtest/CBuildFile-StaticLib
     ENDIF
     
