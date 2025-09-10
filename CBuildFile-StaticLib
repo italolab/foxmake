@@ -6,10 +6,10 @@ output.file.name=libcbuild.a
 src.dir=src
 build.dir=build
 
-IFWIN32
+IF os == "windows"
     bin.dir=bin/Release/windows
 ENDIF
-IFNOWIN32
+IF os != "windows"
     bin.dir=bin/Release/linux
 ENDIF
 

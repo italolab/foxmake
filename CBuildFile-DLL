@@ -1,10 +1,10 @@
 
 compiler=g++
 
-IFWIN32
+IF os=="windows"
 	output.file.name=cexec.dll
 ENDIF
-IFNOWIN32
+IF os!="windows"
 	output.file.name=cexec.so
 ENDIF
 
@@ -32,7 +32,7 @@ build.dir=build
 #include.dirs=include
 #dlls=
 
-IFWIN32
+IF os=="windows"
 	defines=BUILD_DLL
 ENDIF
 
