@@ -26,6 +26,14 @@ O script a ser interpretado pelo cbuild com as propriedades, definições, confi
 cbuild buildall --working-dir=/home/joao/cbuild-workingdir
 ```
 
+### Tempo de execução e tempo de interpretação
+
+As propriedades e variáveis definidas fora do escopo de definição de tasks e procedures são executadas (interpretadas) durante a interpretação o script. Já tudo que está dentro das procedures e definições de tasks (incluíndo atribuições a variáveis) é executado em 
+tempo de execução. Isto é, durante a execução do bloco de definição de task ou procedure.
+
+Para utilizar ifs fora dos blocos de definição de tarefas e procedures, é necessário utilizar a diretiva if que deve ser utilizada em maiuscula: IF, ENDIF. Ifs são instruções 
+executadas em tempo de execução e o que está fora dos blocos de definição de tarefas e procedures é executado em tempo de interpretação.
+
 ### Classes interpreters
 
 As classes interpreters são executadas para criação da arvore de derivação que corresponde a configuração do script representado na arvore. Essa arvore é executada pelos executores.
