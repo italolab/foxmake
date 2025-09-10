@@ -5,22 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - get started - comentários">
+    <meta name="description" content="Página oficial do cbuild - get started - procedimentos">
     <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="/docs/lib/fontawesome/all.min.css" rel="stylesheet">
-    <link href="/docs/lib/prism/prism.css" rel="stylesheet">
-    <link href="/docs/style/style.css" rel="stylesheet">
+    <link href="/cbuild/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/cbuild/lib/prism/prism.css" rel="stylesheet">
+    <link href="/cbuild/style/style.css" rel="stylesheet">
     
-    <title>Get Started - comentários - Site oficial</title>
+    <title>Get Started - procedimentos - Site oficial</title>
 
-    <script src="/docs/lib/jquery-3.7.1.min.js"></script>    
-    <script src="/docs/lib/fontawesome/all.min.js"></script>
-    <script src="/docs/js/main.js"></script>
+    <script src="/cbuild/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/cbuild/lib/fontawesome/all.min.js"></script>
+    <script src="/cbuild/js/main.js"></script>
 </head>
 
 <body>
@@ -31,22 +31,31 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Comentários</h1>
+                <h1 class="text-center">Procedimentos</h1>
             </header>
 
             <article>
-                <p>Para criar comentários, basta iniciar a linha a ser comentada com #. 
-                Para comentar várias linhas, basta iniciar o bloco de comentários com ## 
-                e finalizar com ## conforme o exemplo a seguir:</p>
+                <p>Você também pode criar seus próprios procedimentos e chamá-los nos 
+                blocos das definições de tarefa ou qualquer bloco de código no script. 
+                Para definir um procedimento utilize "proc" e "endproc" e para chamar 
+                o procedimento utilize o comando "call". Veja o exemplo abaixo: </p>
 
-<pre class="line-numbers"><code># Comentário
+<pre class="line-numbers"><code>proc imprimeMensagemDeCompile
+    echo A compilação está sendo executada...
+endproc
 
-##
-Bloco de comentários
-Aqui pode haver várias linhas 
-de comentário
-##
-</code></pre>
+task compile before
+    call imprimeMensagemDeCompile
+endtask
+
+task compileall before
+    call imprimeMensagemDeCompile
+endtask
+</code></pre> 
+
+                <p>No exemplo acima, foi definido um procedimento com nome: 
+                "imprimeMensagemDeCompile" e ele é chamado nas definições 
+                "task compile before" e "task compileall before".</p>  
             </article>
 
             <article>
@@ -54,17 +63,17 @@ de comentário
                     <h3>Proxima aula</h3>
                 </header>
 
-                <p>A próxima aula ensina sobre tarefas para o cbuild.</p>
+                <p>A próxima aula ensina sobre comandos.</p>
             </article>
 
             <footer class="d-flex justify-content-between">
-                <a class="btn btn-dark" href="arguments.html">
+                <a class="btn btn-dark" href="tasks.html">
                     Voltar
                 </button>
                 <a class="btn btn-dark" href="index.html">
                     Cima
                 </a>
-                <a class="btn btn-dark" href="default-tasks.html">
+                <a class="btn btn-dark" href="commands.html">
                     Avançar
                 </a>            
             </footer>
