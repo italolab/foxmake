@@ -14,12 +14,13 @@ class OutputController {
 
     private:
         vector<OutputThread*> outputThreadVect;
+        bool verboseFlag;
         bool showOutputFlag;
 
         Output* out;
 
     public:
-        OutputController( Output* out, bool showOutputFlag );
+        OutputController( Output* out, bool verboseFlag, bool showOutputFlag );
         void run();
         void finish();
         void addOutputThread( OutputThread* outputThread );

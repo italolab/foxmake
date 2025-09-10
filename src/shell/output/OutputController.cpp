@@ -12,13 +12,17 @@ do buffer da classe OutputThread pode coincidir de acontecer ao mesmo tempo que
 OutputThread está inserindo caracteres no buffer.
 */
 
-OutputController::OutputController( Output* out, bool showOutputFlag ) {
+OutputController::OutputController( Output* out, bool verboseFlag, bool showOutputFlag ) {
     this->out = out;
+    this->verboseFlag = verboseFlag;
     this->showOutputFlag = showOutputFlag;
 }
 
 void OutputController::run() {
     for( OutputThread* outputThread : outputThreadVect ) { 
+        if ( verboseFlag )
+            *out << outputThread->getCMDStr() << std::endl;   
+            
         while( !outputThread->isFinished() || outputThread->hasNextOutput() ) {
             if ( outputThread->hasNextOutput() ) {
                 string output = outputThread->nextOutput();
@@ -27,7 +31,7 @@ void OutputController::run() {
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( 30 ) );
             }
-        }
+        }        
     }
 }
 

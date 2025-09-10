@@ -15,8 +15,9 @@ A cada leitura, o buffer é retornado para OutputController e limpo. Isso de for
 sincrona.
 */
 
-OutputThread::OutputThread( string name ) {
+OutputThread::OutputThread( string name, string cmdstr ) {
     this->name = name;
+    this->cmdstr = cmdstr;
     this->finishFlag = false;
     this->bufferLen = 0;
 }
@@ -57,6 +58,9 @@ string OutputThread::nextOutput(){
 
 string OutputThread::getName() {
     return name;
+}
+string OutputThread::getCMDStr() {
+    return cmdstr;
 }
 
 bool OutputThread::isFinished() {
