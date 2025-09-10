@@ -112,7 +112,7 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
 
     string os = "nowindows";
     #ifdef _WIN32
-        so = "windows";
+        os = "windows";
     #else
         os = "nowindows";
     #endif

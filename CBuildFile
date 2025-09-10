@@ -47,7 +47,7 @@ IF os != "windows"
     test.linker.params=-ldl -rdynamic
 ENDIF
 
-test.lib.dirs=lib/linux
+test.lib.dirs=lib/$(so)
 test.include.dirs=include
 test.libs=cbtest
 
@@ -65,10 +65,10 @@ proc archive_and_copy_cbtest
         @./cbuild archivebuildall --script=../cbtest/CBuildFile-StaticLib
     ENDIF
     
-    mkdir -p lib/linux
+    mkdir -p lib/$(so)
 
     cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/libcbtest.a lib/linux
+    cp ../cbtest/build/libcbtest.a lib/$(so)
     echo
 endproc
 

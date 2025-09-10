@@ -2,7 +2,7 @@
 
 setlocal enabledelayedexpansion
 
-.\cbuild.exe %1 --script=CBuildFile -var target=%2
+.\cbuild.exe %1 --script=CBuildFile -var target=%2 -v
 
 if not "%~3" == "" (
     set target=debug
