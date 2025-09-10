@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - download">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Download - CBuild - Página oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Download</h1>
+            </header>
+        
+            <br />
+
+            <section>
+                <p>Para fazer o download do cbuild você pode escolher uma das seguintes 
+                opções:</p>
+
+                <h3>Windows x64</h3>
+                
+                <blockquote>
+                    <p>Arquivo ZIP: 
+                        <a href="https://github.com/italoherbert/cbuild/releases/download/1.0/cbuild-1.0-windows-x64.zip">
+                            cbuild-1.0-windows-x64.zip
+                        </a>
+                    </p>
+                </blockquote>
+
+                <h3>Linux x64</h3>
+                
+                <blockquote>
+                    <p>Arquivo DEB: 
+                        <a href="https://github.com/italoherbert/cbuild/releases/download/1.0/cbuild-1.0-linux-x64.deb">
+                            cbuild-1.0-linux-x64.deb
+                        </a>
+                    </p>
+                    <p>Arquivo TAR.GZ: 
+                        <a href="https://github.com/italoherbert/cbuild/releases/download/1.0/cbuild-1.0-linux-x64.tar.gz">
+                            cbuild-1.0-linux-x64.tar.gz
+                        </a>
+                    </p>
+                </blockquote>
+                
+            </section>
+        </article>
+
+        <article id="how-install">
+            <header>
+                <h3>Como instalar?</h3>
+            </header>
+
+            <h5>Instalando no windows</h5>
+
+            <p>Para instalar no windows, você pode extrair a versão zipada: 
+            cbuild-x.x-windows-x64.zip (onde x.x é a versão) e fazer a variável de 
+            ambiente PATH apontar, também, para o diretório extraído (ou onde o arquivo 
+            executável "cbuild.exe" estiver.)</p>
+
+            <p>Caso queira utilizar a biblioteca cbtest, basta copiar as pastas "lib" e 
+            "include" para raiz de onde estiver instalado o mingw ou semelhante.</p>
+                
+            <h5>Instalando no linux</h5>
+
+            <p>Se estiver no Ubuntu, ou outra distro derivada do Debian, pode fazer o 
+            download do pacote .deb: cbuild-x.x-linux-x64.deb (Onde x.x é a versão) 
+            e executar o seguinte comando:</p>
+
+<pre class="line-numbers"><code>sudo dpkg -i cbuild-x.x-linux-x64.deb</code></pre>
+
+            <p>Se preferir a versão .tar.gz, basta baixar o arquivo: 
+            cbuild-x.x-linux-x64.tar.gz, descompactar, e copiar o executável "cbuild" 
+            para pasta /usr/bin ou criar um link simbólico nessa pasta para o executável 
+            "cbuild".</p>
+
+            <p>Caso queira utilizar a biblioteca cbtest, você pode copiar o arquivo "libcbtest.a" 
+            para pasta /usr/lib/x86_64-linux-gnu (isso caso esteja num derivado do debian), e 
+            copiar o conteúdo da pasta "include" para pasta /usr/include.</p>
+
+            <p>Você pode optar por não instalar o cbtest e incluí-lo diretamente no seu projeto. Veja 
+            como fazer essa configuração em: 
+            <a href="overview.html#tests-with-cbtest">testes com cbtest</a>.</p>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

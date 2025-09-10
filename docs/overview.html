@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - overview - visão geral">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Visão Geral - CBuild - Página oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <section>
+            <h1 class="text-center">Visão Geral</h1>
+
+            <br />
+
+            <p>O cbuild pode ser utilizado para automatizar o processo de build de 
+            projetos C/C++, permitindo configurar tarefas e executá-las para ter 
+            como resultado final: um executável linkado, uma shared library, uma 
+            static library, execução de testes unitários, etc.</p>
+
+            <article>
+                <header>
+                    <h3>Escrevendo o CBuildFile</h3>
+                </header>
+
+                <p>O CBuildFile é um arquivo de script e configurações. A interpretação 
+                dele é case-sensitive. Logo, a palavra "task" é reconhecido e "TASK" não.</p>
+
+                <p>O CBuildFile pode ter a seguinte estrutura inicial:</p>
+
+<pre class="line-numbers"><code>output.file.name</code></pre>
+
+                <p>A configuração acima assume que a pasta de código fonte é a raiz do 
+                projeto e a pasta de binários também. Você pode definir as pastas como a seguir:</p>
+
+<pre class="line-numbers"><code>output.file.name
+src.dir=src
+bin.dir=bin    
+obj.dir=obj
+build.dir=build
+test.dir=test
+</code></pre>
+            </article>      
+
+            <article>
+                <header>
+                    <h3>Executando o cbuild</h3>
+                </header>
+
+                <p>Para executar o cbuild, certifique-se de que o CBuildFile está na raiz do seu projeto 
+                e, então, execute o seguinte comando: </p>
+
+<pre class="line-numbers"><code>cbuild compile link</code></pre>
+
+                <p>Nesse comando, são especificadas duas tarefas: compile e link. Logo, o código fonte da pasta 
+                src é compilado e o executável linkado vai para pasta bin e para pasta build.
+                </p>
+
+                <p>Para um primeiro exemplo com cbuild, acesse:  
+                <a href="first-example.html">Primeiro Exemplo</a>
+                </p>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Outras opções do comando cbuild</h3>
+                </header>
+
+                <p>Você pode executar o cbuild com as seguintes opções: </p>
+
+                <ul>
+                    <li><p><b>--script=scriptfile</b>: Onde scriptfile é o nome do arquivo de script que, 
+                    por padrão, é CBuildFile.</p></li>
+                    
+                    <li><p><b>--working-dir=dir</b>: Onde dir é o diretório de trabalho base para as outras 
+                    pastas e arquivos. As pastas bin, src, etc. Se não absolutas, são relativas ao 
+                    diretório de trabalho que, por padrão é o diretório onde o arquivo de script foi 
+                    encontrado.</p></li>
+
+                    <li><p><b>--verbose e -v</b>: Uma dessas opções pode habilitar, se informada, uma 
+                    impressão detalhada de informações da execução das tarefas na saída padrão.</p></li>
+
+                    <li><p><b>--no-resume</b>: Essa opção pode desabilitar a impressão de um resumo da 
+                    execução das tarefas na saída padrão.</p></li>
+
+                    <li><p><b>-prop name=value</b>: Onde name é o nome da propriedade e value é o valor.</p></li>
+                    <li><p><b>-var name=value</b>: Onde name é o nome da variável e value é o valor.</p></li>
+                </ul>
+
+                <p>Exemplos: </p>
+
+<pre><code>cbuild build --working-dir="C:\Meus Projetos\projeto" --script=CBuildFile2</code></pre>
+
+<pre><code>cbuild build -prop output.file.name=helloworld.exe -var target=release</code></pre>
+
+                <p>A opção prop seta uma propriedade que poderia ser definida no arquivo de script (O CBuildFile).</p>
+
+                <p>Veja mais alguns exemplos: </p>
+
+<pre><code>cbuild buildall -v</code></pre>
+
+                <p>No exemplo acima, uma saída detalhada sobre a execução das tarefas 
+                é impressa na saída padrão.</p>
+
+<pre><code>cbuild buildall --no-resume</code></pre>
+
+                <p>No exemplo acima, nem são impressos detalhes da execução das tarefas 
+                nem o resumo.</p>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Comentários</h3>
+                </header>
+
+                <p>Para criar comentários, basta iniciar a linha a ser comentada com #. 
+                Para comentar várias linhas, basta iniciar o bloco de comentários com ## 
+                e finalizar com ## conforme o exemplo a seguir:</p>
+
+<pre class="line-numbers"><code># Comentário
+
+##
+Bloco de comentários
+Aqui pode haver várias linhas 
+de comentário
+##
+</code></pre>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Tarefas</h3>
+                </header>
+
+                <p>O cbuild suporta as seguintes tarefas: </p>
+
+                <ul>
+                    <li>clean</li>
+                    <li>compile</li>
+                    <li>compileall</li>
+                    <li>link</li>
+                    <li>archive</li>
+                    <li>test</li>
+                    <li>copy</li>
+                    <li>build</li>
+                    <li>archivebuild</li>
+                    <li>testbuild</li>
+                    <li>buildall</li>
+                    <li>archivebuildall</li>
+                    <li>testbuildall</li>
+                </ul>
+
+                <br />
+
+                <section id="clean">
+                    <h5>A tarefa clean</h5>
+
+                    <p>A tarefa clean exclui os arquivos criados na execução das tarefas de compile, 
+                    compileall, link, archive, copy.</p>
+                </section>
+
+                <br />
+
+                <section id="compile">
+                    <h5>A tarefa compile</h5>
+
+                    <p>A tarefa compile compila todos os arquivos de código fonte de implementação encontrados 
+                    na pasta correspondente a propriedade "src.dir" e na pasta correspondente a propriedade 
+                    "test.dir" (caso seja definida). O resultado da compilação é os arquivos objeto que são 
+                    colocados na pasta correspondente a propriedade "obj.dir".</p>
+                </section>
+
+                <br />
+
+                <section id="compileall">
+                    <h5>A tarefa compileall</h5>
+
+                    <p>Semelhante a tarefa compile. Com a diferença de que sempre compila todos os arquivos 
+                    de implementação. A tarefa compile, compila de forma inteligente, levando em conta se o 
+                    arquivo foi alterado desde a última compilação para decidir se é necessário compilá-lo 
+                    novamente.</p>
+                </section>
+
+                <br />
+
+                <section id="link">
+                    <h5>A tarefa link</h5>
+
+                    <p>A tarefa link executa a linkagem do código objeto, gerando um executável ou uma 
+                    biblioteca dinâmica (shared library - dll, so).</p>
+                </section>
+
+                <br />
+
+                <section id="archive">
+                    <h5>A tarefa archive</h5>
+
+                    <p>A tarefa archive pode ser utilizada para empacotar uma biblioteca estática 
+                    (static library).</p>
+                </section>
+
+                <br />
+
+                <section id="test">
+                    <h5>A tarefa test</h5>
+
+                    <p>A tarefa test pode ser utilizada para executar testes unitários criados com 
+                    uso do framework <b>cbtest</b>. Para tanto, é necessário configurar a pasta de testes 
+                    e a lib do cbtest deve ser incluída no comando de linker.</p>
+                </section>
+
+                <br />
+
+                <section id="copy">
+                    <h5>A tarefa copy</h5>
+
+                    <p>Esta tarefa, quando executada, copia os arquivos resultantes da compilação, linkagem 
+                    e empacotamento para pasta de build.</p>
+                </section>
+
+                <br />
+
+                <section id="build">
+                    <h5>Tarefas de build</h5>
+
+                    <p>As tarefas de build combinam a execução das tarefas conforme a seguir: </p>
+
+                    <ul>
+                        <li><b>build</b>: clean, compile, link, copy</li>
+                        <li><b>archivebuild</b>: clean, compile, archive, copy</li>
+                        <li><b>testbuild</b>: clean, compile, link, test, copy</li>
+                        <li><b>buildall</b>: clean, compileall, link, copy</li>
+                        <li><b>archivebuildall</b>: clean, compileall, archive, copy</li>
+                        <li><b>testbuildall</b>: clean, compileall, link, test, copy</li>
+                    </ul>
+                </section>
+            
+            </article>
+
+            <article id="properties">
+                <header>
+                    <h3>Propriedades</h3>
+                </header>
+
+                <p>As definições de propriedades são interpretadas em tempo de interpretação (com a interpretação 
+                do script).</p>
+
+                <p>O cbuild tem as seguintes propriedades que podem ser definidas no 
+                arquivo de script - CBuildFile:</p>
+
+                <ul>
+                    <li>compiler</li>
+                    <li>archiver</li>
+
+                    <br />
+                    
+                    <li>base.dir</li>
+                    <li>src.dir</li>
+                    <li>bin.dir</li>
+                    <li>obj.dir</li>
+                    <li>build.dir</li>
+                    <li>test.dir</li>
+
+                    <br />
+                    
+                    <li>compiler.params</li>
+                    <li>linker.params</li>
+                    <li>archiver.params</li>
+                    <li>include.dirs</li>
+                    <li>lib.dirs</li>
+                    <li>libs</li>
+                    <li>defines</li>
+                    
+                    <br />
+                    
+                    <li>test.compiler.params</li>
+                    <li>test.linker.params</li>
+                    <li>test.include.dirs</li>
+                    <li>test.lib.dirs</li>
+                    <li>test.libs</li>
+                    <li>test.defines</li>
+                    
+                    <br />
+                    
+                    <li>output.file.name</li>
+                    <li>resource.file</li>
+                    
+                    <br />
+                    
+                    <li>output.def.file</li>
+                    <li>out.implib.file</li>
+                </ul>
+
+                <p>As propriedades: <b>compiler, archiver</b> especificam os programas 
+                de linha de comando que serão utilizados para essas operações: Exemplo:</p>
+
+<pre class="line-numbers"><code>compiler=g++
+archiver=ar
+</code></pre>
+
+                <p>Os diretórios de arquivos podem ser organizados conforme o exemplo a seguir: </p>
+
+<pre class="line-numbers"><code>base.dir=.
+src.dir=src
+bin.dir=bin
+obj.dir=obj
+build.dir=build
+test.dir=test
+</code></pre>
+
+                <p>As propriedades: <b>compiler.params, linker.params e archiver.params</b> podem ser 
+                utilizadas para passar parâmetros/opções extras aos comandos correspondentes. 
+                Exemplo:</p>
+
+<pre class="line-numbers"><code>compiler.params=-Wall -g
+linker.params=-s -static
+</code></pre>
+
+                <p>Esse exemplo executa os seguintes comandos para a compilação e linkagem 
+                de um simples arquivo main.cpp</p>
+
+<pre class="line-numbers"><code>g++ -Wall -g -c main.cpp -o main.o
+g++ -o main.exe main-o -s -static
+</code></pre>
+
+                <p>As propriedades: <b>include.dirs, lib.dirs, libs</b>, podem ser configuradas como 
+                a seguir:</p>
+
+<pre class="line-numbers"><code>include.dirs=include
+lib.dirs=lib
+libs=cbtest SDL2
+</code></pre>
+
+                <p>Esse exemplo inclue no compilador a opção: <b>-Iinclude</b>, e ao linker as 
+                opções: <b>-Llib -lcbtest -lSDL2</b></p>
+
+                <p>A propriedade <b>defines</b> pode ser utilizada para incluir definições ao compilador. 
+                Como se estivessem sido definidas com #define. Exemplo:</p>
+
+<pre class="line-numbers"><code>defines=BUILDDLL</code></pre>
+
+                <p>No exemplo acima, é incluída a seguinte opção ao compilador: <b>-DBUILDDLL</b></p>
+
+                <p>As propriedades que se iniciam com teste são semelhantes as de mesmo nome que não 
+                se iniciam com prefixo test. A diferença é que são aplicadas a compilação e linkagem do 
+                executável de testes, não a compilação e linkagem do executável do projeto.</p>
+
+                <p>A propriedade <b>output.file.name</b> pode ser utilizada para configurar o nome do 
+                arquivo de saída que pode ser um executável, uma shared library ou uma static library.
+                Exemplo:</p>
+
+<pre class="line-numbers"><code>output.file.name=executavel</code></pre>
+
+                <p>A propriedade <b>resource.file</b> funciona no windows para que um arquivo de 
+                ícone seja colocado no executável. Exemplo: </p>
+
+<pre class="line-numbers"><code>resource.file=icone.res</code></pre>
+
+                <p>As propriedades <b>output.def.file e out.implib.file</b> podem ser definidas para 
+                geração de shared libraries. Exemplo:</p>
+
+<pre class="line-numbers"><code>output.def.file=cbtest.def
+out.implib.file=libcbtest.a
+</code></pre>     
+
+                <p>Com essa configuração, são adicionadas as seguintes linhas ao linker: 
+                <b>-Wl,--output-def=cbtest.def -Wl,--out-implib=libcbtest.a</b></p>
+
+                <h4>Chamando propriedades</h4>
+
+                <p>Para chamar uma propriedade, você pode usar a sintaxe: $(nomedapropriedade). 
+                Exemplo:</p>
+
+<pre class="line-numbers"><code>echo $(src.dir)</code></pre>  
+
+                <p>O comando acima exibe o valor da propriedade "src.dir"</p>
+
+            </article>
+
+            <article id="variables">
+                <header>
+                    <h3>Variáveis</h3>
+                </header>
+
+                <p>É possível também definir variáveis tipo texto e usá-las em comandos, 
+                valores de propriedades, etc.</p> 
+                
+                <p>Variáveis devem ser sempre definidas iniciando com um $ e chamadas 
+                com $(nomedavariavel).</p>
+
+                <p>Variáveis são interpretadas em tempo de interpretação (com a interpretação 
+                do script) se estiverem definidas fora de algum bloco de definição de task ou 
+                procedure. Caso contrário, se estiver no bloco de alguma definição de task ou 
+                procedure, é executada em tempo de execução, com a execução do bloco.</p>
+
+                <p>O cbuild carrega algumas variáveis predefinidas antes do script ser 
+                interpretado. São elas:</p>
+
+                <ul>
+                    <li><b>working_dir</b>: Assume o valor do diretório de trabalho.</li>
+
+                    <li><b>script_file</b>: Assume o valor do caminho do script carregado.</li>
+
+                    <li><b>os</b>: Assume um valor correspondente ao sistema operacional. 
+                        Isto é, se é windows ou não.<br />
+                        
+                        A variável "so" pode assumir dois valores: <b>"windows"</b> ou <b>"nowindows"</b>.
+                    </li>
+                </ul>
+
+                <p>Vamos a um exemplo: </p>
+
+<pre class="line-numbers"><code>$release_dir=Release
+bin.dir=bin/$(release_dir)
+</code></pre>
+
+                <p>No exemplo acima, "$(release_dir)" é substituído por "Release" e "bin.dir" 
+                passa a valer: "bin/Release". Vamos a outro exemplo: </p>
+
+<pre class="line-numbers"><code>$target=release
+$debug_bin_dir=bin/Debug
+$release_bin_dir=bin/Release
+
+bin.dir=bin/$($(target)_bin_dir)
+</code></pre>
+
+                <p>No exemplo acima, $(target) é substituído por "release" e "bin.dir" passa 
+                a valer "bin/Release". Se substituir o valor da variável $target por "debug", 
+                sem aspas, "bin.dir" passa a valer "bin/Debug"</p>
+
+                <p>Agora veja outro exemplo utilizando variáveis predefinidas: </p>
+
+<pre class="line-numbers"><code>echo $working_dir
+echo $script_file
+echo $so
+</code></pre>
+
+                <p>O exemplo acima imprime os valores das variáveis predefinidas.</p>
+
+            </article>
+
+            <article id="task-defs">
+                <header>
+                    <h3>Definição de blocos de tarefa default</h3>
+                </header>
+
+                <p>É possível configurar no script um bloco de código que pode ser executado 
+                antes ou depois da execução de uma tarefa. Exemplo:</p>
+
+<pre class="line-numbers"><code>task compile before
+    echo Iniciando compilação...
+endtask
+
+task compile after
+    echo Finalizando compilação...
+endtask
+</code></pre>      
+
+                <p>Nesse exemplo, antes da task compile ser executada, é impressa na saída 
+                padrão a mensagem "Iniciando compilação..." e, depois da tarefa ser executada, 
+                é impressa a mensagem "Finalizando compilação...".</p>
+
+                <br />
+
+                <section>
+                    <h5>Executando antes ou após tudo</h5>
+
+                    <p>É possível definir as tarefas init e finish para executar o bloco 
+                    de código no início ou no final do processo de build. Exemplo:</p>
+
+<pre class="line-numbers"><code>task init before
+    echo Executando isto antes de tudo...
+endtask
+
+task finish after
+    echo Executando isto após tudo...
+endtask
+</code></pre>        
+                </section>
+
+            </article>        
+
+            <article id="user-task-defs">
+                <header>
+                    <h3>Tarefas de usuário</h3>
+                </header>
+
+                <p>Você pode definir sua própria tarefa como no exemplo a seguir:</p>
+
+<pre class="line-numbers"><code>task minhatask
+    echo Executando minha task...
+endtask
+</code></pre>
+
+                <p>Para executar a task acima, basta executar o seguinte comando: </p>
+
+<pre class="line-numbers"><code>cbuild minhatask</code></pre>
+
+                <p>Ela também pode ser combinada com as demais tasks, exemplo: </p>
+
+<pre class="line-numbers"><code>cbuild compile minhatask</code></pre>        
+
+            </article>
+
+            <article>
+                <header>
+                    <h3>Configuração de tarefas</h3>                    
+                </header>
+
+                <p>Você pode configurar tarefas especificando as flags na definição de 
+                sua configuração.</p>
+
+                <p>São suportadas as seguintes flags</p>
+
+                <ul>
+                    <li>verbose</li>
+                    <li>noverbose</li>
+                    <li>showoutput</li>
+                    <li>noshowoutput</li>
+                </ul>
+                
+                <p>A definição de configuração de tarefa deve finalizar com ponto e 
+                virgula e apenas tarefas default podem ser configuradas assim.</p>
+
+                <p>Veja os exemplos abaixo:</p>
+
+<pre class="line-numbers"><code>task compile verbose;</code></pre>
+
+                <p>No exemplo acima é definido que todos os detalhes da task compile devem 
+                ser impressos na saída padrão independente do cbuild está configurado como não 
+                verbose.
+                </p>
+
+<pre class="line-numbers"><code>task compile noverbose;</code></pre>
+
+                <p>No exemplo acima é definido que os detalhes da task compile não devem 
+                ser impressos na saída padrão independente do cbuild está configurado como  
+                verbose.</p>
+
+<pre class="line-numbers"><code>task compile showoutput;</code></pre>
+
+                <p>No exemplo acima define que a saída dos comandos da tarefa compile 
+                deve ser mostrada na saída padrão.</p>
+
+<pre class="line-numbers"><code>task compile noshowoutput;</code></pre>
+
+                <p>No exemplo acima define que a saída dos comandos da tarefa compile 
+                não deve ser mostrada na saída padrão.</p>
+
+                <p>Você pode combinar flags como no exemplo abaixo:</p>
+
+<pre class="line-numbers"><code>task compile verbose noshowoutput;</code></pre>
+
+            </article>
+
+            <article id="procedures">
+                <header>
+                    <h3>Procedimentos</h3>
+                </header>
+
+                <p>Para criar um procedimento, utilize a palavras reservadas "proc" e "endproc". 
+                Para chamar o procedimento, utilize "call". Veja o exemplo abaixo: </p>
+
+<pre class="line-numbers"><code>proc imprimeMensagemDeCompile
+    echo A compilação está sendo executada...
+endproc
+
+task compile before
+    call imprimeMensagemDeCompile
+endtask
+
+task compileall before
+    call imprimeMensagemDeCompile
+endtask
+</code></pre>
+
+                <p>No exemplo acima está sendo definido um procedimento de nome 
+                "imprimeMensagemDeCompile" e ele está sendo chamado dentro das 
+                definições de tasks: "task compile before" e 
+                "task compileall before"</p>
+    
+            </article>
+            
+            <article id="comandos">
+                <header>
+                    <h3>Comandos</h3>
+                </header>
+
+                <p>São suportados os seguintes comandos: </p>
+
+                <ul>
+                    <li>cd</li>
+                    <li>cp</li>
+                    <li>rm</li>
+                    <li>mkdir</li>
+                    <li>echo</li>
+                </ul>
+
+                <br />
+
+                <section id="cd">
+                    <h5>O comando cd</h5>
+
+                    <p>O comando CD pode ser utilizado para mudar o diretório corrente.
+                    Exemplo: </p>
+
+<pre class="line-numbers"><code>cd ../build</code></pre>
+
+                </section>
+
+                <br />
+
+                <section id="cp">
+                    <h5>O comando cp</h5>
+
+                    <p>O comando CP pode ser utilizado para copiar arquivos e diretórios 
+                    de um lugar para outro. Exemplos:</p>
+
+<pre class="line-numbers"><code>cp $(src.dir)/* source/</code></pre>
+
+                    <p>O exemplo acima copia todo o conteúdo da pasta referente a 
+                    propriedade "src.dir" para a pasta "source".</p>
+
+<pre class="line-numbers"><code>cp -r $(src.dir)/*.h source/</code></pre>
+
+                    <p>O exemplo acima copia todos os arquivos com extensão .h contidos 
+                    na pasta de "src" para pasta "source", mantendo a estrutura de diretórios 
+                    da pasta de origem "src". O "-r" significa recursivo.</p>
+
+<pre class="line-numbers"><code>cp -r proj/src/**/math/*.h source/</code></pre>
+
+                    <p>O exemplo acima copia todos os arquivos com extensão .h contidos 
+                    na pasta "proj/src" para pasta "source", mantendo a estrutura de diretórios 
+                    após o src. Exemplo, o arquivo "proj/src/math/trigon/trigon.h" é copiado como 
+                    alvo: "source/math/trigon/trigon.h</p>  
+                    
+<pre class="line-numbers"><code>cp main.cpp source/main.cpp</code></pre>
+
+                    <p>Copia main.cpp para pasta source.</p>
+
+<pre class="line-numbers"><code>cp main.cpp source/</code></pre>
+
+                    <p>Copia main.cpp para pasta source.</p>
+
+<pre class="line-numbers"><code>cp main.cpp source/main2.cpp</code></pre>
+
+                    <p>Copia main.cpp para pasta source com o nome de cópia "main2.cpp".</p>
+
+<pre class="line-numbers"><code>cp -r src source</code></pre>
+
+                    <p>Se a pasta source existir, é copiada a pasta src para dentro dela. 
+                    Caso contrário, a pasta src é copiada com nome "source". Exemplo, se 
+                    "source" existir, o alvo é: "source/src". Se 'source" não existir, o alvo 
+                    é: "source"</p>
+                
+<pre class="line-numbers"><code>cp -r so*es.* sources/</code></pre>
+
+                    <p>O comando acima copia todos os arquivos da pasta corrente e derivadas 
+                    cujo nome iniciar com "so" e finalizar com "es" e tiver qualquer extensão.</p>    
+
+<pre class="line-numbers"><code>cp lib*.a sources/</code></pre>
+
+                    <p>O comando acima copia todos os arquivos da pasta atual (sem recursividade) 
+                    que começarem com "lib" e tiverem extensão ".a", para pasta "sources".</p>    
+                </section>
+
+                <br />
+
+                <section id="rm">
+                    <h5>O comando rm</h5>
+
+                    <p>O comando rm pode ser utilizado para remover arquivos e diretórios conforme 
+                    os exemplos a seguir:</p>
+
+<pre class="line-numbers"><code>rm main.cpp</code></pre>
+                    
+                    <p>O comando acima remove o arquivo main.cpp</p>
+
+<pre class="line-numbers"><code>rm *</code></pre>
+                    
+                    <p>O comando acima remove todos os arquivos do diretório atual 
+                    (sem recursividade). Logo, se houverem pastas não vazias, o comando 
+                    retorna uma mensagem sobre não ter sido possível completar a 
+                    remoção.</p>
+
+<pre class="line-numbers"><code>rm -r *</code></pre>
+                    
+                    <p>O comando acima remove todos os arquivos do diretório atual 
+                    (recursivamente), incluindo pastas não vazias.</p>                    
+
+<pre class="line-numbers"><code>rm -r lib*</code></pre>
+                    
+                    <p>O comando acima remove todos os arquivos e diretórios do 
+                    diretório atual (recursivamente), cujo nome começar com "lib".</p> 
+                </section>
+
+                <br />
+
+                <section id="mkdir">
+                    <h5>O comando mkdir</h5>
+
+                    <p>O comando mkdir cria uma nova pasta ou todas as pastas do 
+                    caminho se "-p" for informado como opção. Exemplos: </p>
+
+<pre class="line-numbers"><code>mkdir pasta</code></pre>
+
+                    <p>O comando acima cria a pasta "pasta" no diretório corrente.</p>
+
+<pre class="line-numbers"><code>mkdir -p /home/joao/projetos/projeto-cpp</code></pre>
+
+                    <p>O comando acima cria todos os subdiretórios, caso já não existam. 
+                    Supondo que a pasta "projetos" não existe em "/home/joão", ela é 
+                    criada e é criada dentro dela a pasta "projeto-cpp".</p>
+                </section>
+
+                <br />
+
+                <section id="echo">
+                    <h5>O comando echo</h5>
+
+                    <p>O comando echo exibe o texto passado como argumento para ele. 
+                    Exemplos:</p>
+
+
+<pre class="line-numbers"><code>echo Hello World!</code></pre>
+        
+<pre class="line-numbers"><code>echo O diretório src tem o caminho: $(src.dir)</code></pre>
+
+                </section>
+
+                <br />
+
+                <section id="jokers">
+                    <header>
+                        <h5>Coringas</h5>
+                    </header>
+
+                    <p>Os coringas nos comandos de arquivos servem para incluir na operação 
+                    arquivos, dado um filtro pelo nome do arquivo ou para substituir parte 
+                    do caminho no caso do duplo coringa. Veja os exemplos abaixo:</p>
+
+<pre class="line-numbers"><code>rm -r dir/*</code></pre>
+
+                    <p>O exemplo acima remove todos os arquivos e pastas do diretório 
+                    "dir"</p>
+
+<pre class="line-numbers"><code>rm -r dir/*.*</code></pre>
+        
+                    <p>O exemplo acima remove todos os arquivos com qualquer extensão, 
+                    excerto as pastas e arquivos sem extensão, do diretório "dir"</p>
+
+<pre class="line-numbers"><code>rm -r dir/lib*</code></pre>
+
+                    <p>O exemplo acima remove todos os arquivo e pastas do diretório 
+                    "dir" que começarem com o prefixo "lib".</p>
+
+<pre class="line-numbers"><code>rm -r dir/*lib</code></pre>
+
+                    <p>O exemplo acima remove todos os arquivos  e pastas cujo nome 
+                    (não a extensão) terminar com "lib"</p>
+
+<pre class="line-numbers"><code>rm -r dir/*lib*</code></pre>                    
+
+                    <p>O comando acima remove todos os arquivos e pastas cujo nome 
+                    começar com "lib", terminar com "lib" ou tiver "lib" no meio.</p>
+
+<pre class="line-numbers"><code>rm -r dir/*lib*.*</code></pre>
+
+                    <p>O comando acima remove todos os arquivos com qualquer extensão e 
+                    cujo nome começar com "lib", terminar com "lib" ou tiver "lib" no meio. 
+                    Não remove pastas nem arquivos sem extensão.</p>
+
+<pre class="line-numbers"><code>rm -r dir/lib*.txt</code></pre>
+
+                    <p>O comando acima remove todos os arquivos com extensão .txt que começarem 
+                    com "lib" e estiverem dentro do diretório "dir".</p>
+
+                    <p><b>Atenção:</b> o cbuild ainda não suporta multiplas origens como 
+                    no linux. Por exemplo, o seguinte exemplo não é válido: </p>
+
+<pre class="line-numbers"><code>rm a.txt b.bat pasta</code></pre>
+
+                </section>                
+
+            </article>
+
+            <article id="shell-commands">
+                <header>
+                    <h3>Executando comandos do shell</h3>
+                </header>
+
+                <p>Para executar comandos do shell do sistema operacional, basta 
+                informar o @ antes do comando ou colocar o comando dentro do bloco 
+                de código de shell. Exemplos:</p>
+
+<pre class="line-numbers"><code>@ls</code></pre>
+
+                <p>O comando acima executa o comando ls se estiver no linux.</p>
+
+                <section id="shell-block">
+                    <h3>Bloco de código shell</h3>
+
+                    <p>Para criar um bloco de código do shell, você pode fazer conforme o 
+                    exemplo abaixo:</p>
+
+<pre class="line-numbers"><code>shellbegin
+    echo "Verificando se o arquivo CBuildFile existe..."
+    if [ -f "CBuildFile" ]; then
+        echo "O arquivo CBuildFile existe...!"
+    else 
+        echo "Arquivo nao existe: CBuildFile"
+    fi
+endshell
+</code></pre>
+                    <p>O código acima executa o conteúdo entre o "shellbegin" e o "endshell" 
+                    como se estivesse em um arquivo de shell do linux. Isso caso esteja no linux. 
+                    Funciona para windows se modificar a sintaxe do comando acima para a sintaxe 
+                    de arquivos batch do windows. Exemplo: </p>
+        
+<pre class="line-numbers"><code>shellbegin
+    echo Verificando se o arquivo CBuildFile existe...
+    if exist CBuildFile (
+        echo O arquivo CBuildFile existe!
+    ) else (
+        echo O arquivo CBuildFile nao existe.
+    )
+endshell
+</code></pre>
+                </section>
+            </article>
+            
+            <article id="if-directive">
+                <header>
+                    <h3>Diretiva IF</h3>
+                </header>
+
+                <p>Você utilizar a diretiva IF para interpretar algo, apenas 
+                se uma condição for satisfeita. Exemplo:
+                </p>
+
+<pre class="line-numbers"><code>IF os == "windows"
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>
+
+                <p>No exemplo acima, a propriedade "test.linker.params" só é definida se 
+                estiver no windows. Isto é, o valor da variável "os" for "windows".</p>
+            </article>
+
+            <article id="if-statement">
+                <header>
+                    <h3>Instrução IF</h3>
+                </header>
+
+                <p>A instrução IF pode ser utilizada para executar algo apenas se uma 
+                condição for verdadeira, ou caso contrário. A instrução if é executada 
+                em tempo de execução. Logo, deve ser colocada dentro de algum bloco de 
+                código de definição de task ou de procedure ou estar no final do script. 
+                Dado que se estiver fora do escopo das definições de tasks e procedures, 
+                só é executado após todas as tarefas serem executadas.</p>
+
+                <p>A condição do if pode envolver valores string (entre aspas), variáveis 
+                ou propriedades e operador de comparação "==" para igualdade e "!=" para 
+                diferença. Veja o exemplo abaixo</p>
+
+<pre class="line-numbers"><code>task test before
+    if test.dir == "" then
+        echo Propriedade test.dir não definida.
+    else if test.dir == "test" then
+        echo Propriedade test.dir aponta para pasta test/
+        if src.dir == "src"
+            echo A propriedade src.dir aponta para src/
+        endif
+    else
+        echo A propriedade test.dir tem o valor: $(test.dir)
+    endif
+endtask
+</code></pre>
+
+                    <p>O exemplo acima testa os valores das propriedades: "test.dir" 
+                    e "src.dir" e imprime uma ou duas mensagens, dependendo do valor 
+                    delas.</p>
+
+                    <p>Veja outro exemplo: </p>
+
+<pre class="line-numbers"><code>proc printDirContent
+    if os == "windows" then
+        @dir
+    else 
+        @ls
+    endif
+endtask
+</code></pre>
+                    <p>A procedure acima executa o comando dir, se estiver no windows e 
+                    ls, se estiver em outro sistema operacionsl como, por exemplo, 
+                    o linux.</p>
+
+                </section>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Tempo de execução e tempo de interpretação</h3>
+                </header>
+
+                <p>As propriedades e variáveis definidas fora do escopo de definição 
+                de tasks e procedures são executadas (interpretadas) durante a 
+                interpretação o script. Já tudo que está dentro das procedures e 
+                definições de tasks (incluíndo atribuições a variáveis) é executado 
+                em tempo de execução. Isto é, durante a execução do bloco de definição 
+                de task ou procedure.</p>
+
+                <p>Para utilizar ifs fora dos blocos de definição de tarefas e procedures, 
+                é necessário utilizar a diretiva if que deve ser utilizada em 
+                maiuscula: IF, ENDIF. Ifs (em minusculo) são instruções executadas em tempo de 
+                execução e o que está fora dos blocos de definição de tarefas e 
+                procedures é executado em tempo de interpretação.</p>
+
+                <p>Veja os exemplos abaixo:</p>
+
+<pre class="line-numbers"><code>IF os != "windows"
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>
+
+                    <p>O código acima executa (em tempo de interpretação) uma diretiva 
+                    IF que verifica se o sistema operacional é diferente de "windows" e, 
+                    se for, seta o valor da propriedade "test.linker.params". Agora veja 
+                    o exemplo abaixo:</p>
+
+<pre class="line-numbers"><code>if os != "windows" then
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>
+
+                    <p>O exemplo acima gera um erro. Isso porque as propriedades são 
+                    executadas (interpretadas e carregadas) em tempo de interpretação e 
+                    o if é executado em tempo de execução. Isto é, o if, neste caso, só 
+                    é executado após todas as tarefas, onde, os comandos definidos no 
+                    script fora de qualquer bloco de definição de tarefas ou procedure são 
+                    executados. Para o exemplo acima funcionar, é necessário utilizar 
+                    diretivas IF ao invés de comandos if.</p>
+                </section>
+            </article>
+
+            <article id="tests-with-cbtest">
+                <header>
+                    <h3>Testes com cbtest</h3>
+                </header>
+
+                <p>Para executar testes com cbtest você pode utilizar as seguintes 
+                tarefas: test, testbuild ou testbuildall</p>
+
+                <p>Para tanto, é necessário definir as propriedades <b>"src.dir", "test.dir"  
+                e "test.libs"</b>.</p>
+
+                <p>Se estiver no linux, é necessário também definir a propriedade 
+                "test.linker.params"</p>
+
+                <p>Caso não tenha instalado o cbtest e quiser incluí-lo manualmente no 
+                projeto, precisa definir também as propriedades <b>"test.include.dirs", 
+                "test.lib.dirs"</b>.</p>
+
+                <p>Se o cbtest já estiver instalado no sistema operacional, não precisa definir 
+                as propriedades <b>"test.include.dirs", "test.lib.dirs" e "test.libs"</b>.</p>
+
+                <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
+                diretório raiz do projeto ou parente dele.</p>
+
+                <p>Após configurado o <b>CBuildFile</b> com os caminhos dos includes, lib do cbtest e 
+                parâmetros para o comando que linka os arquivos de teste, é só criar os testes 
+                na pasta da propriedade <b>"test.dir"</b>.</p>
+
+                <p>Veja abaixo o exemplo de configuração básica do script <b>CBuildFile</b>: </p>
+
+<pre class="line-numbers"><code>src.dir=src
+test.dir=test
+test.libs=cbtest
+
+IF os != "windows"
+    # interpretado somente se estiver no linux
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre> 
+                <p>O exemplo acima assume que a pasta de testes é a pasta <b>"test"</b>.</p>
+                
+                <p>Caso não tenha instalado o cbuild e quiser inclur manualmente, faça 
+                conforme o seguinte exemplo: </p>
+
+<pre class="line-numbers"><code>src.dir=src
+test.dir=test
+
+test.include.dirs=include
+test.lib.dirs=.
+test.libs=cbtest
+
+IF os != "windows"
+    # interpretado somente se estiver no linux
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>                
+    
+                <p>O exemplo acima assume que o diretório onde deve procurar o arquivo 
+                <b>"libcbtest.a"</b> é o diretório corrente. Para outro diretório, é só 
+                alterar <b>"test.lib.dirs"</b>. Claro, o exemplo acima assume que o nome da 
+                static library do cbtest tem o nome <b>"libcbtest.*"</b>, onde o "*" geralmente 
+                corresponde a "a" ou "lib". Esse exemplo assume também que a os arquivos 
+                de cabeçalho do cbtest estão na pasta <b>"include"</b>.</p>
+
+                <p>Veja um exemplo de teste, supondo a criação do arquivo "test/main.cpp"</p>
+
+<pre class="line-numbers"><code class="language-cpp">#include &lt;test/cbtest.h&gt;
+
+TEST_CASE( primeiroTeste, Testes ) {
+    int a = 1;
+    int b = 1;
+    int c = 2;
+    ASSERT_EQUALS( a, b, )
+    ASSERT_TRUE( a == b, )
+    ASSERT_FALSE( a == c, )
+}
+
+int main() {
+    RUN_TEST_CASES_MENU();
+    return 0;
+}
+</code></pre>                 
+
+                <p>Você pode executar o seguinte comando, após configurar as propriedades 
+                no CBuildFile e criar o arquivo "test/main.cpp" com o conteúdo acima:</p>
+
+<pre class="line-numbers"><code class="language-cpp">cbuild testbuild</code></pre>
+                
+                <p>A saída do comando deve ser a seguinte: </p>
+
+                <figure>
+                    <img src="/images/testhelloworld-output.png" />
+                </figure>
+            </article>
+
+            <section>
+                <h3>Finalizando...</h3>
+                
+                <p>E assim chegamos ao final da visão geral sobre o cbuild.</p>
+
+                <p>Para exemplos de uso, acesse: <a href="get-started.html">Get Started</a>.</p>
+            </section>
+        </section>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

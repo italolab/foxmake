@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - get started - comandos">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Get Started - comandos - Site oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Comandos</h1>
+            </header>
+
+            <p>São suportados os seguintes comandos: </p>
+
+            <ul>
+                <li>cd</li>
+                <li>cp</li>
+                <li>rm</li>
+                <li>mkdir</li>
+                <li>echo</li>
+            </ul>
+
+            <br />
+
+            <section id="cd">
+                <h5>O comando cd</h5>
+
+                <p>O comando CD pode ser utilizado para mudar o diretório corrente.
+                Exemplo: </p>
+
+<pre class="line-numbers"><code>cd ../build</code></pre>
+
+            </section>
+
+            <br />
+
+            <section id="cp">
+                <h5>O comando cp</h5>
+
+                <p>O comando CP pode ser utilizado para copiar arquivos e diretórios 
+                de um lugar para outro. Exemplos:</p>
+
+<pre class="line-numbers"><code>cp $(src.dir)/* source/</code></pre>
+
+                <p>O exemplo acima copia todo o conteúdo da pasta referente a 
+                propriedade "src.dir" para a pasta "source".</p>
+
+<pre class="line-numbers"><code>cp -r $(src.dir)/*.h source/</code></pre>
+
+                <p>O exemplo acima copia todos os arquivos com extensão .h contidos 
+                na pasta de "src" para pasta "source", mantendo a estrutura de diretórios 
+                da pasta de origem "src". O "-r" significa recursivo.</p>
+
+<pre class="line-numbers"><code>cp -r proj/src/**/math/*.h source/</code></pre>
+
+                <p>O exemplo acima copia todos os arquivos com extensão .h contidos 
+                na pasta "proj/src" para pasta "source", mantendo a estrutura de diretórios 
+                após o src. Exemplo, o arquivo "proj/src/math/trigon/trigon.h" é copiado como 
+                alvo: "source/math/trigon/trigon.h</p>  
+                
+<pre class="line-numbers"><code>cp main.cpp source/main.cpp</code></pre>
+
+                <p>Copia main.cpp para pasta source.</p>
+
+<pre class="line-numbers"><code>cp main.cpp source/</code></pre>
+
+                <p>Copia main.cpp para pasta source.</p>
+
+<pre class="line-numbers"><code>cp main.cpp source/main2.cpp</code></pre>
+
+                <p>Copia main.cpp para pasta source com o nome de cópia "main2.cpp".</p>
+
+<pre class="line-numbers"><code>cp -r src source</code></pre>
+
+                <p>Se a pasta source existir, é copiada a pasta src para dentro dela. 
+                Caso contrário, a pasta src é copiada com nome "source". Exemplo, se 
+                "source" existir, o alvo é: "source/src". Se 'source" não existir, o alvo 
+                é: "source"</p>
+            
+<pre class="line-numbers"><code>cp -r so*es.* sources/</code></pre>
+
+                <p>O comando acima copia todos os arquivos da pasta corrente e derivadas 
+                cujo nome iniciar com "so" e finalizar com "es" e tiver qualquer extensão.</p>    
+
+<pre class="line-numbers"><code>cp lib*.a sources/</code></pre>
+
+                <p>O comando acima copia todos os arquivos da pasta atual (sem recursividade) 
+                que começarem com "lib" e tiverem extensão ".a", para pasta "sources".</p>    
+            </section>
+
+            <br />
+
+            <section id="rm">
+                <h5>O comando rm</h5>
+
+                <p>O comando rm pode ser utilizado para remover arquivos e diretórios conforme 
+                os exemplos a seguir:</p>
+
+<pre class="line-numbers"><code>rm main.cpp</code></pre>
+                
+                <p>O comando acima remove o arquivo main.cpp</p>
+
+<pre class="line-numbers"><code>rm *</code></pre>
+                
+                <p>O comando acima remove todos os arquivos do diretório atual 
+                (sem recursividade). Logo, se houverem pastas não vazias, o comando 
+                retorna uma mensagem sobre não ter sido possível completar a 
+                remoção.</p>
+
+<pre class="line-numbers"><code>rm -r *</code></pre>
+                
+                <p>O comando acima remove todos os arquivos do diretório atual 
+                (recursivamente), incluindo pastas não vazias.</p>                    
+
+<pre class="line-numbers"><code>rm -r lib*</code></pre>
+                
+                <p>O comando acima remove todos os arquivos e diretórios do 
+                diretório atual (recursivamente), cujo nome começar com "lib".</p> 
+            </section>
+
+            <br />
+
+            <section id="mkdir">
+                <h5>O comando mkdir</h5>
+
+                <p>O comando mkdir cria uma nova pasta ou todas as pastas do 
+                caminho se "-p" for informado como opção. Exemplos: </p>
+
+<pre class="line-numbers"><code>mkdir pasta</code></pre>
+
+                <p>O comando acima cria a pasta "pasta" no diretório corrente.</p>
+
+<pre class="line-numbers"><code>mkdir -p /home/joao/projetos/projeto-cpp</code></pre>
+
+                <p>O comando acima cria todos os subdiretórios, caso já não existam. 
+                Supondo que a pasta "projetos" não existe em "/home/joão", ela é 
+                criada e é criada dentro dela a pasta "projeto-cpp".</p>
+            </section>
+
+            <br />
+
+            <section id="echo">
+                <h5>O comando echo</h5>
+
+                <p>O comando echo exibe o texto passado como argumento para ele. 
+                Exemplos:</p>
+
+
+<pre class="line-numbers"><code>echo Hello World!</code></pre>
+    
+<pre class="line-numbers"><code>echo O diretório src tem o caminho: $(src.dir)</code></pre>
+
+            </section>
+
+            <br />
+
+            <section id="jokers">
+                <header>
+                    <h5>Coringas</h5>
+                </header>
+
+                <p>Os coringas nos comandos de arquivos servem para incluir na operação 
+                arquivos, dado um filtro pelo nome do arquivo ou para substituir parte 
+                do caminho no caso do duplo coringa. Veja os exemplos abaixo:</p>
+
+<pre class="line-numbers"><code>rm -r dir/*</code></pre>
+
+                <p>O exemplo acima remove todos os arquivos e pastas do diretório 
+                "dir"</p>
+
+<pre class="line-numbers"><code>rm -r dir/*.*</code></pre>
+    
+                <p>O exemplo acima remove todos os arquivos com qualquer extensão, 
+                excerto as pastas e arquivos sem extensão, do diretório "dir"</p>
+
+<pre class="line-numbers"><code>rm -r dir/lib*</code></pre>
+
+                <p>O exemplo acima remove todos os arquivo e pastas do diretório 
+                "dir" que começarem com o prefixo "lib".</p>
+
+<pre class="line-numbers"><code>rm -r dir/*lib</code></pre>
+
+                <p>O exemplo acima remove todos os arquivos  e pastas cujo nome 
+                (não a extensão) terminar com "lib"</p>
+
+<pre class="line-numbers"><code>rm -r dir/*lib*</code></pre>                    
+
+                <p>O comando acima remove todos os arquivos e pastas cujo nome 
+                começar com "lib", terminar com "lib" ou tiver "lib" no meio.</p>
+
+<pre class="line-numbers"><code>rm -r dir/*lib*.*</code></pre>
+
+                <p>O comando acima remove todos os arquivos com qualquer extensão e 
+                cujo nome começar com "lib", terminar com "lib" ou tiver "lib" no meio. 
+                Não remove pastas nem arquivos sem extensão.</p>
+
+<pre class="line-numbers"><code>rm -r dir/lib*.txt</code></pre>
+
+                <p>O comando acima remove todos os arquivos com extensão .txt que começarem 
+                com "lib" e estiverem dentro do diretório "dir".</p>
+
+                <p><b>Atenção:</b> o cbuild ainda não suporta multiplas origens como 
+                no linux. Por exemplo, o seguinte exemplo não é válido: </p>
+
+<pre class="line-numbers"><code>rm a.txt b.bat pasta</code></pre>
+
+            </section>                
+
+            <article>
+                <header>
+                    <h3>Proxima aula</h3>
+                </header>
+
+                <p>A próxima aula ensina sobre comandos.</p>
+            </article>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="procedures.html">
+                    Voltar
+                </button>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="shell-commands.html">
+                    Avançar
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

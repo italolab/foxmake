@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - get started - tasks para o cbuild">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Get Started - cbuild tasks - Site oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Tarefas para o cbuild</h1>
+            </header>
+
+            <article>
+                <p>O cbuild suporta os seguintes tarefas: </p>
+
+                <ul>
+                    <li>clean</li>
+                    <li>compile</li>
+                    <li>compileall</li>
+                    <li>link</li>
+                    <li>archive</li>
+                    <li>test</li>
+                    <li>copy</li>
+                    <li>build</li>
+                    <li>archivebuild</li>
+                    <li>testbuild</li>
+                    <li>buildall</li>
+                    <li>archivebuildall</li>
+                    <li>testbuildall</li>
+                </ul>
+
+                <p>Então, veja alguns exemplos: </p>
+
+<pre><code>cbuild clean</code></pre>
+
+                <p>O exemplo acima executa uma limpesa, excluindo os arquivos gerados 
+                em outras tarefas.</p>
+
+<pre><code>cbuild clean compile</code></pre>
+
+                <p>O comando acima executa a limpesa e compila os arquivos de código fonte.</p>
+
+<pre><code>cbuild compileall</code></pre>
+
+                <p>O exemplo acima compila todos os arquivos, sem otimizar a compilação. Isto é, 
+                com compile, são compilados somente os arquivos necessários e, com compileall, são 
+                compilados todos os arquivos.</p>
+
+<pre><code>cbuild clean compile link</code></pre>
+
+                <p>O exemplo acima limpa, compila e linka. Isto é, a linkagem se refere a 
+                geração do arquivo executável no formato adequado para o sistema operacional.</p>
+
+<pre><code>cbuild clean compile link copy</code></pre>
+
+                <p>O exemplo acima faz o mesmo que o anterior, acrescentando a cópia dos 
+                arquivos de build (executável e outros necessários à ele), para pasta 
+                de build.</p>
+
+<pre><code>cbuild build</code></pre>
+
+                <p>O exemplo acima faz o mesmo que o anterior. Isto é, a tarefa build 
+                corresponde as tarefas: <b>clean, compile, link e copy</b>.</p>
+
+<pre><code>cbuild buildall</code></pre>
+
+                <p>O exemplo acima faz o mesmo que o anterior. Com exceção que compila 
+                todos os arquivos, não apenas os necessários. A tarefa buildall inclue:
+                <b>clean, compileall, link e copy</b>.
+                </p>
+
+<pre><code>cbuild archive</code></pre>
+
+                <p>O exemplo acima empacota em uma static library (Biblioteca estática) ao 
+                invés de criar o executável.</p>
+        
+<pre><code>cbuild archivebuild</code></pre>
+
+                <p>O exemplo acima executa o build, substituíndo a tarefa link por archive. 
+                Isto é, executa: <b>clean, compile, archive, copy</b>.</p>
+
+<pre><code>cbuild archivebuildall</code></pre>
+
+                <p>O exemplo acima executa o archivebuild, substituíndo a tarefa compile 
+                por compileall. Isto é, executa: <b>clean, compileall, archive, copy</b>.</p>
+
+<pre><code>cbuild test</code></pre>
+
+                <p>Executa os testes de unidade se o framework cbtest estiver configurado no 
+                script CBuildFile e a static library do cbtest e os seus includes estiverem 
+                instalados ou acessíveis localmente no projeto.</p>
+
+<pre><code>cbuild testbuild</code></pre>
+
+                <p>O exemplo acima executa o build, acrescentando a tarefa test. 
+                Isto é, executa: <b>clean, compile, link, copy, test</b>.</p>
+
+<pre><code>cbuild testbuildall</code></pre>
+
+                <p>O exemplo acima executa quase o mesmo que testbuild, com a diferença 
+                que substitue "compile" por "compileall". Isto é, executa: 
+                <b>clean, compileall, link, copy, test</b>.</p>
+
+            </article>
+
+            <article>
+                <header>
+                    <h3>Proxima aula</h3>
+                </header>
+
+                <p>A próxima aula ensina sobre propriedades e variáveis para o CBuildFile.</p>
+            </article>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="comments.html">
+                    Voltar
+                </button>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="props-and-vars.html">
+                    Avançar
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - get started - propriedades e variáveis">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Get Started - propriedades e variáveis - Site oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Propriedades e variáveis</h1>
+            </header>
+
+            <article>
+                <p>Tanto propriedades como variáveis podem ser definidas no script 
+                CBuildFile ou podem ser definidas no comando cbuild com as opções 
+                "-prop" e "-var".</p>
+
+                <p>O que diferencia propriedades de variáveis é que as propriedades são 
+                verificadas. Não é possível criar suas próprias propriedades. Você só 
+                pode definir propriedades que o cbuild reconhece. Já as variáveis podem 
+                ser definidas a seu gosto e ter seu valor utilizado de forma semelhante as 
+                propriedades.</p>
+
+                <p>As variáveis são definidas, iniciando com $ e, tanto variáveis, quanto 
+                propriedades, podem ser acessadas no script com $(nomedavariaveloupropriedade). 
+                Veja os exemplos abaixo:</p>
+
+                <p>As propriedades são executadas (interpretadas e carregadas) em tempo de 
+                interpretação. Assim como as variáveis definidas fora do escopo de alguma 
+                definição de task ou procedure.</p>
+
+                <p>O cbuild carrega algumas variáveis predefinidas antes do script ser 
+                interpretado. São elas:</p>
+
+                <ul>
+                    <li><b>working_dir</b>: Assume o valor do diretório de trabalho.</li>
+
+                    <li><b>script_file</b>: Assume o valor do caminho do script carregado.</li>
+
+                    <li><b>os</b>: Assume um valor correspondente ao sistema operacional. 
+                        Isto é, se é windows ou não.<br />
+                        
+                        A variável "so" pode assumir dois valores: <b>"windows"</b> ou <b>"nowindows"</b>.
+                    </li>
+                </ul>
+
+<pre class="line-numbers"><code>src.dir=src
+
+$version=1.0
+$sysop=linux
+$arch=x86
+
+build.dir=build/meuprojeto-$(version)-$(sysop)-$(arch)
+
+echo $(build.dir)
+echo $(src.dir)
+echo $(sysop)-$(arch)
+</code></pre>
+
+                <p>O script acima define valor para a propriedade src e define três 
+                variáveis: $version, $sysop e $arch, que são acessadas na propriedade 
+                "build.dir". Logo após, são impressos na saída padrão os valores das 
+                propriedades "build.dir" e "src.dir" e, então, impressa a concatenação 
+                das variáveis $sysop e $arch, imprimindo: linux-x86.</p>
+
+                <p>Agora veja outro exemplo utilizando variáveis predefinidas: </p>
+
+<pre class="line-numbers"><code>echo $working_dir
+echo $script_file
+echo $so
+</code></pre>
+
+                <p>O exemplo acima imprime os valores das variáveis predefinidas.</p>
+
+            </article>
+
+            <article>
+                <header>
+                    <h3>Proxima aula</h3>
+                </header>
+
+                <p>A próxima aula ensina sobre definição de tarefas no CBuildFile.</p>
+            </article>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="default-tasks.html">
+                    Voltar
+                </button>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="tasks.html">
+                    Avançar
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

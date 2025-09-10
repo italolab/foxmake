@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - get started - definição e configuração de tarefas">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Get Started - definição e configuração de tarefas - Site oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Definição e configuração de tarefas</h1>
+            </header>
+
+            <article>
+                <p>No script CBuilFile, é possível definir um bloco de código 
+                que deve ser executado antes, ou após, a execução de uma tarefa 
+                default. É possível definir também o que deve ser executado antes 
+                de tudo, após tudo, além de ser possível também definir suas próprias 
+                tarefas. Vamos a um exemplo:</p>
+
+<pre class="line-numbers"><code>task compile before
+    echo Iniciando compilação...
+endtask
+
+task compile after
+    echo Finalizando compilação...
+endtask
+</code></pre> 
+
+                <p>No exemplo acima, a mensagem: "Iniciando compilação..." é impressa 
+                antes da compilação e a mensagem "Finalizando compilação..." é impressa 
+                após concluída a compilação. Vamos a outro exemplo: </p>
+
+<pre class="line-numbers"><code>task init before
+    echo Executando isto antes de tudo...
+endtask
+
+task finish after
+    echo Executando isto após tudo...
+endtask
+</code></pre>  
+
+                <p>No exemplo acima, a mensagem "Executando isto antes de tudo..." é 
+                impressa antes da execução da primeira tarefa e a mensagem 
+                "Executando isto após tudo..." é mostrada após a execução da última 
+                tarefa.</p>
+
+                <section>
+                    <h5>Definindo sua própria tarefa</h5>
+
+                    <p>Veja abaixo um exemplo de como definir sua própria tarefa: </p>
+
+<pre class="line-numbers"><code>task minhatask
+    echo Executando minha task...
+endtask
+</code></pre>
+
+                    <p>Para executá-la, basta fazer conforme a seguir: </p>
+
+<pre><code>cbuild minhatask</code></pre>
+
+                </section>            
+                
+                <section>
+                    <h3>Configuração de tarefas</h3>                    
+
+                    <p>Você pode configurar tarefas especificando as flags na definição de 
+                    sua configuração.</p>
+
+                    <p>São suportadas as seguintes flags</p>
+
+                    <ul>
+                        <li>verbose</li>
+                        <li>noverbose</li>
+                        <li>showoutput</li>
+                        <li>noshowoutput</li>
+                    </ul>
+                    
+                    <p>A definição de configuração de tarefa deve finalizar com ponto e 
+                    virgula e apenas tarefas default podem ser configuradas assim.</p>
+
+                    <p>Veja os exemplos abaixo:</p>
+
+    <pre class="line-numbers"><code>task compile verbose;</code></pre>
+
+                    <p>No exemplo acima é definido que todos os detalhes da task compile devem 
+                    ser impressos na saída padrão independente do cbuild está configurado como não 
+                    verbose.
+                    </p>
+
+    <pre class="line-numbers"><code>task compile noverbose;</code></pre>
+
+                    <p>No exemplo acima é definido que os detalhes da task compile não devem 
+                    ser impressos na saída padrão independente do cbuild está configurado como  
+                    verbose.</p>
+
+    <pre class="line-numbers"><code>task compile showoutput;</code></pre>
+
+                    <p>No exemplo acima define que a saída dos comandos da tarefa compile 
+                    deve ser mostrada na saída padrão.</p>
+
+    <pre class="line-numbers"><code>task compile noshowoutput;</code></pre>
+
+                    <p>No exemplo acima define que a saída dos comandos da tarefa compile 
+                    não deve ser mostrada na saída padrão.</p>
+
+                    <p>Você pode combinar flags como no exemplo abaixo:</p>
+
+    <pre class="line-numbers"><code>task compile verbose noshowoutput;</code></pre>
+
+                </section>
+
+            </article>
+
+            <article>
+                <header>
+                    <h3>Proxima aula</h3>
+                </header>
+
+                <p>A próxima aula ensina sobre opções e argumentos para o cbuild.</p>
+            </article>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="props-and-vars.html">
+                    Voltar
+                </button>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="procedures.html">
+                    Avançar
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

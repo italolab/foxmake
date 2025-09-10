@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - get started - primeiro exemplo">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Primeiro Exemplo - CBuild - Site oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Primeiro exemplo</h1>
+                <h5 class="text-center">Agora, vamos criar um primeiro projeto</h5>
+            </header>
+
+            <section>
+                <p>Crie um programa para ser compilado e linkado. Então faça o seguinte:</p>
+
+                <p>Na raiz do projeto crie o arquivo main.cpp e coloque nele o seguinte conteúdo: </p>
+
+<pre class="line-numbers"><code class="language-cpp">#include &lt;iostream&gt;
+
+using namespace std;
+
+int main() {
+    cout "Hello world!" &lt;&lt; endl;
+    return 0;
+}
+</code></pre>
+
+                <p>Depois de criado o programa, seu projeto deve ter a seguinte estrutura:</p>
+
+<pre>
+helloworld
+└── main.cpp
+</pre>
+
+                <p>Agora faça o seguinte:</p>
+
+                <ol>
+                    <li>Instale o cbuild, se não já estiver instalado</li>
+                    <li>Crie o arquivo CBuildFile com o seguinte conteúdo na raiz do seu projeto:<br />
+                        Se estiver no linux coloque:
+
+<pre class="line-numbers"><code>output.file.name=executavel</code></pre>
+                        
+                        Se estiver no windows coloque:
+
+<pre class="line-numbers"><code>output.file.name=executavel.exe</code></pre>
+                    </li>
+                    <li>Agora execute o seguinte comando no shell:<br />
+<pre><code>cbuild compile link</code></pre>
+                        Você também poderia executar com a tarefa <b>"build"</b> ou <b>"buildall"</b>. A 
+                        tarefa <b>build</b> inclue: <b>clean, compile, link, copy</b>. E a tarefa 
+                        <b>buildall</b> inclue: <b>clean, compileall, link, copy</b>.
+                    </li>
+
+                    <li>Execute o executável criado:<br />
+                        Se estiver no linux execute:
+
+<pre><code>./executavel</code></pre>
+
+                        Se estiver no windows execute:
+
+<pre><code>executavel.exe</code></pre>
+                    </li>
+
+                </ol>
+
+                <p>Se tudo ocorreu bem, o seu projeto deve ter agora a seguinte estrutura: </p>
+
+<pre>
+helloworld
+├── CBuildFile
+├── executavel
+├── __lwtimes.txt
+├── main.cpp
+└── obj
+    └── src
+        └── main.o    
+</pre>
+
+                <p>Foram criadas duas pastas: build e obj. A pasta obj é para onde foram os arquivos 
+                resultantes da compilação (os arquivos objeto). O executável resultante da linkagem, 
+                foi para pasta build e, se houvesse uma pasta bin, iria para ela também. Como ela não 
+                foi configurada no script, o executável vai para pasta raiz do projeto.</p>
+
+                <p>Repare que foi criado também um arquivo __lwtimes.txt. Esse arquivo é um arquivo de 
+                propriedades. Onde, as chaves representam os arquivos de código fonte 
+                (headers e implementações), e os valores, representam o tempo de última alteração desses 
+                arquivos no momento da última compilação.</p>
+
+                <p>A cada compilação, o arquivo _lwtimes.txt é atualizado (ou criado, caso não já exista). 
+                Na próxima compilação, se não for especificada a tarefa compileall ou outra que também 
+                compila todos os arquivos, esse arquivo é verificado para compilar apenas os arquivos 
+                modificados após as datas correspondentes gravadas nesse arquivo.</p>
+
+                <p>Trata-se de uma compilação inteligente, onde é compilado somente o necessário para 
+                diminuir o tempo necessário para compilação do código fonte.</p>
+            </section>
+
+            <section>
+                <h3>Recomendação</h3>
+
+                <p>É recomendável configurar as pastas src e bin para o projeto ficar mais organizado. 
+                Para tanto, é só adicionar as propriedades: src.dir=src e bin.dir=bin no arquivo de 
+                script: CBuildFile.</p>
+            </section>
+
+            <section>
+                <h3>Próxima aula</h3>
+
+                <p>O próxima aula ensina como criar e configurar as pastas "src" e "bin" para 
+                organizar melhor o projeto.</p>
+            </section>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="index.html">
+                    Voltar
+                </button>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="src-and-bin-folders.html">
+                    Avançar
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>

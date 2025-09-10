@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - get started - tempo de interpretação e tempo de execução">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="/lib/prism/prism.css" rel="stylesheet">
+    <link href="/style/style.css" rel="stylesheet">
+    
+    <title>Get Started - tempo de interpretação e tempo de execução - Site oficial</title>
+
+    <script src="/lib/jquery-3.7.1.min.js"></script>    
+    <script src="/lib/fontawesome/all.min.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+    
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Tempo de interpretação e tempo de execução</h1>
+            </header>
+
+            <article>
+                <p>As propriedades e variáveis definidas fora do escopo de definição 
+                de tasks e procedures são executadas (interpretadas) durante a 
+                interpretação o script. Já tudo que está dentro das procedures e 
+                definições de tasks (incluíndo atribuições a variáveis) é executado 
+                em tempo de execução. Isto é, durante a execução do bloco de definição 
+                de task ou procedure.</p>
+
+                <p>Para utilizar ifs fora dos blocos de definição de tarefas e procedures, 
+                é necessário utilizar a diretiva if que deve ser utilizada em 
+                maiuscula: IF, ENDIF. Ifs (em minusculo) são instruções executadas em tempo de 
+                execução e o que está fora dos blocos de definição de tarefas e 
+                procedures é executado em tempo de interpretação.</p>
+
+                <p>Veja os exemplos abaixo:</p>
+
+<pre class="line-numbers"><code>IF os != "windows"
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>
+
+                    <p>O código acima executa (em tempo de interpretação) uma diretiva 
+                    IF que verifica se o sistema operacional é diferente de "windows" e, 
+                    se for, seta o valor da propriedade "test.linker.params". Agora veja 
+                    o exemplo abaixo:</p>
+
+<pre class="line-numbers"><code>if os != "windows" then
+    test.linker.params=-ldl -rdynamic
+ENDIF
+</code></pre>
+
+                    <p>O exemplo acima gera um erro. Isso porque as propriedades são 
+                    executadas (interpretadas e carregadas) em tempo de interpretação e 
+                    o if é executado em tempo de execução. Isto é, o if, neste caso, só 
+                    é executado após todas as tarefas, onde, os comandos definidos no 
+                    script fora de qualquer bloco de definição de tarefas ou procedure são 
+                    executados. Para o exemplo acima funcionar, é necessário utilizar 
+                    diretivas IF ao invés de comandos if.</p>
+                </section>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Proxima aula</h3>
+                </header>
+
+                <p>A próxima aula ensina sobre diretivas if.</p>
+            </article>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="ifs.html">
+                    Voltar
+                </button>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="tests.html">
+                    Avançar
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="/lib/prism/prism.js"></script>
+</body>
+
+</html>
