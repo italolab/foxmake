@@ -2,11 +2,11 @@
 #define CMD_EXEC_H
 
 #include "../../darv/CMD.h"
-#include "../cp/CPExec.h"
-#include "../rm/RMExec.h"
-#include "../cd/CDExec.h"
-#include "../mkdir/MKDirExec.h"
-#include "../echo/EchoExec.h"
+#include "cp/CPExec.h"
+#include "rm/RMExec.h"
+#include "cd/CDExec.h"
+#include "mkdir/MKDirExec.h"
+#include "echo/EchoExec.h"
 
 #include <string>
 

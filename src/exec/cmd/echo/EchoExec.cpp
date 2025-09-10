@@ -1,8 +1,8 @@
 
 #include "EchoExec.h"
-#include "../ExecManager.h"
-#include "../../output/output.h"
-#include "../../util/strutil.h"
+#include "../../ExecManager.h"
+#include "../../../output/output.h"
+#include "../../../util/strutil.h"
 
 #include <iostream>
 

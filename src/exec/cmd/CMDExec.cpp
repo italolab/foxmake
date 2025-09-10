@@ -28,15 +28,15 @@ CMDExec::~CMDExec() {
 void CMDExec::exec( CMD* cmd, void* mgr ) {
     string cmdName = cmd->getName();
     if ( cmdName == "cd" ) {
-        cdExec->exec( cmd, this );
+        cdExec->exec( cmd, mgr );
     } else if ( cmdName == "cp" ) {
-        cpExec->exec( cmd, this );
+        cpExec->exec( cmd, mgr );
     } else if ( cmdName == "rm" ) {
-        rmExec->exec( cmd, this );
+        rmExec->exec( cmd, mgr );
     } else if ( cmdName == "echo" ) {
-        echoExec->exec( cmd, this );
+        echoExec->exec( cmd, mgr );
     } else if ( cmdName == "mkdir" ) {
-        mkdirExec->exec( cmd, this );
+        mkdirExec->exec( cmd, mgr );
     } else {
         messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
         b << cmd->getName();
