@@ -1,5 +1,6 @@
 
 $version=1.0
+$arch=x64
 
 IF os == "windows"
     $so=windows
@@ -19,7 +20,7 @@ ENDIF
 
 src.dir=src
 test.dir=test
-build.dir=build/cbuild-$(version)-$(so)-x64
+build.dir=build/cbuild-$(version)-$(so)-$(arch)
 
 build.files=
 
@@ -56,7 +57,7 @@ task compile noverbose;
 proc archive_and_copy_cbtest
     echo
     rm -r include/*.h
-    rm lib/libcbtest.a
+    rm lib/$(so)/libcbtest.a
     
     IF os == "windows"
         @.\cbuild.exe archivebuildall --script=../cbtest/CBuildFile-StaticLib
@@ -68,7 +69,12 @@ proc archive_and_copy_cbtest
     mkdir -p lib/$(so)
 
     cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/libcbtest.a lib/$(so)
+    if os == "windows" then
+        cp ../cbtest/build/cbtest-$(version)-$(so)-$(arch)/libcbtest.a lib/$(so)
+    else
+        cp ../cbtest/build/libcbtest.a lib/$(so)
+    endif
+
     echo
 endproc
 

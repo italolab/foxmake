@@ -34,7 +34,7 @@ echo.
 echo Compilando...
 echo.
 
-.\cbuild.exe build --script=CBuildFile -var target=release
+.\cbuild.exe buildall --script=CBuildFile -var target=release
 
 rem COPIANDO HEADERS PARA PASTA INCLUDE
 
