@@ -69,12 +69,8 @@ proc archive_and_copy_cbtest
     mkdir -p lib/$(so)
 
     cp -r ../cbtest/src/**/*.h include
-    if os == "windows" then
-        cp ../cbtest/build/cbtest-$(version)-$(so)-$(arch)/libcbtest.a lib/$(so)
-    else
-        cp ../cbtest/build/libcbtest.a lib/$(so)
-    endif
-
+    cp ../cbtest/build/cbtest-$(version)-$(so)-$(arch)/libcbtest.a lib/$(so)
+    
     echo
 endproc
 

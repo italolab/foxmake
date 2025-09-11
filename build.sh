@@ -51,7 +51,7 @@ echo
 
 # COMPILANDO...
 
-./cbuild build --script=CBuildFile -var target=release
+./cbuild buildall --script=CBuildFile -var target=release
 
 # COPIANDO LIB E INCLUDE PASTAS PARA A PASTA DO APLICATIVO EM BUILD
 
