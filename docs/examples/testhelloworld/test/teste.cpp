@@ -1,4 +1,4 @@
-#include <test/cbtest.h>
+#include <cbtest/cbtest.h>
 
 TEST_CASE( primeiroTeste, Testes ) {
     int a = 1;

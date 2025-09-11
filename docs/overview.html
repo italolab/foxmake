@@ -12,15 +12,15 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="/cbuild/lib/fontawesome/all.min.css" rel="stylesheet">
-    <link href="/cbuild/lib/prism/prism.css" rel="stylesheet">
-    <link href="/cbuild/style/style.css" rel="stylesheet">
+    <link href="lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="lib/prism/prism.css" rel="stylesheet">
+    <link href="style/style.css" rel="stylesheet">
     
     <title>Visão Geral - CBuild - Página oficial</title>
 
-    <script src="/cbuild/lib/jquery-3.7.1.min.js"></script>    
-    <script src="/cbuild/lib/fontawesome/all.min.js"></script>
-    <script src="/cbuild/js/main.js"></script>
+    <script src="lib/jquery-3.7.1.min.js"></script>    
+    <script src="lib/fontawesome/all.min.js"></script>
+    <script src="js/main.js"></script>
 </head>
 
 <body>
@@ -249,7 +249,7 @@ de comentário
                     <ul>
                         <li><b>build</b>: clean, compile, link, copy</li>
                         <li><b>archivebuild</b>: clean, compile, archive, copy</li>
-                        <li><b>testbuild</b>: clean, compile, link, test, copy</li>
+                        <li><b>testbuild</b>: clean, compile, link, copy, test</li>
                         <li><b>buildall</b>: clean, compileall, link, copy</li>
                         <li><b>archivebuildall</b>: clean, compileall, archive, copy</li>
                         <li><b>testbuildall</b>: clean, compileall, link, test, copy</li>
@@ -425,7 +425,7 @@ out.implib.file=libcbtest.a
                     <li><b>os</b>: Assume um valor correspondente ao sistema operacional. 
                         Isto é, se é windows ou não.<br />
                         
-                        A variável "so" pode assumir dois valores: <b>"windows"</b> ou <b>"nowindows"</b>.
+                        A variável "os" pode assumir dois valores: <b>"windows"</b> ou <b>"nowindows"</b>.
                     </li>
                 </ul>
 
@@ -453,7 +453,7 @@ bin.dir=bin/$($(target)_bin_dir)
 
 <pre class="line-numbers"><code>echo $working_dir
 echo $script_file
-echo $so
+echo $os
 </code></pre>
 
                 <p>O exemplo acima imprime os valores das variáveis predefinidas.</p>
@@ -1030,7 +1030,7 @@ ENDIF
 
                 <p>Veja um exemplo de teste, supondo a criação do arquivo "test/main.cpp"</p>
 
-<pre class="line-numbers"><code class="language-cpp">#include &lt;test/cbtest.h&gt;
+<pre class="line-numbers"><code class="language-cpp">#include &lt;cbtest/cbtest.h&gt;
 
 TEST_CASE( primeiroTeste, Testes ) {
     int a = 1;
@@ -1055,7 +1055,7 @@ int main() {
                 <p>A saída do comando deve ser a seguinte: </p>
 
                 <figure>
-                    <img src="/images/testhelloworld-output.png" />
+                    <img src="images/testhelloworld-output.png" />
                 </figure>
             </article>
 
@@ -1064,7 +1064,7 @@ int main() {
                 
                 <p>E assim chegamos ao final da visão geral sobre o cbuild.</p>
 
-                <p>Para exemplos de uso, acesse: <a href="get-started.html">Get Started</a>.</p>
+                <p>Para exemplos de uso, acesse: <a href="get-started/index.html">Get Started</a>.</p>
             </section>
         </section>
     </main>
@@ -1075,7 +1075,7 @@ int main() {
     </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="/lib/prism/prism.js"></script>
+    <script src="lib/prism/prism.js"></script>
 </body>
 
 </html>

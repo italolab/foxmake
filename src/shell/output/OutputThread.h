@@ -22,6 +22,7 @@ class OutputThread {
 
     private:
         string name;
+        string cmdstr;
         std::thread* thread;
         bool finishFlag;
 
@@ -31,7 +32,7 @@ class OutputThread {
         std::mutex mtx;
 
     public:
-        OutputThread( string name );
+        OutputThread( string name, string cmdstr );
 
         void run( FILE* pipe );
         void finish();
@@ -39,6 +40,7 @@ class OutputThread {
         string nextOutput();
 
         string getName();
+        string getCMDStr();
         bool isFinished();
 
 };

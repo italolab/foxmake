@@ -69,12 +69,16 @@ proc archive_and_copy_cbtest
     mkdir -p lib/$(so)
 
     cp -r ../cbtest/src/**/*.h include
+<<<<<<< HEAD
     if os == "windows" then
         cp ../cbtest/build/cbtest-$(version)-$(so)-$(arch)/libcbtest.a lib/$(so)
     else
         cp ../cbtest/build/libcbtest.a lib/$(so)
     endif
 
+=======
+    cp ../cbtest/build/cbtest-$(version)-$(so)-$(arch)/libcbtest.a lib/$(so)
+>>>>>>> 56a129944399025263be46fc24dfd2676bb254a0
     echo
 endproc
 
@@ -87,5 +91,5 @@ task compile before
 endtask
 
 task finish after    
-    #@./build/cbuild testbuild --script=run/CBuildFile-Run
+
 endtask

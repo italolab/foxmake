@@ -76,23 +76,20 @@ void runOutputControllerThread( OutputController* outputController ) {
 
 int Shell::execute() {
     vector<ThreadPipe*> threadPipes;
-    OutputController* outputController = new OutputController( out, showOutputFlag );
+    OutputController* outputController = new OutputController( out, verboseFlag, showOutputFlag );
 
     int threadNumber = 1;
     for( string command : commands ) {
-        if ( verboseFlag ) {
-            string cmdstr = command;
-            size_t i = cmdstr.find( '\n' );
-            if ( i != string::npos )
-                cmdstr = cmdstr.substr( 0, i ) + "...";
-                
-            *out << cmdstr << endl;
-        }
+        string cmdstr = command;
+        size_t i = cmdstr.find( '\n' );
+        if ( i != string::npos )
+            cmdstr = cmdstr.substr( 0, i ) + "...";   
 
         stringstream ss;
         ss << "Thread #" << threadNumber;
+        string threadName = ss.str();
 
-        OutputThread* outputThread = new OutputThread( ss.str() );
+        OutputThread* outputThread = new OutputThread( threadName, cmdstr );
 
         ThreadPipe* tpipe = new ThreadPipe;
         tpipe->thread = new std::thread( runCMDThread, command, tpipe, outputThread );

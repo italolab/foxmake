@@ -89,10 +89,10 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
         compileTaskExec->exec( mgr );
     if ( isLink || isArchive )
         linkOrArchiveTaskExec->exec( mgr );
-    if ( isTest )
-        testTaskExec->exec( mgr );
     if ( isCopy )
         copyTaskExec->exec( mgr );
+    if ( isTest )
+        testTaskExec->exec( mgr );
     
     manager->executeUserTaskIfExists( tasks::BUILD, TaskExecution::AFTER );
     manager->executeUserTaskIfExists( tasks::BUILDALL, TaskExecution::AFTER );
