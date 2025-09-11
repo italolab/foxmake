@@ -21,6 +21,10 @@ a {
     text-decoration: none;
 }
 
+figure {
+    overflow: auto;
+}
+
 main {
     width: 100%;
     padding: 1em 3em;
