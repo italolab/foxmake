@@ -82,5 +82,5 @@ task compile before
 endtask
 
 task finish after    
-    #@./build/cbuild testbuild --script=run/CBuildFile-Run
+
 endtask
