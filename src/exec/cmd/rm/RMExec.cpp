@@ -41,37 +41,41 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
 
     FileFilter* filter = io::by_name_file_filter( fileName );
 
-    int count;
+    int count = 0;
 
-    if ( isRecursive ) {
-        try {            
-            size_t i = fileName.find( '*' );
-            if ( i != string::npos ) {                
-                string dir = io::path::dirPath( file );
-                count = io::deleteFiles( dir, filter, isRecursive );         
-            } else {
-                count = io::deleteFileOrDir( file, isRecursive );
-            }
-        } catch ( const io_error& e ) {
-            messagebuilder b( errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED );
-            b << file;
-            throw st_error( cmd, b.str() );
-        }
-    } else {
-        try {
+    try {            
+        size_t i = fileName.find( '*' );
+        if ( i != string::npos ) {                
             string dir = io::path::dirPath( file );
+            if ( io::fileExists( dir ) ) {
+                if ( isRecursive ) {
+                    count = io::deleteFiles( dir, filter, isRecursive );         
+                } else {
+                    if ( io::hasNoEmptyDir( dir, filter, isRecursive ) )
+                        throw st_error( cmd, errors::TRY_DELETE_NO_RECURSIVE_NO_EMPTH_DIR );                        
 
-            if ( io::hasNoEmptyDir( dir, filter, isRecursive ) )
-                throw st_error( cmd, errors::TRY_DELETE_NO_RECURSIVE_NO_EMPTH_DIR );                        
-
-            count = io::deleteFiles( dir, filter, isRecursive );                        
-        } catch ( const io_error& e ) {
-            out << e.what() << endl;
-            messagebuilder b( errors::FILE_OR_FOLDER_NOT_DELETED );
-            b << file;
-            throw st_error( cmd, b.str() );
+                    count = io::deleteFiles( dir, filter, isRecursive ); 
+                }
+            } else {
+                messagebuilder b( errors::FILE_OR_FOLDER_NOT_FOUND );
+                b << dir;
+                out << output::red( b.str() ) << endl;
+            }
+        } else {
+            if ( io::fileExists( file ) ) {   
+                count = io::deleteFileOrDir( file, isRecursive );
+            } else {
+                messagebuilder b( errors::FILE_OR_FOLDER_NOT_FOUND );
+                b << file;
+                out << output::red( b.str() ) << endl;
+            }
         }
-    }
+    } catch ( const io_error& e ) {
+        out << e.what() << endl;
+        messagebuilder b( isRecursive ? errors::RECURSIVE_FILE_OR_FOLDER_NOT_DELETED : errors::FILE_OR_FOLDER_NOT_DELETED );
+        b << file;
+        throw st_error( cmd, b.str() );
+    }       
 
     if ( isVerbose ) {
         messagebuilder b2( infos::FILES_AND_FOLDERS_DELETED );

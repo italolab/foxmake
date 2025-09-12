@@ -118,8 +118,6 @@ task finish after
     cp -r ../../cbtest/src/**/*.h build/include
     cp -r ../../cbtest/src/**/*.h build/include
 
-    rm xxx/*
-
     rm $(build.dir)/objects/io.o
     rm $(build.dir)/ma*n.*
     rm $(build.dir)/lib*.*

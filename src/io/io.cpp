@@ -90,10 +90,10 @@ namespace io {
                 if ( isRecursive ) {
                     return recursiveDeleteDir( p );
                 } else {
-                    if ( !isDir( p ) || !isEmptyDir( p ) )
-                        throw io_error( errors::io::FOLDER_NOT_EMPTY );
+                    if ( hasNoEmptyDir( p, by_name_file_filter( "*" ), false ) )
+                        throw io_error( errors::io::FOLDER_WITH_NOT_EMPTY_FOLDER );
 
-                    bool removed = filesystem::remove( p );
+                    bool removed = filesystem::remove_all( p );
                     return ( removed ? 1 : 0 );                    
                 }
             } else {                

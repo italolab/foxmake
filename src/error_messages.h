@@ -112,6 +112,8 @@ namespace io {
     const string IS_NOT_A_DIR = "Não é um diretório.";
     const string FOLDER_NOT_EMPTY = "Pasta não vazia.";
 
+    const string FOLDER_WITH_NOT_EMPTY_FOLDER = "A pasta contém pasta(s) não vazia(s).";
+
     const string SRC_DIR_NOT_FOUND = "O diretório de origem não existe.";
     const string TARGET_DIR_NOT_FOUND = "O diretório alvo não existe.";
 
@@ -120,6 +122,7 @@ namespace io {
 
     const string SRC_IS_NOT_A_DIR = "A origem não é um diretório.";
     const string TARGET_IS_NOT_A_DIR = "O alvo não é um diretório.";
+
 }
 
 namespace runtime {
