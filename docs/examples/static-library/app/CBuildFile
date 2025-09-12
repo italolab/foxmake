@@ -1,0 +1,9 @@
+output.file.name=app
+
+build.files=libmath.a
+
+linker.params=-ldl -rdynamic
+
+lib.dirs=.
+include.dirs=include
+libs=math

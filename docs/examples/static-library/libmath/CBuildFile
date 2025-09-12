@@ -1,0 +1,4 @@
+
+output.file.name=libmath.a
+
+linker.params=-static

@@ -34,6 +34,229 @@
                 <h1 class="text-center">Criando uma dynamic library</h1>
             </header>
 
+            <p>Uma dynamic library pode ser carregada no momento da execução do 
+            executável, isto é, dinamicamente. Diferente das static libraries, cujo 
+            código objeto é adicionado ao executável no momento da linkagem.</p>
+
+            <article>
+                <p>Vamos a um exemplo prático:</p>
+
+                <ol>
+                    <li>Crie dois projetos: libmath e app. (Você pode dar os nomes que quiser).</li>
+                    <li>Agora, <b>vá para o projeto libmath</b>, crie o arquivo "libmath.h" com o seguinte 
+                        conteúdo: <br /><br />
+
+                        Se estiver no linux, faça assim: <br /><br />
+
+                        <b><i>libmath.h</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#ifndef LIBMATH_H
+#define LIBMATH_H
+
+namespace libmath {
+
+    int fatorial( int n );
+
+}
+
+#endif
+</code></pre>
+
+                        <br />
+                        Se estiver no windows, faça assim: <br /><br />
+
+                        <b><i>libmath.h</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#ifndef LIBMATH_H
+#define LIBMATH_H
+
+#ifdef BUILDING_DLL
+    #define LIBMATH_API __declspec(dllexport)
+#else
+    #define LIBMATH_API __declspec(dllimport)
+#endif
+
+namespace libmath {
+
+    LIBMATH_API int fatorial( int n );
+
+}
+
+#endif
+</code></pre>                        
+                    </li>
+
+                    <li>Agora crie o arquivo "libmath.cpp" com o seguinte conteúdo: <br /><br />
+                        
+                        Se estiver no linux, faça assim: <br /><br />
+                        <b><i>libmath.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include "libmath.h"
+
+namespace libmath {
+
+    int fatorial( int n ) {
+        if ( n &lt;= 1 )
+            return 1;
+        return n * fatorial( n-1 );
+    }
+
+}
+</code></pre>               
+                        <br />
+                        Se estiver no windows, faça assim: <br /><br />         
+                        <b><i>libmath.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include "libmath.h"
+
+namespace libmath {
+
+    LIBMATH_API int fatorial( int n ) {
+        if ( n &lt;= 1 )
+            return 1;
+        return n * fatorial( n-1 );
+    }
+
+}
+</code></pre>          
+                    </li>
+                    <li>Agora crie o arquivo CBuildFile com o seguinte conteúdo: <br /><br />
+                        
+                        Se estiver no linux, crie assim:<br /><br />
+                        <b><i>CBuildFile</i></b><br />
+<pre class="line-numbers"><code>output.file.name=libmath.so
+
+linker.params=-fPIC
+</code></pre>         
+                        <p>No linux é necessário passar o parâmetro -fPIC para o compilador 
+                        para criar uma shared library .so.</p>
+
+                        <br />
+                        Se estiver no windows, crie assim:<br /><br />
+
+                        <b><i>CBuildFile</i></b><br />
+<pre class="line-numbers"><code>output.file.name=libmath.so
+
+defines=BUILDING_DLL
+</code></pre>       
+                        <p>O "defines=BUILDING_DLL" é necessário porque no código, há 
+                        algo como:</p>
+                        
+<pre class="line-numbers"><code class="language-cpp">#ifdef BULDING_DLL
+</code></pre>
+
+                        <p>Após tudo isso, seu projeto deve ter agora a seguinte estrutura: </p>
+<pre>
+libmath
+├── CBuildFile
+├── libmath.cpp
+└── libmath.h
+</pre>
+                    </li>
+                    <li>Feito isto, pode executar o seguinte comando, estando na raiz 
+                        do projeto:<br />
+<pre><code>cbuild buildall</code></pre>
+
+                        <p>Com o comando acima, o cbuild entende que deve gerar uma dynamic library 
+                        tipo .dll, ao invés de um executável, por causa da extensão do arquivo 
+                        de saída "libestruturas.dll".</p>
+                        
+                        <p>Agora, deve ter sido criado na pasta "build" o arquivo libmath.so, ou 
+                            libmath.dll, se estiver no windows.</p>
+                    </li>
+                    <li>Agora <b>vá para o projeto app</b> e copie o arquivo "libmath.so" 
+                        (ou "libmath.dll") para a raiz do projeto.</li>
+
+                    <li>Na raiz do seu projeto, crie uma pasta chamada "include" e copie para 
+                        ela o header "libmath.h" do projeto "libmath".</li>
+
+                    <li>Depois, crie o arquivo "main.cpp" com o seguinte conteúdo: <br /><br />
+
+                        <b><i>main.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include &lt;libmath.h&gt;
+
+#include &lt;iostream&gt;
+
+using namespace std;
+
+
+int main() {
+    int num;
+    cout &lt;&lt; "Informe um numero: " &lt;&lt; std::flush;
+    cin >> num;
+
+    int fat = libmath::fatorial( num );
+
+    cout &lt;&lt; endl;
+    cout &lt;&lt; "O fatorial de " &lt;&lt; num &lt;&lt; " eh: " &lt;&lt; fat &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+                    </li>
+                    <li>Agora crie o CBuildFile para este projeto com o seguinte conteúdo: <br />
+                        Se estiver no linux, crie assim: <br /><br />
+                        <b><i>CBuildFile</i></b><br />
+<pre class="line-numbers"><code>output.file.name=app
+
+build.files=libmath.so
+
+lib.dirs=.
+include.dirs=include
+libs=math
+</code></pre>
+
+                        Se estiver no windows, crie assim:
+<b><i>CBuildFile</i></b><br />
+<pre class="line-numbers"><code>output.file.name=app.exe
+
+build.files=libmath.dll
+
+lib.dirs=.
+include.dirs=include
+libs=math
+</code></pre>
+                        <p>A propriedade "build.files" serve apenas para copiar a lib libmath.dll 
+                        para pasta "build"</p>
+
+                        <p>Agora seu projeto deve ter a seguinte estrutura de arquivos: </p>
+<pre>
+app
+├── CBuildFile
+├── include
+│   └── libmath.h
+├── libmath.so
+└── main.cpp
+</pre>
+                    </li>
+                    <li>Feito isso, pode executar o seguinte comando: <br />
+<pre><code>cbuild buildall</code></pre>
+                    </li>
+                    <li>Agora navegue até a pasta build e execute o executável de nome 
+                        "app", conforme a seguir: <br />
+<pre><code>cd build
+export LD_LIBRARY_PATH=.
+./app
+</code></pre>
+                        <p>o "export LD_LIBRARY_PATH=." serve para a lib "libmath.a" ser 
+                            encontrada. Isto é, ela está no diretório corrente: ".".</p>
+
+                        <p>Agora você pode interagir com o programa conforme a seguir: </p>
+
+                        <figure>
+                            <img src="../images/libraries-app-output.png" />
+                        </figure>
+                    </li>
+                </ol>
+            </article>
+
+
+
+
+
+
+
+
+            <header>
+                <h1 class="text-center">Criando uma dynamic library</h1>
+            </header>
+
             <article id="dynamic-library">   
                 <p>Uma dynamic library pode ser carregada no momento da execução do 
                 executável, isto é, dinamicamente. Diferente das static libraries, cujo 

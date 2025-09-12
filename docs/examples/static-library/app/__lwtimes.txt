@@ -1,0 +1,2 @@
+/home/italo/workspace-cpp/cbuild/docs/examples/static-library/app/include/libmath.h=1757699732
+/home/italo/workspace-cpp/cbuild/docs/examples/static-library/app/main.cpp=1757699835

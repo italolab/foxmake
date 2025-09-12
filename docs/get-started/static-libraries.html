@@ -40,20 +40,146 @@
 
             <article id="static-library">
                 <p>Para criar uma static library, deve ser utilizado o archiver, ao 
-                invés do compilador gcc/g++. Você pode configurar o CBuildFile conforme 
-                a seguir:</p>
+                invés do compilador gcc/g++.</p>
 
-<pre class="line-numbers"><code>output.file.name=libcbtest.a
+                <p>Vamos a um exemplo prático:</p>
+
+                <ol>
+                    <li>Crie dois projetos: libmath e app. (Você pode dar os nomes que quiser).</li>
+                    <li>Agora, <b>vá para o projeto libmath</b>, crie o arquivo "libmath.h" com o seguinte 
+                        conteúdo: <br /><br />
+
+                        <b><i>libmath.h</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#ifndef LIBMATH_H
+#define LIBMATH_H
+
+namespace libmath {
+
+    int fatorial( int n );
+
+}
+
+#endif
 </code></pre>
-                <p>O CBuidFile acima especifica o arquivo de saída que, no caso de 
-                static libraries, deve começar com "lib" e ter extensão ".a" ou, no 
-                windows, pode ter extensão ".lib" ou ".a".</p>
+                    </li>
 
-                <p>Para gerar a static library, execute o seguinte comando: </p>
+                    <li>Agora crie o arquivo "libmath.cpp" com o seguinte conteúdo: <br /><br />
+                        
+                        <b><i>libmath.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include "libmath.h"
 
+namespace libmath {
+
+    int fatorial( int n ) {
+        if ( n &lt;= 1 )
+            return 1;
+        return n * fatorial( n-1 );
+    }
+
+}
+</code></pre>                        
+                    </li>
+                    <li>Agora crie o arquivo CBuildFile com o seguinte conteúdo: <br /><br />
+                        
+                        <b><i>CBuildFile</i></b><br />
+<pre class="line-numbers"><code>output.file.name=libmath.a
+
+linker.params=-static
+</code></pre>         
+                        <p>O CBuidFile acima especifica o arquivo de saída que, no caso de 
+                        static libraries, deve começar com "lib" e ter extensão ".a" ou, no 
+                        windows, pode ter extensão ".lib" ou ".a". A opção -static é necessária 
+                        para o linker gerar a biblioteca estática.</p>
+
+                        <p>Seu projeto deve ter agora a seguinte estrutura de arquivos: </p>
+<pre>
+libmath
+├── CBuildFile
+├── libmath.cpp
+└── libmath.h 
+</pre>                        
+                    </li>
+                    <li>Feito isto, pode executar o seguinte comando, estando na raiz 
+                        do projeto:<br />
 <pre><code>cbuild archivebuildall</code></pre>
 
-                <p>Esse comando compila todos os arquivos e empacota numa static library.</p>
+                        <p>Esse comando compila todos os arquivos e empacota numa static library.</p>
+                        <p>Agora, deve ter sido criado na pasta "build" o arquivo libmath.a</p>
+                    </li>
+                    <li>Agora <b>vá para o projeto app</b> e copie o arquivo libmath.a para a raiz 
+                        do projeto.</li>
+
+                    <li>Crie também uma pasta chamada "include" e copie para ela o arquivo 
+                        "libmath.h" do projeto "libmath".</li>
+
+                    <li>Depois, crie o arquivo "main.cpp" com o seguinte conteúdo: <br /><br />
+
+                        <b><i>main.cpp</i></b><br />
+<pre class="line-numbers"><code class="language-cpp">#include &lt;libmath.h&gt;
+
+#include &lt;iostream&gt;
+
+using namespace std;
+
+
+int main() {
+    int num;
+    cout &lt;&lt; "Informe um numero: " &lt;&lt; std::flush;
+    cin >> num;
+
+    int fat = libmath::fatorial( num );
+
+    cout &lt;&lt; endl;
+    cout &lt;&lt; "O fatorial de " &lt;&lt; num &lt;&lt; " eh: " &lt;&lt; fat &lt;&lt; endl;
+
+    return 0;
+}
+</code></pre>
+                    </li>
+                    <li>Agora crie o CBuildFile para este projeto com o seguinte conteúdo: <br /><br />
+                        <b><i>CBuildFile</i></b><br />
+<pre class="line-numbers"><code>output.file.name=app
+
+build.files=libmath.a
+
+linker.params=-ldl -rdynamic
+
+lib.dirs=.
+include.dirs=include
+libs=math
+</code></pre>
+                        <p>As opções <b>-ldl e -rdynamic</b>, são necessárias para linkar bibliotecas 
+                        dinâmicas no linux. Se estiver no windows, pode excluir essa linha do 
+                        CBuildFile.</p>
+
+                        <p>A propriedade "build.files" serve apenas para copiar a lib "libmath.a" 
+                        para pasta "build", após o a linkagem do executável.</p>
+
+                        <p>Seu projeto deve ter agora a seguinte estrutura de arquivos: </p>
+<pre>
+app
+├── CBuildFile
+├── include
+│   └── libmath.h
+├── libmath.a
+└── main.cpp
+</pre>                  
+                    </li>
+                    <li>Feito isso, pode executar o seguinte comando: <br />
+<pre><code>cbuild buildall</code></pre>
+                    </li>
+                    <li>Agora navegue até a pasta build e execute o executável de nome 
+                        "app", conforme a seguir: <br />
+<pre><code>cd build
+./app
+</code></pre>
+                        <p>Você interagirá com o programa conforme a seguir: </p>
+
+                        <figure>
+                            <img src="../images/libraries-app-output.png" />
+                        </figure>
+                    </li>
+                </ol>
             </article>
 
             <section>

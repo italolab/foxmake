@@ -1,0 +1,7 @@
+output.file.name=app
+
+build.files=libmath.so
+
+lib.dirs=.
+include.dirs=include
+libs=math

@@ -1,0 +1,4 @@
+
+output.file.name=libmath.so
+
+linker.params=-fPIC
