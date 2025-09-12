@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - get started">
+    <meta name="description" content="Página oficial do cbuild - cifrão como caractere">
     <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Get Started - CBuild - Página oficial</title>
+    <title>Cifrão como caracterr - cbuild - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,29 +31,41 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Get Started</h1>
+                <h1 class="text-center">Utilizando $ como caractere</h1>
             </header>
-            <section>
-                <p>Abaixo estão os links das páginas do tutorial: </p>
 
-                <ul>
-                    <li><a href="first-example.html">Primeiro exemplo.</a></li>
-                    <li><a href="src-and-bin-folders.html">As pastas src e bin.</a></li>
-                    <li><a href="arguments.html">Argumentos para o cbuild.</a></li>
-                    <li><a href="comments.html">Comentários.</a></li>
-                    <li><a href="default-tasks.html">Tarefas default.</a></li>
-                    <li><a href="props-and-vars.html">Propriedades e variáveis.</a></li>
-                    <li><a href="dollar-char.html">$ como caractere.</a></li>
-                    <li><a href="tasks.html">Tarefas.</a></li>
-                    <li><a href="procedures.html">Procedimentos</a></li>
-                    <li><a href="commands.html">Comandos</a></li>                                        
-                    <li><a href="shell-commands.html">Executando comandos do shell</a></li>
-                    <li><a href="if-directive.html">Diretivas IF</a></li>
-                    <li><a href="if-statement.html">Instrução IF</a></li>
-                    <li><a href="execution-time.html">Tempo de execução e de interpretação</a></li>
-                    <li><a href="tests.html">Testes com cbtest</a></li>
-                </ul>
-            </section>
+            <article>
+                <p>Se precisar utilizar o caractere $ como texto nas definições de 
+                propriedades ou variáveis, é necessário utilizar \$. o contra barra 
+                diz ao interpretador que o \$ é um caractere e não o início da chamada 
+                de uma variável ou propriedade. Exemplo: </p>
+
+<pre class="line-numbers"><code>linker.options=\$(sdl2-config --cflags --libs)</code></pre>
+
+                <p>O exemplo acima funciona no linux e executa "sdl2-config --cflags --libs" 
+                no shell do linux durante a execução da linkagem.</p>
+
+            </article>
+
+            <article>
+                <header>
+                    <h3>Proxima aula</h3>
+                </header>
+
+                <p>A próxima aula ensina sobre definição de tarefas no CBuildFile.</p>
+            </article>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="props-and-vars.html">
+                    Anterior
+                </a>
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="tasks.html">
+                    Próxima
+                </a>            
+            </footer>
         </article>
     </main>
 </div>

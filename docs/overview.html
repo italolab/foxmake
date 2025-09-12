@@ -398,6 +398,23 @@ out.implib.file=libcbtest.a
 
             </article>
 
+            <article>
+                <header>
+                    <h3>Utilizando $ como caractere</h3>
+                </header>
+
+                <p>Se precisar utilizar o caractere $ como texto nas definições de 
+                propriedades ou variáveis, é necessário utilizar \$. o contra barra 
+                diz ao interpretador que o \$ é um caractere e não o início da chamada 
+                de uma variável ou propriedade. Exemplo: </p>
+
+<pre class="line-numbers"><code>linker.options=\$(sdl2-config --cflags --libs)</code></pre>
+
+                <p>O exemplo acima funciona no linux e executa "sdl2-config --cflags --libs" 
+                no shell do linux durante a execução da linkagem.</p>
+
+            </article>
+
             <article id="variables">
                 <header>
                     <h3>Variáveis</h3>
