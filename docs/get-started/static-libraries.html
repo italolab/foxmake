@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - static libraries - biblioteca estática">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="../lib/prism/prism.css" rel="stylesheet">
+    <link href="../style/style.css" rel="stylesheet">
+    
+    <title>Static Libraries - cbuild - Site oficial</title>
+
+    <script src="../lib/jquery-3.7.1.min.js"></script>    
+    <script src="../lib/fontawesome/all.min.js"></script>
+    <script src="../js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Criando uma static library</h1>
+            </header>
+
+            <p>Uma static library pode ter seu código objeto incluído diretamente no 
+            código objeto do seu arquivo executável linkado com a static library. Diferente 
+            das dlls, cujo código objeto é carregado dinamicamente.</p>
+
+            <article id="static-library">
+                <p>Para criar uma static library, deve ser utilizado o archiver, ao 
+                invés do compilador gcc/g++. Você pode configurar o CBuildFile conforme 
+                a seguir:</p>
+
+<pre class="line-numbers"><code>output.file.name=libcbtest.a
+</code></pre>
+                <p>O CBuidFile acima especifica o arquivo de saída que, no caso de 
+                static libraries, deve começar com "lib" e ter extensão ".a" ou, no 
+                windows, pode ter extensão ".lib" ou ".a".</p>
+
+                <p>Para gerar a static library, execute o seguinte comando: </p>
+
+<pre><code>cbuild archivebuildall</code></pre>
+
+                <p>Esse comando compila todos os arquivos e empacota numa static library.</p>
+            </article>
+
+            <section>
+                <h3>Próxima aula</h3>
+
+                <p>O próxima aula ensina como criar uma biblioteca dinâmica para linux ou 
+                windows.</p>
+            </section>
+
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="tests.html">
+                    Anterior
+                </a>      
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <a class="btn btn-dark" href="dynamic-libraries.html">
+                    Próxima
+                </a>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../lib/prism/prism.js"></script>
+</body>
+
+</html>

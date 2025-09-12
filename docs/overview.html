@@ -1076,6 +1076,101 @@ int main() {
                 </figure>
             </article>
 
+            <article id="static-library">
+                <header>
+                    <h3>Criando uma static library</h3>
+                </header>
+
+                <p>Uma static library pode ter seu código objeto incluído diretamente no 
+                código objeto do seu arquivo executável linkado com a static library. Diferente 
+                das dlls, cujo código objeto é carregado dinamicamente.</p>
+
+                <p>Para criar uma static library, deve ser utilizado o archiver, ao 
+                invés do compilador gcc/g++. Você pode configurar o CBuildFile conforme 
+                a seguir:</p>
+
+<pre class="line-numbers"><code>output.file.name=libcbtest.a
+</code></pre>
+                <p>O CBuidFile acima especifica o arquivo de saída que, no caso de 
+                static libraries, deve começar com "lib" e ter extensão ".a" ou, no 
+                windows, pode ter extensão ".lib" ou ".a".</p>
+
+                <p>Para gerar a static library, execute o seguinte comando: </p>
+
+<pre><code>cbuild archivebuildall</code></pre>
+
+                <p>Esse comando compila todos os arquivos e empacota numa static library.</p>
+            </article>
+
+            <article id="dynamic-library">
+                <header>
+                    <h3>Criando uma dynamic library</h3>
+                </header>
+
+                <p>Uma dynamic library pode ser carregada no momento da execução do 
+                executável, isto é, dinamicamente. Diferente das static libraries, cujo 
+                código objeto é adicionado ao executável no momento da linkagem.</p>
+
+                <br />
+                
+                <section>
+                    <h5>Dynamic Library para windows</h5>
+
+                    <p>Para gerar uma biblioteca dinâmica ou compartilhada (shared library) no 
+                    windows, você pode fazer conforme a seguir no CBuildFile:</p>
+
+<pre class="line-numbers"><code>output.file.name=libestruturas.dll
+
+defines=BUILDING_DLL
+</code></pre>
+
+                    <p>O exemplo acima gera uma biblioteca dinâmica com extensão .dll para 
+                    windows. Isto é, a biblioteca tem o nome libestruturas.dll e, essa dll 
+                    necessita da definição de uma constante macro de nome BUILDING_DLL. Isso 
+                    porque no código fonte tem algo como:</p>
+
+<pre class="line-numbers"><code class="language-cpp">#ifdef BUILDING_DLL
+    #define ESTRUTURA_API __declspec(dllexport)
+#else
+    #define ESTRUTURA_API __declspec(dllimport)
+#endif
+</code></pre>
+
+                    <p>Para gerar a biblioteca dinâmica, basta executar o seguinte comando: </p>
+
+<pre><code>cbuild buildall</code></pre>
+
+                    <p>Com o comando acima, o cbuild entende que deve gerar uma dynamic library 
+                    tipo .dll, ao invés de um executável, por causa da extensão do arquivo 
+                    de saída "libestruturas.dll".</p>
+                </section>
+
+                <br />
+
+                <section>
+                    <h5>Dynamic Library para linux</h5>
+
+                    <p>Para gerar uma biblioteca dinâmica para linux, você pode fazer o 
+                    CBuildFile conforme a seguir:</p>
+
+<pre class="line-numbers"><code>output.file.name=libestruturas.so
+
+compiler.params=-fPIC
+</code></pre>                
+
+                    <p>No linux é necessário passar o parâmetro -fPIC para o compilador 
+                    para criar uma shared library .so.</p>
+
+                    <p>Para gerar a shared library (dynamic library) basta executar o 
+                    comando a seguir: </p>
+
+<pre><code>cbuild buildall</code></pre>
+
+                    <p>O cbuild entende que deve gerar uma biblioteca dinâmica, ao invés 
+                    de um executável, pela extensão do .so do arquivo "libestruturas.so".</p>
+                </section>
+            </article>
+
             <section>
                 <h3>Finalizando...</h3>
                 

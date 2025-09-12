@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do cbuild - dynamic libraries - shared libraries - bibliotecas dinâmicas">
+    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="../lib/prism/prism.css" rel="stylesheet">
+    <link href="../style/style.css" rel="stylesheet">
+    
+    <title>Dynamic Libraries - cbuild - Site oficial</title>
+
+    <script src="../lib/jquery-3.7.1.min.js"></script>    
+    <script src="../lib/fontawesome/all.min.js"></script>
+    <script src="../js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Criando uma dynamic library</h1>
+            </header>
+
+            <article id="dynamic-library">   
+                <p>Uma dynamic library pode ser carregada no momento da execução do 
+                executável, isto é, dinamicamente. Diferente das static libraries, cujo 
+                código objeto é adicionado ao executável no momento da linkagem.</p>
+
+                <br />
+                
+                <section>
+                    <h5>Dynamic Library para windows</h5>
+
+                    <p>Para gerar uma biblioteca dinâmica ou compartilhada (shared library) no 
+                    windows, você pode fazer conforme a seguir no CBuildFile:</p>
+
+<pre class="line-numbers"><code>output.file.name=libestruturas.dll
+
+defines=BUILDING_DLL
+</code></pre>
+
+                    <p>O exemplo acima gera uma biblioteca dinâmica com extensão .dll para 
+                    windows. Isto é, a biblioteca tem o nome libestruturas.dll e, essa dll 
+                    necessita da definição de uma constante macro de nome BUILDING_DLL. Isso 
+                    porque no código fonte tem algo como:</p>
+
+<pre class="line-numbers"><code class="language-cpp">#ifdef BUILDING_DLL
+    #define ESTRUTURA_API __declspec(dllexport)
+#else
+    #define ESTRUTURA_API __declspec(dllimport)
+#endif
+</code></pre>
+
+                    <p>Para gerar a biblioteca dinâmica, basta executar o seguinte comando: </p>
+
+<pre><code>cbuild buildall</code></pre>
+
+                    <p>Com o comando acima, o cbuild entende que deve gerar uma dynamic library 
+                    tipo .dll, ao invés de um executável, por causa da extensão do arquivo 
+                    de saída "libestruturas.dll".</p>
+                </section>
+
+                <br />
+
+                <section>
+                    <h5>Dynamic Library para linux</h5>
+
+                    <p>Para gerar uma biblioteca dinâmica para linux, você pode fazer o 
+                    CBuildFile conforme a seguir:</p>
+
+<pre class="line-numbers"><code>output.file.name=libestruturas.so
+
+compiler.params=-fPIC
+</code></pre>                
+
+                    <p>No linux é necessário passar o parâmetro -fPIC para o compilador 
+                    para criar uma shared library .so.</p>
+
+                    <p>Para gerar a shared library (dynamic library) basta executar o 
+                    comando a seguir: </p>
+
+<pre><code>cbuild buildall</code></pre>
+
+                    <p>O cbuild entende que deve gerar uma biblioteca dinâmica, ao invés 
+                    de um executável, pela extensão do .so do arquivo "libestruturas.so".</p>
+                </section>
+            </article>
+
+            <article>
+                <header>
+                    <h3>Finalizando</h3>
+                </header>
+
+                <p>Esta é a última aula sobre o cbuild. Espero que tenha gostado 
+                do conteúdo e, divirta-se, automatizando o build de seus projetos 
+                em C/C++ com o cbuild.</p>
+            </article>
+            
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="static-libraries.html">
+                    Anterior
+                </a>      
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <span></span>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../lib/prism/prism.js"></script>
+</body>
+
+</html>
