@@ -1,5 +1,5 @@
-#ifndef DYNAMIC_LIBRARY_LINKER_H
-#define DYNAMIC_LIBRARY_LINKER_H
+#ifndef SHARED_LIBRARY_LINKER_H
+#define SHARED_LIBRARY_LINKER_H
 
 #include <string>
 #include <vector>
@@ -7,7 +7,7 @@
 using std::string; 
 using std::vector;
 
-class DynamicLibraryLinker {
+class SharedLibraryLinker {
 
     private:
         string compiler;
@@ -23,7 +23,7 @@ class DynamicLibraryLinker {
         string outImplibFile;
 
     public:
-        DynamicLibraryLinker();
+        SharedLibraryLinker();
 
         string buildCMDLine();
 

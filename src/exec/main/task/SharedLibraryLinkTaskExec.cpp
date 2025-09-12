@@ -1,8 +1,8 @@
 
-#include "DynamicLibraryLinkTaskExec.h"
+#include "SharedLibraryLinkTaskExec.h"
 #include "../../ExecManager.h"
 #include "../../stexcept.h"
-#include "../../../compiler/DynamicLibraryLinker.h"
+#include "../../../compiler/SharedLibraryLinker.h"
 #include "../../../darv/MainScript.h"
 #include "../../../shell/shell.h"
 #include "../../../io/io.h"
@@ -25,7 +25,7 @@ using std::vector;
 using std::stringstream;
 using std::endl;
 
-void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
+void SharedLibraryLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
@@ -68,7 +68,7 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     if ( objectCodeFiles.empty() ) {
         out << output::green( infos::NOTHING_TO_LINK ) << endl;
     } else {
-        DynamicLibraryLinker* linker = new DynamicLibraryLinker();
+        SharedLibraryLinker* linker = new SharedLibraryLinker();
         linker->setCompiler( compiler );
         linker->setLinkerParams( linkerParams );
         linker->setDefines( defines );

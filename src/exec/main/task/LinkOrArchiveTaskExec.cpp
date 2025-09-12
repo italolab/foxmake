@@ -13,13 +13,13 @@ using std::endl;
 LinkOrArchiveTaskExec::LinkOrArchiveTaskExec() {
     this->exeLinkTaskExec = new ExeLinkTaskExec();
     this->staticLibraryArchiveTaskExec = new ArchiveTaskExec();
-    this->dynamicLibraryLinkTaskExec = new DynamicLibraryLinkTaskExec();
+    this->sharedLibraryLinkTaskExec = new SharedLibraryLinkTaskExec();
 }
 
 LinkOrArchiveTaskExec::~LinkOrArchiveTaskExec() {
     delete exeLinkTaskExec;
     delete staticLibraryArchiveTaskExec;
-    delete dynamicLibraryLinkTaskExec;
+    delete sharedLibraryLinkTaskExec;
 }
 
 void LinkOrArchiveTaskExec::exec( void* mgr ) {
@@ -47,9 +47,9 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         manager->executeUserTaskIfExists( tasks::LINK, TaskExecution::BEFORE );
 
         if ( strutil::endsWith( outputFileName, ".dll" ) ) {
-            dynamicLibraryLinkTaskExec->exec( mgr );
+            sharedLibraryLinkTaskExec->exec( mgr );
         } else if ( strutil::endsWith( outputFileName, "so" ) ) {
-            dynamicLibraryLinkTaskExec->exec( mgr );
+            sharedLibraryLinkTaskExec->exec( mgr );
         } else {
             exeLinkTaskExec->exec( mgr );
         }

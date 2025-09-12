@@ -2,10 +2,10 @@
 compiler=g++
 
 IF os=="windows"
-	output.file.name=cexec.dll
+	output.file.name=cbuild.dll
 ENDIF
 IF os!="windows"
-	output.file.name=cexec.so
+	output.file.name=cbuild.so
 ENDIF
 
 debug.bin.dir=bin/Debug
