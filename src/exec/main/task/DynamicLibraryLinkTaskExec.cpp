@@ -68,7 +68,7 @@ void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     if ( objectCodeFiles.empty() ) {
         out << output::green( infos::NOTHING_TO_LINK ) << endl;
     } else {
-        SharedLibraryLinker* linker = new SharedLibraryLinker();
+        DynamicLibraryLinker* linker = new DynamicLibraryLinker();
         linker->setCompiler( compiler );
         linker->setLinkerParams( linkerParams );
         linker->setDefines( defines );
