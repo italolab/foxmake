@@ -108,6 +108,9 @@ namespace io {
     bool hasNoEmptyDir( string path, FileFilter* filter, bool isRecursive ) {
         string preferredDir = path::makePreferred( path );
 
+        if ( !fileExists( preferredDir ) )
+            throw io_error( errors::io::DIR_NOT_FOUND );
+
         if ( isRecursive ) {
             for( const auto& entry : filesystem::recursive_directory_iterator( preferredDir ) ) {
                 string file = entry.path().string();
