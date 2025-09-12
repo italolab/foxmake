@@ -1,8 +1,8 @@
 
-#include "SharedLibraryLinkTaskExec.h"
+#include "DynamicLibraryLinkTaskExec.h"
 #include "../../ExecManager.h"
 #include "../../stexcept.h"
-#include "../../../compiler/SharedLibraryLinker.h"
+#include "../../../compiler/DynamicLibraryLinker.h"
 #include "../../../darv/MainScript.h"
 #include "../../../shell/shell.h"
 #include "../../../io/io.h"
@@ -25,7 +25,7 @@ using std::vector;
 using std::stringstream;
 using std::endl;
 
-void SharedLibraryLinkTaskExec::exec( void* mgr ) {
+void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();

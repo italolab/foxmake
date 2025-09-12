@@ -1,5 +1,5 @@
 
-#include "SharedLibraryLinker.h"
+#include "DynamicLibraryLinker.h"
 #include "../util/strutil.h"
 
 #include <vector>
@@ -8,7 +8,7 @@
 using std::vector;
 using std::stringstream;
 
-SharedLibraryLinker::SharedLibraryLinker() {
+DynamicLibraryLinker::DynamicLibraryLinker() {
     this->compiler = "";
     this->linkerParams = "";
     this->defines = "";
@@ -20,7 +20,7 @@ SharedLibraryLinker::SharedLibraryLinker() {
     this->objectCodeFiles = new vector<string>(0);
 }
 
-string SharedLibraryLinker::buildCMDLine() {
+string DynamicLibraryLinker::buildCMDLine() {
     stringstream ss;
     ss << compiler;
 
@@ -29,6 +29,9 @@ string SharedLibraryLinker::buildCMDLine() {
         ss << " -Wl,--output-def=" << outputDefFile;
     if ( outImplibFile != "" )
         ss << " -Wl,--out-implib=" << outImplibFile;
+
+    if ( strutil::endsWith( outputFile, ".dll" ) )
+        ss << " -Wl,--dll";
 
     if ( defines != "" ) {
         vector<string> definesVect = strutil::splitWithDoubleQuotes( defines );
@@ -65,74 +68,74 @@ string SharedLibraryLinker::buildCMDLine() {
 }
 
 
-string SharedLibraryLinker::getCompiler() {
+string DynamicLibraryLinker::getCompiler() {
     return compiler;
 }
 
-string SharedLibraryLinker::getLinkerParams() {
+string DynamicLibraryLinker::getLinkerParams() {
     return linkerParams;
 }
 
-string SharedLibraryLinker::getDefines() {
+string DynamicLibraryLinker::getDefines() {
     return defines;
 }
 
-string SharedLibraryLinker::getLibraryDirs() {
+string DynamicLibraryLinker::getLibraryDirs() {
     return libraryDirs;
 }
 
-string SharedLibraryLinker::getLibraries() {
+string DynamicLibraryLinker::getLibraries() {
     return libraries;
 }
 
-string SharedLibraryLinker::getOutputFile() {
+string DynamicLibraryLinker::getOutputFile() {
     return outputFile;
 }
 
-vector<string>& SharedLibraryLinker::getObjectCodeFiles() {
+vector<string>& DynamicLibraryLinker::getObjectCodeFiles() {
     return *objectCodeFiles;
 }
 
-string SharedLibraryLinker::getOutputDefFile() {
+string DynamicLibraryLinker::getOutputDefFile() {
     return outputDefFile;
 }
 
-string SharedLibraryLinker::getOutImplibFile() {
+string DynamicLibraryLinker::getOutImplibFile() {
     return outImplibFile;
 }
 
-void SharedLibraryLinker::setCompiler( string compiler ) {
+void DynamicLibraryLinker::setCompiler( string compiler ) {
     this->compiler = compiler;
 }
 
-void SharedLibraryLinker::setLinkerParams( string params ) {
+void DynamicLibraryLinker::setLinkerParams( string params ) {
     this->linkerParams = params;
 }
 
-void SharedLibraryLinker::setDefines( string defines ) {
+void DynamicLibraryLinker::setDefines( string defines ) {
     this->defines = defines;
 }
 
-void SharedLibraryLinker::setLibraryDirs( string dirs ) {
+void DynamicLibraryLinker::setLibraryDirs( string dirs ) {
     this->libraryDirs = dirs;
 }
 
-void SharedLibraryLinker::setLibraries( string libraries ) {
+void DynamicLibraryLinker::setLibraries( string libraries ) {
     this->libraries = libraries;
 }
 
-void SharedLibraryLinker::setOutputFile( string file ) {
+void DynamicLibraryLinker::setOutputFile( string file ) {
     this->outputFile = file;
 }
 
-void SharedLibraryLinker::setObjectCodeFiles( vector<string>& files ) {
+void DynamicLibraryLinker::setObjectCodeFiles( vector<string>& files ) {
     this->objectCodeFiles = &files;
 }
 
-void SharedLibraryLinker::setOutputDefFile( string file ) {
+void DynamicLibraryLinker::setOutputDefFile( string file ) {
     this->outputDefFile = file;
 }
 
-void SharedLibraryLinker::setOutImplibFile( string file ) {
+void DynamicLibraryLinker::setOutImplibFile( string file ) {
     this->outImplibFile = file;
 }

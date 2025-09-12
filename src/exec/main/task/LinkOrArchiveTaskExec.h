@@ -3,7 +3,7 @@
 
 #include "../TaskExec.h"
 #include "ExeLinkTaskExec.h"
-#include "SharedLibraryLinkTaskExec.h"
+#include "DynamicLibraryLinkTaskExec.h"
 #include "ArchiveTaskExec.h"
 
 class LinkOrArchiveTaskExec : public TaskExec {
@@ -11,7 +11,7 @@ class LinkOrArchiveTaskExec : public TaskExec {
     private:
         ExeLinkTaskExec* exeLinkTaskExec;
         ArchiveTaskExec* staticLibraryArchiveTaskExec;
-        SharedLibraryLinkTaskExec* sharedLibraryLinkTaskExec;
+        DynamicLibraryLinkTaskExec* dynamicLibraryLinkTaskExec;
 
     public:
         LinkOrArchiveTaskExec();
