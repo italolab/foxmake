@@ -110,6 +110,8 @@ namespace io {
 
         if ( !fileExists( preferredDir ) )
             throw io_error( errors::io::DIR_NOT_FOUND );
+        if ( !isDir( preferredDir ) )
+            throw io_error( errors::io::IS_NOT_A_DIR );
 
         if ( isRecursive ) {
             for( const auto& entry : filesystem::recursive_directory_iterator( preferredDir ) ) {
