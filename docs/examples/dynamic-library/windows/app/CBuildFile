@@ -1,0 +1,7 @@
+output.file.name=app.exe
+
+build.files=libmath.dll
+
+lib.dirs=.
+include.dirs=include
+libs=math

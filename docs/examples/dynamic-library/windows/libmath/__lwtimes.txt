@@ -1,0 +1,2 @@
+C:/Users/italo/workspace-cpp/cbuild/docs/examples/dynamic-library/windows/libmath/libmath.cpp=1757716834
+C:/Users/italo/workspace-cpp/cbuild/docs/examples/dynamic-library/windows/libmath/libmath.h=1757716815

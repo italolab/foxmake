@@ -1,0 +1,3 @@
+output.file.name=libmath.dll
+
+defines=BUILDING_DLL
