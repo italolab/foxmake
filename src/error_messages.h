@@ -30,7 +30,7 @@ namespace errors {
     const string FILE_OR_DIRECTORY_NOT_CREATED = "Não foi possível criar o diretório: \"$1\"";
     const string FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER = "não foi possível cópiar o arquivo ou pasta: \"$1\" para a pasta de build.";
     const string FILE_OR_FOLDER_NOT_FOUND = "Arquivo ou diretório não encontrado: \"$1\"";
-    const string FILE_OR_FOLDER_NOT_DELETED = "Arquivo ou pasta não deletado: \"$1\"\nSe o arquivo e um diretório, verifique se está vasio ou tente remover recursivamente.";
+    const string FILE_OR_FOLDER_NOT_DELETED = "Arquivo ou pasta não deletado: \"$1\"\nSe o arquivo é um diretório, verifique se está vasio ou tente remover recursivamente.";
     const string FILE_OR_FOLDER_DELETION_IS_NOT_POSSIBLE = "Não foi possível deletar o arquivo ou pasta: \"$1\"";
     const string RECURSIVE_FILE_OR_FOLDER_NOT_DELETED = "Arquivo ou pasta não deletado: \"$1\"";
     const string RESOURCE_FILE_NOT_EXISTS = "O arquivo de recursos de ícone: \"$1\" não foi encontrado.";
