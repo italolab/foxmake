@@ -59,7 +59,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
             } else {
                 messagebuilder b( errors::FILE_OR_FOLDER_NOT_FOUND );
                 b << dir;
-                out << output::red( b.str() ) << endl;
+                out << output::yellow( b.str() ) << endl;
             }
         } else {
             if ( io::fileExists( file ) ) {   
@@ -67,7 +67,7 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
             } else {
                 messagebuilder b( errors::FILE_OR_FOLDER_NOT_FOUND );
                 b << file;
-                out << output::red( b.str() ) << endl;
+                out << output::yellow( b.str() ) << endl;
             }
         }
     } catch ( const io_error& e ) {

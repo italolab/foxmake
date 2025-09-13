@@ -45,7 +45,7 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
             if ( !ok && isVerbose ) {
                 messagebuilder b( errors::FOLDER_ALREADY_EXISTS );
                 b << dir;
-                out << output::red( b.str() ) << endl;
+                out << output::yellow( b.str() ) << endl;
             }
         } catch ( const io_error& e ) {
             throw st_error( cmd, errors::DIRECTORY_NOT_CREATED_2 );

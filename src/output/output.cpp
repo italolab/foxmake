@@ -45,4 +45,10 @@ namespace output {
         return output;
     }
 
+    string yellow( string text ) {
+        string output = "\033[33m";
+        output += text;
+        output += "\033[0m";
+        return output;
+    }
 }

@@ -8,6 +8,7 @@ using std::string;
 
 namespace output {
 
+    string yellow( string text );
     string red( string text );
     string green( string text );
     string blue( string text );
