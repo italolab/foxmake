@@ -23,7 +23,7 @@ A tarefa "buildall" executa as quatro tarefas, substituíndo "compile" por "comp
 
 ## A interpretação do script
 
-O script a ser interpretado pelo foxmake com as propriedades, definições, configurações de tarefas, e comandos e tem, por padrão, o nome foxmakeFile. Ao encontrar esse arquivo o foxmake muda o diretório padrão (workingDir) para o diretório onde o arquivo de script está. Com exceção se a propriedade "--working-dir=path" for informada no comando conforme o exemplo abaixo ilustra:
+O script a ser interpretado pelo foxmake com as propriedades, definições, configurações de tarefas, e comandos e tem, por padrão, o nome FoxMakefile. Ao encontrar esse arquivo o foxmake muda o diretório padrão (workingDir) para o diretório onde o arquivo de script está. Com exceção se a propriedade "--working-dir=path" for informada no comando conforme o exemplo abaixo ilustra:
 
 ```
 foxmake buildall --working-dir=/home/joao/foxmake-workingdir

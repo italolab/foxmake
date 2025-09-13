@@ -71,17 +71,17 @@ task copy after
     @echo "abc"
     shellbegin
         IF os=="windows"
-            if exist foxmakeFile-Run (
+            if exist FoxMakefile-Run (
                 echo O arquivo existe!
             ) else (
                 echo O arquivo nao existe.
             )
         ENDIF
         IF os=="nowindows"
-            if [ -f "foxmakeFile-Run" ]; then
+            if [ -f "FoxMakefile-Run" ]; then
                 echo "O arquivo existe...!"
             else 
-                echo "Arquivo nao existe: foxmakeFile-Run"
+                echo "Arquivo nao existe: FoxMakefile-Run"
             fi
         ENDIF
     endshell

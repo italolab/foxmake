@@ -6,7 +6,7 @@ set ARCH=x64
 
 setlocal enabledelayedexpansion
 
-.\foxmake.exe %1 --script=foxMakeFile -var target=%2
+.\foxmake.exe %1 --script=FoxMakefile -var target=%2
 
 if not "%~3" == "" (
     set target=debug
@@ -14,5 +14,5 @@ if not "%~3" == "" (
         set target=%4
     )
 
-    .\build\foxmake-%VERSION%-%SO%-%ARCH%\foxmake.exe %3 --working-dir=run --script=foxMakeFile-Run -var target=!target!
+    .\build\foxmake-%VERSION%-%SO%-%ARCH%\foxmake.exe %3 --working-dir=run --script=FoxMakefile-Run -var target=!target!
 )

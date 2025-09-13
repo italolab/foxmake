@@ -41,13 +41,13 @@
 
             <article>
                 <header>
-                    <h3>Escrevendo o foxmakeFile</h3>
+                    <h3>Escrevendo o FoxMakefile</h3>
                 </header>
 
-                <p>O foxmakeFile é um arquivo de script e configurações. A interpretação 
+                <p>O FoxMakefile é um arquivo de script e configurações. A interpretação 
                 dele é case-sensitive. Logo, a palavra "task" é reconhecido e "TASK" não.</p>
 
-                <p>O foxmakeFile pode ter a seguinte estrutura inicial:</p>
+                <p>O FoxMakefile pode ter a seguinte estrutura inicial:</p>
 
 <pre class="line-numbers"><code>output.file.name</code></pre>
 
@@ -68,7 +68,7 @@ test.dir=test
                     <h3>Executando o foxmake</h3>
                 </header>
 
-                <p>Para executar o foxmake, certifique-se de que o foxmakeFile está na raiz do seu projeto 
+                <p>Para executar o foxmake, certifique-se de que o FoxMakefile está na raiz do seu projeto 
                 e, então, execute o seguinte comando: </p>
 
 <pre class="line-numbers"><code>foxmake compile link</code></pre>
@@ -91,7 +91,7 @@ test.dir=test
 
                 <ul>
                     <li><p><b>--script=scriptfile</b>: Onde scriptfile é o nome do arquivo de script que, 
-                    por padrão, é foxmakeFile.</p></li>
+                    por padrão, é FoxMakefile.</p></li>
                     
                     <li><p><b>--working-dir=dir</b>: Onde dir é o diretório de trabalho base para as outras 
                     pastas e arquivos. As pastas bin, src, etc. Se não absolutas, são relativas ao 
@@ -110,11 +110,11 @@ test.dir=test
 
                 <p>Exemplos: </p>
 
-<pre><code>foxmake build --working-dir="C:\Meus Projetos\projeto" --script=foxmakeFile2</code></pre>
+<pre><code>foxmake build --working-dir="C:\Meus Projetos\projeto" --script=FoxMakefile2</code></pre>
 
 <pre><code>foxmake build -prop output.file.name=helloworld.exe -var target=release</code></pre>
 
-                <p>A opção prop seta uma propriedade que poderia ser definida no arquivo de script (O foxmakeFile).</p>
+                <p>A opção prop seta uma propriedade que poderia ser definida no arquivo de script (O FoxMakefile).</p>
 
                 <p>Veja mais alguns exemplos: </p>
 
@@ -267,7 +267,7 @@ de comentário
                 do script).</p>
 
                 <p>O foxmake tem as seguintes propriedades que podem ser definidas no 
-                arquivo de script - foxmakeFile:</p>
+                arquivo de script - FoxMakefile:</p>
 
                 <ul>
                     <li>compiler</li>
@@ -842,11 +842,11 @@ endtask
                     exemplo abaixo:</p>
 
 <pre class="line-numbers"><code>shellbegin
-    echo "Verificando se o arquivo foxmakeFile existe..."
-    if [ -f "foxmakeFile" ]; then
-        echo "O arquivo foxmakeFile existe...!"
+    echo "Verificando se o arquivo FoxMakefile existe..."
+    if [ -f "FoxMakefile" ]; then
+        echo "O arquivo FoxMakefile existe...!"
     else 
-        echo "Arquivo nao existe: foxmakeFile"
+        echo "Arquivo nao existe: FoxMakefile"
     fi
 endshell
 </code></pre>
@@ -856,11 +856,11 @@ endshell
                     de arquivos batch do windows. Exemplo: </p>
         
 <pre class="line-numbers"><code>shellbegin
-    echo Verificando se o arquivo foxmakeFile existe...
-    if exist foxmakeFile (
-        echo O arquivo foxmakeFile existe!
+    echo Verificando se o arquivo FoxMakefile existe...
+    if exist FoxMakefile (
+        echo O arquivo FoxMakefile existe!
     ) else (
-        echo O arquivo foxmakeFile nao existe.
+        echo O arquivo FoxMakefile nao existe.
     )
 endshell
 </code></pre>
@@ -1005,11 +1005,11 @@ ENDIF
                 <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
                 diretório raiz do projeto ou parente dele.</p>
 
-                <p>Após configurado o <b>foxmakeFile</b> com os caminhos dos includes, lib do xutest e 
+                <p>Após configurado o <b>FoxMakefile</b> com os caminhos dos includes, lib do xutest e 
                 parâmetros para o comando que linka os arquivos de teste, é só criar os testes 
                 na pasta da propriedade <b>"test.dir"</b>.</p>
 
-                <p>Veja abaixo o exemplo de configuração básica do script <b>foxmakeFile</b>: </p>
+                <p>Veja abaixo o exemplo de configuração básica do script <b>FoxMakefile</b>: </p>
 
 <pre class="line-numbers"><code>src.dir=src
 test.dir=test
@@ -1065,7 +1065,7 @@ int main() {
 </code></pre>                 
 
                 <p>Você pode executar o seguinte comando, após configurar as propriedades 
-                no foxmakeFile e criar o arquivo "test/main.cpp" com o conteúdo acima:</p>
+                no FoxMakefile e criar o arquivo "test/main.cpp" com o conteúdo acima:</p>
 
 <pre class="line-numbers"><code class="language-cpp">foxmake testbuild</code></pre>
                 
@@ -1086,7 +1086,7 @@ int main() {
                 das dlls, cujo código objeto é carregado dinamicamente.</p>
 
                 <p>Para criar uma static library, deve ser utilizado o archiver, ao 
-                invés do compilador gcc/g++. Você pode configurar o foxmakeFile conforme 
+                invés do compilador gcc/g++. Você pode configurar o FoxMakefile conforme 
                 a seguir:</p>
 
 <pre class="line-numbers"><code>output.file.name=libxutest.a
@@ -1121,7 +1121,7 @@ int main() {
                     <h5>Dynamic Library para windows</h5>
 
                     <p>Para gerar uma biblioteca dinâmica ou compartilhada (shared library) no 
-                    windows, você pode fazer conforme a seguir no foxmakeFile:</p>
+                    windows, você pode fazer conforme a seguir no FoxMakefile:</p>
 
 <pre class="line-numbers"><code>output.file.name=libestruturas.dll
 
@@ -1155,7 +1155,7 @@ defines=BUILDING_DLL
                     <h5>Dynamic Library para linux</h5>
 
                     <p>Para gerar uma biblioteca dinâmica para linux, você pode fazer o 
-                    foxmakeFile conforme a seguir:</p>
+                    FoxMakefile conforme a seguir:</p>
 
 <pre class="line-numbers"><code>output.file.name=libestruturas.so
 

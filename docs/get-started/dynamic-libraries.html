@@ -120,10 +120,10 @@ namespace libmath {
 }
 </code></pre>          
                     </li>
-                    <li>Agora crie o arquivo foxmakeFile com o seguinte conteúdo: <br /><br />
+                    <li>Agora crie o arquivo FoxMakefile com o seguinte conteúdo: <br /><br />
                         
                         Se estiver no linux, crie assim:<br /><br />
-                        <b><i>foxmakeFile</i></b><br />
+                        <b><i>FoxMakefile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=libmath.so
 
 linker.params=-fPIC
@@ -134,7 +134,7 @@ linker.params=-fPIC
                         <br />
                         Se estiver no windows, crie assim:<br /><br />
 
-                        <b><i>CBuildFile</i></b><br />
+                        <b><i>foxmakeFile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=libmath.dll
 
 defines=BUILDING_DLL
@@ -148,7 +148,7 @@ defines=BUILDING_DLL
                         <p>Após tudo isso, seu projeto deve ter agora a seguinte estrutura: </p>
 <pre>
 libmath
-├── foxmakeFile
+├── FoxMakefile
 ├── libmath.cpp
 └── libmath.h
 </pre>
@@ -194,9 +194,9 @@ int main() {
 }
 </code></pre>
                     </li>
-                    <li>Agora crie o CBuildFile para este projeto com o seguinte conteúdo: <br /><br />
+                    <li>Agora crie o foxmakeFile para este projeto com o seguinte conteúdo: <br /><br />
                         Se estiver no linux, crie assim: <br /><br />
-                        <b><i>foxmakeFile</i></b><br />
+                        <b><i>FoxMakefile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=app
 
 build.files=libmath.so
@@ -208,7 +208,7 @@ libs=math
 
                         <br />
                         Se estiver no windows, crie assim:
-<b><i>foxmakeFile</i></b><br />
+<b><i>FoxMakefile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=app.exe
 
 build.files=libmath.dll
@@ -223,7 +223,7 @@ libs=math
                         <p>Agora seu projeto deve ter a seguinte estrutura de arquivos: </p>
 <pre>
 app
-├── foxmakeFile
+├── FoxMakefile
 ├── include
 │   └── libmath.h
 ├── libmath.so

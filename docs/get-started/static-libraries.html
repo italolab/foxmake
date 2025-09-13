@@ -83,9 +83,9 @@ namespace libmath {
 }
 </code></pre>                        
                     </li>
-                    <li>Agora crie o arquivo foxmakeFile com o seguinte conteúdo: <br /><br />
+                    <li>Agora crie o arquivo FoxMakefile com o seguinte conteúdo: <br /><br />
                         
-                        <b><i>foxmakeFile</i></b><br />
+                        <b><i>FoxMakefile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=libmath.a
 
 linker.params=-static
@@ -98,7 +98,7 @@ linker.params=-static
                         <p>Seu projeto deve ter agora a seguinte estrutura de arquivos: </p>
 <pre>
 libmath
-├── foxmakeFile
+├── FoxMakefile
 ├── libmath.cpp
 └── libmath.h 
 </pre>                        
@@ -140,8 +140,8 @@ int main() {
 }
 </code></pre>
                     </li>
-                    <li>Agora crie o foxmakeFile para este projeto com o seguinte conteúdo: <br /><br />
-                        <b><i>foxmakeFile</i></b><br />
+                    <li>Agora crie o FoxMakefile para este projeto com o seguinte conteúdo: <br /><br />
+                        <b><i>FoxMakefile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=app
 
 build.files=libmath.a
@@ -154,7 +154,7 @@ libs=math
 </code></pre>
                         <p>As opções <b>-ldl e -rdynamic</b>, são necessárias para linkar bibliotecas 
                         dinâmicas no linux. Se estiver no windows, pode excluir essa linha do 
-                        foxmakeFile.</p>
+                        FoxMakefile.</p>
 
                         <p>A propriedade "build.files" serve apenas para copiar a lib "libmath.a" 
                         para pasta "build", após o a linkagem do executável.</p>
@@ -162,7 +162,7 @@ libs=math
                         <p>Seu projeto deve ter agora a seguinte estrutura de arquivos: </p>
 <pre>
 app
-├── foxmakeFile
+├── FoxMakefile
 ├── include
 │   └── libmath.h
 ├── libmath.a

@@ -39,7 +39,7 @@
 
                 <ul>
                     <li><p><b>--script=scriptfile</b>: Onde scriptfile é o nome do arquivo de script que, 
-                    por padrão, é foxmakeFile.</p></li>
+                    por padrão, é FoxMakefile.</p></li>
                     
                     <li><p><b>--working-dir=dir</b>: Onde dir é o diretório de trabalho base para as outras 
                     pastas e arquivos. As pastas bin, src, etc. Se não absolutas, são relativas ao 
@@ -58,13 +58,13 @@
 
                 <p>Então, veja os exemplos abaixo: </p>
 
-<pre><code>foxmake build --script="C:/Meu Projeto/MeufoxmakeFile"</code></pre>
+<pre><code>foxmake build --script="C:/Meu Projeto/MeuFoxMakefile"</code></pre>
 
                 <p>Perceba no exemplo acima que foi informado um arquivo de script que 
                 está numa pasta com espaço. Por isso o abre e fecha aspas. Agora, 
                 vamos a outro exemplo: </p>
 
-<pre><code>foxmake build --script="C:/Meu Projeto/MeufoxmakeFile" --working-dir=C:/ProjetoCPP</code></pre>
+<pre><code>foxmake build --script="C:/Meu Projeto/MeuFoxMakefile" --working-dir=C:/ProjetoCPP</code></pre>
 
                 <p>No exemplo acima foi especificado o arquivo de script e o diretório 
                 de trabalho: "C:/ProjetoCPP". Agora, o diretório corrente na linha de 
@@ -84,7 +84,7 @@
 <pre><code>foxmake build -prop output.file.name=executavel</code></pre>
 
                 <p>O exemplo acima seta a propriedade "output.file.name" como alternativa 
-                a defini-la no script foxmakeFile. Esse exemplo funciona até sem o arquivo 
+                a defini-la no script FoxMakefile. Esse exemplo funciona até sem o arquivo 
                 de script. Já que a única propriedade obrigatória para linkagem é 
                 "output.file.name". Agora, mais outro exemplo: </p>
 
