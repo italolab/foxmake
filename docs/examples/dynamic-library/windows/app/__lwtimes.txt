@@ -1,2 +1,0 @@
-C:/Users/italo/workspace-cpp/foxmake/docs/examples/dynamic-library/windows/app/include/libmath.h=1757716815
-C:/Users/italo/workspace-cpp/foxmake/docs/examples/dynamic-library/windows/app/main.cpp=1757716737

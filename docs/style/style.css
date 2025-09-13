@@ -41,6 +41,17 @@ aside ul {
     width: 18em;
 }
 
+.warning {    
+    width: 80%;
+    padding: 0.7em;
+    border-radius: 0.35em;
+    border: 1px solid #cc5;
+}
+
+.warning > h5 {  
+    color: #882;
+}
+
 #top-icon {
     position: fixed;
     right: 1em;

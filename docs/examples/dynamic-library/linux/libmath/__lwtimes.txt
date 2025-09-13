@@ -1,2 +1,0 @@
-/home/italo/workspace-cpp/foxmake/docs/examples/dynamic-library/linux/libmath/libmath.cpp=1757700388
-/home/italo/workspace-cpp/foxmake/docs/examples/dynamic-library/linux/libmath/libmath.h=1757700388
