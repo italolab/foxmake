@@ -18,7 +18,7 @@
 using std::endl;
 
 /*
-Classe responsável por ler e setar workingDir e cbuildFile, interpretar 
+Classe responsável por ler e setar workingDir e scriptFile, interpretar 
 o script principal, carregando toda a arvore de derivação, carregar as 
 variáveis e propriedades definidas no comando principal com "-var" e "-prop" e 
 validar o comando.
@@ -79,7 +79,7 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& scriptFileFound
     scriptFile = io::path::absoluteResolvePath( scriptFile );
 
     if ( isVerbose ) {
-        messagebuilder b( infos::CBUILD_FILE );
+        messagebuilder b( infos::foxmake_FILE );
         b << scriptFile;
         out << b.str() << endl;
     }

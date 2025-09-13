@@ -5,7 +5,7 @@ LINKERFLAGS=""
 SRC_DIR="src"
 OBJ_DIR="obj/Release"
 BIN_DIR="bin/Release"
-TARGET="cbuild"
+TARGET="foxmake"
 
 mkdir -p $OBJ_DIR
 mkdir -p $BIN_DIR

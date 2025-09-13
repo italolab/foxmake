@@ -12,15 +12,15 @@ ENDIF
 compiler=g++
 
 IF os == "windows"
-    output.file.name=cbuild.exe
+    output.file.name=foxmake.exe
 ENDIF
 IF os != "windows"
-    output.file.name=cbuild
+    output.file.name=foxmake
 ENDIF
 
 src.dir=src
 test.dir=test
-build.dir=build/cbuild-$(version)-$(so)-$(arch)
+build.dir=build/foxmake-$(version)-$(so)-$(arch)
 
 build.files=
 
@@ -50,36 +50,36 @@ ENDIF
 
 test.lib.dirs=lib/$(so)
 test.include.dirs=include
-test.libs=cbtest
+test.libs=xutest
 
 task compile noverbose;
 
-proc archive_and_copy_cbtest
+proc archive_and_copy_xutest
     echo
     rm -r include/*.h
-    rm lib/$(so)/libcbtest.a
+    rm lib/$(so)/libxutest.a
     
     IF os == "windows"
-        @.\cbuild.exe archivebuildall --script=../cbtest/CBuildFile-StaticLib
+        @.\foxmake.exe archivebuildall --script=../xutest/FoxMakefile-StaticLib
     ENDIF
     IF os != "windows"
-        @./cbuild archivebuildall --script=../cbtest/CBuildFile-StaticLib
+        @./foxmake archivebuildall --script=../xutest/FoxMakefile-StaticLib
     ENDIF
     
     mkdir -p lib/$(so)
 
-    cp -r ../cbtest/src/**/*.h include
-    cp ../cbtest/build/cbtest-$(version)-$(so)-$(arch)/libcbtest.a lib/$(so)
+    cp -r ../xutest/src/**/*.h include
+    cp ../xutest/build/xutest-$(version)-$(so)-$(arch)/libxutest.a lib/$(so)
     
     echo
 endproc
 
 task compileall before
-   call archive_and_copy_cbtest
+   call archive_and_copy_xutest
 endtask
 
 task compile before
-    call archive_and_copy_cbtest
+    call archive_and_copy_xutest
 endtask
 
 task finish after    

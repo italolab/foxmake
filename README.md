@@ -1,32 +1,32 @@
-# CBuild
+# foxmake
 
-O cbuild é um software que permite automatizar o processo de build de compilação, linkagem (criação de executável ou shared library), archiving (criação de static library) e testes de unidade com outro framework que desenvolvi: O CBTest. Também é possível executar comandos de cópia, deleção de arquivos e pastas, bem como, criação de pastas, impressão de texto, variável ou propriedade na saída padrão, alteração do diretório corrente e execução de comandos do shell. Também é possível executar um bloco de comandos do shell.
+O foxmake é um software que permite automatizar o processo de build de compilação, linkagem (criação de executável ou shared library), archiving (criação de static library) e testes de unidade com outro framework que desenvolvi: O xutest. Também é possível executar comandos de cópia, deleção de arquivos e pastas, bem como, criação de pastas, impressão de texto, variável ou propriedade na saída padrão, alteração do diretório corrente e execução de comandos do shell. Também é possível executar um bloco de comandos do shell.
 
 Para visitar a página do projeto com documentação de uso, acesse:
-[documentação do cbuild](https://italolab.github.io/cbuild)
+[documentação do foxmake](https://italolab.github.io/foxmake)
 
 ## Tarefas
 
-O programa cbuild permite a automação de build através da execução de tarefas que podem ser especificadas na linha de comandos. Exemplo:
+O programa foxmake permite a automação de build através da execução de tarefas que podem ser especificadas na linha de comandos. Exemplo:
 
 ```
-cbuild clean compile link copy
+foxmake clean compile link copy
 ```
 
 O comando acima executa as quatro tarefas: clean, compile, link e copy. A tarefa "build" inclue a execução de todas essas quatro tarefas. Exemplo:
 
 ```
-cbuild build
+foxmake build
 ```
 
 A tarefa "buildall" executa as quatro tarefas, substituíndo "compile" por "compileall".
 
 ## A interpretação do script
 
-O script a ser interpretado pelo cbuild com as propriedades, definições, configurações de tarefas, e comandos e tem, por padrão, o nome CBuildFile. Ao encontrar esse arquivo o cbuild muda o diretório padrão (workingDir) para o diretório onde o arquivo de script está. Com exceção se a propriedade "--working-dir=path" for informada no comando conforme o exemplo abaixo ilustra:
+O script a ser interpretado pelo foxmake com as propriedades, definições, configurações de tarefas, e comandos e tem, por padrão, o nome foxmakeFile. Ao encontrar esse arquivo o foxmake muda o diretório padrão (workingDir) para o diretório onde o arquivo de script está. Com exceção se a propriedade "--working-dir=path" for informada no comando conforme o exemplo abaixo ilustra:
 
 ```
-cbuild buildall --working-dir=/home/joao/cbuild-workingdir
+foxmake buildall --working-dir=/home/joao/foxmake-workingdir
 ```
 
 ### Tempo de execução e tempo de interpretação
@@ -45,7 +45,7 @@ Exemplo:
     Classes executoras: MainExec, CPExec
 ```
 
-As classes executoras executam um comando, que pode ser o comando principal (o cbuild build, por exemplo) ou algum comando especificado no arquivo de script.
+As classes executoras executam um comando, que pode ser o comando principal (o foxmake build, por exemplo) ou algum comando especificado no arquivo de script.
 
 As classes interpreters, mantêm um controle sobre uma variável compartilhada e alterada entre elas que é o número de linhas lidas. Logo, o número da linha onde ocorreu um erro de interpretação no script é o número de linhas lidas mais um. Isto é, se o erro está na linha 11, foram lidas com sucesso 10 linhas.
 
@@ -61,9 +61,9 @@ Os comandos são executados utilizando-se a biblioteca "popen".
 
 ## A execução de blocos de comandos do shell
 
-Para a execução de bloco de comandos do shell acontecer no windows, o cbuild precisa criar um arquivo .bat temporário, copiar o conteúdo do bloco de comandos para esse arquivo e, então, executar o arquivo.
+Para a execução de bloco de comandos do shell acontecer no windows, o foxmake precisa criar um arquivo .bat temporário, copiar o conteúdo do bloco de comandos para esse arquivo e, então, executar o arquivo.
 
-O arquivo está sendo gravado numa pasta temporária interna do cbuild: A pasta "temp".
+O arquivo está sendo gravado numa pasta temporária interna do foxmake: A pasta "temp".
 
 ## A classe SourceCodeManager
 

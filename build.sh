@@ -4,15 +4,17 @@ VERSION=1.0
 SO=linux
 ARCH=x64
 
-DEB_CONTROL_PACKAGE_NAME=cbuild
+PROJ_NAME=foxmake
+
+DEB_CONTROL_PACKAGE_NAME=$PROJ_NAME
 DEB_CONTROL_INSTALLED_SIZE=2796
 DEB_CONTROL_MAINTAINER="Italo Herbert Siqueira Gabriel (italoherbert@outlook.com)"
 DEB_CONTROL_DESCRIPTION="Trata-se de um software automatizador de tarefas de build em projetos C/C++"
 
-APP_FILE_NAME=cbuild
+APP_FILE_NAME=$PROJ_NAME
 
 BUILD_FOLDER=build
-APP_FOLDER=cbuild-$VERSION-$SO-$ARCH
+APP_FOLDER=$PROJ_NAME-$VERSION-$SO-$ARCH
 
 APP_DIR=$BUILD_FOLDER/$APP_FOLDER
 
@@ -51,7 +53,7 @@ echo
 
 # COMPILANDO...
 
-./cbuild buildall --script=CBuildFile -var target=release
+./foxmake buildall --script=FoxMakefile -var target=release
 
 # COPIANDO LIB E INCLUDE PASTAS PARA A PASTA DO APLICATIVO EM BUILD
 

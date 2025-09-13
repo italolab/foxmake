@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - dynamic libraries - shared libraries - bibliotecas dinâmicas">
-    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="description" content="Página oficial do foxmake - dynamic libraries - shared libraries - bibliotecas dinâmicas">
+    <meta name="keyworks" content="foxmake, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Dynamic Libraries - cbuild - Site oficial</title>
+    <title>Dynamic Libraries - foxmake - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -120,10 +120,10 @@ namespace libmath {
 }
 </code></pre>          
                     </li>
-                    <li>Agora crie o arquivo CBuildFile com o seguinte conteúdo: <br /><br />
+                    <li>Agora crie o arquivo foxmakeFile com o seguinte conteúdo: <br /><br />
                         
                         Se estiver no linux, crie assim:<br /><br />
-                        <b><i>CBuildFile</i></b><br />
+                        <b><i>foxmakeFile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=libmath.so
 
 linker.params=-fPIC
@@ -148,16 +148,16 @@ defines=BUILDING_DLL
                         <p>Após tudo isso, seu projeto deve ter agora a seguinte estrutura: </p>
 <pre>
 libmath
-├── CBuildFile
+├── foxmakeFile
 ├── libmath.cpp
 └── libmath.h
 </pre>
                     </li>
                     <li>Feito isto, pode executar o seguinte comando, estando na raiz 
                         do projeto:<br />
-<pre><code>cbuild buildall</code></pre>
+<pre><code>foxmake buildall</code></pre>
 
-                        <p>Com o comando acima, o cbuild entende que deve gerar uma dynamic library 
+                        <p>Com o comando acima, o foxmake entende que deve gerar uma dynamic library 
                         tipo .dll, ao invés de um executável, por causa da extensão do arquivo 
                         de saída "libestruturas.dll".</p>
                         
@@ -196,7 +196,7 @@ int main() {
                     </li>
                     <li>Agora crie o CBuildFile para este projeto com o seguinte conteúdo: <br /><br />
                         Se estiver no linux, crie assim: <br /><br />
-                        <b><i>CBuildFile</i></b><br />
+                        <b><i>foxmakeFile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=app
 
 build.files=libmath.so
@@ -208,7 +208,7 @@ libs=math
 
                         <br />
                         Se estiver no windows, crie assim:
-<b><i>CBuildFile</i></b><br />
+<b><i>foxmakeFile</i></b><br />
 <pre class="line-numbers"><code>output.file.name=app.exe
 
 build.files=libmath.dll
@@ -223,7 +223,7 @@ libs=math
                         <p>Agora seu projeto deve ter a seguinte estrutura de arquivos: </p>
 <pre>
 app
-├── CBuildFile
+├── foxmakeFile
 ├── include
 │   └── libmath.h
 ├── libmath.so
@@ -231,7 +231,7 @@ app
 </pre>
                     </li>
                     <li>Feito isso, pode executar o seguinte comando: <br />
-<pre><code>cbuild buildall</code></pre>
+<pre><code>foxmake buildall</code></pre>
                     </li>
                     <li>Agora navegue até a pasta build e execute o executável de nome 
                         "app", conforme a seguir: <br />
@@ -256,9 +256,9 @@ export LD_LIBRARY_PATH=.
                     <h3>Finalizando</h3>
                 </header>
 
-                <p>Esta é a última aula sobre o cbuild. Espero que tenha gostado 
+                <p>Esta é a última aula sobre o foxmake. Espero que tenha gostado 
                 do conteúdo e, divirta-se, automatizando o build de seus projetos 
-                em C/C++ com o cbuild.</p>
+                em C/C++ com o foxmake.</p>
             </article>
             
             <footer class="d-flex justify-content-between">

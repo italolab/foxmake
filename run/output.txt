@@ -1,11 +1,11 @@
 compiler=g++
 
 #IF os == "windows"
-#    output.file.name=cbuild.exe
+#    output.file.name=foxmake.exe
 #ENDIF
 
 #IF os != "windows"
-    output.file.name=cbuild
+    output.file.name=foxmake
 #ENDIF
 
 src.dir=../src
@@ -39,7 +39,7 @@ libs=
 #ENDIF
 
 test.include.dirs=../include
-test.libs=cbtest
+test.libs=xutest
 
 #IF os == "windows"
 #    test.lib.dirs=../lib/windows
@@ -48,7 +48,7 @@ test.libs=cbtest
     test.lib.dirs=../lib/linux
 #ENDIF
 
-$project_name=cbuild
+$project_name=foxmake
 
 task copy showoutput;
 task compile noverbose;
@@ -71,17 +71,17 @@ task copy after
     @echo "abc"
     shellbegin
 #        IF os=="windows"
-#            if exist CBuildFile-Run (
+#            if exist foxmakeFile-Run (
 #                echo O arquivo existe!
 #            ) else (
 #                echo O arquivo nao existe.
 #            )
 #        ENDIF
 #        IF os=="nowindows"
-            if [ -f "CBuildFile-Run" ]; then
+            if [ -f "foxmakeFile-Run" ]; then
                 echo "O arquivo existe...!"
             else 
-                echo "Arquivo nao existe: CBuildFile-Run"
+                echo "Arquivo nao existe: foxmakeFile-Run"
             fi
 #        ENDIF
     endshell
@@ -109,14 +109,14 @@ task finish after
     mkdir $(build.dir)/objects
     cp $(obj.dir)/src/io/* $(build.dir)/objects
 
-    cp $(lib_dir)/libcbtest.a $(build.dir)/libtest.a
-    cp ../include/cbtest/cbtest.h $(build.dir)/cbtest.h
-    cp ../include/cbtest/cbtest.h $(build.dir)/cbtest.h
+    cp $(lib_dir)/libxutest.a $(build.dir)/libtest.a
+    cp ../include/xutest/xutest.h $(build.dir)/xutest.h
+    cp ../include/xutest/xutest.h $(build.dir)/xutest.h
 
     cp -r $(src.dir) $(build.dir)/source
 
-    cp -r ../../cbtest/src/**/*.h build/include
-    cp -r ../../cbtest/src/**/*.h build/include
+    cp -r ../../xutest/src/**/*.h build/include
+    cp -r ../../xutest/src/**/*.h build/include
 
     rm $(build.dir)/objects/io.o
     rm $(build.dir)/ma*n.*

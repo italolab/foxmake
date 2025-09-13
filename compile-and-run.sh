@@ -3,7 +3,7 @@ SO=linux
 ARCH=x64
 
 
-./cbuild $1 --script=CBuildFile -var target=$2
+./foxmake $1 --script=FoxMakefile -var target=$2
 
 if [ "$#" -gt "2" ]; then
     target="debug"
@@ -11,5 +11,5 @@ if [ "$#" -gt "2" ]; then
         target=$4
     fi
 
-    ./build/cbuild-$VERSION-$SO-$ARCH/cbuild $3 --script=run/CBuildFile-Run -var target=$target
+    ./build/foxmake-$VERSION-$SO-$ARCH/foxmake $3 --script=run/FoxMakefile-Run -var target=$target
 fi

@@ -1,11 +1,11 @@
 compiler=g++
 
-IFWIN32
-    output.file.name=cbuild.exe
+IF os == "windows"
+    output.file.name=foxmake.exe
 ENDIF
 
-IFNOWIN32
-    output.file.name=cbuild
+IF os != "windows"
+    output.file.name=foxmake
 ENDIF
 
 src.dir=..\src
@@ -34,24 +34,25 @@ include.dirs=
 libs=
 #defines=
 
-IFNOWIN32
+IF os != "windows"
     test.linker.params=-ldl -rdynamic
 ENDIF
 
 test.include.dirs=..\include
-test.libs=cbtest
+test.libs=xutest
 
-IFWIN32
+IF os == "windows"
     test.lib.dirs=..\lib\windows
 ENDIF
-IFNOWIN32
+IF os != "windows"
     test.lib.dirs=..\lib\linux
 ENDIF
 
-$project_name=cbuild
+$project_name=foxmake
 
 task copy showoutput;
 task compile noverbose;
+task link noshowoutput noverbose;
 
 proc echo123
     echo 123
@@ -69,18 +70,18 @@ task copy after
 
     @echo "abc"
     shellbegin
-        IFWIN32
-            if exist CBuildFile-Run (
+        IF os=="windows"
+            if exist foxmakeFile-Run (
                 echo O arquivo existe!
             ) else (
                 echo O arquivo nao existe.
             )
         ENDIF
-        IFNOWIN32
-            if [ -f "CBuildFile-Run" ]; then
+        IF os=="nowindows"
+            if [ -f "foxmakeFile-Run" ]; then
                 echo "O arquivo existe...!"
             else 
-                echo "Arquivo nao existe: CBuildFile-Run.txt"
+                echo "Arquivo nao existe: foxmakeFile-Run"
             fi
         ENDIF
     endshell
@@ -94,10 +95,10 @@ endtask
 
 task finish after
 
-    IFWIN32
+    IF os == "windows"
         $lib_dir=$(working_dir)\..\lib\windows
     ENDIF
-    IFNOWIN32
+    IF os == "nowindows"
         $lib_dir=$(working_dir)\..\lib\linux
     ENDIF
 
@@ -108,19 +109,41 @@ task finish after
     mkdir $(build.dir)\objects
     cp $(obj.dir)\src\io\* $(build.dir)\objects
 
-    cp $(lib_dir)\libcbtest.a $(build.dir)\libtest.a
-    cp ..\include\test\cbtest.h $(build.dir)\cbtest.h
-    cp ..\include\test\cbtest.h $(build.dir)\cbtest.h
+    cp $(lib_dir)\libxutest.a $(build.dir)\libtest.a
+    cp ..\include\xutest\xutest.h $(build.dir)\xutest.h
+    cp ..\include\xutest\xutest.h $(build.dir)\xutest.h
 
     cp -r $(src.dir) $(build.dir)\source
 
-    cp -r ..\..\cbtest\src\**\*.h build\include
-    cp -r ..\..\cbtest\src\**\*.h build\include
+    cp -r ..\..\xutest\src\**\*.h build\include
+    cp -r ..\..\xutest\src\**\*.h build\include
 
     rm $(build.dir)\objects\io.o
     rm $(build.dir)\ma*n.*
     rm $(build.dir)\lib*.*
 
     rm -r $(build.dir)\include\io\i*.*
-    rm -r $(bin.dir)
+    rm $(bin.dir)
+
+    if os == "windows" then
+        echo "Windows!"
+    else
+        echo "Não é windows!"
+    endif
+
+    if src.dir == bin.dir then
+        echo É igual a bin.dir!
+    else if src.dir==build.dir then
+        echo È igual a build.dir
+    else if src.dir=="..\src" then
+        if bin.dir!="bin\Debug" then
+            echo Debug!
+        else if    bin.dir == "bin\Debug" then
+            echo Release!
+        else
+            echo Not bin debug!
+        endif    
+    else 
+        echo Não é igual a nenhum!
+    endif
 endtask

@@ -5,4 +5,4 @@ IF os != "windows"
     test.linker.params=-ldl -rdynamic
 ENDIF
 
-test.libs=cbtest
+test.libs=xutest

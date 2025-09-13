@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - tasks para o cbuild">
-    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="description" content="Página oficial do foxmake - tasks para o foxmake">
+    <meta name="keyworks" content="foxmake, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Tasks - cbuild - Site oficial</title>
+    <title>Tasks - foxmake - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -31,11 +31,11 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Tarefas para o cbuild</h1>
+                <h1 class="text-center">Tarefas para o foxmake</h1>
             </header>
 
             <article>
-                <p>O cbuild suporta os seguintes tarefas: </p>
+                <p>O foxmake suporta os seguintes tarefas: </p>
 
                 <ul>
                     <li>clean</li>
@@ -55,71 +55,71 @@
 
                 <p>Então, veja alguns exemplos: </p>
 
-<pre><code>cbuild clean</code></pre>
+<pre><code>foxmake clean</code></pre>
 
                 <p>O exemplo acima executa uma limpesa, excluindo os arquivos gerados 
                 em outras tarefas.</p>
 
-<pre><code>cbuild clean compile</code></pre>
+<pre><code>foxmake clean compile</code></pre>
 
                 <p>O comando acima executa a limpesa e compila os arquivos de código fonte.</p>
 
-<pre><code>cbuild compileall</code></pre>
+<pre><code>foxmake compileall</code></pre>
 
                 <p>O exemplo acima compila todos os arquivos, sem otimizar a compilação. Isto é, 
                 com compile, são compilados somente os arquivos necessários e, com compileall, são 
                 compilados todos os arquivos.</p>
 
-<pre><code>cbuild clean compile link</code></pre>
+<pre><code>foxmake clean compile link</code></pre>
 
                 <p>O exemplo acima limpa, compila e linka. Isto é, a linkagem se refere a 
                 geração do arquivo executável no formato adequado para o sistema operacional.</p>
 
-<pre><code>cbuild clean compile link copy</code></pre>
+<pre><code>foxmake clean compile link copy</code></pre>
 
                 <p>O exemplo acima faz o mesmo que o anterior, acrescentando a cópia dos 
                 arquivos de build (executável e outros necessários à ele), para pasta 
                 de build.</p>
 
-<pre><code>cbuild build</code></pre>
+<pre><code>foxmake build</code></pre>
 
                 <p>O exemplo acima faz o mesmo que o anterior. Isto é, a tarefa build 
                 corresponde as tarefas: <b>clean, compile, link e copy</b>.</p>
 
-<pre><code>cbuild buildall</code></pre>
+<pre><code>foxmake buildall</code></pre>
 
                 <p>O exemplo acima faz o mesmo que o anterior. Com exceção que compila 
                 todos os arquivos, não apenas os necessários. A tarefa buildall inclue:
                 <b>clean, compileall, link e copy</b>.
                 </p>
 
-<pre><code>cbuild archive</code></pre>
+<pre><code>foxmake archive</code></pre>
 
                 <p>O exemplo acima empacota em uma static library (Biblioteca estática) ao 
                 invés de criar o executável.</p>
         
-<pre><code>cbuild archivebuild</code></pre>
+<pre><code>foxmake archivebuild</code></pre>
 
                 <p>O exemplo acima executa o build, substituíndo a tarefa link por archive. 
                 Isto é, executa: <b>clean, compile, archive, copy</b>.</p>
 
-<pre><code>cbuild archivebuildall</code></pre>
+<pre><code>foxmake archivebuildall</code></pre>
 
                 <p>O exemplo acima executa o archivebuild, substituíndo a tarefa compile 
                 por compileall. Isto é, executa: <b>clean, compileall, archive, copy</b>.</p>
 
-<pre><code>cbuild test</code></pre>
+<pre><code>foxmake test</code></pre>
 
-                <p>Executa os testes de unidade se o framework cbtest estiver configurado no 
-                script CBuildFile e a static library do cbtest e os seus includes estiverem 
+                <p>Executa os testes de unidade se o framework xutest estiver configurado no 
+                script foxmakeFile e a static library do xutest e os seus includes estiverem 
                 instalados ou acessíveis localmente no projeto.</p>
 
-<pre><code>cbuild testbuild</code></pre>
+<pre><code>foxmake testbuild</code></pre>
 
                 <p>O exemplo acima executa o build, acrescentando a tarefa test. 
                 Isto é, executa: <b>clean, compile, link, copy, test</b>.</p>
 
-<pre><code>cbuild testbuildall</code></pre>
+<pre><code>foxmake testbuildall</code></pre>
 
                 <p>O exemplo acima executa quase o mesmo que testbuild, com a diferença 
                 que substitue "compile" por "compileall". Isto é, executa: 
@@ -132,7 +132,7 @@
                     <h3>Proxima aula</h3>
                 </header>
 
-                <p>A próxima aula ensina sobre propriedades e variáveis para o CBuildFile.</p>
+                <p>A próxima aula ensina sobre propriedades e variáveis para o foxmakeFile.</p>
             </article>
 
             <footer class="d-flex justify-content-between">

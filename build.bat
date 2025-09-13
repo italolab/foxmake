@@ -5,14 +5,16 @@ set VERSION=1.0
 set SO=windows
 set ARCH=x64
 
-set APP_FILE_NAME=cbuild
+set PROJ_NAME=foxmake
+
+set APP_FILE_NAME=%PROJ_NAME%
 
 set BUILD_FOLDER=build
-set APP_FOLDER=cbuild-%VERSION%-%SO%-%ARCH%
+set APP_FOLDER=%PROJ_NAME%-%VERSION%-%SO%-%ARCH%
 
 set APP_DIR=%BUILD_FOLDER%\%APP_FOLDER%
 
-set LIB_FILE=lib\windows\libcbtest.a
+set XUTEST_LIB_FILE=lib\windows\libxutest.a
 
 rem LIMPANDO...
 
@@ -34,7 +36,7 @@ echo.
 echo Compilando...
 echo.
 
-.\cbuild.exe buildall --script=CBuildFile -var target=release
+.\foxmake.exe buildall --script=FoxMakefile -var target=release
 
 rem COPIANDO HEADERS PARA PASTA INCLUDE
 
@@ -43,12 +45,12 @@ echo Copiando headers para pasta include
 mkdir %APP_DIR%\include
 xcopy include\* %APP_DIR%\include /E /I /Y
 
-rem COPIANDO STATIC LIBRARY DO CBTEST PARA PASTA LIB
+rem COPIANDO STATIC LIBRARY DO xutest PARA PASTA LIB
 
 echo.
-echo Copiando libcbtest.a para pasta lib
+echo Copiando libxutest.a para pasta lib
 mkdir %APP_DIR%\lib
-copy %LIB_FILE% %APP_DIR%\lib
+copy %XUTEST_LIB_FILE% %APP_DIR%\lib
 
 rem EMPACOTANDO EM .ZIP
 

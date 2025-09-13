@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - argumentos para o cbuild">
-    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="description" content="Página oficial do foxmake - argumentos para o foxmake">
+    <meta name="keyworks" content="foxmake, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Argumentos - cbuild - Site oficial</title>
+    <title>Argumentos - foxmake - Site oficial</title>
 
     <script src="/lib/jquery-3.7.1.min.js"></script>    
     <script src="/lib/fontawesome/all.min.js"></script>
@@ -31,15 +31,15 @@
     <main>
         <article>
             <header>
-                <h1 class="text-center">Argumentos para o cbuild</h1>
+                <h1 class="text-center">Argumentos para o foxmake</h1>
             </header>
 
             <article>
-                <p>O cbuild suporta os seguintes argumentos: </p>
+                <p>O foxmake suporta os seguintes argumentos: </p>
 
                 <ul>
                     <li><p><b>--script=scriptfile</b>: Onde scriptfile é o nome do arquivo de script que, 
-                    por padrão, é CBuildFile.</p></li>
+                    por padrão, é foxmakeFile.</p></li>
                     
                     <li><p><b>--working-dir=dir</b>: Onde dir é o diretório de trabalho base para as outras 
                     pastas e arquivos. As pastas bin, src, etc. Se não absolutas, são relativas ao 
@@ -58,38 +58,38 @@
 
                 <p>Então, veja os exemplos abaixo: </p>
 
-<pre><code>cbuild build --script="C:/Meu Projeto/MeuCBuildFile"</code></pre>
+<pre><code>foxmake build --script="C:/Meu Projeto/MeufoxmakeFile"</code></pre>
 
                 <p>Perceba no exemplo acima que foi informado um arquivo de script que 
                 está numa pasta com espaço. Por isso o abre e fecha aspas. Agora, 
                 vamos a outro exemplo: </p>
 
-<pre><code>cbuild build --script="C:/Meu Projeto/MeuCBuildFile" --working-dir=C:/ProjetoCPP</code></pre>
+<pre><code>foxmake build --script="C:/Meu Projeto/MeufoxmakeFile" --working-dir=C:/ProjetoCPP</code></pre>
 
                 <p>No exemplo acima foi especificado o arquivo de script e o diretório 
                 de trabalho: "C:/ProjetoCPP". Agora, o diretório corrente na linha de 
                 comandos é "C:/ProjetoCPP". Caso contrário, seria o diretório onde se 
                 encontra o arquivo de script. Veja outro exemplo: </p>
 
-<pre><code>cbuild buildall -v</code></pre>
+<pre><code>foxmake buildall -v</code></pre>
 
                 <p>No exemplo acima, uma saída detalhada sobre a execução das tarefas 
                 é impressa na saída padrão.</p>
 
-<pre><code>cbuild buildall --no-resume</code></pre>
+<pre><code>foxmake buildall --no-resume</code></pre>
 
                 <p>No exemplo acima, nem são impressos detalhes da execução das tarefas 
                 nem o resumo.</p>
 
-<pre><code>cbuild build -prop output.file.name=executavel</code></pre>
+<pre><code>foxmake build -prop output.file.name=executavel</code></pre>
 
                 <p>O exemplo acima seta a propriedade "output.file.name" como alternativa 
-                a defini-la no script CBuildFile. Esse exemplo funciona até sem o arquivo 
+                a defini-la no script foxmakeFile. Esse exemplo funciona até sem o arquivo 
                 de script. Já que a única propriedade obrigatória para linkagem é 
                 "output.file.name". Agora, mais outro exemplo: </p>
 
 
-<pre><code>cbuild build -var target=release -var arch=x86</code></pre>
+<pre><code>foxmake build -var target=release -var arch=x86</code></pre>
 
                 <p>O exemplo acima seta duas variáveis: "target" e "arch". Essas 
                 variáveis podem ser utilizadas no arquivo de script, conforme será visto 
@@ -101,7 +101,7 @@
                     <h3>Proxima aula</h3>
                 </header>
 
-                <p>A próxima aula ensina sobre tarefas para o cbuild.</p>
+                <p>A próxima aula ensina sobre tarefas para o foxmake.</p>
             </article>
 
             <footer class="d-flex justify-content-between">

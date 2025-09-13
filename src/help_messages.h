@@ -7,8 +7,8 @@ using std::string;
 
 namespace helpmessage {
 
-    const string PROJ_NAME = "cbuild";
-    const string PROJ_NAME_UPCASE = "CBUILD";
+    const string PROJ_NAME = "makefile";
+    const string PROJ_NAME_UPCASE = "FOXMAKE";
 
     string helpMessage() {
         stringstream ss;
@@ -83,15 +83,15 @@ namespace helpmessage {
         << "Para informar o arquivo de script, faça conforme o exemplo à \n"
         << "seguir:\n\n"
 
-        << "    " << PROJ_NAME << " --script=CBuildFile\n\n"
+        << "    " << PROJ_NAME << " --script=foxmakeFile\n\n"
 
         << "Caso o caminho do arquivo contenha espacos, utilize aspas duplas,\n"
         << "conforme a seguir:\n\n"
 
-        << "    " << PROJ_NAME << " --script=\"arquivos de script/CBuildFile\"\n\n"
+        << "    " << PROJ_NAME << " --script=\"arquivos de script/foxmakeFile\"\n\n"
 
         << "Se a propriedade --script não for informada, o " + PROJ_NAME + " \n"
-        << "tenta localizar o arquivo de nome CBuildFile no mesmo diretório \n"
+        << "tenta localizar o arquivo de nome foxmakeFile no mesmo diretório \n"
         << "onde o executável do " + PROJ_NAME + " estiver.\n\n"
 
         << "---------------------------------------------------------------\n"

@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Página oficial do cbuild - comandos do shell">
-    <meta name="keyworks" content="cbuild, software, windows, linux, build, c, c++">
+    <meta name="description" content="Página oficial do foxmake - comandos do shell">
+    <meta name="keyworks" content="foxmake, software, windows, linux, build, c, c++">
     <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -16,7 +16,7 @@
     <link href="../lib/prism/prism.css" rel="stylesheet">
     <link href="../style/style.css" rel="stylesheet">
     
-    <title>Comandos do shell - cbuild - Site oficial</title>
+    <title>Comandos do shell - foxmake - Site oficial</title>
 
     <script src="../lib/jquery-3.7.1.min.js"></script>    
     <script src="../lib/fontawesome/all.min.js"></script>
@@ -52,11 +52,11 @@
                     com "shellend". Veja abaixo um exemplo:</p>
 
 <pre class="line-numbers"><code>shellbegin
-    echo "Verificando se o arquivo CBuildFile existe..."
-    if [ -f "CBuildFile" ]; then
-        echo "O arquivo CBuildFile existe...!"
+    echo "Verificando se o arquivo foxmakeFile existe..."
+    if [ -f "foxmakeFile" ]; then
+        echo "O arquivo foxmakeFile existe...!"
     else 
-        echo "Arquivo nao existe: CBuildFile"
+        echo "Arquivo nao existe: foxmakeFile"
     fi
 endshell
 </code></pre>
@@ -65,11 +65,11 @@ endshell
                     o "shellend" no shellscript do linux. Veja abaixo a versão para windows:</p>
 
 <pre class="line-numbers"><code>shellbegin
-    echo Verificando se o arquivo CBuildFile existe...
-    if exist CBuildFile (
-        echo O arquivo CBuildFile existe!
+    echo Verificando se o arquivo foxmakeFile existe...
+    if exist foxmakeFile (
+        echo O arquivo foxmakeFile existe!
     ) else (
-        echo O arquivo CBuildFile nao existe.
+        echo O arquivo foxmakeFile nao existe.
     )
 endshell
 </code></pre>

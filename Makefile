@@ -1,7 +1,7 @@
 
 CXX=g++
 CXXFLAGS=-Wall -g
-TARGET=cbuild
+TARGET=foxmake
 
 .PHONY: all
 

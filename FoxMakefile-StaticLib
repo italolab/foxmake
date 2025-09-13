@@ -1,7 +1,7 @@
 
 compiler=g++
 archiver=ar
-output.file.name=libcbuild.a
+output.file.name=libfoxmake.a
 
 src.dir=src
 build.dir=build

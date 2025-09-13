@@ -1,2 +1,2 @@
-/home/italo/workspace-cpp/cbuild/docs/examples/static-library/libmath/libmath.cpp=1757699587
-/home/italo/workspace-cpp/cbuild/docs/examples/static-library/libmath/libmath.h=1757699516
+/home/italo/workspace-cpp/foxmake/docs/examples/static-library/libmath/libmath.cpp=1757699587
+/home/italo/workspace-cpp/foxmake/docs/examples/static-library/libmath/libmath.h=1757699516

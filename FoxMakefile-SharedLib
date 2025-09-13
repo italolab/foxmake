@@ -2,10 +2,10 @@
 compiler=g++
 
 IF os=="windows"
-	output.file.name=cbuild.dll
+	output.file.name=foxmake.dll
 ENDIF
 IF os!="windows"
-	output.file.name=cbuild.so
+	output.file.name=foxmake.so
 ENDIF
 
 debug.bin.dir=bin/Debug
@@ -26,15 +26,13 @@ linker.params=$($(target).linker.params)
 src.dir=src
 build.dir=build
 
-#build.files="../Utils/bin/Debug/Utils.dll"
-
 #lib.dirs=
 #include.dirs=include
 #dlls=
 
 IF os=="windows"
 	defines=BUILD_DLL
-ENDIF
 
-output.def.file=$(bin.dir)/libcbuild.def
-out.implib.file=$(bin.dir)/libcbuild.a
+	output.def.file=$(bin.dir)/libfoxmake.def
+	out.implib.file=$(bin.dir)/libfoxmake.a
+ENDIF
