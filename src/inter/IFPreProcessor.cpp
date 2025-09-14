@@ -76,18 +76,12 @@ InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string
             if ( result->isErrorFound() )
                 return result;
 
-            cout << value1 << " --> ";
+            if ( manager->isPropOrVar( block, value1 ) )
+                value1 = manager->getPropOrVarValue( block, value1 );
 
-            result = manager->replacePropsAndVarsAndDollarSigns( value1, numberOfLinesReaded, line, block );
-            if ( result->isErrorFound() )
-                return result;
-
-            result = manager->replacePropsAndVarsAndDollarSigns( value2, numberOfLinesReaded, line, block );
-            if ( result->isErrorFound() )
-                return result;       
+            if ( manager->isPropOrVar( block, value2 ) )
+                value2 = manager->getPropOrVarValue( block, value2 );       
                 
-            cout << value1 << "  " << compOperator << "  " << value2 << endl;
-
             bool isIgnore2 = false;
             if ( compOperator == "==" ) {
                 isIgnore2 = ( value1 != value2 );
@@ -119,8 +113,6 @@ InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string
         return endNotFoundIR;
 
     preProcessedText = blockSS.str();
-
-    cout << preProcessedText << endl;
         
     return new InterResult( true );
 }

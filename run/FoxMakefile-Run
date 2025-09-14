@@ -102,8 +102,6 @@ task finish after
         $lib_dir=$(working_dir)/../lib/linux
     ENDIF
 
-    echo $(os)
-
     mkdir build/include
 
     cp -r $(src.dir)/**/io/*.h build/include
@@ -128,9 +126,9 @@ task finish after
     rm $(bin.dir)
 
     if os == "windows" then
-        echo "Windows!"
+        echo Windows!
     else
-        echo "Não é windows!"
+        echo Não é windows!
     endif
 
     if src.dir == bin.dir then

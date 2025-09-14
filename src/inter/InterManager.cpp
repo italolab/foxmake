@@ -115,11 +115,9 @@ bool InterManager::isPredefinedVar( Statement* st, string name ) {
             return false;
 
         MainScript* script = (MainScript*)root;
+        Var* var = script->getPredefinedVar( name );
 
-        vector<string> predefVarNames = script->predefinedVarNames();
-        for( string predefVarName : predefVarNames )
-            if ( predefVarName == name )
-                return true;
+        return ( var != nullptr );
     }
 
     return false;
@@ -140,6 +138,26 @@ bool InterManager::isPropOrVar( Block* block, string name ) {
         var = script->getPredefinedVar( name );
 
     return ( var != nullptr );
+}
+
+string InterManager::getPropOrVarValue( Block* block, string name ) {
+    Statement* root = block->getRoot();
+    if ( root == nullptr )
+        throw runtime_error( errors::runtime::NULL_ROOT_STATEMENT );
+
+    MainScript* script = (MainScript*)root;
+    Prop* prop = script->getProperty( name );
+    if ( prop != nullptr )
+        return prop->getValue();
+
+    Var* var = block->getVar( name );
+    if ( var == nullptr )
+        var = script->getPredefinedVar( name );
+
+    if ( var != nullptr )
+        return var->getValue();
+
+    return "";
 }
 
 bool InterManager::isValidCMD( string line ) {

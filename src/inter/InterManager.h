@@ -81,6 +81,7 @@ class InterManager {
 
         bool isPredefinedVar( Statement* st, string name );
         bool isPropOrVar( Block* block, string name );
+        string getPropOrVarValue( Block* block, string name );
 
 };
 

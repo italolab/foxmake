@@ -10,6 +10,9 @@
 
 using std::stringstream;
 
+#include <iostream>
+using namespace std;
+
 InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns( 
                 string& text, 
                 int& numberOfLinesReaded, 
@@ -68,12 +71,11 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
                                 if ( var == nullptr )
                                     var = script->getPredefinedVar( name );
 
-                                if ( var != nullptr ) {
+                                if ( var != nullptr ) {                                    
                                     string value = var->getValue();
                                     ss << value;
                                     k = j;
                                 } else {
-                                    
                                     messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
                                     b << name;
                                     return new InterResult( line, numberOfLinesReaded, 0, b.str() );                                    
