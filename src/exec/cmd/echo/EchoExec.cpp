@@ -11,10 +11,13 @@ using std::endl;
 void EchoExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     Output& out = manager->out;
-    
-    string cmdstr = cmd->getCMDStr();
-    string text = strutil::replace( cmdstr, cmd->getName(), "" );
-    text = strutil::removeStartWhiteSpaces( text );
 
-    out << output::green( text ) << endl;
+    vector<string>& args = cmd->getArgs();
+    int len = args.size();
+    for( int i = 0; i < len; i++ ) {
+        out << args[ i ];
+        if ( i < len-1 )
+            out << " ";
+    }
+    out << "\n";
 }

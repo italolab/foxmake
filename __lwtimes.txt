@@ -46,13 +46,13 @@
 /home/italo/workspace-cpp/foxmake/src/exec/ScriptPropertyManager.h=1757167522
 /home/italo/workspace-cpp/foxmake/src/exec/call/CallExec.cpp=1757450928
 /home/italo/workspace-cpp/foxmake/src/exec/call/CallExec.h=1757450624
-/home/italo/workspace-cpp/foxmake/src/exec/cmd/CMDExec.cpp=1757858216
+/home/italo/workspace-cpp/foxmake/src/exec/cmd/CMDExec.cpp=1757858244
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/CMDExec.h=1757486617
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/cd/CDExec.cpp=1757486819
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/cd/CDExec.h=1757486628
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/cp/CPExec.cpp=1757486806
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/cp/CPExec.h=1757486643
-/home/italo/workspace-cpp/foxmake/src/exec/cmd/echo/EchoExec.cpp=1757486793
+/home/italo/workspace-cpp/foxmake/src/exec/cmd/echo/EchoExec.cpp=1757859242
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/echo/EchoExec.h=1757486647
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/mkdir/MKDirExec.cpp=1757783233
 /home/italo/workspace-cpp/foxmake/src/exec/cmd/mkdir/MKDirExec.h=1757486652
@@ -100,7 +100,7 @@
 /home/italo/workspace-cpp/foxmake/src/inter/DefaultTaskConfigInter.h=1757445838
 /home/italo/workspace-cpp/foxmake/src/inter/IFInter.cpp=1757449460
 /home/italo/workspace-cpp/foxmake/src/inter/IFInter.h=1757853751
-/home/italo/workspace-cpp/foxmake/src/inter/IFPreProcessor.cpp=1757855132
+/home/italo/workspace-cpp/foxmake/src/inter/IFPreProcessor.cpp=1757859733
 /home/italo/workspace-cpp/foxmake/src/inter/IFPreProcessor.h=1757854089
 /home/italo/workspace-cpp/foxmake/src/inter/InterDriver.h=1756445055
 /home/italo/workspace-cpp/foxmake/src/inter/InterManager.cpp=1757857443

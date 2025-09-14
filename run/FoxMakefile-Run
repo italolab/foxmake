@@ -102,7 +102,7 @@ task finish after
         $lib_dir=$(working_dir)/../lib/linux
     ENDIF
 
-    echo $(working_dir)
+    echo $(os)
 
     mkdir build/include
 

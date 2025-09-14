@@ -19,6 +19,9 @@ IFPreProcessor::~IFPreProcessor() {
     delete ifConditionInter;
 }
 
+#include <iostream>
+using namespace std;
+
 InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string& preProcessedText, void* mgr ) {
     InterManager* manager = (InterManager*)mgr;
 
@@ -73,13 +76,17 @@ InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string
             if ( result->isErrorFound() )
                 return result;
 
+            cout << value1 << " --> ";
+
             result = manager->replacePropsAndVarsAndDollarSigns( value1, numberOfLinesReaded, line, block );
             if ( result->isErrorFound() )
                 return result;
 
             result = manager->replacePropsAndVarsAndDollarSigns( value2, numberOfLinesReaded, line, block );
             if ( result->isErrorFound() )
-                return result;            
+                return result;       
+                
+            cout << value1 << "  " << compOperator << "  " << value2 << endl;
 
             bool isIgnore2 = false;
             if ( compOperator == "==" ) {
@@ -112,6 +119,8 @@ InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string
         return endNotFoundIR;
 
     preProcessedText = blockSS.str();
+
+    cout << preProcessedText << endl;
         
     return new InterResult( true );
 }
