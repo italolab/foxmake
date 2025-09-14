@@ -1,9 +1,12 @@
 
-#include "VarInter.h"
+#include "NoInBlockVarAttrInter.h"
 #include "InterManager.h"
 #include "../darv/Var.h"
+#include "../msg/messagebuilder.h"
 
-InterResult* VarInter::interprets( 
+#include "../error_messages.h"
+
+InterResult* NoInBlockVarAttrInter::interprets( 
             Block* parent, string line, int& numberOfLinesReaded, void* mgr ) {
 
     InterManager* manager = (InterManager*)mgr;
@@ -19,6 +22,12 @@ InterResult* VarInter::interprets(
 
     string name = line.substr( 1, i-1 );
     string value = line.substr( i+1, line.length()-i );
+
+    if ( manager->isPredefinedVar( parent, name ) ) {
+        messagebuilder b( errors::TRY_CHANGE_PREDEFINED_VAR );
+        b << name;
+        return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+    }
 
     InterResult* replaceResult = manager->replacePropsAndVarsAndDollarSigns(
             value, numberOfLinesReaded, line, parent );

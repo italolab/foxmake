@@ -36,6 +36,7 @@ não haver problema com a substituição de valores de variáveis e propriedades
 Esse método é executado a cada execução do comando e não seria bom que o replace 
 de variáveis e propriedades alterasse o CMD original.
 */
+
 void CMDExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
@@ -54,7 +55,7 @@ void CMDExec::exec( CMD* cmd, void* mgr ) {
         if ( !replaceResult->isInterpreted() )
             throw st_error( replaceResult );
         delete replaceResult;        
-    }
+    } 
     
     string cmdName = newCMD->getName();
     if ( cmdName == "cd" ) {

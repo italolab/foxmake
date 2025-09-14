@@ -82,7 +82,7 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
     manager->executeUserTaskIfExists( tasks::ARCHIVEBUILDALL, TaskExecution::BEFORE );
     manager->executeUserTaskIfExists( tasks::TESTBUILD, TaskExecution::BEFORE );
     manager->executeUserTaskIfExists( tasks::TESTBUILDALL, TaskExecution::BEFORE );
-        
+
     if ( isClean )
         cleanTaskExec->exec( mgr );
     if ( isCompile || isCompileAll )

@@ -22,6 +22,8 @@ InterResult* IFConditionInter::interprets(
             int numberOfLinesReaded,
             void* mgr ) {
         
+    InterManager* manager = (InterManager*)mgr;
+
     condition = strutil::removeStartWhiteSpaces( condition );
     condition = strutil::removeEndWhiteSpaces( condition );
 
@@ -52,10 +54,13 @@ InterResult* IFConditionInter::interprets(
 
         value1 = operand1.substr( 1, operand1.length()-2 );
     } else {
-        string errorMsg = "";
-        bool varOrPropFound = this->loadVarOrPropertyValueOfOperand( parent, operand1, value1, errorMsg );
-        if ( !varOrPropFound )
-            return new InterResult( line, numberOfLinesReaded, 0, errorMsg );
+        if ( manager->isPropOrVar( parent, operand1 ) ) {
+            value1 = operand1;
+        } else {
+            messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+            b << operand1;
+            return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+        }
     }
 
     if ( strutil::startsWith( operand2, "\"" ) ) {
@@ -64,40 +69,14 @@ InterResult* IFConditionInter::interprets(
          
         value2 = operand2.substr( 1, operand2.length()-2 );
     } else {
-        string errorMsg = "";
-        bool varOrPropFound = this->loadVarOrPropertyValueOfOperand( parent, operand2, value2, errorMsg );
-        if ( !varOrPropFound )
-            return new InterResult( line, numberOfLinesReaded, 0, errorMsg );
+        if ( manager->isPropOrVar( parent, operand2 ) ) {
+            value2 = operand2;
+        } else {
+            messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+            b << operand2;
+            return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+        }
     }
 
     return new InterResult( true );
-}
-
-bool IFConditionInter::loadVarOrPropertyValueOfOperand( 
-            Block* parent, 
-            string operand, 
-            string& value, 
-            string& errorMsg ) {
-
-    Var* var = parent->getVar( operand );
-    if ( var == nullptr ) {
-        Statement* root = parent->getRoot();
-        if ( root == nullptr )
-            throw runtime_error( errors::runtime::NULL_ROOT_STATEMENT );
-
-        MainScript* script = (MainScript*)root;
-        Prop* prop = script->getProperty( operand );
-        if ( prop == nullptr ) {
-            messagebuilder b( errors::VARIABLE_OR_PROPERTY_NOT_FOUND );
-            b << operand;
-            errorMsg = b.str();
-            return false;
-        }
-
-        value = prop->getValue();
-        return true;
-    }
-
-    value = var->getValue();
-    return true;
 }

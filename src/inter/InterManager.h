@@ -6,14 +6,14 @@
 #include "MainScriptInter.h"
 #include "TaskInter.h"
 #include "ProcInter.h"
-#include "preproc/PreProcessor.h"
+#include "IFPreProcessor.h"
 #include "DefaultTaskConfigInter.h"
 #include "taskdef/TaskDefinitionInter.h"
 #include "taskdef/TaskDefinitionResult.h"
 #include "CMDInter.h"
 #include "ShellCMDLineInter.h"
 #include "PropInter.h"
-#include "VarInter.h"
+#include "NoInBlockVarAttrInter.h"
 #include "VarAttrInter.h"
 #include "IFInter.h"
 #include "PropsAndVarsReplacer.h"
@@ -33,7 +33,7 @@ class InterManager {
         CMDInter* cmdInter;
         ShellCMDLineInter* shellCMDInter;
         PropInter* propInter;
-        VarInter* varInter;
+        NoInBlockVarAttrInter* noInBlockVarAttrInter;
         VarAttrInter* varAttrInter;
         DefaultTaskConfigInter* defaultTaskConfigInter;
         TaskDefinitionInter* taskDefinitionInter;
@@ -42,7 +42,7 @@ class InterManager {
 
         PropsAndVarsReplacer* propsAndVarsReplacer;
 
-        PreProcessor* preProcessor;
+        IFPreProcessor* ifPreProcessor;
         
         InterDriver* drv;
 
@@ -73,11 +73,15 @@ class InterManager {
 
         InterResult* replacePropsAndVarsAndDollarSigns( string& text, int& numberOfLinesReaded, string line, Block* block );
 
-        InterResult* preProcess( Block* block, BlockIterator* it, string& preProcessedText );
+        InterResult* ifPreProcess( Block* block, BlockIterator* it, string& preProcessedText );
 
         bool isValidCMD( string line );
         bool isValidProp( string propName );
         bool isValidDefaultTask( string taskName );
+
+        bool isPredefinedVar( Statement* st, string name );
+        bool isPropOrVar( Block* block, string name );
+
 };
 
 #endif

@@ -2,7 +2,7 @@
 #define IF_INTER_H
 
 #include "InterResult.h"
-#include "if/IFConditionInter.h"
+#include "condition/IFConditionInter.h"
 #include "it/BlockIterator.h"
 #include "../darv/Block.h"
 

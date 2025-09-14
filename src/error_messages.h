@@ -85,8 +85,8 @@ namespace errors {
     const string IF_CONDITION_EXPECTED = "Condição de if esperada.";
     const string ENDIF_NOT_FOUND = "if sem endif correspondente.";
 
-    const string VARIABLE_OR_PROPERTY_NOT_FOUND = "Não foi encontrada variável nem propriedade com nome: $1.";
     const string PROPERTY_NOT_FOUND = "Propriedade não reconhecida: \"$1\".";
+    const string TRY_CHANGE_PREDEFINED_VAR = "Tentativa de alterar variável predefinida: \"$1\".";
 
     const string VALUE_IN_QUOTES_NOT_CLOSED = "Valor com aspas duplas sem fechar.";
     
@@ -127,10 +127,12 @@ namespace io {
 
 namespace runtime {
 
-    const string NULL_ROOT_STATEMENT = "$1 --> A raiz da árvore é nula.";
-    const string NULL_PARENT = "$1 --> O objeto bloco é nulo.";
-    const string NULL_PROC = "$1 --> Proc nula.";
+    const string NULL_ROOT_STATEMENT = "A raiz da árvore é nula.";
+    const string NULL_PARENT = "O objeto bloco é nulo.";
+    const string NULL_PROC = "Proc nula.";
     const string NULL_IF_CONDITION = "IF Condition nula.";
+
+    const string NULL_WORKING_DIR_PRED_VAR = "A variável predefinida working_dir não foi definida.";
 
     const string CMD_EXECUTOR_NOT_FOUND = "Executor de comando não encontrado pelo nome: \"$1\"";
     const string TASK_EXECUTOR_NOT_FOUND = "Executor de tarefa não encontrado pelo nome: \"$1\"";

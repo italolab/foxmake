@@ -2,6 +2,12 @@
 #include "InterManager.h"
 #include "../util/strutil.h"
 
+#include "../error_messages.h"
+
+#include <stdexcept>
+
+using std::runtime_error;
+
 InterManager::InterManager( InterDriver* drv ) {
     this->drv = drv;
 
@@ -14,13 +20,13 @@ InterManager::InterManager( InterDriver* drv ) {
     this->cmdInter = new CMDInter();
     this->shellCMDInter = new ShellCMDLineInter();
     this->propInter = new PropInter();
-    this->varInter = new VarInter();
+    this->noInBlockVarAttrInter = new NoInBlockVarAttrInter();
     this->varAttrInter = new VarAttrInter();
 
     this->ifInter = new IFInter();
     this->propsAndVarsReplacer = new PropsAndVarsReplacer();
 
-    this->preProcessor = new PreProcessor();
+    this->ifPreProcessor = new IFPreProcessor();
 }
 
 InterManager::~InterManager() {
@@ -33,13 +39,13 @@ InterManager::~InterManager() {
     delete cmdInter;
     delete shellCMDInter;
     delete propInter;
-    delete varInter;
+    delete noInBlockVarAttrInter;
     delete varAttrInter;
 
     delete ifInter;
     delete propsAndVarsReplacer;
 
-    delete preProcessor;
+    delete ifPreProcessor;
 }
 
 InterResult* InterManager::interpretsMainCMD( int argc, char* argv[] ) {
@@ -55,7 +61,7 @@ InterResult* InterManager::interpretsShellCMD( Block* parent, BlockIterator* it,
 }
 
 InterResult* InterManager::interpretsVar( Block* parent, string line, int& numberOfLinesReaded ) {
-    return varInter->interprets( parent, line, numberOfLinesReaded, this );
+    return noInBlockVarAttrInter->interprets( parent, line, numberOfLinesReaded, this );
 }
 
 InterResult* InterManager::interpretsProp( MainScript* parent, string line, int& numberOfLinesReaded ) {
@@ -98,9 +104,42 @@ InterResult* InterManager::replacePropsAndVarsAndDollarSigns( string& text, int&
     return propsAndVarsReplacer->replacePropsAndVarsAndDollarSigns( text, numberOfLinesReaded, line, block );
 }
 
+InterResult* InterManager::ifPreProcess( Block* block, BlockIterator* it, string& preProcessedText ) {
+    return ifPreProcessor->preProcess( block, it, preProcessedText, this );
+}
 
-InterResult* InterManager::preProcess( Block* block, BlockIterator* it, string& preProcessedText ) {
-    return preProcessor->preProcess( block, it, preProcessedText, this );
+bool InterManager::isPredefinedVar( Statement* st, string name ) {    
+    if ( st != nullptr ) {
+        Statement* root = st->getRoot();
+        if ( root == nullptr )
+            return false;
+
+        MainScript* script = (MainScript*)root;
+
+        vector<string> predefVarNames = script->predefinedVarNames();
+        for( string predefVarName : predefVarNames )
+            if ( predefVarName == name )
+                return true;
+    }
+
+    return false;
+}
+
+bool InterManager::isPropOrVar( Block* block, string name ) {
+    Statement* root = block->getRoot();
+    if ( root == nullptr )
+        throw runtime_error( errors::runtime::NULL_ROOT_STATEMENT );
+
+    MainScript* script = (MainScript*)root;
+    Prop* prop = script->getProperty( name );
+    if ( prop != nullptr )
+        return true;
+
+    Var* var = block->getVar( name );
+    if ( var == nullptr )
+        var = script->getPredefinedVar( name );
+
+    return ( var != nullptr );
 }
 
 bool InterManager::isValidCMD( string line ) {

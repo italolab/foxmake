@@ -39,7 +39,7 @@ void MainCMDInterpreter::configureAndInterpretsAndValidate( void* mgr ) {
     bool scriptFileFound = false;
 
     this->configure( workingDirFound, scriptFileFound, mgr );
-    this->interpretsMainScript( workingDirFound, scriptFileFound, mgr );
+    this->interpretsMainScript( workingDirFound, scriptFileFound, mgr );    
     this->validaMainCMD( mgr );
 }
 
@@ -117,9 +117,9 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
         os = "nowindows";
     #endif
 
-    mainScript->putLocalVar( "os", os );
-    mainScript->putLocalVar( "script_file", scriptFile );
-    mainScript->putLocalVar( "working_dir", workingDir );
+    mainScript->putPredefinedVar( "os", os );
+    mainScript->putPredefinedVar( "script_file", scriptFile );
+    mainScript->putPredefinedVar( "working_dir", workingDir );
 
     if ( scriptFileFound ) {
         InterResult* result = interManager->interpretsMainScript( mainScript, scriptFile );
@@ -141,7 +141,11 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
         shell::setWorkingDir( basedir );
     }
 
-    string wdir = mainScript->getLocalVar( "working_dir" )->getValue();
+    Var* workingDirVar = mainScript->getPredefinedVar( "working_dir" );
+    if ( workingDirVar == nullptr )
+        throw runtime_error( errors::runtime::NULL_WORKING_DIR_PRED_VAR );
+
+    string wdir = workingDirVar->getValue();
 
     if ( isVerbose ) {
         messagebuilder b2( infos::CURRENT_DIRECTORY );

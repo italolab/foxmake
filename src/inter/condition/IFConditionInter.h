@@ -10,13 +10,6 @@ using std::string;
 
 class IFConditionInter {
 
-    private:
-        bool loadVarOrPropertyValueOfOperand( 
-            Block* parent, 
-            string operand, 
-            string& value, 
-            string& errorMsg );
-
     public:
         InterResult* interprets( 
             Block* parent,

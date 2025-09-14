@@ -44,7 +44,7 @@ InterResult* MainScriptInter::interprets(
     FileIterator* it = new FileIterator( file );
 
     string preProcessedText;
-    InterResult* iresult = manager->preProcess( script, it, preProcessedText );
+    InterResult* iresult = manager->ifPreProcess( script, it, preProcessedText );
     if ( iresult->isErrorFound() )
         return iresult;
                 

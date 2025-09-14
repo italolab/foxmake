@@ -46,6 +46,23 @@ vector<string> MainScript::propertyNames() {
     return names;
 }
 
+void MainScript::putPredefinedVar( string name, string value ) {
+    predefinedVarsMap[ name ] = new Var( name, value, 0, "" );
+}
+
+Var* MainScript::getPredefinedVar( string name ) {
+    if ( predefinedVarsMap.find( name ) != predefinedVarsMap.end() )
+        return predefinedVarsMap[ name ];
+    return nullptr;
+}
+
+vector<string> MainScript::predefinedVarNames() {
+    vector<string> names;
+    for( const auto& pair : predefinedVarsMap )
+        names.push_back( pair.first );
+    return names;
+}
+
 void MainScript::addTask( Task* task ) {
     tasksVect.push_back( task );
 }

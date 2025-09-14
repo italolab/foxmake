@@ -1,5 +1,5 @@
-#ifndef VAR_INTER_H
-#define VAR_INTER_H
+#ifndef NO_IN_BLOCK_VAR_ATTR_INTER_H
+#define NO_IN_BLOCK_VAR_ATTR_INTER_H
 
 #include "InterResult.h"
 #include "../darv/Block.h"
@@ -8,7 +8,7 @@
 
 using std::string;
 
-class VarInter {
+class NoInBlockVarAttrInter {
 
     public:
         InterResult* interprets( 

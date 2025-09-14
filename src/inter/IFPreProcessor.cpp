@@ -1,24 +1,27 @@
 
-#include "PreProcessor.h"
-#include "../../util/strutil.h"
-#include "../../msg/messagebuilder.h"
+#include "IFPreProcessor.h"
+#include "InterManager.h"
+#include "../util/strutil.h"
+#include "../msg/messagebuilder.h"
 
-#include "../../error_messages.h"
+#include "../error_messages.h"
 
 #include <sstream>
 
 using std::stringstream;
 using std::istringstream;
 
-PreProcessor::PreProcessor() {
+IFPreProcessor::IFPreProcessor() {
     this->ifConditionInter = new IFConditionInter();
 }
 
-PreProcessor::~PreProcessor() {
+IFPreProcessor::~IFPreProcessor() {
     delete ifConditionInter;
 }
 
-InterResult* PreProcessor::preProcess( Block* block, BlockIterator* it, string& preProcessedText, void* mgr ) {
+InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string& preProcessedText, void* mgr ) {
+    InterManager* manager = (InterManager*)mgr;
+
     stringstream blockSS;
     int numberOfLinesReaded = 0;
 
@@ -60,7 +63,7 @@ InterResult* PreProcessor::preProcess( Block* block, BlockIterator* it, string& 
             string condition = line2.substr( 3, line2.length()-3 );
             condition = strutil::removeStartWhiteSpaces( condition );
             condition = strutil::removeEndWhiteSpaces( condition );
-                 
+            
             string value1;
             string value2;
             string compOperator;
@@ -69,6 +72,14 @@ InterResult* PreProcessor::preProcess( Block* block, BlockIterator* it, string& 
                     
             if ( result->isErrorFound() )
                 return result;
+
+            result = manager->replacePropsAndVarsAndDollarSigns( value1, numberOfLinesReaded, line, block );
+            if ( result->isErrorFound() )
+                return result;
+
+            result = manager->replacePropsAndVarsAndDollarSigns( value2, numberOfLinesReaded, line, block );
+            if ( result->isErrorFound() )
+                return result;            
 
             bool isIgnore2 = false;
             if ( compOperator == "==" ) {

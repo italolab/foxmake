@@ -102,6 +102,8 @@ task finish after
         $lib_dir=$(working_dir)/../lib/linux
     ENDIF
 
+    echo $(working_dir)
+
     mkdir build/include
 
     cp -r $(src.dir)/**/io/*.h build/include

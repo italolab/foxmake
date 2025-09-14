@@ -63,16 +63,20 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
                                 string value = script->getPropertyValue( name );
                                 ss << value;
                                 k = j;
-                            } else {
+                            } else {                                
                                 Var* var = block->getVar( name );                                
+                                if ( var == nullptr )
+                                    var = script->getPredefinedVar( name );
+
                                 if ( var != nullptr ) {
                                     string value = var->getValue();
                                     ss << value;
                                     k = j;
                                 } else {
+                                    
                                     messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
                                     b << name;
-                                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );
+                                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );                                    
                                 }
                             }
                         } else {

@@ -1,19 +1,19 @@
 #ifndef PRE_PROC_SCRIPT_H
 #define PRE_PROC_SCRIPT_H
 
-#include "../it/BlockIterator.h"
-#include "../InterResult.h"
-#include "../if/IFConditionInter.h"
-#include "../../darv/Block.h"
+#include "it/BlockIterator.h"
+#include "InterResult.h"
+#include "condition/IFConditionInter.h"
+#include "../darv/Block.h"
 
-class PreProcessor {
+class IFPreProcessor {
 
     private:
         IFConditionInter* ifConditionInter;
 
     public:
-        PreProcessor();
-        virtual ~PreProcessor();
+        IFPreProcessor();
+        virtual ~IFPreProcessor();
 
         InterResult* preProcess( 
                     Block* block, 

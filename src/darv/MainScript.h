@@ -6,6 +6,7 @@
 #include "Var.h"
 #include "Task.h"
 #include "Proc.h"
+#include "Var.h"
 #include "DefaultTaskConfig.h"
 #include "Prop.h"
 
@@ -21,6 +22,7 @@ class MainScript : public Block {
 
     private:
         map<string, Prop*> propertiesMap;
+        map<string, Var*> predefinedVarsMap;
         vector<Task*> tasksVect;
         vector<Proc*> procsVect;
         vector<DefaultTaskConfig*> defaultTaskConfigsVect;
@@ -36,6 +38,10 @@ class MainScript : public Block {
         bool existsProperty( string name );
         int getPropertiesLength();
         vector<string> propertyNames();
+
+        void putPredefinedVar( string name, string value );
+        Var* getPredefinedVar( string name );
+        vector<string> predefinedVarNames();
 
         void addTask( Task* task );
         Task* getTask( string taskName, TaskExecution taskExecution );
