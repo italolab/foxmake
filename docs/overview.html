@@ -49,12 +49,12 @@
 
                 <p>O FoxMakefile pode ter a seguinte estrutura inicial:</p>
 
-<pre class="line-numbers"><code>output.file.name</code></pre>
+<pre class="line-numbers"><code>output.file.name=executavel.exe</code></pre>
 
                 <p>A configuração acima assume que a pasta de código fonte é a raiz do 
                 projeto e a pasta de binários também. Você pode definir as pastas como a seguir:</p>
 
-<pre class="line-numbers"><code>output.file.name
+<pre class="line-numbers"><code>output.file.name=executavel.exe
 src.dir=src
 bin.dir=bin    
 obj.dir=obj
@@ -252,7 +252,7 @@ de comentário
                         <li><b>testbuild</b>: clean, compile, link, copy, test</li>
                         <li><b>buildall</b>: clean, compileall, link, copy</li>
                         <li><b>archivebuildall</b>: clean, compileall, archive, copy</li>
-                        <li><b>testbuildall</b>: clean, compileall, link, test, copy</li>
+                        <li><b>testbuildall</b>: clean, compileall, link, copy, test</li>
                     </ul>
                 </section>
             
