@@ -17,21 +17,22 @@
 using std::stringstream;
 using std::endl;
 
-void CDExec::exec( CMD* cmd, void* mgr ) {
+void CDExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
+    CMD* cmd = execCMD->getCMD();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
     
-    int alen = cmd->countNoOpArgs();
+    int alen = execCMD->countNoOpArgs();
     if ( alen != 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
         b << "1" << std::to_string( alen );
         throw st_error( cmd, b.str() );
     }
 
-    string newDir = cmd->getNoOpArgByIndex( 0 );
+    string newDir = execCMD->getNoOpArgByIndex( 0 );
 
     if ( !io::fileExists( newDir ) )
         throw st_error( cmd, errors::DIRECTORY_NOT_FOUND );

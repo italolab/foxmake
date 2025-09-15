@@ -21,6 +21,9 @@ class MainCMDInterpreter {
     public:
         void configureAndInterpretsAndValidate( void* mgr );
 
+        string getScriptFile();
+        string getWorkingDir();
+
 };
 
 #endif

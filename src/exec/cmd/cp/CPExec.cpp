@@ -20,8 +20,9 @@ using std::endl;
 #include <iostream>
 using namespace std;
 
-void CPExec::exec( CMD* cmd, void* mgr ) {
+void CPExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    CMD* cmd = execCMD->getCMD();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
@@ -29,14 +30,14 @@ void CPExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose )
         out << cmd->getCMDStr() << endl;
 
-    int alen = cmd->countNoOpArgs();
+    int alen = execCMD->countNoOpArgs();
     if ( alen != 2 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
         b << "2" << std::to_string( alen );
         throw st_error( cmd, b.str() );
     }
-    string src = cmd->getNoOpArgByIndex( 0 );
-    string dest = cmd->getNoOpArgByIndex( 1 );
+    string src = execCMD->getNoOpArgByIndex( 0 );
+    string dest = execCMD->getNoOpArgByIndex( 1 );
 
     bool isRecursive = cmd->existsArg( "-r" );
     bool isOverwrite = !cmd->existsArg( "-no-overwrite" );

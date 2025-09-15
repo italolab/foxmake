@@ -16,6 +16,13 @@ Output& Output::operator<<( std::ostream& (*stream)(std::ostream&) ) {
 }
 
 namespace output {
+
+    string bold( string text ) {
+        string output = "\033[1m";
+        output += text;
+        output += "\033[0m";
+        return output;
+    }
     
     string red( string text ) {
         string output = "\033[31m";
@@ -51,4 +58,5 @@ namespace output {
         output += "\033[0m";
         return output;
     }
+
 }

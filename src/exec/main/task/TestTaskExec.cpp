@@ -25,8 +25,6 @@ void TestTaskExec::exec( void* mgr ) {
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::TEST );
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
-    if ( isVerbose )
-        out << endl;
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::TEST ) << "..." << endl;    
 
@@ -63,6 +61,8 @@ void TestTaskExec::exec( void* mgr ) {
 
     manager->executeUserTaskIfExists( tasks::TEST, TaskExecution::AFTER );
 
-    if ( isVerbose )
+    if ( isVerbose ) {
         out << infos::SUCCESS_IN_TESTING << endl;
+        out << endl;
+    }
 }

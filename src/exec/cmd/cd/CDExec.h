@@ -1,14 +1,14 @@
 #ifndef CD_EXEC_H
 #define CD_EXEC_H
 
-#include "../../../darv/CMD.h"
+#include "../ExecCMD.h"
 
 #include <string>
 
 class CDExec {
 
     public:
-        void exec( CMD* cmd, void* mgr );
+        void exec( ExecCMD* execCMD, void* mgr );
 
 };
 

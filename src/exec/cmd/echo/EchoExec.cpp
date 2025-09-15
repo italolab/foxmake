@@ -8,16 +8,15 @@
 
 using std::endl;
 
-void EchoExec::exec( CMD* cmd, void* mgr ) {
+void EchoExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     Output& out = manager->out;
 
-    vector<string>& args = cmd->getArgs();
-    int len = args.size();
-    for( int i = 0; i < len; i++ ) {
-        out << args[ i ];
-        if ( i < len-1 )
-            out << " ";
-    }
-    out << "\n";
+    string cmdstr = execCMD->getCMDStr();
+    string cmdName = execCMD->getName();
+
+    string echoContent = strutil::replace( cmdstr, cmdName, "" );
+    echoContent = strutil::removeStartWhiteSpaces( echoContent );
+
+    out << echoContent << "\n";
 }

@@ -9,6 +9,7 @@
 #include "if/IFExec.h"
 #include "varattr/VarAttrExec.h"
 #include "call/CallExec.h"
+#include "cmd/ExecCMD.h"
 #include "../darv/Statement.h"
 #include "../darv/MainScript.h"
 #include "../darv/Task.h"
@@ -30,7 +31,6 @@ class ExecManager : public InterDriver {
 
     private:
         MainScript* mainScript;
-        CMD* mainCMD;
 
         InterManager* interManager;
         SourceCodeManager* sourceCodeManager;
@@ -39,6 +39,7 @@ class ExecManager : public InterDriver {
         ScriptPropertyManager* scriptPropertyManager;
 
         MainExec* mainExec;
+        ExecCMD* mainExecCMD;
 
         ShellCMDLineExec* shellCMDExec;
         CMDExec* cmdExec;
@@ -69,7 +70,8 @@ class ExecManager : public InterDriver {
 
         MainExec* getMainExec();
         MainScript* getMainScript();
-        CMD* getMainCMD();
+        ExecCMD* getMainExecCMD();
+        
         InterManager* getInterManager();
         SourceCodeManager* getSourceCodeManager();
         SourceCodeManager* getTestSourceCodeManager();

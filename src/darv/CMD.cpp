@@ -8,84 +8,6 @@ CMD::~CMD() {
         delete pair.second;
 }
 
-CMD* CMD::newCopy() {
-    Statement* parent = Statement::getParent();
-    int numberOfLinesReaded = Statement::getNumberOfLinesReaded();
-    string line = Statement::getLine();
-    
-    CMD* cmd = new CMD( parent, numberOfLinesReaded, line );
-    cmd->load( name, cmdstr, argsVect, propertiesMap );
-    
-    return cmd;
-}
-
-void CMD::load( string name, string cmdstr, vector<string>& argsVect2, map<string, Prop*>& propsMap2 ) {
-    this->name = name;
-    this->cmdstr = cmdstr;
-    this->argsVect.insert( argsVect.end(), argsVect2.begin(), argsVect2.end() );
-    
-    for( const auto& pair : propsMap2 )
-        this->propertiesMap[ pair.first ] = pair.second;    
-}
-
-
-vector<string> CMD::getOpArgValues( string op ) {
-    vector<string> values;
-    int len = argsVect.size();
-    for( int i = 0; i < len; i++ ) {
-        if ( argsVect[ i ] == op && i+1 < len )
-            if ( argsVect[ i+1 ] != op )
-                values.push_back( argsVect[ i+1 ] );    
-    }
-    return values;
-}
-
-int CMD::countOpArgs() {
-    int count = 0;
-    for( string a : argsVect )
-        if ( a.length() > 0 )
-            if ( a[ 0 ] == '-' )
-                count++;
-    return count;
-}
-
-int CMD::countNoOpArgs() {
-    int count = 0;
-    for( string a : argsVect )
-        if ( a.length() > 0 )
-            if ( a[ 0 ] != '-' )
-                count++;
-    return count;
-}
-
-string CMD::getOpArgByIndex( int i ) {
-    int k = 0;
-    for( string a : argsVect ) {
-        if ( a.length() > 0 ) {
-            if ( a[ 0 ] == '-' ) {
-                if ( i == k )
-                    return a;
-                k++;
-            }
-        }
-    }
-    return "";
-}
-
-string CMD::getNoOpArgByIndex( int i ) {
-    int k = 0;
-    for( string a : argsVect ) {
-        if ( a.length() > 0 ) {
-            if ( a[ 0 ] != '-' ) {
-                if ( i == k )
-                    return a;
-                k++;
-            }
-        }
-    }
-    return "";
-}
-
 bool CMD::existsArg( string arg ) {
     for( string a : argsVect )
         if ( a == arg )
@@ -128,6 +50,10 @@ vector<string> CMD::propertyNames() {
 
 int CMD::getPropertiesLength() {
     return propertiesMap.size();
+}
+
+map<string, Prop*>& CMD::getPropsMap() {
+    return propertiesMap;
 }
 
 string CMD::getName() {

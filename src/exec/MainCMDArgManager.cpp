@@ -36,33 +36,33 @@ MainCMDArgManager::MainCMDArgManager( void* mgr ) {
 }
 
 bool MainCMDArgManager::isHelp() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
         
-    bool isShowHelp = mainCMD->existsArg( "-h" );
+    bool isShowHelp = mainExecCMD->existsArg( "-h" );
     if ( !isShowHelp )
-        isShowHelp = mainCMD->existsArg( "--help" );
+        isShowHelp = mainExecCMD->existsArg( "--help" );
     return isShowHelp;
 }
 
 bool MainCMDArgManager::isVerbose() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
         
-    bool isVerbose = mainCMD->existsArg( "-v" );
+    bool isVerbose = mainExecCMD->existsArg( "-v" );
     if ( !isVerbose )
-        isVerbose = mainCMD->existsArg( "--verbose" );
+        isVerbose = mainExecCMD->existsArg( "--verbose" );
     return isVerbose;
 }
 
 bool MainCMDArgManager::isNoResume() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
         
-    return mainCMD->existsArg( "--no-resume" );
+    return mainExecCMD->existsArg( "--no-resume" );
 }
 
 bool MainCMDArgManager::isVerbose( GenericCMD* cmd ) {
@@ -86,7 +86,8 @@ bool MainCMDArgManager::isVerbose( string taskName ) {
 
     DefaultTaskConfig* defaultTaskConfig = mainScript->getDefaultTaskConfig( taskName );    
     if ( defaultTaskConfig != nullptr )
-        return defaultTaskConfig->isVerbose();
+        if ( defaultTaskConfig->isVerboseDefined() )
+            return defaultTaskConfig->isVerbose();
     return this->isVerbose();
 }
 
@@ -97,149 +98,150 @@ bool MainCMDArgManager::isShowCMDOutput( string taskName ) {
 
     DefaultTaskConfig* defaultTaskConfig = mainScript->getDefaultTaskConfig( taskName );    
     if ( defaultTaskConfig != nullptr )
-        return defaultTaskConfig->isShowCMDOutput();
+        if ( defaultTaskConfig->isShowCMDOutputDefined() )
+            return defaultTaskConfig->isShowCMDOutput();
     return consts::DEFAULT_SHOW_CMD_OUTPUT;
 }
 
 bool MainCMDArgManager::isClean() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
 
-    bool isClean = mainCMD->existsArg( tasks::CLEAN );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
-    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );    
-    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
-    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    bool isClean = mainExecCMD->existsArg( tasks::CLEAN );
+    bool isBuild = mainExecCMD->existsArg( tasks::BUILD );
+    bool isBuildAll = mainExecCMD->existsArg( tasks::BUILDALL );
+    bool isArchiveBuild = mainExecCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuildAll = mainExecCMD->existsArg( tasks::ARCHIVEBUILDALL );    
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isClean || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isCompile() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isCompile = mainCMD->existsArg( tasks::COMPILE );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
-    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    bool isCompile = mainExecCMD->existsArg( tasks::COMPILE );
+    bool isBuild = mainExecCMD->existsArg( tasks::BUILD );
+    bool isArchiveBuild = mainExecCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
     return isCompile || isBuild || isArchiveBuild || isTestBuild;
 }
 
 bool MainCMDArgManager::isCompileAll() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isCompileAll = mainCMD->existsArg( tasks::COMPILEALL );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
-    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    bool isCompileAll = mainExecCMD->existsArg( tasks::COMPILEALL );
+    bool isBuildAll = mainExecCMD->existsArg( tasks::BUILDALL );
+    bool isArchiveBuildAll = mainExecCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isCompileAll || isBuildAll || isArchiveBuildAll || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isLink() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isLink = mainCMD->existsArg( tasks::LINK );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
-    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    bool isLink = mainExecCMD->existsArg( tasks::LINK );
+    bool isBuild = mainExecCMD->existsArg( tasks::BUILD );
+    bool isBuildAll = mainExecCMD->existsArg( tasks::BUILDALL );
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isLink || isBuild || isBuildAll || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isArchive() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isArchive = mainCMD->existsArg( tasks::ARCHIVE );
-    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
-    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    bool isArchive = mainExecCMD->existsArg( tasks::ARCHIVE );
+    bool isArchiveBuild = mainExecCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuildAll = mainExecCMD->existsArg( tasks::ARCHIVEBUILDALL );
     return isArchive || isArchiveBuild || isArchiveBuildAll;
 }
 
 bool MainCMDArgManager::isTest() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isTest = mainCMD->existsArg( tasks::TEST );
-    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
-    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    bool isTest = mainExecCMD->existsArg( tasks::TEST );
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isTest || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isCopy() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isCopy = mainCMD->existsArg( tasks::COPY );
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
-    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
-    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
-    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
-    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    bool isCopy = mainExecCMD->existsArg( tasks::COPY );
+    bool isBuild = mainExecCMD->existsArg( tasks::BUILD );
+    bool isBuildAll = mainExecCMD->existsArg( tasks::BUILDALL );
+    bool isArchiveBuild = mainExecCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuildAll = mainExecCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isCopy || isBuild || isBuildAll || isArchiveBuild || isArchiveBuildAll || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isBuild() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isBuild = mainCMD->existsArg( tasks::BUILD );
+    bool isBuild = mainExecCMD->existsArg( tasks::BUILD );
     return isBuild;
 }
 
 bool MainCMDArgManager::isBuildAll() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isBuildAll = mainCMD->existsArg( tasks::BUILDALL );
+    bool isBuildAll = mainExecCMD->existsArg( tasks::BUILDALL );
     return isBuildAll;
 }
 
 bool MainCMDArgManager::isArchiveBuild() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isArchiveBuild = mainCMD->existsArg( tasks::ARCHIVEBUILD );
+    bool isArchiveBuild = mainExecCMD->existsArg( tasks::ARCHIVEBUILD );
     return isArchiveBuild;
 }
 
 bool MainCMDArgManager::isArchiveBuildAll() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isArchiveBuildAll = mainCMD->existsArg( tasks::ARCHIVEBUILDALL );
+    bool isArchiveBuildAll = mainExecCMD->existsArg( tasks::ARCHIVEBUILDALL );
     return isArchiveBuildAll;
 }
 
 bool MainCMDArgManager::isTestBuild() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isTestBuild = mainCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
     return isTestBuild;
 }
 
 bool MainCMDArgManager::isTestBuildAll() {
-    CMD* mainCMD = ((ExecManager*)mgr)->getMainCMD();
-    if ( mainCMD == nullptr )
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
         return false;
     
-    bool isTestBuildAll = mainCMD->existsArg( tasks::TESTBUILDALL );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isTestBuildAll;
 }

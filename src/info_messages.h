@@ -22,12 +22,13 @@ namespace infos {
 
     const string FINISH = "Concluído!";
 
-    const string CURRENT_DIRECTORY = "Diretório corrente: \"$1\"";
     const string NEW_CURRENT_DIRECTORY = "Novo diretório corrente: \"$1\".";
 
     const string FILE_OR_DIRECTORY_DELETED = "Deletado: \"$1\"";
-    const string FILE_OR_DIRECTORY_COPIED = "Copiado para pasta de build: \"$1\".";
+    const string FILE_OR_DIRECTORY_COPIED = "Copiado: \"$1\".";
     const string FILES_AND_FOLDERS_DELETED = "$1 arquivo(s) ou pasta(s) deletado(s)";
+
+    const string COPYING_TO_BUILD_FOLDER = "Copiando para pasta de build...";
 
     const string CLEAN_UP_TO_DATE = "Não foi necessário remover algum arquivo. Limpesa atualizada.";
     const string COMPILATION_UP_TO_DATE = "Não foi necessário compilar algum arquivo.\nCompilação atualizada!";
@@ -36,8 +37,9 @@ namespace infos {
     const string NOTHING_TO_ARCHIVE = "Nenhum arquivo de código fonte compilado para archiving.";
     const string NOTHING_TO_TEST = "Nenhum arquivo de código fonte compilado para executar testes.";
 
-    const string foxmake_FILE = "Arquivo de configuração: \"$1\"";
-    const string SRC_DIRECTORY = "Src dir=\"$1\"";
+    const string SCRIPT = "Script: ";
+    const string CURRENT_DIRECTORY = "Diretório corrente: ";
+    const string SRC_DIRECTORY = "Src: ";
 
 }
 

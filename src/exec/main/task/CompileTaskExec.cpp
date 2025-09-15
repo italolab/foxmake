@@ -49,9 +49,6 @@ void CompileTaskExec::exec( void* mgr ) {
 
     Output& out = manager->out;
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
-
-    if ( isVerbose )
-        out << endl;
         
     if ( !isNoResume || isVerbose ) {
         if ( isCompileAll ) {
@@ -125,6 +122,7 @@ void CompileTaskExec::exec( void* mgr ) {
         if ( filesToCompile.empty() )
             out << infos::COMPILATION_UP_TO_DATE << endl;
         else out << infos::SUCCESS_IN_COMPILATION << endl;
+        out << endl;
     }
 }
 
@@ -209,7 +207,7 @@ void CompileTaskExec::loadFilesToCompile( vector<Compilation*>& compilations, vo
 
 void CompileTaskExec::appCreateDirs( string dirPath, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
+    CMD* mainCMD = manager->getMainExecCMD()->getCMD();
 
     try {
         io::createDirs( dirPath );

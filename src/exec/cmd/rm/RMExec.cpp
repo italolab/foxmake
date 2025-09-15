@@ -16,8 +16,9 @@
 using std::stringstream;
 using std::endl;
 
-void RMExec::exec( CMD* cmd, void* mgr ) {
+void RMExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    CMD* cmd = execCMD->getCMD();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
@@ -25,14 +26,14 @@ void RMExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose )
         out << cmd->getCMDStr() << endl;
 
-    int alen = cmd->countNoOpArgs();
+    int alen = execCMD->countNoOpArgs();
     if ( alen < 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
         b << "1" << std::to_string( alen );
         throw st_error( cmd, b.str() );
     }
 
-    string file = cmd->getNoOpArgByIndex( 0 );
+    string file = execCMD->getNoOpArgByIndex( 0 );
     bool isRecursive = cmd->existsArg( "-r" );
 
     file = io::path::absoluteResolvePath( file );

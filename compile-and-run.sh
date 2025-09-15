@@ -11,5 +11,5 @@ if [ "$#" -gt "2" ]; then
         target=$4
     fi
 
-    ./build/foxmake-$VERSION-$SO-$ARCH/foxmake $3 --script=run/FoxMakefile-Run -var target=$target
+    ./build/foxmake-$VERSION-$SO-$ARCH/foxmake -v $3 --script=run/FoxMakefile-Run -var target=$target
 fi

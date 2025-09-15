@@ -41,13 +41,13 @@ void CMDExec::exec( CMD* cmd, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
 
-    CMD* newCMD = cmd->newCopy();
+    ExecCMD* execCMD = new ExecCMD( cmd );
 
-    int numberOfLinesReaded = newCMD->getNumberOfLinesReaded();
-    string line = newCMD->getLine();
-    Block* parent = (Block*)newCMD->getParent();
+    int numberOfLinesReaded = cmd->getNumberOfLinesReaded();
+    string line = cmd->getLine();
+    Block* parent = (Block*)cmd->getParent();
 
-    vector<string>& args = newCMD->getArgs();
+    vector<string>& args = execCMD->getArgs();
     int len = args.size();
     for( int i = 0; i < len; i++ ) {
         InterResult* replaceResult = interManager->replacePropsAndVarsAndDollarSigns( 
@@ -56,21 +56,33 @@ void CMDExec::exec( CMD* cmd, void* mgr ) {
             throw st_error( replaceResult );
         delete replaceResult;        
     } 
+
+    string cmdstr = execCMD->getCMDStr();
+
+    InterResult* replaceResult = interManager->replacePropsAndVarsAndDollarSigns( 
+            cmdstr, numberOfLinesReaded, line, parent );
+    if ( !replaceResult->isInterpreted() )
+        throw st_error( replaceResult );
+    delete replaceResult;
     
-    string cmdName = newCMD->getName();
+    execCMD->setCMDStr( cmdstr );
+
+    string cmdName = execCMD->getName();
     if ( cmdName == "cd" ) {
-        cdExec->exec( newCMD, mgr );
+        cdExec->exec( execCMD, mgr );
     } else if ( cmdName == "cp" ) {
-        cpExec->exec( newCMD, mgr );
+        cpExec->exec( execCMD, mgr );
     } else if ( cmdName == "rm" ) {
-        rmExec->exec( newCMD, mgr );
+        rmExec->exec( execCMD, mgr );
     } else if ( cmdName == "echo" ) {
-        echoExec->exec( newCMD, mgr );
+        echoExec->exec( execCMD, mgr );
     } else if ( cmdName == "mkdir" ) {
-        mkdirExec->exec( newCMD, mgr );
+        mkdirExec->exec( execCMD, mgr );
     } else {
         messagebuilder b( errors::runtime::CMD_EXECUTOR_NOT_FOUND );
-        b << newCMD->getName();
+        b << execCMD->getName();
         throw runtime_error( b.str() );
     }
+
+    delete execCMD;
 }

@@ -27,8 +27,6 @@ void CopyTaskExec::exec( void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COPY );
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
-    if ( isVerbose )
-        out << endl;
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << endl;    
 
@@ -43,6 +41,8 @@ void CopyTaskExec::exec( void* mgr ) {
         
     this->appCreateDirs( buildDir, props::BUILD_DIR );
 
+    out << infos::COPYING_TO_BUILD_FOLDER << endl;
+    
     if ( binDir != buildDir ) {
         string outputFileName = scriptPropManager->getOutputFileName();
         if ( outputFileName != "" ) {
@@ -57,8 +57,10 @@ void CopyTaskExec::exec( void* mgr ) {
 
     manager->executeUserTaskIfExists( tasks::COPY, TaskExecution::AFTER );
 
-    if ( isVerbose )
+    if ( isVerbose ) {
         out << infos::SUCCESS_IN_COPY << endl;
+        out << endl;
+    }
 }
 
 void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, string propName, void* mgr ) {
@@ -90,7 +92,7 @@ void CopyTaskExec::appCopyFileOrDirectoryToBuild( string path, string buildDir, 
         if ( isVerbose ) {
             messagebuilder b( infos::FILE_OR_DIRECTORY_COPIED );
             b << path;
-            out << output::green( b.str() ) << endl;
+            out << output::bold( b.str() ) << endl;
         }
     } catch ( const io_error& e ) {        
         messagebuilder b( errors::FILE_OR_DIRECTORY_NOT_COPIED_FOR_BUILD_FOLDER );

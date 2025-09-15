@@ -12,7 +12,7 @@ src.dir=../src
 test.dir=../test
 build.dir=build
 
-build.files=
+build.files=FoxMakefile-Run
 
 $debug_bin_dir=bin/Debug
 $debug_obj_dir=obj/Debug
@@ -52,7 +52,7 @@ $project_name=foxmake
 
 task copy showoutput;
 task compile noverbose;
-task link noshowoutput noverbose;
+task link noverbose;
 
 proc echo123
     echo 123
@@ -101,6 +101,8 @@ task finish after
     IF os == "nowindows"
         $lib_dir=$(working_dir)/../lib/linux
     ENDIF
+
+    echo Lib dir: $(lib_dir)
 
     mkdir build/include
 

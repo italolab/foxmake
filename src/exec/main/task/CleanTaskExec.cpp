@@ -21,8 +21,6 @@ void CleanTaskExec::exec( void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::CLEAN );
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
-    if ( isVerbose )
-        out << endl;
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::CLEAN ) << "..." << endl;    
 
@@ -66,6 +64,7 @@ void CleanTaskExec::exec( void* mgr ) {
         if ( removedSome )
             out << infos::SUCCESS_IN_CLEAN << endl;
         else out << infos::CLEAN_UP_TO_DATE << endl;
+        out << endl;
     }
 }
 
@@ -87,7 +86,7 @@ bool CleanTaskExec::appRecursiveDeleteFileOrDirectoryIfExists( string path, void
             if ( isVerbose ) {
                 messagebuilder b( infos::FILE_OR_DIRECTORY_DELETED );
                 b << path;
-                out << output::green( b.str() ) << endl;
+                out << output::bold( b.str() ) << endl;
             }
             return true;
         }

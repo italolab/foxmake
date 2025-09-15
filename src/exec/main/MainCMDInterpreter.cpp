@@ -45,13 +45,12 @@ void MainCMDInterpreter::configureAndInterpretsAndValidate( void* mgr ) {
 
 void MainCMDInterpreter::configure( bool& workingDirFound, bool& scriptFileFound, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
-    workingDir = mainCMD->getPropertyValue( "--working-dir" );
-    scriptFile = mainCMD->getPropertyValue( "--script" );
+    workingDir = mainExecCMD->getPropertyValue( "--working-dir" );
+    scriptFile = mainExecCMD->getPropertyValue( "--script" );
 
     if ( workingDir != "" ) {
         workingDir = io::path::absoluteResolvePath( workingDir );
@@ -78,18 +77,12 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& scriptFileFound
 
     scriptFile = io::path::absoluteResolvePath( scriptFile );
 
-    if ( isVerbose ) {
-        messagebuilder b( infos::foxmake_FILE );
-        b << scriptFile;
-        out << b.str() << endl;
-    }
-
     scriptFileFound = true;
 
     if ( !io::fileExists( scriptFile ) ) {
         messagebuilder b2( errors::SCRIPT_FILE_NOT_FOUND );
         b2 << scriptFile;
-        out << output::green( b2.str() ) << endl;
+        out << output::yellow( b2.str() ) << endl;
 
         if ( !workingDirFound )
             throw st_error( nullptr, errors::NO_SCRIPT_FILE_AND_NO_WORKING_DIR );
@@ -103,9 +96,6 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
     InterManager* interManager = manager->getInterManager();
     MainScript* mainScript = manager->getMainScript();
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();    
-
-    Output& out = manager->out;
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     this->loadProperties( mgr );
     this->loadVariables( mgr );
@@ -139,27 +129,19 @@ void MainCMDInterpreter::interpretsMainScript( bool workingDirFound, bool script
         }
         
         shell::setWorkingDir( basedir );
-    }
 
-    Var* workingDirVar = mainScript->getPredefinedVar( "working_dir" );
-    if ( workingDirVar == nullptr )
-        throw runtime_error( errors::runtime::NULL_WORKING_DIR_PRED_VAR );
-
-    string wdir = workingDirVar->getValue();
-
-    if ( isVerbose ) {
-        messagebuilder b2( infos::CURRENT_DIRECTORY );
-        b2 << wdir;
-        out << b2.str() << endl;
+        workingDir = basedir;
     }
 }
 
 void MainCMDInterpreter::validaMainCMD( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
-    CMD* mainCMD = manager->getMainCMD();
+    
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
+    CMD* mainCMD = mainExecCMD->getCMD();
 
-    vector<string>& args = mainCMD->getArgs();
+    vector<string>& args = mainExecCMD->getArgs();
     int len = args.size();
     for( int i = 0; i < len; i++ ) {
         string arg = args[ i ];
@@ -183,10 +165,12 @@ void MainCMDInterpreter::validaMainCMD( void* mgr ) {
 
 void MainCMDInterpreter::loadProperties( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
     MainScript* mainScript = manager->getMainScript();
 
-    vector<string> properties = mainCMD->getOpArgValues( "-prop" );
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
+    CMD* mainCMD = mainExecCMD->getCMD();
+
+    vector<string> properties = mainExecCMD->getOpArgValues( "-prop" );
 
     for( string prop : properties ) {
         size_t i = prop.find( '=' );
@@ -211,10 +195,11 @@ void MainCMDInterpreter::loadProperties( void* mgr ) {
 
 void MainCMDInterpreter::loadVariables( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
     MainScript* mainScript = manager->getMainScript();
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
+    CMD* mainCMD = mainExecCMD->getCMD();
 
-    vector<string> variables = mainCMD->getOpArgValues( "-var" );
+    vector<string> variables = mainExecCMD->getOpArgValues( "-var" );
 
     for( string var : variables ) {
         size_t i = var.find( '=' );
@@ -229,4 +214,12 @@ void MainCMDInterpreter::loadVariables( void* mgr ) {
 
         mainScript->putLocalVar( varName, varValue );
     }
+}
+
+string MainCMDInterpreter::getScriptFile() {
+    return scriptFile;
+}
+
+string MainCMDInterpreter::getWorkingDir() {
+    return workingDir;
 }

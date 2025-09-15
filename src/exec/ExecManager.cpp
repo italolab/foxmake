@@ -22,7 +22,8 @@ using std::runtime_error;
 using std::exception;
 
 ExecManager::ExecManager() {
-    mainCMD = nullptr;
+    mainExecCMD = nullptr;
+
     mainScript = new MainScript();
 
     mainCMDArgManager = new MainCMDArgManager( this );
@@ -49,6 +50,7 @@ ExecManager::ExecManager() {
 }
 
 ExecManager::~ExecManager() {
+    delete mainExecCMD;
     delete mainScript;
 
     delete mainCMDArgManager;
@@ -75,11 +77,12 @@ void ExecManager::exec( int argc, char* argv[] ) {
             throw runtime_error( b.str() );
         }
 
-        mainCMD = (CMD*)result->getStatement();
+        CMD* mainCMD = (CMD*)result->getStatement();
+        mainExecCMD = new ExecCMD( mainCMD );
 
         delete result;
 
-        mainExec->exec( mainCMD, this );
+        mainExec->exec( this );
     } catch ( const st_error& e ) {
         e.printMessage( out );
     } catch ( const exception& e ) {
@@ -167,8 +170,8 @@ MainScript* ExecManager::getMainScript() {
     return mainScript;
 }
 
-CMD* ExecManager::getMainCMD() {
-    return mainCMD;
+ExecCMD* ExecManager::getMainExecCMD() {
+    return mainExecCMD;
 }
 
 SourceCodeManager* ExecManager::getSourceCodeManager() {

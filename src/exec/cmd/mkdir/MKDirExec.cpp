@@ -13,8 +13,9 @@
 using std::stringstream;
 using std::endl;
 
-void MKDirExec::exec( CMD* cmd, void* mgr ) {
+void MKDirExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    CMD* cmd = execCMD->getCMD();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( cmd );
@@ -22,14 +23,14 @@ void MKDirExec::exec( CMD* cmd, void* mgr ) {
     if ( isVerbose )
         out << cmd->getCMDStr() << endl;
 
-    int alen = cmd->countNoOpArgs();
+    int alen = execCMD->countNoOpArgs();
     if ( alen < 1 ) {
         messagebuilder b( errors::INVALID_NUMBER_OF_ARGS );
         b << "1" << std::to_string( alen );
         throw st_error( cmd, b.str() );
     }
 
-    string dir = cmd->getNoOpArgByIndex( 0 );
+    string dir = execCMD->getNoOpArgByIndex( 0 );
     bool isCreateParents = cmd->existsArg( "-p" );
 
     bool ok;

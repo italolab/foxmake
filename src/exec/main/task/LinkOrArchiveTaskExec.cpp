@@ -39,8 +39,6 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
     string outputFileName = scriptPropManager->getOutputFileName();
 
     if ( isLink ) {
-        if ( isVerbose )
-            out << endl;
         if ( !isNoResume || isVerbose )
             out << infos::EXECUTING << " " << output::green( tasks::LINK ) << "..." << endl;    
 
@@ -55,13 +53,13 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         }
 
         manager->executeUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );
-        if ( isVerbose )
+        if ( isVerbose ) {
             out << infos::SUCCESS_IN_LINKING << endl;
+            out << endl;
+        }
     }
 
     if ( isArchive ) {
-        if ( isVerbose )
-            out << endl;
         if ( !isNoResume || isVerbose )
             out << infos::EXECUTING << " " << output::green( tasks::ARCHIVE ) << "..." << endl;    
 
@@ -71,8 +69,10 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         
         manager->executeUserTaskIfExists( tasks::ARCHIVE, TaskExecution::AFTER );
 
-        if ( isVerbose )
+        if ( isVerbose ) {
             out << infos::SUCCESS_IN_ARCHIVING << endl;
+            out << endl;
+        }
     }
     
 }

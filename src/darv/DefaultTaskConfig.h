@@ -14,12 +14,18 @@ class DefaultTaskConfig : public Statement {
         bool verboseFlag;
         bool showCMDOutputFlag;
 
+        bool verboseDefinedFlag;
+        bool showCMDOutputDefinedFlag;
+
     public:
         DefaultTaskConfig( Statement* parent, string name, int numberOfLinesReaded, string line );
 
         string getName();
         bool isVerbose();
         bool isShowCMDOutput();
+
+        bool isVerboseDefined();
+        bool isShowCMDOutputDefined();
 
         void setName( string name );
         void setVerbose( bool flag );

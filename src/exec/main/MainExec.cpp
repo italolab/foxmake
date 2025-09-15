@@ -45,20 +45,37 @@ MainExec::~MainExec() {
     delete copyTaskExec;
 }
 
-void MainExec::exec( CMD* mainCMD, void* mgr ) {
+void MainExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
     Output& out = manager->out;
     bool isShowHelp = manager->getMainCMDArgManager()->isHelp();
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
-    if ( mainCMD->countNoOpArgs() == 0 || isShowHelp ) {
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
+
+    if ( mainExecCMD->countNoOpArgs() == 0 || isShowHelp ) {
         this->showHelp( mgr );
         return;
     }
     
     mainCMDInterpreter->configureAndInterpretsAndValidate( mgr );
+
+    if ( isVerbose ) {
+        out << output::bold( infos::SCRIPT );
+        out << mainCMDInterpreter->getScriptFile();
+        out << endl;
+
+        out << output::bold( infos::CURRENT_DIRECTORY );
+        out << mainCMDInterpreter->getWorkingDir();
+        out << endl;
+
+        out << output::bold( infos::SRC_DIRECTORY );
+        out << scriptPropManager->getSrcDir();
+        out << endl;
+    }
 
     bool isClean = manager->getMainCMDArgManager()->isClean();
     bool isCompile = manager->getMainCMDArgManager()->isCompile();
@@ -70,11 +87,16 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->genSourceAndHeaderInfos( manager );
 
+    if ( isVerbose )
+        out << endl;
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::INIT ) << "..." << endl;
 
     manager->executeUserTaskIfExists( tasks::INIT, TaskExecution::BEFORE );    
     manager->executeUserTaskIfExists( tasks::INIT, TaskExecution::AFTER );
+
+    if ( isVerbose )
+        out << endl;
 
     manager->executeUserTaskIfExists( tasks::BUILD, TaskExecution::BEFORE );
     manager->executeUserTaskIfExists( tasks::BUILDALL, TaskExecution::BEFORE );
@@ -105,8 +127,6 @@ void MainExec::exec( CMD* mainCMD, void* mgr ) {
 
     this->executaStatements( manager );
 
-    if ( isVerbose )
-        out << endl;
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::FINISH ) << "..." << endl;
         
@@ -130,11 +150,8 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();    
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
-
-    Output& out = manager->out;
-    CMD* mainCMD = manager->getMainCMD();
-
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
+    CMD* mainCMD = mainExecCMD->getCMD();
 
     string srcDir = scriptPropManager->getSrcDir();
     string testDir = scriptPropManager->getTestDir();
@@ -143,12 +160,6 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
         messagebuilder b2( errors::SRC_DIRECTORY_NOT_FOUND );
         b2 << srcDir << props::SRC_DIR;
         throw st_error( mainCMD, b2.str() );
-    }
-
-    if ( isVerbose ) {
-        messagebuilder b2( infos::SRC_DIRECTORY );
-        b2 << srcDir;
-        out << b2.str() << endl;
     }
 
     bool ok = sourceCodeManager->recursiveProcFiles( srcDir, consts::SRC_TARGET_FOLDER );
@@ -164,7 +175,7 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
 
 void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
 
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
@@ -174,7 +185,7 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
     for( Task* task : tasks ) {
         string taskName = task->getName();
 
-        bool isTaskArg = mainCMD->existsArg( taskName );
+        bool isTaskArg = mainExecCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
             if ( isVerbose && !isNoResume )
                 out << infos::EXECUTING << " " << output::green( taskName ) << "..." << endl;                            
@@ -211,15 +222,16 @@ void MainExec::executaStatements( void* mgr ) {
 
 void MainExec::showHelp( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
-    CMD* mainCMD = manager->getMainCMD();
 
     Output& out = manager->out;
+
+    ExecCMD* mainExecCMD = manager->getMainExecCMD();
     
-    int count = mainCMD->countNoOpArgs();
+    int count = mainExecCMD->countNoOpArgs();
     if ( count == 0 ) {
         out << helpmessage::helpMessage();
     } else if ( count > 0 ) {
-        string taskName = mainCMD->getNoOpArgByIndex( 0 );
+        string taskName = mainExecCMD->getNoOpArgByIndex( 0 );
         if ( taskName == tasks::CLEAN ) {
             out << helpmessage::cleanHelpMessage();
         } else if ( taskName == tasks::COMPILE ) {

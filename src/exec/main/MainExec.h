@@ -31,7 +31,7 @@ class MainExec {
         MainExec();
         virtual ~MainExec();
         
-        void exec( CMD* cmd, void* mgr );
+        void exec( void* mgr );
 
 };
 
