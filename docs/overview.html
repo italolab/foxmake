@@ -889,6 +889,9 @@ ENDIF
 
                 <p>No exemplo acima, a propriedade "test.linker.params" só é definida se 
                 estiver no windows. Isto é, o valor da variável "os" for "windows".</p>
+
+                <p>A diretiva IF é processada em tempo de interpretação. Diferente da 
+                instrução if que é executada em tempo de execução.</p>
             </article>
 
             <article id="if-statement">
@@ -974,7 +977,7 @@ ENDIF
 
 <pre class="line-numbers"><code>if os != "windows" then
     test.linker.params=-ldl -rdynamic
-ENDIF
+endif
 </code></pre>
 
                     <p>O exemplo acima gera um erro. Isso porque as propriedades são 
