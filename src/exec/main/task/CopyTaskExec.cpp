@@ -41,7 +41,8 @@ void CopyTaskExec::exec( void* mgr ) {
         
     this->appCreateDirs( buildDir, props::BUILD_DIR );
 
-    out << infos::COPYING_TO_BUILD_FOLDER << endl;
+    if ( isVerbose )
+        out << infos::COPYING_TO_BUILD_FOLDER << endl;
     
     if ( binDir != buildDir ) {
         string outputFileName = scriptPropManager->getOutputFileName();
