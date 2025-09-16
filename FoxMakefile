@@ -67,6 +67,7 @@ proc archive_and_copy_xutest
     ENDIF
     
     mkdir -p lib/$(so)
+    mkdir -p include
 
     cp -r ../xutest/src/**/*.h include
     cp ../xutest/build/xutest-$(version)-$(so)-$(arch)/libxutest.a lib/$(so)
