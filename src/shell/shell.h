@@ -7,6 +7,9 @@
 #include <sstream>
 #include <vector>
 
+#include <mutex>
+#include <condition_variable>
+
 using std::string;
 using std::vector;
 using std::stringstream;
@@ -14,6 +17,8 @@ using std::stringstream;
 namespace shell {
     string getWorkingDir();
     bool setWorkingDir( string wdir );
+     
+    long getNumberOfProcessorCores();
 }
 
 class Shell {
@@ -24,7 +29,6 @@ class Shell {
         bool showOutputFlag;
 
         Output* out;
-        Output* inf;
 
     public:
         Shell( Output& outs );
@@ -34,6 +38,10 @@ class Shell {
 
         bool isVerbose();
         bool isShowOutput();
+
+        vector<string>& getCommands();
+        Output* getOutput();
+
         void setVerbose( bool flag );
         void setShowOutput( bool flag );
 

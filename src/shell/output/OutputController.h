@@ -2,6 +2,7 @@
 #define OUTPUT_CONTROLLER_H
 
 #include "OutputThread.h"
+#include "../shell.h"
 #include "../../output/output.h"
 
 #include <vector>
@@ -14,13 +15,12 @@ class OutputController {
 
     private:
         vector<OutputThread*> outputThreadVect;
-        bool verboseFlag;
-        bool showOutputFlag;
-
-        Output* out;
+        
+        Shell* shell;
+        bool isFinish;
 
     public:
-        OutputController( Output* out, bool verboseFlag, bool showOutputFlag );
+        OutputController( Shell* shell );
         void run();
         void finish();
         void addOutputThread( OutputThread* outputThread );

@@ -7,7 +7,6 @@
 
 #endif
 
-
 #include <string>
 #include <sstream>
 #include <queue>
@@ -31,8 +30,10 @@ class OutputThread {
 
         std::mutex mtx;
 
+        void* threadsController;
+
     public:
-        OutputThread( string name, string cmdstr );
+        OutputThread( void* threadsController, string name, string cmdstr );
 
         void run( FILE* pipe );
         void finish();

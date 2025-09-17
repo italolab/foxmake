@@ -51,8 +51,8 @@ ENDIF
 $project_name=foxmake
 
 task copy showoutput;
-task compile noverbose;
-task link noverbose;
+task compile verbose;
+task link verbose showoutput;
 
 proc echo123
     echo 123

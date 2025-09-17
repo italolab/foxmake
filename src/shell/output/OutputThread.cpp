@@ -1,10 +1,11 @@
 
 #include "OutputThread.h"
 
+#include "../CMDThreadsController.h"
+
+
 #include <cstring>
 #include <iostream>
-
-using namespace std;
 
 /*
 Esta classe mantêm um buffer de caracteres onde cada caractere lido do pipe é 
@@ -15,7 +16,8 @@ A cada leitura, o buffer é retornado para OutputController e limpo. Isso de for
 sincrona.
 */
 
-OutputThread::OutputThread( string name, string cmdstr ) {
+OutputThread::OutputThread( void* threadsController, string name, string cmdstr ) {
+    this->threadsController = threadsController;
     this->name = name;
     this->cmdstr = cmdstr;
     this->finishFlag = false;
@@ -38,6 +40,7 @@ void OutputThread::run( FILE* pipe ) {
 void OutputThread::finish() {
     std::lock_guard<std::mutex> lock( mtx );
 
+    ((CMDThreadsController*)threadsController)->commandProcessedNotify();
     finishFlag = true;    
 }
 

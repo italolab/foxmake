@@ -1,4 +1,5 @@
 #ifdef _WIN32
+    #include <windows.h>
     #include <direct.h>
     #define __getcwd _getcwd
     #define __chdir _chdir
@@ -9,6 +10,7 @@
 #endif
 
 #include "shell.h"
+#include "CMDThreadsController.h"
 #include "output/OutputController.h"
 #include "output/OutputThread.h"
 #include "../msg/messagebuilder.h"
@@ -23,11 +25,6 @@
 using std::endl;
 using std::memset;
 using std::runtime_error;
-
-typedef struct TThreadPipe {
-    int exitCode;
-    std::thread* thread;
-} ThreadPipe;
 
 namespace shell {
 
@@ -46,6 +43,16 @@ namespace shell {
         return __chdir( wdir.c_str() ) == 0;
     }
 
+    long getNumberOfProcessorCores() {
+        #ifdef _WIN32
+            SYSTEM_INFO sysinfo;
+            GetSystemInfo( &sysinfo );
+            return sysinfo.dwNumberOfProcessors;
+        #else
+            return sysconf( _SC_NPROCESSORS_ONLN );
+        #endif
+    }
+
 }
 
 /*
@@ -59,49 +66,25 @@ Shell::Shell( Output& out ) {
     this->showOutputFlag = true;
 }
 
-void runCMDThread( string command, ThreadPipe* threadPipe, OutputThread* outputThread ) {
-    FILE* pipe = popen( command.c_str(), "r" );
-    if ( pipe ) {
-        outputThread->run( pipe );
-                
-        threadPipe->exitCode = pclose( pipe );
-    } else {
-        threadPipe->exitCode = -1;
-    }
-}
-
 void runOutputControllerThread( OutputController* outputController ) {
     outputController->run();
 }
 
+void runThreadsControllerThread( CMDThreadsController* threadsController ) {
+    threadsController->run();
+}
+
 int Shell::execute() {
-    vector<ThreadPipe*> threadPipes;
-    OutputController* outputController = new OutputController( out, verboseFlag, showOutputFlag );
+    OutputController* outputController = new OutputController( this );
+    CMDThreadsController* cmdThreadsController = new CMDThreadsController( this, outputController );
 
-    int threadNumber = 1;
-    for( string command : commands ) {
-        string cmdstr = command;
-        size_t i = cmdstr.find( '\n' );
-        if ( i != string::npos )
-            cmdstr = cmdstr.substr( 0, i ) + "...";   
-
-        stringstream ss;
-        ss << "Thread #" << threadNumber;
-        string threadName = ss.str();
-
-        OutputThread* outputThread = new OutputThread( threadName, cmdstr );
-
-        ThreadPipe* tpipe = new ThreadPipe;
-        tpipe->thread = new std::thread( runCMDThread, command, tpipe, outputThread );
-        threadPipes.push_back( tpipe );
-
-        outputController->addOutputThread( outputThread );
-
-        threadNumber++;
-    }
-
+    std::thread cmdThreadsControllerThread( runThreadsControllerThread, cmdThreadsController );
     std::thread outputControllerThread( runOutputControllerThread, outputController );
 
+    vector<ThreadPipe*>& threadPipes = cmdThreadsController->getThreadPipes();
+
+    cmdThreadsControllerThread.join();
+    
     int exitCode = 0;
     int len = threadPipes.size();
     for( int i = 0; i < len; i++ ) {
@@ -119,6 +102,14 @@ int Shell::execute() {
 
 void Shell::pushCommand( string command ) {
     commands.push_back( command );
+}
+
+vector<string>& Shell::getCommands() {
+    return commands;
+}
+
+Output* Shell::getOutput() {
+    return out;
 }
 
 bool Shell::isVerbose() {
