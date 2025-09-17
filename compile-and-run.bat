@@ -1,6 +1,6 @@
 @echo off
 
-set VERSION=1.0
+set VERSION=1.2
 set OS=windows
 set ARCH=x64
 

@@ -1,6 +1,13 @@
+##
+    Atenção: Para copiar os includes e a lib do xutest para esse projeto, é necessário 
+    que o xutest esteja na pasta "../xutest". Para tanto, é necessário clonar o xutest 
+    em ".."
+##
 
-$version=1.0
+$version=1.2
 $arch=x64
+
+$xutest_version=1.0
 
 IF os == "windows"
     $so=windows
@@ -70,7 +77,7 @@ proc archive_and_copy_xutest
     mkdir -p include
 
     cp -r ../xutest/src/**/*.h include
-    cp ../xutest/build/xutest-$(version)-$(so)-$(arch)/libxutest.a lib/$(so)
+    cp ../xutest/build/xutest-$(xutest_version)-$(so)-$(arch)/libxutest.a lib/$(so)
     
     echo
 endproc
