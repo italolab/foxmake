@@ -3,7 +3,7 @@ SO=linux
 ARCH=x64
 
 
-./foxmake $1 --script=FoxMakefile -var target=$2
+./foxmake $1 --script=FoxMakefile -var target=$2 -v
 
 if [ "$#" -gt "2" ]; then
     target="debug"
