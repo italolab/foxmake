@@ -1,5 +1,5 @@
 VERSION=1.0
-SO=linux
+OS=linux
 ARCH=x64
 
 
@@ -11,5 +11,5 @@ if [ "$#" -gt "2" ]; then
         target=$4
     fi
 
-    ./build/foxmake-$VERSION-$SO-$ARCH/foxmake -v $3 --script=run/FoxMakefile-Run -var target=$target
+    ./build/foxmake-$VERSION-$OS-$ARCH/foxmake -v $3 --script=run/FoxMakefile-Run -var target=$target
 fi

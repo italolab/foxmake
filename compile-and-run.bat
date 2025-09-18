@@ -1,7 +1,7 @@
 @echo off
 
 set VERSION=1.0
-set SO=windows
+set OS=windows
 set ARCH=x64
 
 setlocal enabledelayedexpansion
@@ -14,5 +14,5 @@ if not "%~3" == "" (
         set target=%4
     )
 
-    .\build\foxmake-%VERSION%-%SO%-%ARCH%\foxmake.exe %3 --working-dir=run --script=FoxMakefile-Run -var target=!target!
+    .\build\foxmake-%VERSION%-%OS%-%ARCH%\foxmake.exe %3 --working-dir=run --script=FoxMakefile-Run -var target=!target!
 )
