@@ -19,6 +19,8 @@ class OutputController {
         Shell* shell;
         bool isFinish;
 
+        std::mutex mtx;
+
     public:
         OutputController( Shell* shell );
         void run();

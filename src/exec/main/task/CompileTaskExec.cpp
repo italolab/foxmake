@@ -76,9 +76,6 @@ void CompileTaskExec::exec( void* mgr ) {
     this->appCreateDirs( binDir, manager );
     this->appCreateDirs( objDir, manager );
 
-    if ( compiler == "" )
-        compiler = consts::DEFAULT_COMPILER;
-
     vector<TCompilation*> filesToCompile;
 
     this->loadFilesToCompile( filesToCompile, mgr );

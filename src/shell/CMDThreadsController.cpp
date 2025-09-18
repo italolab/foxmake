@@ -81,7 +81,7 @@ void CMDThreadsController::commandProcessedNotify() {
         std::lock_guard lock( mtx );
         this->isWait = false;
     }
-    cv.notify_all();
+    cv.notify_all();    
 }
 
 vector<ThreadPipe*>& CMDThreadsController::getThreadPipes() {

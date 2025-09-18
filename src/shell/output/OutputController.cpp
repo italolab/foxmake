@@ -20,9 +20,7 @@ void OutputController::run() {
     bool isVerbose = shell->isVerbose();
     bool isShowOutput = shell->isShowOutput();
 
-    this->isFinish = false;
-
-    while( !isFinish ) { 
+    while( !this->isFinish ) { 
         OutputThread* outputThread = nullptr;
         if ( !outputThreadVect.empty() )
             outputThread = outputThreadVect.front();
@@ -52,7 +50,10 @@ void OutputController::run() {
 void OutputController::finish() {
     for( OutputThread* outputThread : outputThreadVect )        
         outputThread->finish();   
-    this->isFinish = true; 
+    {
+        std::lock_guard lock( mtx );
+        this->isFinish = true; 
+    }
 }
 
 void OutputController::addOutputThread( OutputThread* outputThread ) {

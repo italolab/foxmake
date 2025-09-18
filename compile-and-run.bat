@@ -6,7 +6,7 @@ set ARCH=x64
 
 setlocal enabledelayedexpansion
 
-.\foxmake.exe %1 --script=FoxMakefile -var target=%2
+.\foxmake.exe %1 --script=FoxMakefile -var target=%2 -v
 
 if not "%~3" == "" (
     set target=debug
