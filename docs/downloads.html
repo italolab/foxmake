@@ -44,8 +44,8 @@
                 
                 <blockquote>
                     <p>Arquivo ZIP: 
-                        <a href="https://github.com/italolab/foxmake/releases/download/v1.2/foxmake-1.2-windows-x64.zip">
-                            foxmake-1.2-windows-x64.zip
+                        <a href="https://github.com/italolab/foxmake/releases/download/v1.3/foxmake-1.3-windows-x64.zip">
+                            foxmake-1.3-windows-x64.zip
                         </a>
                     </p>
                 </blockquote>
@@ -54,13 +54,13 @@
                 
                 <blockquote>
                     <p>Arquivo DEB: 
-                        <a href="https://github.com/italolab/foxmake/releases/download/v1.2/foxmake-1.2-linux-x64.deb">
-                            foxmake-1.2-linux-x64.deb
+                        <a href="https://github.com/italolab/foxmake/releases/download/v1.3/foxmake-1.3-linux-x64.deb">
+                            foxmake-1.3-linux-x64.deb
                         </a>
                     </p>
                     <p>Arquivo TAR.GZ: 
-                        <a href="https://github.com/italolab/foxmake/releases/download/v1.2/foxmake-1.2-linux-x64.tar.gz">
-                            foxmake-1.2-linux-x64.tar.gz
+                        <a href="https://github.com/italolab/foxmake/releases/download/v1.3/foxmake-1.3-linux-x64.tar.gz">
+                            foxmake-1.3-linux-x64.tar.gz
                         </a>
                     </p>
                 </blockquote>
@@ -74,13 +74,13 @@
                         </a>
                     </p>
                     <p>Arquivo ZIP:
-                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.2.zip">
-                            foxmake-v1.2.zip
+                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.3.zip">
+                            foxmake-v1.3.zip
                         </a>
                     </p>
                     <p> Arquivo TAR.GZ:
-                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.2.tar.gz">
-                            foxmake-v1.2.tar.gz
+                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.3.tar.gz">
+                            foxmake-v1.3.tar.gz
                         </a>
                     </p>                
                 </blockquote>                    
@@ -89,14 +89,13 @@
 
         <article>
             <header>
-                <h3>Notas da versão 1.2</h3>
+                <h3>Notas da versão 1.3</h3>
             </header>
 
-            <p>Esta versão traz melhorias sobre a compilação concorrente dos arquivos de código 
-            fonte. Na versão 1.0, eram alocadas tantas threads quanto fossem os arquivos de 
-            código fonte. Nesta versão, são alocadas threads conforme o número de núcleos 
-            do processador, melhorando o desempenho da compilação e, também, a exibição 
-            na saída padrão.</p>
+            <p>Nesta versão, foi adicionado o suporte ao arquivo FoxMakefile.txt como, 
+            também, default. Isto é, agora, tanto o arquivo FoxMakefile, como o arquivo 
+            FoxMakefile.txt são buscados para serem carregados pelo foxmake, caso nenhum 
+            caminho de script seja informado.</p>
         </article>
 
         <article id="how-install">
@@ -112,7 +111,9 @@
             executável "foxmake.exe" estiver.)</p>
 
             <p>Caso queira utilizar a biblioteca xutest, basta copiar as pastas "lib" e 
-            "include" para raiz de onde estiver instalado o mingw ou semelhante.</p>
+            "include" para raiz de onde estiver instalado o mingw ou semelhante. Se 
+            estiver utilizando o mingw64, copie as pastas "lib" e "include" para 
+            pasta "x86_64-w64-mingw32" do mingw64.</p>
                 
             <h5>Instalando no linux</h5>
 
