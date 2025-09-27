@@ -174,8 +174,3 @@
 /home/italo/workspace-cpp/foxmake/src/util/hashutil.h=1758060970
 /home/italo/workspace-cpp/foxmake/src/util/strutil.cpp=1758060970
 /home/italo/workspace-cpp/foxmake/src/util/strutil.h=1758060970
-/home/italo/workspace-cpp/foxmake/test/io/ByNameFileFilterTests.h=1758060970
-/home/italo/workspace-cpp/foxmake/test/io/iopathtests.h=1758060970
-/home/italo/workspace-cpp/foxmake/test/io/iotests.h=1758060970
-/home/italo/workspace-cpp/foxmake/test/main.cpp=1758060970
-/home/italo/workspace-cpp/foxmake/test/util/strutiltests.h=1758060970

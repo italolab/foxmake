@@ -1,0 +1,41 @@
+$version=1.2
+$arch=x64
+$so=windows
+
+$xutest_version=1.0
+
+compiler=x86_64-w64-mingw32-g++-win32
+
+output.file.name=foxmake.exe
+
+compiler.params=-Wall -fexceptions -O2 -std=c++17
+linker.params=-s -static
+
+src.dir=src
+bin.dir=bin/Release/$(so)/$(arch)
+obj.dir=obj/Release/$(so)/$(arch)
+build.dir=build/foxmake-$(version)-$(so)-$(arch)
+
+proc archive_and_copy_xutest
+    echo
+    rm -r include/*.h
+    rm lib/$(so)/libxutest.a
+    
+    @./foxmake archivebuildall --script=../xutest/FoxMakefile-StaticLib-windows
+    
+    mkdir -p lib/$(so)
+    mkdir -p include
+
+    cp -r ../xutest/src/**/*.h include
+    cp ../xutest/build/xutest-$(xutest_version)-$(so)-$(arch)/libxutest.a lib/$(so)
+    
+    echo
+endproc
+
+task compileall before
+   call archive_and_copy_xutest
+endtask
+
+task compile before
+    call archive_and_copy_xutest
+endtask
