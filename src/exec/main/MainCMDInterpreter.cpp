@@ -77,9 +77,12 @@ void MainCMDInterpreter::configure( bool& workingDirFound, bool& scriptFileFound
 
     scriptFile = io::path::absoluteResolvePath( scriptFile );
 
+    if ( !io::fileExists( scriptFile ) && io::fileExists( scriptFile+".txt" ) )
+        scriptFile += ".txt";
+   
     scriptFileFound = true;
-
-    if ( !io::fileExists( scriptFile ) ) {
+    
+    if ( !io::fileExists( scriptFile ) && !io::fileExists( scriptFile+".txt" ) ) {
         messagebuilder b2( errors::SCRIPT_FILE_NOT_FOUND );
         b2 << scriptFile;
         out << output::yellow( b2.str() ) << endl;

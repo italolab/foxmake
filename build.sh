@@ -59,11 +59,11 @@ mkdir -p $DEB_APP_DIR
 
 echo
 echo Compilando...
-./foxmake $1 --script=FoxMakefile -var target=release
+./foxmake buildall --script=FoxMakefile -var target=release
 
 echo
 echo Compilando para windows...
-./foxmake $1 --script=FoxMakefile-windows
+./foxmake buildall --script=FoxMakefile-windows
 
 # COPIANDO LIB E INCLUDE PASTAS PARA A PASTA DO APLICATIVO EM BUILD
 

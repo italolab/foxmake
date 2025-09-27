@@ -17,9 +17,6 @@ using std::string;
 using std::stringstream;
 using std::endl;
 
-#include <iostream>
-using namespace std;
-
 void CPExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     CMD* cmd = execCMD->getCMD();
