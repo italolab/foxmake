@@ -84,7 +84,7 @@ helloworld
 
                         Se estiver no windows execute:
 
-<pre><code>executavel.exe</code></pre>
+<pre><code>.\executavel.exe</code></pre>
                     </li>
 
                 </ol>
@@ -102,15 +102,15 @@ helloworld
         └── main.o    
 </pre>
 
-                <p>Foram criadas duas pastas: build e obj. A pasta obj é para onde foram os arquivos 
-                resultantes da compilação (os arquivos objeto). O executável resultante da linkagem, 
-                foi para pasta build e, se houvesse uma pasta bin, iria para ela também. Como ela não 
-                foi configurada no script, o executável vai para pasta raiz do projeto.</p>
+                <p>Foi criada uma pasta: obj. A pasta obj é para onde foram os arquivos 
+                resultantes da compilação (os arquivos objeto). Se houvesse uma pasta bin, 
+                o executável linkado iria para ela. Como ela não foi configurada no script, 
+                o executável vai para pasta raiz do projeto.</p>
 
-                <p>Repare que foi criado também um arquivo __lwtimes.txt. Esse arquivo é um arquivo de 
-                propriedades. Onde, as chaves representam os arquivos de código fonte 
-                (headers e implementações), e os valores, representam o tempo de última alteração desses 
-                arquivos no momento da última compilação.</p>
+                <p>Repare que foi criado também um arquivo __lwtimes.txt. Esse arquivo é um 
+                arquivo de propriedades. Onde, as chaves representam os arquivos de código fonte 
+                (headers e implementações), e os valores, representam o tempo de última alteração 
+                desses arquivos no momento da última compilação.</p>
 
                 <p>A cada compilação, o arquivo _lwtimes.txt é atualizado (ou criado, caso não já exista). 
                 Na próxima compilação, se não for especificada a tarefa compileall ou outra que também 
@@ -131,15 +131,14 @@ helloworld
             <section>
                 <h3>Recomendação</h3>
 
-                <p>É recomendável configurar as pastas src e bin para o projeto ficar mais organizado. 
-                Para tanto, é só adicionar as propriedades: src.dir=src e bin.dir=bin no arquivo de 
-                script: FoxMakefile.</p>
+                <p>É recomendável configurar as pastas src, bin e build para o projeto ficar mais 
+                organizado, como será ensinado na próxima aula.</p>
             </section>
 
             <section>
                 <h3>Próxima aula</h3>
 
-                <p>O próxima aula ensina como criar e configurar as pastas "src" e "bin" para 
+                <p>O próxima aula ensina como criar e configurar as pastas "src", "bin" e "build" para 
                 organizar melhor o projeto.</p>
             </section>
 
