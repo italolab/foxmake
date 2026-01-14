@@ -229,12 +229,23 @@ app
 ├── libmath.so
 └── main.cpp
 </pre>
+                        <p>Ou se estiver no windows:</p>
+
+<pre>
+app
+├── FoxMakefile
+├── include
+│   └── libmath.h
+├── libmath.dll
+└── main.cpp
+</pre>
+
                     </li>
                     <li>Feito isso, pode executar o seguinte comando: <br />
 <pre><code>foxmake buildall</code></pre>
                     </li>
-                    <li>Agora navegue até a pasta build e execute o executável de nome 
-                        "app", conforme a seguir: <br />
+                    <li>Agora, se estiver no linux, navegue até a pasta build e execute o 
+                        executável de nome "app", conforme a seguir: <br />
 <pre><code>cd build
 export LD_LIBRARY_PATH=.
 ./app
@@ -242,7 +253,15 @@ export LD_LIBRARY_PATH=.
                         <p>o "export LD_LIBRARY_PATH=." serve para a lib "libmath.a" ser 
                             encontrada. Isto é, ela está no diretório corrente: ".".</p>
 
-                        <p>Agora você pode interagir com o programa conforme a seguir: </p>
+                        <p>Se estiver no windows, navegue até a pasta build e execute o executável 
+                            "app", conforme a seguir:</p>
+
+                            <pre><code>cd build
+.\app
+</code></pre>
+
+                        <p>Agora você pode interagir com o programa conforme a seguir 
+                            (exemplo no linux): </p>
 
                         <figure>
                             <img src="../images/libraries-app-output.png" />
