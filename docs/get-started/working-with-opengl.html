@@ -71,9 +71,10 @@
 
                 <p>Descompacte o arquivo "glew-2.3.0-win32.zip" e procure pelas pastas "include", "bin", "lib". 
                 Agora, copie o conteúdo da pasta "include" para a pasta "include" da raiz do seu projeto. 
-                Copie os arquivos ".lib" da pasta "lib", conforme a arquitetura (no caso "x64"). Agora, na pasta 
-                "bin", procure pelo arquivo "glew32.dll" conforme a arquitetura (no caso "x64"). Copie o arquivo 
-                "glew32.dll" para a raiz do seu projeto ou para a pasta "lib".</p>
+                Copie os arquivos ".lib" da pasta "lib", conforme a arquitetura (no caso "x64"), para a pasta 
+                "lib" na raiz do projeto. Agora, na pasta "bin", procure pelo arquivo "glew32.dll" conforme a 
+                arquitetura (no caso "x64"). Copie o arquivo "glew32.dll" para a raiz do seu projeto ou para a 
+                pasta "lib".</p>
 
                 <h5>Instalando o glm</h5>
 
@@ -88,8 +89,8 @@
 <pre>
 ProjGL
 └── include
-    └── GL
-    └── GLFW
+    ├── GL
+    ├── GLFW
     └── glm
 </pre>
 
@@ -101,12 +102,12 @@ ProjGL
 
 <pre>
 ProjGL
-└── lib
-    └── glew32.lib
-    └── glew32s.lib
-    └── libglfw3.a
-    └── libglfw3dll.a
-└── glew32.dll
+├── lib
+│   ├── glew32.lib
+│   ├── glew32s.lib
+│   ├── libglfw3.a
+│   └── libglfw3dll.a
+├── glew32.dll
 └── glfw3.dll
 </pre>
 
