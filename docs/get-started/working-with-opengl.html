@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Página oficial do foxmake - Trabalhando com opengl e foxmake">
+    <meta name="keyworks" content="foxmake, software, windows, linux, build, c, c++">
+    <meta name="author" content="Ítalo Herbert Siqueira Gabriel">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../lib/fontawesome/all.min.css" rel="stylesheet">
+    <link href="../lib/prism/prism.css" rel="stylesheet">
+    <link href="../style/style.css" rel="stylesheet">
+    
+    <title>Trabalhando com opengl - foxmake - Site oficial</title>
+
+    <script src="../lib/jquery-3.7.1.min.js"></script>    
+    <script src="../lib/fontawesome/all.min.js"></script>
+    <script src="../js/main.js"></script>
+</head>
+
+<body>
+    <nav id="nav"></nav>
+
+<div class="d-flex flex-nowrap">
+    <aside id="aside"></aside>
+    <main>
+        <article>
+            <header>
+                <h1 class="text-center">Trabalhando com opengl</h1>
+                <h5 class="text-center">Agora vamos rodar um projeto opengl com foxmake no windows</h5>
+            </header>
+
+            <br />
+
+            <section>
+                <p>Vamos criar um projeto que utiliza opengl. Faça o seguinte: Baixe 
+                o glfw, depois o glew e, se quiser, pode baixar também o glm para cálculos 
+                matemáticos e com vetores e matrizes. Logo, as versões atuais "18/06/2026", 
+                são as seguintes:</p>
+
+                <ul>
+                    <li>glfw-3.4.bin.WIN64.zip</li>
+                    <li>glew-2.3.0-win32.zip</li>
+                    <li>glm-1.0.3.zip</li>
+                </ul>
+
+                <p><b>Atenção</b>: Esse tutorial ensina a utilizar o opengl para windows, arquitetura x86_64. 
+                Para outras arquiteturas ou sistema linux, são necessárias adaptações!</p>
+
+                <p>Crie uma pasta para o projeto com o nome que desejar. Mas, para esse tutorial, vamos 
+                    assumir que o nome é "ProjGL".
+                </p>
+
+                <p>No seu projeto criado, crie dentro da pasta raiz do projeto as pastas: "include" 
+                e "lib".</p>
+                
+                <h5>Instalando o glfw</h5>
+
+                <p>Agora, descompacte o "glfw-3.4.bin.WIN64.zip" e procure pelas pastas "include" e "lib-mingw-w64. 
+                Agora, copie o conteúdo da pasta "include" para a pasta "include" que você criou na raiz do 
+                seu projeto. Copie também o conteúdo da pasta "lib-mingw-w64" para pasta "lib" que você criou na raiz 
+                do projeto. Caso queira, pode copiar o arquivo glfw3.dll para a raiz do seu projeto, ao invés da pasta 
+                "lib".</p>
+
+                <h5>Instalando o glew</h5>
+
+                <p>Descompacte o arquivo "glew-2.3.0-win32.zip" e procure pelas pastas "include", "bin", "lib". 
+                Agora, copie o conteúdo da pasta "include" para a pasta "include" da raiz do seu projeto. 
+                Copie os arquivos ".lib" da pasta "lib", conforme a arquitetura (no caso "x64"). Agora, na pasta 
+                "bin", procure pelo arquivo "glew32.dll" conforme a arquitetura (no caso "x64"). Copie o arquivo 
+                "glew32.dll" para a raiz do seu projeto ou para a pasta "lib".</p>
+
+                <h5>Instalando o glm</h5>
+
+                <p>Para instalar o glm é mais simples. Extraia o conteúdo do arquivo "glm-1.0.3.zip" e copie o 
+                conteúdo da subpasta "glm" que está dentro da pasta "glm", para a pasta "include" do seu projeto.</p>
+
+                <p><b>Atenção:</b> Não copie a pasta "glm" raiz do arquivo extraído, copie a pasta "glm" que está 
+                dentro dela, junta de outras pastas!</p>
+
+                <p>Feito isto tudo, a pasta "include deve estar mais ou manos assim:</p>
+
+<pre>
+ProjGL
+└── include
+    └── GL
+    └── GLFW
+    └── glm
+</pre>
+
+                <p>A árvore de diretórios acima, ignora o conteúdo das subpastas de "include"!</p>
+
+                <p>E a pasta lib, deve ter o seguinte conteúdo e a pasta raiz deve ter o arquivo 
+                "glew32.dll" e, caso tenha optado por deixar na raiz também o arquivo "glfw3.dll", 
+                este estará na raiz também.</p>
+
+<pre>
+ProjGL
+└── lib
+    └── glew32.lib
+    └── glew32s.lib
+    └── libglfw3.a
+    └── libglfw3dll.a
+└── glew32.dll
+└── glfw3.dll
+</pre>
+
+                <p>Atenção: se fizer uma linkagem estática, não necessita do arquivo glfw3.dll. Se 
+                fizer uma linkagem dinâmica, o arquivo glfw3.dll é necessário! Nesse projeto, vamos 
+                utilizar a lib "libglfw3.a", linkando esta lib estaticamente.</p>
+
+                <p>Agora que está tudo configurado, vamos ao arquivo "main.cpp" onde estará o código 
+                opengl/c++ da aplicação:</p>
+
+<pre class="line-numbers"><code class="language-cpp">#include &lt;GL/glew.h&gt;
+#include &lt;GLFW/glfw3.h&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    // Initialize GLFW
+    if (!glfwInit()) {
+        std::cerr << "Falha ao iniciar o GLFW\n";
+        return -1;
+    }
+
+    // Cria no modo janela o contexto OpenGL
+    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL com MinGW e Foxmake", nullptr, nullptr);
+    if (!window) {
+        std::cerr << "Falha ao criar janela GLFW\n";
+        glfwTerminate();
+        return -1;
+    }
+
+    // Faz a janela como contexto corrente
+    glfwMakeContextCurrent(window);
+
+    // Inicializa o GLEW
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK) {
+        std::cerr << "Falha ao inicializar o GLEW\n";
+        return -1;
+    }
+
+    // Loop principal
+    while (!glfwWindowShouldClose(window)) {
+        // Cor da janela
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // Operação de Swap para bufferes
+        glfwSwapBuffers(window);
+
+        // Poll para processar eventos
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    return 0;
+}
+</code></pre>
+
+                <p>Agora crie o arquivo FoxMakefile com o seguinte conteúdo:</p>
+
+<pre class="line-numbers"><code>output.file.name=projgl.exe
+
+src.dir=src
+bin.dir=bin
+obj.dir=obj
+build.dir=build
+
+build.files=glew32.dll glfw3.dll
+
+compiler.params=-Wall -g
+linker.params=-s
+
+include.dirs=include
+lib.dirs=lib
+libs=glfw3 glew32 opengl32 gdi32
+</code></pre>              
+
+                <p>Agora, pode executar o build com o foxmake com o seguinte comando (na raiz do projeto):</p>
+
+<pre><code>foxmake buildall</code></pre>
+
+                <p>Se tudo correr bem, o seu projeto terá a seguinte estrutura de pastas:</p>
+
+<pre>
+ProjGL
+├── __lwtimes.txt
+├── FoxMakefile    
+├── glew32.dll
+├── glfw3.dll
+├── bin
+│   └── projgl.exe
+├── build
+│   └── glew32.dll
+│   └── glfw3.dll
+│   └── projgl.exe
+├── include
+│   └── GL
+│   └── GLFW
+│   └── glm
+├── lib
+│   └── glew32.lib
+│   └── glew32s.lib
+│   └── libglfw3.a
+│   └── libglfw3dll.a
+├── obj
+│   └── src
+│       └── main.o
+└── src
+    └── main.cpp
+</pre>
+
+                <p>Agora rode o projeto com o seguinte comando:</p>
+
+<pre><code>.\build\projgl.exe</code></pre>
+                                   
+                <p>Com isso verá uma janela de cor cinza, é o resultado do programa rodado.</p>
+
+                <p><b>Download</b>: 
+                    <a href="../files/projgl-windows.zip">projgl-windows.zip</a>.
+                </p>
+            </section>
+            
+            <article>
+                <header>
+                    <h3>Finalizando</h3>
+                </header>
+
+                <p>Esta é a última aula sobre o foxmake. Espero que tenha gostado 
+                do conteúdo e, divirta-se, automatizando o build de seus projetos 
+                em C/C++ com o foxmake.</p>
+            </article>
+            
+            <footer class="d-flex justify-content-between">
+                <a class="btn btn-dark" href="dinamic-libraries.html">
+                    Anterior
+                </a>      
+                <a class="btn btn-dark" href="index.html">
+                    Cima
+                </a>
+                <span></span>            
+            </footer>
+        </article>
+    </main>
+</div>
+
+    <footer>
+        <span id="footer"></span>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../lib/prism/prism.js"></script>
+</body>
+
+</html>

@@ -343,6 +343,10 @@ de comentário
                     <li>test.dir</li>
 
                     <br />
+
+                    <li>build.files</li>
+
+                    <br />
                     
                     <li>compiler.params</li>
                     <li>linker.params</li>
@@ -388,6 +392,19 @@ obj.dir=obj
 build.dir=build
 test.dir=test
 </code></pre>
+
+                <p>A propriedade <b>build.files</b> pode ser utilizada para copiar os arquivos 
+                e pastas configurados na propriedade para a pasta build. Essa propriedade pode 
+                ser configurada, muitas vezes, no lugar do comando <b>cp</b> para copiar arquivos, 
+                especificamente, para pasta build. Veja o exemplo abaixo: </p>
+
+<pre class="line-numbers"><code>build.files=libmy.dll config/
+</code></pre>
+
+                <p>O exemplo acima copia a biblioteca libmy.dll que deve estar na raiz do projeto para 
+                a pasta "build". Copia também a pasta "config" e todo o seu conteúdo para a pasta 
+                "build". No entanto, não seria válido fazer algo como: "config/*" ou "*.dll". Os coringas 
+                não são interpretados neste comando.</p>
 
                 <p>As propriedades: <b>compiler.params, linker.params e archiver.params</b> podem ser 
                 utilizadas para passar parâmetros/opções extras aos comandos correspondentes. 
