@@ -1,0 +1,24 @@
+output.file.name=libmath2.a
+
+src.dir=src
+test.dir=test
+build.dir=build
+obj.dir=obj
+bin.dir=bin
+
+linker.params=-static
+
+IF os != "windows"
+    test.linker.params=-ldl -rdynamic
+ENDIF
+
+test.include.dirs=../../include
+
+IF os == "windows"
+    test.lib.dirs=../../lib/windows
+ENDIF
+IF os != "windows"
+    test.lib.dirs=../../lib/linux
+ENDIF
+
+test.libs=xutest

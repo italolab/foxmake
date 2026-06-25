@@ -38,6 +38,8 @@ class MainCMDArgManager {
         bool isTestBuild();
         bool isTestBuildAll();
 
+        bool isNoExeLink();
+
 };
 
 #endif

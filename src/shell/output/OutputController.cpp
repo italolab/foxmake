@@ -20,7 +20,7 @@ void OutputController::run() {
     bool isVerbose = shell->isVerbose();
     bool isShowOutput = shell->isShowOutput();
 
-    while( !this->isFinish ) { 
+    while( !this->isFinish || !outputThreadVect.empty() ) { 
         OutputThread* outputThread = nullptr;
         if ( !outputThreadVect.empty() )
             outputThread = outputThreadVect.front();
@@ -43,7 +43,7 @@ void OutputController::run() {
             } else {
                 std::this_thread::sleep_for( std::chrono::milliseconds( 30 ) );
             }
-        }        
+        }             
     }
 }
 

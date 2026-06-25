@@ -12,4 +12,5 @@ using namespace std;
 
 int main() {
 	RUN_TEST_CASES_MENU();
+	return 0;
 }

@@ -8,10 +8,6 @@
 #include <string>
 #include <cstring>
 
-#include <iostream>
-
-using namespace std;
-
 #ifdef _WIN32
     const string PT_BR_LOCALE = "C";
 #else

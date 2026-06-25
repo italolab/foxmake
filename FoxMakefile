@@ -4,7 +4,7 @@
     em ".."
 ##
 
-$version=1.3
+$version=1.4
 $arch=x64
 
 $xutest_version=1.0
@@ -40,7 +40,6 @@ $release_bin_dir=bin/Release
 $release_obj_dir=obj/Release
 $release_compiler_params=-Wall -fexceptions -O2 -std=c++17
 $release_linker_params=-s -static
-
 
 bin.dir=$($(target)_bin_dir)
 obj.dir=$($(target)_obj_dir)
@@ -91,5 +90,5 @@ task compile before
 endtask
 
 task finish after    
-
+    
 endtask

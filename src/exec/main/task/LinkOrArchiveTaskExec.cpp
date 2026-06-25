@@ -33,7 +33,7 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
 
     bool isLink = manager->getMainCMDArgManager()->isLink();
     bool isArchive = manager->getMainCMDArgManager()->isArchive();
-
+    
     bool isVerbose = ( isLink && isLinkVerbose ) || ( isArchive && isArchiveVerbose );
 
     string outputFileName = scriptPropManager->getOutputFileName();
@@ -49,7 +49,7 @@ void LinkOrArchiveTaskExec::exec( void* mgr ) {
         } else if ( strutil::endsWith( outputFileName, "so" ) ) {
             dynamicLibraryLinkTaskExec->exec( mgr );
         } else {
-            exeLinkTaskExec->exec( mgr );
+            exeLinkTaskExec->exec( mgr );            
         }
 
         manager->executeUserTaskIfExists( tasks::LINK, TaskExecution::AFTER );

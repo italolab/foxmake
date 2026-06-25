@@ -17,6 +17,9 @@
 using std::stringstream;
 using std::endl;
 
+#include <iostream>
+using namespace std;
+
 void CDExec::exec( ExecCMD* execCMD, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     MainScript* script = manager->getMainScript();
@@ -44,7 +47,7 @@ void CDExec::exec( ExecCMD* execCMD, void* mgr ) {
     if ( !ok )
         throw st_error( cmd, errors::CURRENT_DIRECTORY_NOT_CHANGED );
 
-    Var* var = script->getLocalVar( "working_dir" );
+    Var* var = script->getPredefinedVar( "working_dir" );
     if ( var == nullptr )
         throw st_error( cmd, errors::WORKDIR_VAR_NOT_FOUND );
 

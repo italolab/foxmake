@@ -155,6 +155,19 @@ bool MainCMDArgManager::isLink() {
     return isLink || isBuild || isBuildAll || isTestBuild || isTestBuildAll;
 }
 
+bool MainCMDArgManager::isNoExeLink() {
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
+        return false;
+    
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
+
+    bool isLink = mainExecCMD->existsArg( tasks::LINK );
+    bool isArchive = mainExecCMD->existsArg( tasks::ARCHIVE );
+    return ( isTestBuild || isTestBuildAll ) && isArchive && !isLink;
+}
+
 bool MainCMDArgManager::isArchive() {
     ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
     if ( mainExecCMD == nullptr )

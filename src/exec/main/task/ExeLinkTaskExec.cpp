@@ -29,6 +29,8 @@ void ExeLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
 
+    bool isNoExeLink = manager->getMainCMDArgManager()->isNoExeLink();
+
     string compiler = scriptPropManager->getCompiler();
     string outputFileName = scriptPropManager->getOutputFileName();
     string resourceFile = scriptPropManager->getResourceFile();
@@ -48,8 +50,8 @@ void ExeLinkTaskExec::exec( void* mgr ) {
         }
     }
 
-    if ( outputFileName != "" )
-        this->execLinkage( mgr );
+    if ( outputFileName != "" && !isNoExeLink )
+            this->execLinkage( mgr );    
 
     if ( testDir != "" )
         this->execTestLinkage( mgr );
