@@ -1,0 +1,14 @@
+
+output.file.name=libmath.so
+
+src.dir=src
+test.dir=test
+bin.dir=bin
+
+linker.params=-fPIC
+
+IF os != "windows"
+    test.linker.params=-ldl -rdynamic
+ENDIF
+
+test.libs=xutest

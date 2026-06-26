@@ -90,5 +90,5 @@ task compile before
 endtask
 
 task finish after    
-    
+    @./$(build.dir)/foxmake testbuild --working-dir=run/libmathso
 endtask

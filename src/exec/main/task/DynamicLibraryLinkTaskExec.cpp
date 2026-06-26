@@ -25,7 +25,27 @@ using std::vector;
 using std::stringstream;
 using std::endl;
 
+DynamicLibraryLinkTaskExec::DynamicLibraryLinkTaskExec() {
+    this->testLinkTaskExec = new TestLinkTaskExec();
+}
+
+DynamicLibraryLinkTaskExec::~DynamicLibraryLinkTaskExec() {
+    delete this->testLinkTaskExec;
+}
+
 void DynamicLibraryLinkTaskExec::exec( void* mgr ) {
+    ExecManager* manager = (ExecManager*)mgr;
+    ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
+
+    string testDir = scriptPropManager->getTestDir();
+
+    this->execLink( mgr );
+
+    if ( testDir != "" )
+        testLinkTaskExec->execLinkage( mgr );
+}
+
+void DynamicLibraryLinkTaskExec::execLink( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
