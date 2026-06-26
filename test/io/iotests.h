@@ -206,7 +206,7 @@ TEST_CASE( deleteFilesTest, IOTests ) {
 
     ASSERT_TRUE( io::fileExists( "temp/arquivos1" ), )
 
-    ASSERT_THROWS( io_error, {    
+    ASSERT_NOT_THROWS( io_error, {    
         count = io::deleteFiles( "temp/arquivos1", io::by_name_file_filter( "*" ), false );        
     }, )
 

@@ -89,6 +89,14 @@ task compile before
     call archive_and_copy_xutest
 endtask
 
+task testlink before
+    echo TestLink iniciando...
+endtask
+
+task testlink after
+    echo TestLink finalizando...
+endtask
+
 task finish noverbose;
 
 task finish after    
