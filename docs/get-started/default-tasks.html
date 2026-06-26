@@ -125,6 +125,22 @@
                 que substitue "compile" por "compileall". Isto é, executa: 
                 <b>clean, compileall, link, copy, test</b>.</p>
 
+                <section class="d-flex justify-content-center">
+                    <div class="warning">
+                        <h5>Atenção</h5>
+
+                        <p>As tasks "testbuild" e "testbuildall" só executam o link do 
+                            executável principal do projeto se não for informada a task 
+                            "archive" ou se for informada a task "archive" e não for 
+                            informada a task "link".
+                        </p>
+                        
+                        <p>Se desejar testar uma static library, deve utilizar a task 
+                            "testbuild" ou "testbuildall" junto de "archive" sem "link".
+                        </p>
+                    </div>
+                </section>
+
             </article>
 
             <article>

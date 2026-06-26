@@ -52,6 +52,10 @@ aside ul {
     color: #882;
 }
 
+.warning > p, .warning > ul {
+    font-size: small;
+}
+
 #top-icon {
     position: fixed;
     right: 1em;
