@@ -1,0 +1,6 @@
+output.file.name=executavel
+
+src.dir=src
+bin.dir=bin
+obj.dir=obj
+build.dir=build

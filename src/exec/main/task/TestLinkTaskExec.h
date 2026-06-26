@@ -1,10 +1,12 @@
 #ifndef TEST_LINK_TASK_EXEC_H
 #define TEST_LINK_TASK_EXEC_H
 
-class TestLinkTaskExec {
+#include "../TaskExec.h"
+
+class TestLinkTaskExec : public TaskExec {
 
     public:
-        void execLinkage( void* mgr );
+        void exec( void* mgr );
 
 };
 

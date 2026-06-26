@@ -33,6 +33,7 @@ MainExec::MainExec() {
     linkOrArchiveTaskExec = new LinkOrArchiveTaskExec();
     testTaskExec = new TestTaskExec();
     copyTaskExec = new CopyTaskExec();
+    testLinkTaskExec = new TestLinkTaskExec();
 }
 
 MainExec::~MainExec() {
@@ -43,6 +44,7 @@ MainExec::~MainExec() {
     delete linkOrArchiveTaskExec;
     delete testTaskExec;
     delete copyTaskExec;
+    delete testLinkTaskExec;
 }
 
 void MainExec::exec( void* mgr ) {
@@ -84,6 +86,7 @@ void MainExec::exec( void* mgr ) {
     bool isArchive = manager->getMainCMDArgManager()->isArchive();
     bool isTest = manager->getMainCMDArgManager()->isTest();
     bool isCopy = manager->getMainCMDArgManager()->isCopy();
+    bool isTestLink = manager->getMainCMDArgManager()->isTestLink();
 
     this->genSourceAndHeaderInfos( manager );
 
@@ -111,6 +114,8 @@ void MainExec::exec( void* mgr ) {
         compileTaskExec->exec( mgr );
     if ( isLink || isArchive )
         linkOrArchiveTaskExec->exec( mgr );
+    if ( isTestLink )
+        testLinkTaskExec->exec( mgr );
     if ( isCopy )
         copyTaskExec->exec( mgr );
     if ( isTest )

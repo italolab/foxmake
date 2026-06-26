@@ -47,6 +47,7 @@ namespace tasks {
     const string COMPILEALL = "compileall";
     const string LINK = "link";
     const string TEST = "test";
+    const string TESTLINK = "testlink";
     const string TESTBUILD = "testbuild";
     const string TESTBUILDALL = "testbuildall";
     const string ARCHIVE = "archive";
@@ -64,6 +65,7 @@ namespace tasks {
         COMPILEALL,
         LINK,
         TEST,
+        TESTLINK,
         TESTBUILD,
         TESTBUILDALL,
         ARCHIVE,

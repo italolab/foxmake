@@ -29,7 +29,7 @@ O arquivo de saída é o caminho da concatenação entre o valor da propriedade 
 o valor da constante TEST_OUTPUT_FILE_NAME
 */
 
-void TestLinkTaskExec::execLinkage( void* mgr ) {
+void TestLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     SourceCodeManager* sourceCodeManager = manager->getSourceCodeManager();
     SourceCodeManager* testSourceCodeManager = manager->getTestSourceCodeManager();
@@ -38,6 +38,7 @@ void TestLinkTaskExec::execLinkage( void* mgr ) {
     Output& out = manager->out;
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::LINK );
     bool isShowCMDOutput = manager->getMainCMDArgManager()->isShowCMDOutput( tasks::LINK );
+    bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     string compiler = scriptPropManager->getCompiler();
     string testLinkerParams = scriptPropManager->getTestLinkerParams();
@@ -56,6 +57,11 @@ void TestLinkTaskExec::execLinkage( void* mgr ) {
     vector<string> withHeaderObjFiles = sourceCodeManager->withHeaderObjectCodeFiles();    
     vector<CodeInfo*> testSourceCodeInfos = testSourceCodeManager->sourceCodeInfos();
         
+    if ( !isNoResume || isVerbose )
+        out << infos::EXECUTING << " " << output::green( tasks::TESTLINK ) << "..." << endl;    
+
+    manager->executeUserTaskIfExists( tasks::TESTLINK, TaskExecution::BEFORE );
+
     vector<string> objectCodeFiles;
     
     for( string objFile : withHeaderObjFiles ) {
@@ -90,6 +96,12 @@ void TestLinkTaskExec::execLinkage( void* mgr ) {
         int exitCode = shell->execute();
         delete shell;
         if ( exitCode != 0 )
-            throw st_error( nullptr, errors::TEST_LINKING_FAILED );            
+            throw st_error( nullptr, errors::TEST_LINKING_FAILED );                    
+    }
+
+    manager->executeUserTaskIfExists( tasks::TESTLINK, TaskExecution::AFTER );
+    if ( isVerbose ) {
+        out << infos::SUCCESS_IN_TEST_LINKING << endl;
+        out << endl;
     }
 }

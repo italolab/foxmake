@@ -25,19 +25,9 @@ using std::vector;
 using std::stringstream;
 using std::endl;
 
-ExeLinkTaskExec::ExeLinkTaskExec() {
-    this->testLinkTaskExec = new TestLinkTaskExec();
-}
-
-ExeLinkTaskExec::~ExeLinkTaskExec() {
-    delete this->testLinkTaskExec;
-}
-
 void ExeLinkTaskExec::exec( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     ScriptPropertyManager* scriptPropManager = manager->getScriptPropManager();
-
-    bool isNoExeLink = manager->getMainCMDArgManager()->isNoExeLink();
 
     string compiler = scriptPropManager->getCompiler();
     string outputFileName = scriptPropManager->getOutputFileName();
@@ -58,11 +48,8 @@ void ExeLinkTaskExec::exec( void* mgr ) {
         }
     }
 
-    if ( outputFileName != "" && !isNoExeLink )
+    if ( outputFileName != "" )
         this->execLinkage( mgr );    
-
-    if ( testDir != "" )
-        testLinkTaskExec->execLinkage( mgr );
 }
 
 /*

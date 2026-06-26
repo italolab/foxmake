@@ -1,4 +1,0 @@
-/home/italo/workspace-cpp/foxmake/run/libmathso/src/libmath.cpp=1782485815
-/home/italo/workspace-cpp/foxmake/run/libmathso/src/libmath.h=1782485815
-/home/italo/workspace-cpp/foxmake/run/libmathso/test/libmathtest.h=1782485815
-/home/italo/workspace-cpp/foxmake/run/libmathso/test/main.cpp=1782485815

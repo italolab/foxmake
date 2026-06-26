@@ -16,6 +16,7 @@ namespace infos {
     const string SUCCESS_IN_COMPILATION = "Compilação executada com sucesso.";
     const string SUCCESS_IN_LINKING = "Linkagem efetuada com sucesso.";
     const string SUCCESS_IN_TESTING = "Tarefa de teste executada com sucesso.";
+    const string SUCCESS_IN_TEST_LINKING = "Tarefa de linkagem de teste executada com sucesso.";
     const string SUCCESS_IN_ARCHIVING = "Biblioteca estática criada com sucesso.";
     const string SUCCESS_IN_COPY = "Cópia dos arquivos de build efetuada com sucesso.";
     const string SUCCESS_IN_EXECUTING_STATEMENTS = "Instruções executadas com sucesso.";

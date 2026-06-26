@@ -30,6 +30,7 @@ class MainCMDArgManager {
         bool isLink();
         bool isArchive();
         bool isTest();
+        bool isTestLink();
         bool isCopy();
         bool isBuild();
         bool isBuildAll();
@@ -37,8 +38,6 @@ class MainCMDArgManager {
         bool isArchiveBuildAll();
         bool isTestBuild();
         bool isTestBuildAll();
-
-        bool isNoExeLink();
 
 };
 

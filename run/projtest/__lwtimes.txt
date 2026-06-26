@@ -1,4 +1,0 @@
-/home/italo/workspace-cpp/foxmake/run/projtest/src/math2.cpp=1782396205
-/home/italo/workspace-cpp/foxmake/run/projtest/src/math2.h=1782396097
-/home/italo/workspace-cpp/foxmake/run/projtest/test/main.cpp=1782396654
-/home/italo/workspace-cpp/foxmake/run/projtest/test/math2test.h=1782410980

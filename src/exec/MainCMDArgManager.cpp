@@ -150,22 +150,7 @@ bool MainCMDArgManager::isLink() {
     bool isLink = mainExecCMD->existsArg( tasks::LINK );
     bool isBuild = mainExecCMD->existsArg( tasks::BUILD );
     bool isBuildAll = mainExecCMD->existsArg( tasks::BUILDALL );
-    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
-    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
-    return isLink || isBuild || isBuildAll || isTestBuild || isTestBuildAll;
-}
-
-bool MainCMDArgManager::isNoExeLink() {
-    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
-    if ( mainExecCMD == nullptr )
-        return false;
-    
-    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
-    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
-
-    bool isLink = mainExecCMD->existsArg( tasks::LINK );
-    bool isArchive = mainExecCMD->existsArg( tasks::ARCHIVE );
-    return ( isTestBuild || isTestBuildAll ) && isArchive && !isLink;
+    return isLink || isBuild || isBuildAll;
 }
 
 bool MainCMDArgManager::isArchive() {
@@ -188,6 +173,17 @@ bool MainCMDArgManager::isTest() {
     bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
     bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
     return isTest || isTestBuild || isTestBuildAll;
+}
+
+bool MainCMDArgManager::isTestLink() {
+    ExecCMD* mainExecCMD = ((ExecManager*)mgr)->getMainExecCMD();
+    if ( mainExecCMD == nullptr )
+        return false;
+
+    bool isTestLink = mainExecCMD->existsArg( tasks::TESTLINK );
+    bool isTestBuild = mainExecCMD->existsArg( tasks::TESTBUILD );
+    bool isTestBuildAll = mainExecCMD->existsArg( tasks::TESTBUILDALL );
+    return isTestLink || isTestBuild || isTestBuildAll;
 }
 
 bool MainCMDArgManager::isCopy() {

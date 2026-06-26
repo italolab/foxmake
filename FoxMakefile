@@ -89,6 +89,19 @@ task compile before
     call archive_and_copy_xutest
 endtask
 
+task finish noverbose;
+
 task finish after    
-    @./$(build.dir)/foxmake testbuild --working-dir=run/libmathso
+    @./$(build.dir)/foxmake build --working-dir=projetos/helloworld --no-resume
+    @./projetos/helloworld/build/executavel
+
+    @./$(build.dir)/foxmake testbuild --working-dir=projetos/test-helloworld --no-resume
+    
+    @./$(build.dir)/foxmake testbuild --working-dir=projetos/static-lib-math --no-resume
+
+    IF os != "windows"
+        @./$(build.dir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
+    ENDIF   
+
+    #@./$(build.dir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
 endtask

@@ -7,6 +7,7 @@
 #include "task/LinkOrArchiveTaskExec.h"
 #include "task/TestTaskExec.h"
 #include "task/CopyTaskExec.h"
+#include "task/TestLinkTaskExec.h"
 #include "../../darv/CMD.h"
 #include "../../darv/MainScript.h"
 
@@ -20,6 +21,7 @@ class MainExec {
         LinkOrArchiveTaskExec* linkOrArchiveTaskExec;
         TestTaskExec* testTaskExec;
         CopyTaskExec* copyTaskExec;
+        TestLinkTaskExec* testLinkTaskExec;
 
         void genSourceAndHeaderInfos( void* mgr );
         void executaNoDefaultTasks( void* mgr );

@@ -27,6 +27,8 @@ void CopyTaskExec::exec( void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose( tasks::COPY );
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
+    bool isLink = manager->getMainCMDArgManager()->isLink();
+
     if ( !isNoResume || isVerbose )
         out << infos::EXECUTING << " " << output::green( tasks::COPY ) << "..." << endl;    
 
@@ -46,7 +48,7 @@ void CopyTaskExec::exec( void* mgr ) {
     
     if ( binDir != buildDir ) {
         string outputFileName = scriptPropManager->getOutputFileName();
-        if ( outputFileName != "" ) {
+        if ( outputFileName != "" && isLink ) {
             string linkOutFName = binDir + outputFileName;
             appCopyFileOrDirectoryToBuild( linkOutFName, buildDir, props::OUTPUT_FILE_NAME, manager );        
         }
