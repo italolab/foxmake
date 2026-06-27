@@ -1,7 +1,7 @@
 #ifndef STRUTIL_TESTS_H
 #define STRUTIL_TESTS_H
 
-#include <util/strutil.h>
+#include "util/strutil.h"
 
 #include <xutest/xutest.h>
 
@@ -16,7 +16,7 @@ TEST_CASE( startsWithTest, StrutilTests ) {
 	ASSERT_FALSE( strutil::startsWith( "abc", "bc" ), )
 	ASSERT_FALSE( strutil::startsWith( "", "bc" ), )
 	ASSERT_FALSE( strutil::startsWith( "", "AB" ), )
-	ASSERT_TRUE( strutil::startsWith( "", "" ), )
+	ASSERT_TRUE( strutil::startsWith( "", "" ), )    
 }
 
 TEST_CASE( endsWithTest, StrutilTests ) {
@@ -58,6 +58,8 @@ TEST_CASE( isNextSubstrTest, StrutilTests ) {
     ASSERT_FALSE( strutil::isNextSubstr( "abc    def ghi", 4, "deg" ), )
     ASSERT_FALSE( strutil::isNextSubstr( "abc    def ghi", -1, "def" ), )
     ASSERT_FALSE( strutil::isNextSubstr( "abc    def ghi", 20, "def" ), )
+
+    ASSERT_TRUE( strutil::isNextSubstr( "abcbca", 5, "a" ), )
 }
 
 TEST_CASE( trimTests, StrutilTests ) {

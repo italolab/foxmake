@@ -10,6 +10,6 @@ TEST_CASE( primeiroTeste, Testes ) {
 }
 
 int main() {
-    RUN_TEST_CASES_MENU();
+    RUN_ALL_TEST_CASES();
     return 0;
 }

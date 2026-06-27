@@ -174,5 +174,5 @@
 /home/italo/workspace-cpp/foxmake/src/sourcecode/SourceCodeManager.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/util/hashutil.cpp=1782395453
 /home/italo/workspace-cpp/foxmake/src/util/hashutil.h=1782395453
-/home/italo/workspace-cpp/foxmake/src/util/strutil.cpp=1782395453
+/home/italo/workspace-cpp/foxmake/src/util/strutil.cpp=1782555302
 /home/italo/workspace-cpp/foxmake/src/util/strutil.h=1782395453

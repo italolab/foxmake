@@ -92,10 +92,11 @@ namespace strutil {
         return false;
     }
 
-    bool isNextSubstr( string str, int i, string subStr ) {
+    bool isNextSubstr( string str, int i, string subStr ) {        
         size_t strLen = str.length();
         size_t subsLen = subStr.length();
-        if ( subsLen <= strLen-i+1 ) {
+
+        if ( i >= 0 && i < (int)strLen && (int)subsLen <= (int)strLen-i+1 ) {
             for( size_t j = 0; j < subsLen; j++ )
                 if ( str[ i+j ] != subStr[ j ] )
                     return false;

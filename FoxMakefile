@@ -89,17 +89,14 @@ task compile before
     call archive_and_copy_xutest
 endtask
 
-task testlink before
-    echo TestLink iniciando...
-endtask
-
-task testlink after
-    echo TestLink finalizando...
+task test before
+    echo Compiler: $(test.compiler.params)
 endtask
 
 task finish noverbose;
 
 task finish after    
+    ##
     @./$(build.dir)/foxmake build --working-dir=projetos/helloworld --no-resume
     @./projetos/helloworld/build/executavel
 
@@ -112,4 +109,5 @@ task finish after
     ENDIF   
 
     #@./$(build.dir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
+    ##
 endtask
