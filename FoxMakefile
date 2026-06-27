@@ -120,7 +120,7 @@ task finish after
         @./$(bdir)/foxmake build --working-dir=projetos/helloworld --no-resume
         @./projetos/helloworld/build/executavel
 
-        @./$(bdir)/foxmake.exe build --working-dir=projetos/ifprog --no-resume
+        @./$(bdir)/foxmake build --working-dir=projetos/ifprog --no-resume
         
         @./$(bdir)/foxmake testbuild --working-dir=projetos/test-helloworld --no-resume
         
