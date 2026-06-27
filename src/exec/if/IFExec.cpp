@@ -12,11 +12,13 @@
 
 using std::runtime_error;
 
+#include <iostream>
+using namespace std;
+
 void IFExec::exec( IF* ifst, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
 
-    int numberOfLinesReaded = ifst->getNumberOfLinesReaded();
     string line = ifst->getLine();
     Block* parent = (Block*)ifst->getParent();
 
@@ -31,17 +33,23 @@ void IFExec::exec( IF* ifst, void* mgr ) {
     string operand2Value = condition->getOperand2Value();
     string compOperator = condition->getCompOperator();
 
-    InterResult* replaceResult = interManager->replacePropsAndVarsAndDollarSigns( 
-            operand1Value, numberOfLinesReaded, line, parent );    
-    if ( !replaceResult->isInterpreted() )
-        throw st_error( replaceResult );
-    delete replaceResult;    
+    if ( condition->isOperand1ValuePropOrVar() ) {
+        if ( !interManager->isPropOrVar( parent, operand1Value ) ) {
+            messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+            b << operand1Value;
+            throw st_error( ifst, b.str() );
+        }
+        operand1Value = interManager->getPropOrVarValue( parent, operand1Value );            
+    }
 
-    replaceResult = interManager->replacePropsAndVarsAndDollarSigns( 
-            operand2Value, numberOfLinesReaded, line, parent );    
-    if ( !replaceResult->isInterpreted() )
-        throw st_error( replaceResult );
-    delete replaceResult;
+    if ( condition->isOperand2ValuePropOrVar() ) {
+        if ( !interManager->isPropOrVar( parent, operand2Value ) ) {
+            messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+            b << operand2Value;
+            throw st_error( ifst, b.str() );
+        }
+        operand2Value = interManager->getPropOrVarValue( parent, operand2Value );
+    }
 
     bool conditionValue = true;
     if ( compOperator == "==" )
@@ -49,8 +57,10 @@ void IFExec::exec( IF* ifst, void* mgr ) {
     else conditionValue = ( operand1Value != operand2Value );
 
     if ( conditionValue ) {
-        manager->executeStatement( ifst->getThenStatement() );
+        if ( ifst->getThenStatement() != nullptr )
+            manager->executeStatement( ifst->getThenStatement() );
     } else {
-        manager->executeStatement( ifst->getElseStatement() );
+        if ( ifst->getElseStatement() != nullptr )
+            manager->executeStatement( ifst->getElseStatement() );
     }   
 }

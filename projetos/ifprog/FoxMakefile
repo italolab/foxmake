@@ -1,0 +1,14 @@
+IF os == "windows"
+    output.file.name=executavel.exe
+ENDIF
+IF os != "windows"
+    output.file.name=executavel
+ENDIF
+
+task finish after
+    if os == "windows" then
+        echo IF PROG... EH WINDOWS
+    else
+        echo IF PROG... NAO EH WINDOWS
+    endif
+endtask

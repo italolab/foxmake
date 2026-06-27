@@ -1,4 +1,9 @@
-output.file.name=executavel
+IF os == "windows"
+    output.file.name=executavel.exe
+ENDIF
+IF os != "windows"
+    output.file.name=executavel
+ENDIF
 
 src.dir=src
 bin.dir=bin

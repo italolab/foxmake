@@ -34,9 +34,9 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
             if ( k == 0 && text[ k ] == '$' )
                 isDollarSign = true;
 
-            if ( !isDollarSign && text[k] == '$') {
-                if ( k > 0 )
-                    isDollarSign = ( text[ k-1 ] != '\\' );
+            if ( !isDollarSign && text[k] == '$' ) {
+                if ( k >= 3 )
+                    isDollarSign = ( text[ k-1 ] != '\\' || text[ k-2 ] != '\\' || text[ k-3 ] != '\\' );
                 else isDollarSign = true;
             }
 

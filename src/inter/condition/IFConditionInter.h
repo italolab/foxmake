@@ -17,6 +17,8 @@ class IFConditionInter {
             string& value1, 
             string& value2, 
             string& compOperator,
+            bool& value1PropOrVar,
+            bool& value2PropOrVar,
             string line, 
             int numberOfLinesReaded, 
             void* mgr );

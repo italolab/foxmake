@@ -56,15 +56,17 @@ InterResult* IFInter::interprets(
     string value1;
     string value2;
     string compOperator;
+    bool value1PropOrVar;
+    bool value2PropOrVar;
 
     InterResult* result = ifConditionInter->interprets( 
-            parent, condition, value1, value2, compOperator, currentLine, numberOfLinesReaded, mgr );
+            parent, condition, value1, value2, compOperator, value1PropOrVar, value2PropOrVar, currentLine, numberOfLinesReaded, mgr );
 
     if ( result->isErrorFound() )
         return result;    
 
     IF* ifst = new IF( parent, numberOfLinesReaded, currentLine );
-    ifst->setCondition( new IFCondition( value1, value2, compOperator ) );
+    ifst->setCondition( new IFCondition( value1, value2, compOperator, value1PropOrVar, value2PropOrVar ) );
     
     Statement* thenSt = nullptr;
     Statement* elseSt = nullptr;
@@ -126,7 +128,6 @@ InterResult* IFInter::interprets(
     if ( ifCount > 0 )
         return new InterResult( currentLine, startNumberOfLinesReaded, 0, errors::ENDIF_NOT_FOUND );
 
-
     Block* thenOrElseBlock = nullptr;
     if ( thenSt == nullptr ) {
         thenSt = new Block( parent, numberOfLinesReaded, currentLine );
@@ -142,7 +143,6 @@ InterResult* IFInter::interprets(
         if ( result->isErrorFound() )
             return result;
         
-
         numberOfLinesReaded++;
     }
 

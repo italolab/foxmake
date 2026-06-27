@@ -18,12 +18,12 @@ InterResult* IFConditionInter::interprets(
             string& value1, 
             string& value2, 
             string& compOperator,
+            bool& value1PropOrVar,
+            bool& value2PropOrVar,
             string line, 
             int numberOfLinesReaded,
             void* mgr ) {
         
-    InterManager* manager = (InterManager*)mgr;
-
     condition = strutil::removeStartWhiteSpaces( condition );
     condition = strutil::removeEndWhiteSpaces( condition );
 
@@ -53,14 +53,10 @@ InterResult* IFConditionInter::interprets(
             return new InterResult( line, numberOfLinesReaded, 0, errors::IF_OPERAND1_WITHOUT_CLOSE_QUOTES );
 
         value1 = operand1.substr( 1, operand1.length()-2 );
+        value1PropOrVar = false;
     } else {
-        if ( manager->isPropOrVar( parent, operand1 ) ) {
-            value1 = operand1;
-        } else {
-            messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
-            b << operand1;
-            return new InterResult( line, numberOfLinesReaded, 0, b.str() );
-        }
+        value1 = operand1;
+        value1PropOrVar = true;       
     }
 
     if ( strutil::startsWith( operand2, "\"" ) ) {
@@ -68,14 +64,10 @@ InterResult* IFConditionInter::interprets(
             return new InterResult( line, numberOfLinesReaded, 0, errors::IF_OPERAND2_WITHOUT_CLOSE_QUOTES );
          
         value2 = operand2.substr( 1, operand2.length()-2 );
+        value2PropOrVar = false;
     } else {
-        if ( manager->isPropOrVar( parent, operand2 ) ) {
-            value2 = operand2;
-        } else {
-            messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
-            b << operand2;
-            return new InterResult( line, numberOfLinesReaded, 0, b.str() );
-        }
+        value2 = operand2;            
+        value2PropOrVar = true;      
     }
 
     return new InterResult( true );

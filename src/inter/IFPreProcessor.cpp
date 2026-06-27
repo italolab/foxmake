@@ -70,17 +70,33 @@ InterResult* IFPreProcessor::preProcess( Block* block, BlockIterator* it, string
             string value1;
             string value2;
             string compOperator;
+            bool value1PropOrVar;
+            bool value2PropOrVar;
             InterResult* result = ifConditionInter->interprets( 
-                    block, condition, value1, value2, compOperator, line, numberOfLinesReaded, mgr );
+                    block, condition, 
+                    value1, value2, compOperator, value1PropOrVar, value2PropOrVar, 
+                    line, numberOfLinesReaded, mgr );
                     
             if ( result->isErrorFound() )
                 return result;
 
-            if ( manager->isPropOrVar( block, value1 ) )
+            if ( value1PropOrVar ) {
+                if ( !manager->isPropOrVar( block, value1 ) ) {
+                    messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+                    b << value1;
+                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );                   
+                }
                 value1 = manager->getPropOrVarValue( block, value1 );
+            }
 
-            if ( manager->isPropOrVar( block, value2 ) )
-                value2 = manager->getPropOrVarValue( block, value2 );       
+            if ( value2PropOrVar ) {
+                if ( !manager->isPropOrVar( block, value2 ) ) {
+                    messagebuilder b( errors::PROP_OR_VAR_NOT_FOUND );
+                    b << value2;
+                    return new InterResult( line, numberOfLinesReaded, 0, b.str() );  
+                }
+                value2 = manager->getPropOrVarValue( block, value2 );                       
+            }
                 
             bool isIgnore2 = false;
             if ( compOperator == "==" ) {

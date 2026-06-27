@@ -95,19 +95,39 @@ endtask
 
 task finish noverbose;
 
-task finish after    
-    ##
-    @./$(build.dir)/foxmake build --working-dir=projetos/helloworld --no-resume
-    @./projetos/helloworld/build/executavel
+task finish after  
+    $bdir=
+    if os == "windows" then
+        $bdir=build\foxmake-$(version)-$(so)-$(arch)
+    else
+        $bdir=build/foxmake-$(version)-$(so)-$(arch)
+    endif
 
-    @./$(build.dir)/foxmake testbuild --working-dir=projetos/test-helloworld --no-resume
-    
-    @./$(build.dir)/foxmake testbuild --working-dir=projetos/static-lib-math --no-resume
+    echo $(bdir)
+ 
+    if os == "windows" then
+        @.\$(bdir)\foxmake.exe build --working-dir=projetos/helloworld --no-resume
+        @.\projetos\helloworld\build\executavel
 
-    IF os != "windows"
-        @./$(build.dir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
-    ENDIF   
+        @.\$(bdir)\foxmake.exe build --working-dir=projetos/ifprog --no-resume
+        
+        @.\$(bdir)\foxmake.exe testbuild --working-dir=projetos/test-helloworld --no-resume
+        
+        @.\$(bdir)\foxmake.exe testbuild --working-dir=projetos/static-lib-math --no-resume
 
-    #@./$(build.dir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
-    ##
+        #@.\$(bdir)\foxmake.exe build --script=run/FoxMakefile-Run -var target=debug
+    else
+        @./$(bdir)/foxmake build --working-dir=projetos/helloworld --no-resume
+        @./projetos/helloworld/build/executavel
+
+        @./$(bdir)/foxmake.exe build --working-dir=projetos/ifprog --no-resume
+        
+        @./$(bdir)/foxmake testbuild --working-dir=projetos/test-helloworld --no-resume
+        
+        @./$(bdir)/foxmake testbuild --working-dir=projetos/static-lib-math --no-resume
+
+        @./$(bdir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
+
+        #@./$(bdir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
+    endif
 endtask
