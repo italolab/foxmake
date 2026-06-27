@@ -68,6 +68,7 @@ namespace errors {
     const string PROPERTY_NOT_DEFINED_FOR_ARCHIVING = "A propriedade \"$1\" deve ter valor definido para o empacotamento da biblioteca estática.";
     const string PROPERTY_NOT_DEFINED_FOR_LINKING = "A propriedade \"$1\" deve ter valor definido para linkagem.";
     const string PROP_OR_VAR_NOT_FOUND = "Propriedade ou variável não encontrada: $($1).";
+    const string VAR_ATTR_TO_PREDEFINED_VAR = "Tentativa de atribuir valor a variável predefinida: \"$1\"";
     const string VERIFY_THE_PROPERTY = "Verifique a propriedade: \"$1\"";
     
     const string START_OF_BLOCK_WITH_UNNECESSARY_TOKEN = "Início de bloco com caracter(es) desnecessário(s).";

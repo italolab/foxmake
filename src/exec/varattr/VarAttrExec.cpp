@@ -30,7 +30,14 @@ void VarAttrExec::exec( VarAttr* varAttr, void* mgr ) {
         throw st_error( result );
     delete result;
 
-    Var* existentVar = parent->getVar( varName );
+    Var* existentVar = ((MainScript*)parent->getRoot())->getPredefinedVar( varName );
+    if ( existentVar != nullptr ) {
+        messagebuilder b( errors::VAR_ATTR_TO_PREDEFINED_VAR );
+        b << varName;
+        throw st_error( varAttr, b.str() );
+    }
+
+    existentVar = parent->getVar( varName );
     if ( existentVar != nullptr ) {
         existentVar->setValue( varValue );
     } else {
