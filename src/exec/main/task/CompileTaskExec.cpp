@@ -84,7 +84,6 @@ void CompileTaskExec::exec( void* mgr ) {
     shell->setVerbose( isVerbose );
     shell->setShowOutput( isShowCMDOutput );
 
-    int i = 0;
     for( TCompilation* compilation : filesToCompile ) {
         Compiler* comp = new Compiler();
         comp->setCompiler( compiler );
@@ -99,8 +98,6 @@ void CompileTaskExec::exec( void* mgr ) {
         delete comp;
 
         shell->pushCommand( cmdline );
-
-        i++;
     }
 
     int exitCode = shell->execute();
