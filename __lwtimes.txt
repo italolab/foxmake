@@ -74,7 +74,7 @@
 /home/italo/workspace-cpp/foxmake/src/exec/main/task/CleanTaskExec.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/exec/main/task/CompileTaskExec.cpp=1782395453
 /home/italo/workspace-cpp/foxmake/src/exec/main/task/CompileTaskExec.h=1782395453
-/home/italo/workspace-cpp/foxmake/src/exec/main/task/CopyTaskExec.cpp=1782509294
+/home/italo/workspace-cpp/foxmake/src/exec/main/task/CopyTaskExec.cpp=1782556291
 /home/italo/workspace-cpp/foxmake/src/exec/main/task/CopyTaskExec.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/exec/main/task/DynamicLibraryLinkTaskExec.cpp=1782508295
 /home/italo/workspace-cpp/foxmake/src/exec/main/task/DynamicLibraryLinkTaskExec.h=1782508289
