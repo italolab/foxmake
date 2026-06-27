@@ -8,6 +8,9 @@
 
 #include "../../error_messages.h"
 
+#include <iostream>
+using namespace std;
+
 void VarAttrExec::exec( VarAttr* varAttr, void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     InterManager* interManager = manager->getInterManager();
@@ -27,6 +30,11 @@ void VarAttrExec::exec( VarAttr* varAttr, void* mgr ) {
         throw st_error( result );
     delete result;
 
-    Var* var = new Var( varName, varValue, numberOfLinesReaded, line );
-    parent->putLocalVar( var );    
+    Var* existentVar = parent->getVar( varName );
+    if ( existentVar != nullptr ) {
+        existentVar->setValue( varValue );
+    } else {
+        Var* var = new Var( varName, varValue, numberOfLinesReaded, line );
+        parent->putLocalVar( var );    
+    }
 }
