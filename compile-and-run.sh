@@ -1,7 +1,6 @@
-VERSION=1.5
+VERSION=1.6
 OS=linux
 ARCH=x64
-
 
 ./foxmake $1 --script=FoxMakefile -var target=$2 -v
 
