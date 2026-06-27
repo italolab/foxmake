@@ -222,6 +222,7 @@ de comentário
                     <li>link</li>
                     <li>archive</li>
                     <li>test</li>
+                    <li>testlink</li>
                     <li>copy</li>
                     <li>build</li>
                     <li>archivebuild</li>
@@ -290,6 +291,14 @@ de comentário
                     e a lib do xutest deve ser incluída no comando de linker.</p>
                 </section>
 
+                <section id="testlink">
+                    <h5>A tarefa testlink</h5>
+
+                    <p>A tarefa testlink pode ser utilizada para linkar o executável de 
+                        testes conforme o código fonte da pasta de testes.
+                    </p>
+                </section>
+
                 <br />
 
                 <section id="copy">
@@ -309,28 +318,12 @@ de comentário
                     <ul>
                         <li><b>build</b>: clean, compile, link, copy</li>
                         <li><b>archivebuild</b>: clean, compile, archive, copy</li>
-                        <li><b>testbuild</b>: clean, compile, link, copy, test</li>
+                        <li><b>testbuild</b>: clean, compile, testlink, copy, test</li>
                         <li><b>buildall</b>: clean, compileall, link, copy</li>
                         <li><b>archivebuildall</b>: clean, compileall, archive, copy</li>
-                        <li><b>testbuildall</b>: clean, compileall, link, copy, test</li>
+                        <li><b>testbuildall</b>: clean, compileall, testlink, copy, test</li>
                     </ul>
-                </section>
-
-                <section class="d-flex justify-content-center">
-                    <div class="warning">
-                        <h5>Atenção</h5>
-
-                        <p>As tasks "testbuild" e "testbuildall" só executam o link do 
-                            executável principal do projeto se não for informada a task 
-                            "archive" ou se for informada a task "archive" e não for 
-                            informada a task "link".
-                        </p>
-                        
-                        <p>Se desejar testar uma static library, deve utilizar a task 
-                            "testbuild" ou "testbuildall" junto de "archive" sem "link".
-                        </p>
-                    </div>
-                </section>
+                </section>                
             
             </article>
 
@@ -1218,34 +1211,7 @@ int main() {
                 <p>Para um exemplo prático e completo, visite: 
                     <a href="get-started/static-libraries.html">exemplo completo</a>
                 </p>
-            </article>
-
-            <article id="test-static-libraries">
-                <header>
-                    <h3>Testando uma static library com xutest</h3>
-                </header>
-
-                <p>Para testar uma static library com o xutest e foxmake, 
-                    você deve fazer o teste conforme já ensinado e, na hora de 
-                    fazer o build, você deve informar "testbuild" ou "testbuildall" 
-                    como tasks e, também, "archive", sem "link". Veja o exemplo abaixo:
-                </p>
-
-                <pre><code>foxmake testbuild archive</code></pre>
-                <pre><code>foxmake testbuildall archive</code></pre>
-
-                <p>Com o "archive" informado, e sem o "link", o build não linka o 
-                    executável principal, o que não exige uma função main no projeto 
-                    principal. Então, linka apenas o executável de teste e empacota a 
-                    static library.
-                </p>
-
-                <p>Para um exemplo completo, acesse: 
-                    <a href="https://italolab.github.io/xutest/get-started/calculator-static-library-example.html">
-                        exemplo completo
-                    </a>
-                </p>
-            </article>
+            </article>            
 
             <article id="dynamic-libraries">
                 <header>
