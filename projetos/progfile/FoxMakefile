@@ -1,0 +1,10 @@
+
+task exec
+
+    $x=\\$(src.dir)
+    $y=\\\\$(src.dir)
+
+    echo $(x)
+    echo $(y)
+
+endtask

@@ -40,7 +40,7 @@
 /home/italo/workspace-cpp/foxmake/src/error_messages.h=1782589092
 /home/italo/workspace-cpp/foxmake/src/exec/ExecManager.cpp=1782410047
 /home/italo/workspace-cpp/foxmake/src/exec/ExecManager.h=1782395453
-/home/italo/workspace-cpp/foxmake/src/exec/MainCMDArgManager.cpp=1782508959
+/home/italo/workspace-cpp/foxmake/src/exec/MainCMDArgManager.cpp=1782661595
 /home/italo/workspace-cpp/foxmake/src/exec/MainCMDArgManager.h=1782508964
 /home/italo/workspace-cpp/foxmake/src/exec/ScriptPropertyManager.cpp=1782395453
 /home/italo/workspace-cpp/foxmake/src/exec/ScriptPropertyManager.h=1782395453
@@ -64,7 +64,7 @@
 /home/italo/workspace-cpp/foxmake/src/exec/if/IFExec.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/exec/main/MainCMDInterpreter.cpp=1782408410
 /home/italo/workspace-cpp/foxmake/src/exec/main/MainCMDInterpreter.h=1782395453
-/home/italo/workspace-cpp/foxmake/src/exec/main/MainExec.cpp=1782508614
+/home/italo/workspace-cpp/foxmake/src/exec/main/MainExec.cpp=1782661724
 /home/italo/workspace-cpp/foxmake/src/exec/main/MainExec.h=1782508498
 /home/italo/workspace-cpp/foxmake/src/exec/main/TaskExec.cpp=1782395453
 /home/italo/workspace-cpp/foxmake/src/exec/main/TaskExec.h=1782395453
@@ -119,7 +119,7 @@
 /home/italo/workspace-cpp/foxmake/src/inter/ProcInter.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/inter/PropInter.cpp=1782395453
 /home/italo/workspace-cpp/foxmake/src/inter/PropInter.h=1782395453
-/home/italo/workspace-cpp/foxmake/src/inter/PropsAndVarsReplacer.cpp=1782588722
+/home/italo/workspace-cpp/foxmake/src/inter/PropsAndVarsReplacer.cpp=1782661866
 /home/italo/workspace-cpp/foxmake/src/inter/PropsAndVarsReplacer.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/inter/ShellCMDLineInter.cpp=1782395453
 /home/italo/workspace-cpp/foxmake/src/inter/ShellCMDLineInter.h=1782395453
@@ -176,3 +176,8 @@
 /home/italo/workspace-cpp/foxmake/src/util/hashutil.h=1782395453
 /home/italo/workspace-cpp/foxmake/src/util/strutil.cpp=1782555302
 /home/italo/workspace-cpp/foxmake/src/util/strutil.h=1782395453
+/home/italo/workspace-cpp/foxmake/test/io/ByNameFileFilterTests.h=1782395453
+/home/italo/workspace-cpp/foxmake/test/io/iopathtests.h=1782395453
+/home/italo/workspace-cpp/foxmake/test/io/iotests.h=1782516217
+/home/italo/workspace-cpp/foxmake/test/main.cpp=1782396651
+/home/italo/workspace-cpp/foxmake/test/util/strutiltests.h=1782555194

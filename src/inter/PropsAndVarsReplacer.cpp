@@ -95,7 +95,7 @@ InterResult* PropsAndVarsReplacer::replacePropsAndVarsAndDollarSigns(
             }
         }
         text = ss.str();
-        text = strutil::replaceAll( text, "\\$", "$" );
+        text = strutil::replaceAll( text, "\\\\\\$", "$" );
     }
     return new InterResult( nullptr, 0, 0 );
 }

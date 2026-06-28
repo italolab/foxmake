@@ -178,12 +178,14 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
     }
 }
 
+#include <iostream>
+using namespace std;
+
 void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;
     ExecCMD* mainExecCMD = manager->getMainExecCMD();
 
     Output& out = manager->out;
-    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
     vector<Task*> tasks = manager->getMainScript()->getTasks();
@@ -191,10 +193,10 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
         string taskName = task->getName();
 
         bool isTaskArg = mainExecCMD->existsArg( taskName );
-        if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {
-            if ( isVerbose && !isNoResume )
+        if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {    
+            if ( !isNoResume )
                 out << infos::EXECUTING << " " << output::green( taskName ) << "..." << endl;                            
-
+            
             manager->executeUserTaskIfExists( taskName, TaskExecution::BEFORE );
             manager->executeUserTaskIfExists( taskName, TaskExecution::NORMAL );
             manager->executeUserTaskIfExists( taskName, TaskExecution::AFTER );
