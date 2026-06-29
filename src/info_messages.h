@@ -10,7 +10,7 @@ namespace infos {
     const string COPYRIGHT = "Copyright (c) 2025 Ítalo Herbert Siqueira Gabriel";
 
     const string EXECUTING = "Executando";
-    const string EXECUTING_STATEMENTS = "Executando instruções...";
+    const string STATEMENTS = "instruções";
 
     const string SUCCESS_IN_CLEAN = "Limpesa efetuada com sucesso.";
     const string SUCCESS_IN_COMPILATION = "Compilação executada com sucesso.";

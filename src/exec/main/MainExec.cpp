@@ -184,6 +184,7 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 
     Output& out = manager->out;
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
+    bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
 
     vector<Task*> tasks = manager->getMainScript()->getTasks();
     for( Task* task : tasks ) {
@@ -191,6 +192,8 @@ void MainExec::executaNoDefaultTasks( void* mgr ) {
 
         bool isTaskArg = mainExecCMD->existsArg( taskName );
         if ( isTaskArg && !manager->isDefaultTask( taskName ) ) {    
+            if( isVerbose )
+                out << endl;
             if ( !isNoResume )
                 out << infos::EXECUTING << " " << output::green( taskName ) << "..." << endl;                            
             
@@ -215,7 +218,7 @@ void MainExec::executaStatements( void* mgr ) {
         if( isVerbose )
             out << endl;
         if ( !isNoResume )
-            out << infos::EXECUTING_STATEMENTS << endl;
+            out << infos::EXECUTING << " " << output::green( infos::STATEMENTS ) << "..." << endl;
     }
 
     manager->executeBlockStatements( script );
