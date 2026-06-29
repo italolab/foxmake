@@ -113,7 +113,7 @@ task finish after
         
         @.\$(bdir)\foxmake.exe testbuild --working-dir=projetos/static-lib-math --no-resume
 
-        #@.\$(bdir)\foxmake.exe build --script=run/FoxMakefile-Run -var target=debug
+        @.\$(bdir)\foxmake.exe build --script=run/FoxMakefile-Run -var target=debug
     else
         @./$(bdir)/foxmake build --working-dir=projetos/helloworld --no-resume
         @./projetos/helloworld/build/executavel
@@ -124,8 +124,8 @@ task finish after
         
         @./$(bdir)/foxmake testbuild --working-dir=projetos/static-lib-math --no-resume
 
-        #@./$(bdir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
-
-        #@./$(bdir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
+        @./$(bdir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
+        
+        @./$(bdir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
     endif
 endtask
