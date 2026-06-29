@@ -56,9 +56,7 @@ void MainExec::exec( void* mgr ) {
     bool isVerbose = manager->getMainCMDArgManager()->isVerbose();
     bool isNoResume = manager->getMainCMDArgManager()->isNoResume();
 
-    ExecCMD* mainExecCMD = manager->getMainExecCMD();
-
-    if ( mainExecCMD->countNoOpArgs() == 0 || isShowHelp ) {
+    if ( isShowHelp ) {
         this->showHelp( mgr );
         return;
     }
