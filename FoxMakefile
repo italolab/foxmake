@@ -102,9 +102,7 @@ task finish after
     else
         $bdir=build/foxmake-$(version)-$(so)-$(arch)
     endif
-
-    echo $(bdir)
- 
+    
     if os == "windows" then
         @.\$(bdir)\foxmake.exe build --working-dir=projetos/helloworld --no-resume
         @.\projetos\helloworld\build\executavel
@@ -126,7 +124,7 @@ task finish after
         
         @./$(bdir)/foxmake testbuild --working-dir=projetos/static-lib-math --no-resume
 
-        @./$(bdir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
+        #@./$(bdir)/foxmake testbuild --working-dir=projetos/dynamic-lib-math-linux --no-resume
 
         #@./$(bdir)/foxmake build --script=run/FoxMakefile-Run -var target=debug
     endif

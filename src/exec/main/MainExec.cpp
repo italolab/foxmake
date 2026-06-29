@@ -167,19 +167,18 @@ void MainExec::genSourceAndHeaderInfos( void* mgr ) {
         throw st_error( mainCMD, b2.str() );
     }
 
-    bool ok = sourceCodeManager->recursiveProcFiles( srcDir, consts::SRC_TARGET_FOLDER );
+    bool excludeTestDir = true;
+    bool ok = sourceCodeManager->recursiveProcFiles( srcDir, consts::SRC_TARGET_FOLDER, excludeTestDir, testDir );
     if ( !ok )
         throw st_error( mainCMD, errors::ERROR_IN_READING_SRC_FILES );
 
     if ( testDir != "" ) {
-        ok = testSourceCodeManager->recursiveProcFiles( testDir, consts::TEST_TARGET_FOLDER );
+        excludeTestDir = false;
+        ok = testSourceCodeManager->recursiveProcFiles( testDir, consts::TEST_TARGET_FOLDER, excludeTestDir, testDir );
         if ( !ok )
             throw st_error( mainCMD, errors::ERROR_IN_READING_TEST_FILES );
     }
 }
-
-#include <iostream>
-using namespace std;
 
 void MainExec::executaNoDefaultTasks( void* mgr ) {
     ExecManager* manager = (ExecManager*)mgr;

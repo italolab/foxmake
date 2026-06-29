@@ -44,11 +44,13 @@ class SourceCodeManager {
 
         LWTimesFileIO* lwTimesFileIO;
 
+        void recursiveProcFiles2( string src, string targetFolder, string dir, bool excludeTestDir, string testDir );
+
     public:
         SourceCodeManager( string sourceFileExtensions, string headerFileExtensions );
         virtual ~SourceCodeManager();
 
-        bool recursiveProcFiles( string srcDir, string targetFolder );
+        bool recursiveProcFiles( string srcDir, string targetFolder, bool excludeTestDir, string testDir );
         void loadFilesToCompile( vector<CodeInfo*>& filesToCompile, string configFilePath );
         void saveLastWriteTimesInFile( string configFilePath, bool isAppend );
 

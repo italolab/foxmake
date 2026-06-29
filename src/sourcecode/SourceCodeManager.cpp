@@ -25,7 +25,7 @@ SourceCodeManager::~SourceCodeManager() {
         delete pair.second;
 }
 
-bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder ) {
+bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder, bool excludeTestDir, string testDir ) {
     sourceCodeInfosMap.clear();
     allCodeInfosMap.clear();
 
@@ -34,6 +34,9 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
 
     try {
         string src2 = io::path::makePreferred( src );
+
+        this->recursiveProcFiles2( src, targetFolder, src2, excludeTestDir, testDir );
+        /*
         for( const auto& entry : filesystem::recursive_directory_iterator( src2 ) ) {
             string filePath = entry.path().string();
             filePath = io::path::makeUnixPreferred( filePath );
@@ -68,10 +71,63 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder )
                 }
             }
         }
+        */
 
         return dependenciesSCLoader->loadDependencies( allCodeInfosMap );
     } catch ( const filesystem::filesystem_error& error ) {
         return false;
+    }
+}
+
+void SourceCodeManager::recursiveProcFiles2( string src, string targetFolder, string dir, bool excludeTestDir, string testDir ) {
+    if ( excludeTestDir && testDir != "" ) {
+        string dir2 = io::path::makeUnixPreferred( dir );
+        dir2 = io::path::addSeparatorIfNeed( dir2 );
+        dir2 = io::path::absoluteResolvePath( dir2 );
+
+        string testDir2 = io::path::makeUnixPreferred( testDir );
+        testDir2 = io::path::addSeparatorIfNeed( testDir2 );
+        testDir2 =  io::path::absoluteResolvePath( testDir2 );
+
+        if ( dir2 == testDir2 )
+            return;
+    }
+
+    for( const auto& entry : filesystem::directory_iterator( dir ) ) {
+        string filePath = entry.path().string();
+        filePath = io::path::makeUnixPreferred( filePath );
+
+        if ( filesystem::is_directory( filePath ) ) {                
+            this->recursiveProcFiles2( src, targetFolder, filePath, excludeTestDir, testDir );
+        } else {
+            string relativeFilePath = strutil::replace( filePath, src, "" );
+
+            string ext = io::path::extension( filePath );
+
+            string objFilePath = targetFolder;
+            objFilePath = io::path::addSeparatorIfNeed( objFilePath );
+            objFilePath += strutil::replace( relativeFilePath, "."+ext, ".o" );
+            
+            string srcFilePath = filePath;
+
+            vector<string> dependencies;
+            vector<string> includes;
+            vector<ClassInfo*> classes;
+        
+            CodeInfo* info = new CodeInfo;
+            info->filePath = srcFilePath;
+            info->objFilePath = objFilePath;
+            info->dependencies = dependencies;
+            info->classes = classes;
+            info->includes = includes;
+
+            if ( strutil::endsWithSome( filePath, sourceFileExtensions ) ) {
+                sourceCodeInfosMap[ filePath ] = info;
+                allCodeInfosMap[ filePath ] = info;
+            } else if ( strutil::endsWithSome( filePath, headerFileExtensions ) ) {
+                allCodeInfosMap[ filePath ] = info;
+            }
+        }
     }
 }
 
