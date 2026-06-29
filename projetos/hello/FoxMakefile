@@ -1,9 +1,2 @@
 
-echo Funcionou!
-
-IF os == "windows"
-    echo Windows!
-ENDIF
-IF os != "windows"
-    echo Linux!
-ENDIF
+echo Hello World!

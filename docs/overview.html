@@ -91,6 +91,41 @@
 
             <article>
                 <header>
+                    <h3>Iniciando com foxmake</h3>                    
+                </header>
+
+                <p>Para um primeiro uso do foxmake, podemos executar comandos sem a necessidade 
+                    de informar tarefas para execução. Por exemplo, vamos fazer um exemplo que 
+                    imprime a mensagem "Hello World!". Então vamos lá!</p>
+
+                <p>Na raiz do projeto crie o arquivo de nome FoxMakefile ou FoxMakefile.txt 
+                    com o seguinte conteúdo: </p>
+
+<pre class="line-numbers"><code>echo Hello World!
+</code></pre>
+                
+                <p>Agora, instale o foxmake se não já estiver instalado e, após isto, 
+                    na pasta raiz do projeto pelo shell, execute o seguinte comando:</p>
+
+<pre><code>foxmake</code></pre>                                                           
+
+                <p>Agora, você deve ver algo como: </p>
+
+                <figure>
+                    <img src="images/starging-example.png" />
+                </figure>
+
+                <p>Agora, você pode ocultar o resumo para mostrar apenas o resultado 
+                    da execução do FoxMakefile executando o seguinte:
+                </p>
+
+<pre><code>foxmake --no-resume</code></pre>                                                           
+
+                <p>Agora aparece apenas a mensagem "Hello World!"</p>
+            </article>
+
+            <article>
+                <header>
                     <h3>Escrevendo o FoxMakefile</h3>
                 </header>
 
