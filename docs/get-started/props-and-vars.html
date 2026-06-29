@@ -102,6 +102,44 @@ echo $os
 <pre class="line-numbers"><code>$os=linux
 </code></pre>
 
+                <h3>Escopo de variáveis</h3>
+
+                <p>As variáveis definidas foras das tasks e procedures são globais, são 
+                    visíveis dentro das tasks e prodedures. Já as tasks definidas dentro de 
+                    tasks e procedures são visiveis também dentro de blocos de código do mesmo nível.
+                    Um exemplo é com a utilização de ifs. Veja o exemplo abaixo:
+                </p>
+
+<pre class="line-numbers"><code>$sysop=
+
+if os == "windows" then
+    $sysop="Sistema Windows!"
+else
+    $sysop="Sistema Não Windows!"
+endif
+
+echo Tipo de sistema: $(sysop)
+</code></pre>
+
+                <p>No exemplo acima, a variável "$sysop" é declarada fora do if sem valor 
+                    para ser alterada dentro do if e ser visível, também, fora do if. 
+                    Entenda que, se não for declarada fora do if, é definida dentro do if 
+                    como variável local e, nesse caso, não é visível fora.
+                </p>
+
+                <p>O exemplo abaixo é inválido porque a variável é declarada dentro do if e 
+                    não é visível fora do if.
+                </p>
+
+<pre class="line-numbers"><code>if os == "windows" then
+    $sysop="Sistema Windows!"
+else
+    $sysop="Sistema Não Windows!"
+endif
+
+echo Tipo de sistema: $(sysop)
+</code></pre>
+
             </article>
 
             <article>
