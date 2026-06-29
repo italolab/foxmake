@@ -36,43 +36,7 @@ bool SourceCodeManager::recursiveProcFiles( string srcDir, string targetFolder, 
         string src2 = io::path::makePreferred( src );
 
         this->recursiveProcFiles2( src, targetFolder, src2, excludeTestDir, testDir );
-        /*
-        for( const auto& entry : filesystem::recursive_directory_iterator( src2 ) ) {
-            string filePath = entry.path().string();
-            filePath = io::path::makeUnixPreferred( filePath );
-
-            if ( !filesystem::is_directory( filePath ) ) {                
-                string relativeFilePath = strutil::replace( filePath, src, "" );
-
-                string ext = io::path::extension( filePath );
-
-                string objFilePath = targetFolder;
-                objFilePath = io::path::addSeparatorIfNeed( objFilePath );
-                objFilePath += strutil::replace( relativeFilePath, "."+ext, ".o" );
-                
-                string srcFilePath = filePath;
-
-                vector<string> dependencies;
-                vector<string> includes;
-                vector<ClassInfo*> classes;
-            
-                CodeInfo* info = new CodeInfo;
-                info->filePath = srcFilePath;
-                info->objFilePath = objFilePath;
-                info->dependencies = dependencies;
-                info->classes = classes;
-                info->includes = includes;
-
-                if ( strutil::endsWithSome( filePath, sourceFileExtensions ) ) {
-                    sourceCodeInfosMap[ filePath ] = info;
-                    allCodeInfosMap[ filePath ] = info;
-                } else if ( strutil::endsWithSome( filePath, headerFileExtensions ) ) {
-                    allCodeInfosMap[ filePath ] = info;
-                }
-            }
-        }
-        */
-
+        
         return dependenciesSCLoader->loadDependencies( allCodeInfosMap );
     } catch ( const filesystem::filesystem_error& error ) {
         return false;
