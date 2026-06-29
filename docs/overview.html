@@ -492,11 +492,11 @@ out.implib.file=libxutest.a
                 </header>
 
                 <p>Se precisar utilizar o caractere $ como texto nas definições de 
-                propriedades ou variáveis, é necessário utilizar \$. o contra barra 
-                diz ao interpretador que o \$ é um caractere e não o início da chamada 
-                de uma variável ou propriedade. Exemplo: </p>
+                propriedades ou variáveis, é necessário utilizar \\\$. os três 
+                contra-barras juntos dizem ao interpretador que o \\\$ é um caractere e 
+                não o início da chamada de uma variável ou propriedade. Exemplo: </p>
 
-<pre class="line-numbers"><code>linker.params=\$(sdl2-config --cflags --libs)</code></pre>
+<pre class="line-numbers"><code>linker.params=\\\$(sdl2-config --cflags --libs)</code></pre>
 
                 <p>O exemplo acima funciona no linux e executa "sdl2-config --cflags --libs" 
                 no shell do linux durante a execução da linkagem.</p>
@@ -1096,9 +1096,9 @@ endif
                 <br />
 
                 <p>Para executar testes com xutest você pode utilizar as seguintes 
-                tarefas: test, testbuild ou testbuildall</p>
+                tarefas: test, testlink, testbuild ou testbuildall</p>
 
-                <p>Para tanto, é necessário definir as propriedades <b>"src.dir", "test.dir"  
+                <p>Para tanto, é necessário definir as propriedades <b>"test.dir"  
                 e "test.libs"</b>.</p>
 
                 <p>Se estiver no linux, é necessário também definir a propriedade 
@@ -1109,10 +1109,7 @@ endif
                 "test.lib.dirs"</b>.</p>
 
                 <p>Se o xutest já estiver instalado no sistema operacional, não precisa definir 
-                as propriedades <b>"test.include.dirs" e "test.lib.dirs"</b>.</p>
-
-                <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
-                diretório raiz do projeto ou parente dele.</p>
+                as propriedades <b>"test.include.dirs" e "test.lib.dirs"</b>.</p>                
 
                 <p>Após configurado o <b>FoxMakefile</b> com os caminhos dos includes, lib do xutest e 
                 parâmetros para o comando que linka os arquivos de teste, é só criar os testes 

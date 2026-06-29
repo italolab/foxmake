@@ -46,9 +46,9 @@
             
             <article>
                 <p>Para executar testes com xutest você pode utilizar as seguintes 
-                tarefas: test, testbuild ou testbuildall</p>
+                tarefas: test, testlink, testbuild ou testbuildall</p>
 
-                <p>Para tanto, é necessário definir as propriedades <b>"src.dir", "test.dir"  
+                <p>Para tanto, é necessário definir as propriedades <b>"test.dir"  
                 e "test.libs"</b>.</p>
 
                 <p>Se estiver no linux, é necessário também definir a propriedade 
@@ -59,10 +59,7 @@
                 "test.lib.dirs"</b>.</p>
 
                 <p>Se o xutest já estiver instalado no sistema operacional, não precisa definir 
-                as propriedades <b>"test.include.dirs" e "test.lib.dirs"</b>.</p>
-
-                <p><b>Atenção</b>: A propriedade <b>"src.dir"</b> deve ser definida e ter valor diferente do 
-                diretório raiz do projeto ou parente dele.</p>
+                as propriedades <b>"test.include.dirs" e "test.lib.dirs"</b>.</p>                
 
                 <p>Após configurado o <b>FoxMakefile</b> com os caminhos dos includes, lib do xutest e 
                 parâmetros para o comando que linka os arquivos de teste, é só criar os testes 
