@@ -1,5 +1,4 @@
-src.dir=src
-test.dir=src/test
+test.dir=test
 
 IF os != "windows"
     test.linker.params=-ldl -rdynamic
