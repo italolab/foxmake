@@ -44,8 +44,8 @@
                 
                 <blockquote>
                     <p>Arquivo ZIP: 
-                        <a href="https://github.com/italolab/foxmake/releases/download/v1.7/foxmake-1.7-windows-x64.zip">
-                            foxmake-1.7-windows-x64.zip
+                        <a href="https://github.com/italolab/foxmake/releases/download/v1.7.2/foxmake-1.7.2-windows-x64.zip">
+                            foxmake-1.7.2-windows-x64.zip
                         </a>
                     </p>
                 </blockquote>
@@ -54,13 +54,13 @@
                 
                 <blockquote>
                     <p>Arquivo DEB: 
-                        <a href="https://github.com/italolab/foxmake/releases/download/v1.7/foxmake-1.7-linux-x64.deb">
-                            foxmake-1.7-linux-x64.deb
+                        <a href="https://github.com/italolab/foxmake/releases/download/v1.7.2/foxmake-1.7.2-linux-x64.deb">
+                            foxmake-1.7.2-linux-x64.deb
                         </a>
                     </p>
                     <p>Arquivo TAR.GZ: 
-                        <a href="https://github.com/italolab/foxmake/releases/download/v1.7/foxmake-1.7-linux-x64.tar.gz">
-                            foxmake-1.7-linux-x64.tar.gz
+                        <a href="https://github.com/italolab/foxmake/releases/download/v1.7.2/foxmake-1.7.2-linux-x64.tar.gz">
+                            foxmake-1.7.2-linux-x64.tar.gz
                         </a>
                     </p>
                 </blockquote>
@@ -74,13 +74,13 @@
                         </a>
                     </p>
                     <p>Arquivo ZIP:
-                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.7.zip">
-                            foxmake-v1.7.zip
+                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.7.2.zip">
+                            foxmake-v1.7.2.zip
                         </a>
                     </p>
                     <p> Arquivo TAR.GZ:
-                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.7.tar.gz">
-                            foxmake-v1.7.tar.gz
+                        <a href="https://github.com/italolab/foxmake/archive/refs/tags/v1.7.2.tar.gz">
+                            foxmake-v1.7.2.tar.gz
                         </a>
                     </p>                
                 </blockquote>                    
@@ -92,18 +92,23 @@
                 <h3>Notas da versão 1.7</h3>
             </header>
 
-            <p>Atualizado o xutest para versão 1.2, onde foi consertado problema com o 
-                caminho relativo de arquivo de programa principal que fazia referência 
-                a arquivos cabeçalhos com testcases implementados neles. Não era um 
-                erro crítico, dado que o foxmake só utiliza caminhos absolutos para 
-                compilar e linkar. Logo, o erro só aparecia quanto o xutest era 
-                utilizado sem o foxmake!
-            </p>
+            <p>Esta versão traz uma atualização do xutest. Onde, agora, é necessário 
+                colocar pontos e vírgulas após as chamadas dos asserts nos 
+                casos de teste.</p>
 
-            <p>Foi consertado problema com a possibilidade de o usuário informar um 
-                diretório inexistente ou um arquivo no --working-dir</p>
-            <p>Foi consertado problema com a possibilidade do usuário informar um 
-                diretório no --script</p>
+            <p>Isso é útil porque: antes, não se podia fazer como o seguinte:</p>
+
+<pre class="line-numbers"><code class="language-cpp">if ( true )
+  ASSERT_TRUE( true, );
+else ASSERT_FALSE( false, );
+</code></pre>
+
+            <p>Era obrigatório não colocar o ponto e vírgula antes do "else", ou, 
+                caso contrário, o ponto e vírgula era entendido como outra instrução 
+                dentro do if, o que causava um erro de compilação. Agora, não apenas 
+                funciona a instrução if acima, como, o ponto e vírgula após os asserts 
+                é obrigatório.</p>
+
         </article>
 
         <article id="how-install">
