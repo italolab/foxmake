@@ -1,4 +1,4 @@
-VERSION=1.7
+VERSION=1.7.2
 OS=linux
 ARCH=x64
 
