@@ -43,6 +43,27 @@
             </section>
 
             <br />
+
+            <section class="d-flex justify-content-center">
+                <div class="warning">
+                    <h5>Atenção:</h5>
+                    <span>
+                        Agora, ao utilizar o xutest em conjunto com o foxmake, é necessário 
+                        colocar pontos e vírgulas após as chamadas dos asserts e demais macros 
+                        nos casos de teste. Exemplo:
+                        <br /><br />
+                        Não faça isso:
+                        <br />
+                        ASSERT_EQUALS( 1, 1, )
+                        <br /><br />
+                        Coloque o ponto e vírgula no final:
+                        <br />
+                        ASSERT_EQUALS( 1, 1, );
+                    </span>
+                </div>
+            </section>   
+
+            <br />
             
             <article>
                 <p>Para executar testes com xutest você pode utilizar as seguintes 
