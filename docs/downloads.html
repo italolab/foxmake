@@ -135,19 +135,22 @@ else ASSERT_FALSE( false, );
                         <h6>Caso o windows bloqueie o foxmake</h6>
 
                         <p>Se o windows bloquear o foxmake, pode ser devido a alguma Política de 
-                            Restrição de Software ou Controle de Aplicativo do Windows Defender. Isso 
-                            significa que, provavelmente por o foxmake ser pouco utilizado ou não ter 
-                            assinatura digital, o windows entenda que ele pode não ser confiável. Mas é!
-                            Para desbloquear o foxmake, neste caso, você pode fazer o seguinte:
+                            Restrição de Software ou Controle Inteligente de Aplicativo do Windows 
+                            Defender. Isso significa que, o foxmake foi bloqueado por não ser 
+                            assinado digitalmente.
                         </p>
 
+                        <p>Se o Controle Inteligente de Aplicativos estiver bloqueando, pode ser 
+                            necessário destativá-lo. Até porque, nesse caso, os executáveis que 
+                            você produzir em C++, também não estarão assinados e podem ser bloqueados 
+                            também.
+                        </p>
+
+                        <p>Tente o seguinte também, se necessário:</p>
                         <ul>
                             <li>Clique no foxmake com o botão direito do mouse</li>
                             <li>Vá em propriedades</li>
-                            <li>Na aba <b>Geral</b>, marque a opção <b>Desbloquear</b></li>
-                            <li>Se isso não resolver, o "Controle Inteligente de 
-                                Aplicativos" do Windows pode estar bloqueando o foxmake 
-                                e pode ser necessário desativá-lo.</li>                     
+                            <li>Na aba <b>Geral</b>, marque a opção <b>Desbloquear</b></li>                                                
                         </ul>
                     </small>
                 </div>
