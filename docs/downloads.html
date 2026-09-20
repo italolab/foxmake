@@ -134,20 +134,17 @@ else ASSERT_FALSE( false, );
                     <small>
                         <h6>Caso o windows bloqueie o foxmake</h6>
 
-                        <p>Se o windows bloquear o foxmake, pode ser devido a alguma Política de 
-                            Restrição de Software ou Controle Inteligente de Aplicativo do Windows 
-                            Defender. Isso significa que, o foxmake foi bloqueado por não ser 
+                        <p>Se o windows bloquear o foxmake, pode ser por o foxmake não ser 
                             assinado digitalmente e ser pouco utilizado.
                         </p>
 
-                        <p>Se o que estiver sendo bloqueado for algum programa produzido, pode ser 
-                            suficiente buildar o projeto novamente e executar outra vez o programa!
+                        <p>Se o que estiver sendo bloqueado for algum programa produzido 
+                            com o MinGW e o foxmake, pode ser suficiente buildar o projeto novamente 
+                            e executar outra vez o programa!
                         </p>
 
-                        <p>Se o Controle Inteligente de Aplicativos estiver bloqueando, pode ser 
-                            necessário destativá-lo. Até porque, nesse caso, os executáveis que 
-                            você produzir em C++, também não estarão assinados e pode acontecer de 
-                            algum ser bloqueado também.
+                        <p>Se não resolver, o que pode estar bloqueando é o "Controle Inteligente de 
+                            Aplicativos" e pode ser necessário destativá-lo.
                         </p>
 
                         <p>Tente o seguinte também, se necessário:</p>
